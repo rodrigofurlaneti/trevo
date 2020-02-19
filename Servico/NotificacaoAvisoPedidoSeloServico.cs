@@ -43,12 +43,6 @@ namespace Dominio
                     case StatusPedidoSelo.DescontoReprovado:
                         msgPorStatus = $"Desconto do Pedido de Selo [ID: {pedidoSelo.Id}] foi Reprovado no Processo Interno!";
                         break;
-                    case StatusPedidoSelo.PedidoAprovado:
-                        msgPorStatus = $"Pedido de Selo [ID: {pedidoSelo.Id}] foi Aprovado no Processo Interno!";
-                        break;
-                    case StatusPedidoSelo.PedidoReprovado:
-                        msgPorStatus = $"Pedido de Selo [ID: {pedidoSelo.Id}] foi Reprovado no Processo Interno!";
-                        break;
                     case StatusPedidoSelo.AprovadoPeloCliente:
                         msgPorStatus = $"Pedido de Selo [ID: {pedidoSelo.Id}] foi Aprovado pelo Cliente.<br/>Um boleto foi gerado e encaminhado aos contatos da proposta.";
                         break;

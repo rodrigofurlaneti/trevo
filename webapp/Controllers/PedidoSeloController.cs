@@ -582,7 +582,6 @@ namespace Portal.Controllers
             ListaTipoSelo = _pedidoSeloAplicacao.ListaTipoSelos(0, 0);
             ListaNegociacaoSeloDesconto = _pedidoSeloAplicacao.ListaNegociacaoSeloDesconto();
             ListaTipoPagamento = _pedidoSeloAplicacao.ListaTipoPagamento();
-            ListaTipoPedidoSelo = _pedidoSeloAplicacao.ListaTipoPedidoSelo(StatusPedidoSelo.Rascunho);
             ListaStatusPedido = _pedidoSeloAplicacao.ListaStatusPedido();
             TempData.Keep();
         }

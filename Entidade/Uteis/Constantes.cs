@@ -1336,8 +1336,8 @@ namespace Entidade.Uteis
 
     public enum StatusPedidoSelo
     {
-        [Description("Rascunho")]
-        Rascunho = 1,
+        //[Description("Rascunho")]
+        //Rascunho = 1,
         [Description("Pendente de Aprovação do Desconto")]
         PendenteAprovacaoDesconto = 2,
         [Description("Desconto Aprovado")]
@@ -1346,10 +1346,10 @@ namespace Entidade.Uteis
         DescontoReprovado = 4,
         [Description("Pendente de Aprovação do Pedido")]
         PendenteAprovacaoPedido = 5,
-        [Description("Pedido Aprovado")]
-        PedidoAprovado = 6,
-        [Description("Pedido Reprovado")]
-        PedidoReprovado = 7,
+        //[Description("Pedido Aprovado")]
+        //PedidoAprovado = 6,
+        //[Description("Pedido Reprovado")]
+        //PedidoReprovado = 7,
         [Description("Pendente de Aprovação do Cliente")]
         PendenteAprovacaoCliente = 8,
         [Description("Aprovado pelo Cliente")]

@@ -39,7 +39,6 @@ namespace Aplicacao.ViewModels
         public PedidoSeloViewModel()
         {
             DataInsercao = DateTime.Now;
-            StatusPedido = StatusPedidoSelo.Rascunho;
             TipoPedidoSelo = TipoPedidoSelo.Emissao;
         }
 

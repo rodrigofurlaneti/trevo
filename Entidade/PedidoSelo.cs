@@ -24,8 +24,8 @@ namespace Entidade
         {
             get
             {
-                if (PedidoSeloHistorico == null || !PedidoSeloHistorico.Any())
-                    return StatusPedidoSelo.Rascunho;
+                //if (PedidoSeloHistorico == null || !PedidoSeloHistorico.Any())
+                //    return StatusPedidoSelo.Rascunho;
 
                 return PedidoSeloHistorico.OrderBy(x => x.DataInsercao).LastOrDefault().StatusPedidoSelo;
             }

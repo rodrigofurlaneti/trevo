@@ -93,9 +93,6 @@ namespace Dominio
             if (pedidoSelo == null)
                 throw new BusinessRuleException("Pedido não encontrado");
 
-            if (pedidoSelo.StatusPedido != StatusPedidoSelo.Rascunho && acao == null && pedidoSelo.TipoPedidoSelo == TipoPedidoSelo.Emissao)
-                throw new BusinessRuleException("O pedido não pode ser alterado após solicitar aprovação");
-
             if (!idUsuario.HasValue || idUsuario.Value <= 0)
                 throw new BusinessRuleException("Usuário logado inválido");
 
@@ -227,29 +224,6 @@ namespace Dominio
 
             switch (pedido.StatusPedido)
             {
-                case StatusPedidoSelo.Rascunho:
-                    var necessitaAprovacao = false;
-                    var possuiDesconto = PedidoPossuiDesconto(pedido);
-
-                    if (possuiDesconto)
-                        necessitaAprovacao = DescontoNecessitaAprovacao(pedido) ? true : false;
-                    else
-                        pedido.Desconto = null;
-
-                    if (necessitaAprovacao)
-                    {
-                        AdicionarHistorico(pedido, StatusPedidoSelo.PendenteAprovacaoDesconto, idUsuario);
-                        _pedidoSeloRepositorio.Save(pedido);
-                        _negociacaoSeloDescontoNotificacaoRepositorio.Criar(pedido, idUsuario ?? 0);
-                    }
-                    else
-                    {
-                        AdicionarHistorico(pedido, StatusPedidoSelo.PendenteAprovacaoPedido, idUsuario);
-                        _pedidoSeloRepositorio.Save(pedido);
-                        _pedidoSeloNotificacaoRepositorio.Criar(pedido, idUsuario ?? 0);
-                    }
-
-                    break;
                 case StatusPedidoSelo.PendenteAprovacaoDesconto:
                     if (acao == AcaoWorkflowPedido.Aprovar)
                     {
@@ -262,19 +236,6 @@ namespace Dominio
                         AdicionarHistorico(pedido, StatusPedidoSelo.DescontoReprovado, idUsuario);
                         AdicionarHistorico(pedido, StatusPedidoSelo.PendenteAprovacaoPedido, idUsuario);
                         _pedidoSeloNotificacaoRepositorio.Criar(pedido, idUsuario ?? 0);
-                    }
-                    break;
-                case StatusPedidoSelo.PendenteAprovacaoPedido:
-                    if (acao == AcaoWorkflowPedido.Aprovar)
-                    {
-                        AdicionarHistorico(pedido, StatusPedidoSelo.PedidoAprovado, idUsuario);
-                        AdicionarHistorico(pedido, StatusPedidoSelo.PendenteAprovacaoCliente, idUsuario);
-
-                        Salvar(pedido, idUsuario, AcaoWorkflowPedido.Aprovar, string.Empty);
-                    }
-                    else if (acao == AcaoWorkflowPedido.Reprovar)
-                    {
-                        AdicionarHistorico(pedido, StatusPedidoSelo.PedidoReprovado, idUsuario);
                     }
                     break;
                 case StatusPedidoSelo.PendenteAprovacaoCliente:
@@ -309,8 +270,6 @@ namespace Dominio
                     break;
                 case StatusPedidoSelo.DescontoAprovado:
                 case StatusPedidoSelo.DescontoReprovado:
-                case StatusPedidoSelo.PedidoAprovado:
-                case StatusPedidoSelo.PedidoReprovado:
                 case StatusPedidoSelo.AprovadoPeloCliente:
                 case StatusPedidoSelo.ReprovadoPeloCliente:
                 case StatusPedidoSelo.Cancelado:
@@ -343,7 +302,6 @@ namespace Dominio
             };
 
             pedidoSelo.Usuario = new Usuario { Id = idUsuario };
-            AdicionarHistorico(pedidoSeloClone, StatusPedidoSelo.Rascunho, null);
             _pedidoSeloRepositorio.Save(pedidoSeloClone);
         }
 
