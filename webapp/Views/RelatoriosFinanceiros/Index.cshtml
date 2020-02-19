@@ -1,0 +1,79 @@
+﻿@using Portal.Controllers
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as RelatoriosFinanceirosController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/RelatoriosFinanceiros/RelatoriosFinanceiros.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/RelatoriosFinanceiros/RelatoriosFinanceiros.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Relatórios Financeiros
+                            </h2>
+                        </header>
+                        <div class="row col-xs-12 col-md-12">
+                            <div class="col-xs-12 col-md-3 margin-bottom-25 no-padding">
+                                <label>Tipo de Relatório: </label>
+                                @Html.DropDownList("tipoRelatorioFinanceiroFiltro", new SelectList(controller.ListaTipoRelatorioFinanceiro, "Id", "Descricao"), new { @id = "tipoRelatorioFinanceiroFiltro", @class = "chosen-select" })
+                            </div>
+                            <div class="col-xs-12 col-md-1 no-padding">
+                                <label>Data <b>DE</b>:</label><br />
+                                @Html.TextBox("dtInicioFiltro", $"01/{DateTime.Now.Month.ToString("00")}/{DateTime.Now.Year}", new { @id = "dtInicioFiltro", @class = "form-control", @style = "width: 110px;" })
+                            </div>
+                            <div class="col-xs-12 col-md-2 no-padding">
+                                <label>Data <b>ATÉ</b>:</label><br />
+                                @Html.TextBox("dtFimFiltro", $"{DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)}/{DateTime.Now.Month.ToString("00")}/{DateTime.Now.Year}", new { @id = "dtFimFiltro", @class = "form-control", @style = "width: 110px;" })
+                            </div>
+                            <div class="col-xs-12 col-md-2 no-padding">
+                                <label>Unidade: </label><br />
+                                @Html.DropDownList("unidadeFiltro", new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidadeFiltro", @class = "chosen-select", data_placeholder = "Selecione..." })
+                            </div>
+                            <div class="col-xs-12 col-md-2 no-padding">
+                                <label>Tipo de Serviço: </label><br />
+                                <select id="tipoServicoFiltro" name="tipoServicoFiltro" class="chosen-select"></select>
+                            </div>
+                            <div class="col-xs-12 col-md-2 no-padding" style="text-align:right;">
+                                <a id="gerarRelatorio" onclick="GerarRelatorio()" class="btn btn-lg btn-primary margin-top-20"><i class="fa fa-file-pdf-o"></i> Gerar Relatório</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div id="modalRelatorio" class="modal fade col-xs-12" role="dialog">
+    <div class="modal-dialog col-xs-12" style="width: 100% !important;">
+        <div class="modal-content col-xs-12">
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal" onclick="Cancelar()" style="width: 23px; text-align: center; border: 1px solid black; background-color: #9bd4f5; text-shadow: 0 0 0 #000; border-radius: 50px; opacity: 0.4;">&times;</a>
+                <div class="row col-xs-12 col-md-12 col-lg-12 text-align-center margin-0 margin-bottom-0">
+                    <a id="imprimirRelatorio" onclick="Imprimir()" class="btn btn-lg btn-warning" style="margin-right:40px;"><i class="fa fa-print"></i> Imprimir</a>
+
+                    <a id="fecharRelatorio" onclick="Cancelar()" class="btn btn-lg btn-danger"><i class="fa fa-remove"></i> Cancelar</a>
+                </div>
+            </div>
+            <div id="modalBodyRelatorio" class="modal-body col-xs-12">
+
+            </div>
+        </div>
+    </div>
+</div>

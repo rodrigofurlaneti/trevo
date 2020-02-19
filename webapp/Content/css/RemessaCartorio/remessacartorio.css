@@ -1,0 +1,9 @@
+﻿
+.form-control-custom {
+    width: 100px;
+    display: inline;
+}
+
+.form-control-custom-space {
+    margin-top: 5px;
+}

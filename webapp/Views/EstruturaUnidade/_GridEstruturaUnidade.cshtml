@@ -1,0 +1,145 @@
+﻿@using Entidade.Uteis
+@using Entidade
+
+@model IList<CheckListEstruturaUnidade>
+
+
+<div id="conteudo" class="row margin-bottom-5">
+    @if (Model != null && Model.Any())
+    {
+        
+    <div class="col-lg-3 table-mensalista">
+        <h3>Estrutura da Unidade</h3>
+        <h3 class="nomeFuncionamento"></h3>
+        <div class="col-xs-3">
+            <table id="equipamentostab">
+
+                <thead>
+                    <tr>
+                        <th data-hide="expand"></th>
+                        <th data-hide="expand"></th>
+                        <th data-hide="expand"></th>
+                    </tr>
+                </thead>
+                <tbody class="table table-striped">
+                    @foreach (var horarioPreco in Model)
+                {
+
+                    <tr>
+                        <td><input name="equipamento" type="text" readonly="readonly" id="@horarioPreco.Id" style="margin-right: 20px" class="horario" value="@horarioPreco.EstruturaGaragem" placeholder="equipamento" /></td>
+                        @if (@horarioPreco.Ativo)
+                    {
+                        <td><input name="quantidade" type="number" id="@horarioPreco.Id" style="margin-right: 20px" class="horario horarioPreco" value="@horarioPreco.Quantidade" placeholder="quantidade" /></td>
+                }
+                else
+                {
+                    <td><input name="quantidade" style="display:none; margin-right: 20px" type="number" id="@horarioPreco.Id" class="horario horarioPreco" value="@horarioPreco.Quantidade" placeholder="quantidade" /></td>
+            }
+                        <td><input name="ativo" type="checkbox" id="@horarioPreco.Id" style="margin-right: 20px" class="horario" checked="@horarioPreco.Ativo" /></td>
+                        @if (@horarioPreco.Ativo)
+                    {
+                        <td><button id="addlinha" onclick="MostrarMensagemCompra()" name="btnAdd" style="display:none; margin-right: 20px" type="button" class="btn btn-primary btn-add-new-row">Solicitar Compra</button></td>
+                }
+                else
+                {
+                    <td><button id="addlinha" onclick="MostrarMensagemCompra()" name="btnAdd" style="margin-right: 20px" type="button" class="btn btn-primary btn-add-new-row">Solicitar Compra</button></td>
+            }
+
+                    </tr>
+
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }
+    else
+    {
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="teste">
+
+                    <thead>
+                        <tr>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                @*<td>
+                        <button id="addlinha" type="button" class="btn btn-success btn-add-new-row">Hora Adicional</button>
+                    </td>*@
+            </div>
+        </div>
+    }
+</div>
+
+
+
+@*@model IList<Aplicacao.ViewModels.EstruturaUnidadeViewModel>
+
+    <div>
+        <h2>Estrutura da Unidade</h2>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <div id="conteudo" class="row margin-bottom-5">
+                    <div class="col-xs-1" style="width:auto; border:0px;border-style:solid;padding-top:10px;">
+                        @Html.DisplayFor(modelItem => item.EstruturaGaragem.Descricao, new { @class = "form-control" })
+                    </div>
+                    <div class="col-xs-1" style="width:auto; border:0px;border-style:solid;padding-top:10px;">
+                        @Html.CheckBoxFor(modelItem => item.Checkado
+                                                  , new
+                                                  {
+                                                      @id = item.Id + "_" + item.EstruturaGaragem.Descricao + "_Checkado_CheckBox"
+                                                      ,
+                                                      @onclick = "HabilitaQuantidade(this)"
+                                                      ,
+                                                      @value = item.Id
+                                                      ,
+                                                      @class = "form-control"
+
+                                                  })
+                    </div>
+                    <div style="display:none" id="@(item.Id + "_" + item.EstruturaGaragem.Descricao + "_Div")" class="mostrar-quantidade" style="width:auto; border:0px;border-style:solid;padding-top:10px;width: 12%;">
+                        <label>Quantidade</label>
+                        <input class="quantidade-unidade" type="number" />
+                    </div>
+                    <div class="col-xs-1" style="width:auto;border:0px;border-style:solid;">
+
+                        @Html.TextBoxFor(modelItem => item.Quantidade
+                                                      , new
+                                                      {
+                                                          @id = item.Id + "_" + item.EstruturaGaragem.Descricao + "_TextBox"
+                                                          ,
+                                                          @class = "form-control heightfield valmoney"
+                                                          ,
+                                                          @placeholder = "Quantidade"
+                                                          ,
+                                                          @autocomplete = "off"
+                                                          ,
+                                                          @maxlength = "21"
+                                                          ,
+                                                          @style = "display:none"
+                                                      })
+                        <div id="@(item.Id + "_" + item.EstruturaGaragem.Descricao + "_Button")" class="btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-primary">
+                                @Html.CheckBoxFor(modelItem => item.SolicitarCompra
+                                                     , new
+                                                     { @id = item.Id + "_" + item.EstruturaGaragem.Descricao + "_SolicitarCompra_CheckBox" })
+                                Solicitar Compra
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        }
+    </div>*@
+
+
+

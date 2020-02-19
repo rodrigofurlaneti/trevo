@@ -1,0 +1,272 @@
+﻿
+@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ContratoMensalistaViewModel
+
+@{
+    ViewBag.Title = "ImpressaoContratoMensalista";
+    Layout = null;
+    var controller = ViewContext.Controller as ContratoMensalistaController;
+}
+
+<div>
+
+    <div class="row">
+        <div class="col-xs-2">
+            <img src="~/Content/img/logo.png" />
+            <br />
+        </div>
+
+        @if (Model != null)
+        {
+            @*<div class="col-xs-2">
+                    <label>Unidade:</label>
+                    <span>@Model.Unidade.Id</span>
+                </div>
+                <div class="col-xs-2">
+                    <label>Número do Contrato:</label>
+                    <span>@Model.Contrato.Id</span>
+                </div>
+                <div class="col-xs-2">
+                    <label>Código do Contrato:</label>
+                    <span>@Model.Contrato.CodContrato</span>
+                </div>*@
+        }
+    </div>
+    <div class="row" style="text-align: center">
+        <h4 style='color:  red !important; font-weight: bold; '>CONTRATO DE MENSALISTA</h4>
+    </div>
+
+
+    <div class="row" style=" border: solid 1px; padding-left: 15px; padding-right: 15px">
+        <h4 style='color:  red !important; font-weight: bold; '>I. DADOS DO CLIENTE </h4>
+        <br />
+        @if (Model != null)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    CPF/CNPJ: @Model.Cliente.Pessoa.Cpf
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    Nome:: @Model.Cliente.Pessoa.Nome
+                </div>
+            </div>
+
+            if (Model.Cliente.Pessoa.Enderecos.Count > 0)
+            {
+                <table cellpadding="12" cellspacing="5">
+                    <tr>
+                        <td>End: @Model.Cliente.Pessoa.Enderecos[0].Logradouro</td>
+                        <td width="30px"></td>
+                        <td>
+                        <td>Nº: @Model.Cliente.Pessoa.Enderecos[0].Numero</td>
+                    </tr>
+                </table>
+
+                <table cellpadding="12" cellspacing="5">
+                    <tr>
+                        <td>Bairro: @Model.Cliente.Pessoa.Enderecos[0].Bairro</td>
+                    </tr>
+                </table>
+
+                <table cellpadding="12" cellspacing="5">
+                    <tr>
+                        <td>Estado: @Model.Cliente.Pessoa.Enderecos[0].Estado</td>
+                        <td width="30px"></td>
+                        <td>
+                            Cep: @Model.Cliente.Pessoa.Enderecos[0].Cep
+                        </td>
+                        <td width="30px"></td>
+                        <td>
+                            Tel. : @(Model.Cliente.Pessoa.Contatos.Count > 0 ? Model.Cliente.Pessoa.Contatos[0].Telefone : "Não há contato cadastrado." )
+                        </td>
+                    </tr>
+                </table>
+
+                <table cellpadding="12" cellspacing="5">
+                    <tr>
+                        <td> Dt. Nasc.: @Model.Cliente.Pessoa.DataNascimento</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Email: @(Model.Cliente.Pessoa.Contatos.Count > 0 ? Model.Cliente.Pessoa.Contatos[0].Email : "Não há contato cadastrado." )
+                        </td>
+                    </tr>
+                </table>
+
+            }
+            else
+            {
+                <div>Não há endereço cadastrado.</div>
+            }
+
+
+        }
+        else
+        {
+            <div>Não há dados para exibição</div>
+        }
+        <br />
+    </div>
+
+    <div class="row" style=" border: solid 1px; padding-left: 15px; padding-right: 15px">
+        <br />
+        <h4 style='color:  red !important; font-weight: bold; '>II. DADOS DO VEICULO </h4>
+        <br />
+        @if (Model != null)
+        {
+
+            if (Model.Veiculos.Count > 0)
+            {
+                <div style="display: inline-block" width="100%">
+                    @for (int i = 0; i < Model.Veiculos.Count; i++)
+                    {
+                        var numero = i % 2 == 0 ? "par" : "impar";
+
+                        if (numero == "par")
+                        {
+                            <div class="row" style="display: inline-block; float: left ">
+                                <div class="col-md-12">
+                                    <p style='color:  red !important; font-weight: bold; font-size: 15px'>VEICULO @(i == 0 ? "PRINCIPAL ." : "ALTERNATIVO") (@(i + 1)ª OPÇÃO)</p>
+                                </div>
+                                <div class="col-md-12">
+                                    MODELO: @Model.Veiculos[i].Modelo.Descricao
+                                </div>
+                                <div class="col-md-12">
+                                    PLACA: @Model.Veiculos[i].Placa
+                                </div>
+                                <div class="col-md-12">
+                                    COR: @Model.Veiculos[i].Cor
+                                </div>
+                                <div class="col-md-12">
+                                    ANO: @Model.Veiculos[i].Ano
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row" style="display: inline-block; float: right ">
+                                <div class="col-md-12">
+                                    <p style='color:  red !important; font-weight: bold; font-size: 15px'>VEICULO @(i == 0 ? "PRINCIPAL ." : "ALTERNATIVO") (@(i + 1)ª OPÇÃO)</p>
+                                </div>
+                                <div class="col-md-12">
+                                    MODELO: @Model.Veiculos[i].Modelo.Descricao
+                                </div>
+                                <div class="col-md-12">
+                                    PLACA: @Model.Veiculos[i].Placa
+                                </div>
+                                <div class="col-md-12">
+                                    COR: @Model.Veiculos[i].Cor
+                                </div>
+                                <div class="col-md-12">
+                                    ANO: @Model.Veiculos[i].Ano
+                                </div>
+                            </div>
+                        }
+
+                        if (numero == "impar")
+                        {
+                            <br />
+                            <br />
+                        }
+                    }
+                </div>
+
+            }
+            else
+            {
+                <div>
+                    Não possui veículos.
+                </div>
+            }
+        }
+        <br />
+        <br />
+    </div>
+
+    <div class="row" style=" border: solid 1px; padding-left: 15px; padding-right: 15px">
+        <br />
+        <h4 style='color:  red !important; font-weight: bold; '>III. INFORMAÇÕES INTERNAS (Não Preencher) </h4>
+        <br />
+        <h4 style='color:  red !important; font-weight: bold; '>PERÍODO (Conforme Quadro de Aviso da Unidade) </h4>
+        <br />
+
+        <br />
+        <div class="row" style=" display:inline; ">
+
+            <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="display:inline; padding-left: 10px; padding-right: 10px">Manhã</div>
+            <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="display:inline; padding-left: 10px; padding-right: 10px">Tarde</div>
+            <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="display:inline; padding-left: 10px; padding-right: 10px">     Diurno</div>
+            <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="display:inline; padding-left: 10px; padding-right: 10px">Integral</div>
+            <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="display:inline; padding-left: 10px; padding-right: 10px">Noite</div>
+            <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="display:inline; padding-left: 10px; padding-right: 10px">Outros Dias   ___:___ às ___:___ </div>
+
+
+        </div>
+        <br />
+        <br />
+    </div>
+
+    <div class="row" style=" border: solid 1px; padding-left: 15px; padding-right: 15px">
+        <br />
+        <h4 style='color:  red !important; font-weight: bold; '>IV. INFORMAÇÕES INTERNAS - PAGAMENTOS (Não Preencher) </h4>
+        <br />
+
+        <table>
+            <tr>
+                <td>
+                    Vencimento:
+                </td>
+                <td>
+                    <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div>
+                </td>
+                <td width="30px"></td>
+                <td>
+                    Valor da Mensalidade:
+                </td>
+                <td>
+                    <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div>,
+                    <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Data Pagamento:
+                </td>
+                <td align="right">
+                    <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block; margin-right: auto "></div>
+                    <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block; margin-right: auto "></div>
+                    <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div>
+
+                </td>
+                <td width="30px"></td>
+                <td>
+                    Valor Pago na Celebração do Contrato:
+                </td>
+                <td align="right">
+                    <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div>,
+                    <div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div><div style="width: 20px; height: 20px; border: solid 1px; display:inline-block "></div>
+                </td>
+            </tr>
+        </table>
+
+        <br />
+        <table>
+            <tr>
+                <td align="left">Obs: _______________________________</td>
+                <td width="30px"></td>
+                <td>
+                <td align="right">Funcionário: _______________________</td>
+            </tr>
+        </table>
+        <br />
+    </div>
+    <br />
+    <br />
+
+
+
+
+</div>

@@ -1,0 +1,83 @@
+﻿@using Portal.Controllers
+@using Entidade.Uteis
+@model IEnumerable<LayoutCampoViewModel>
+
+@{
+    var controller = ViewContext.Controller as LayoutController;
+}
+<section id="widget-grid" class="">
+    <div class="row no-margin-bottom">
+        <article class="col-xs-12">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Campos</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-class="expand">Nome do Campo: </th>
+                                    <th data-hide="phone">Posição Incio: </th>
+                                    <th data-hide="phone">Posição Fim: </th>
+                                    <th data-hide="phone">Tamanho: </th>
+                                    <th data-hide="phone">Formatação: </th>
+                                    <th data-hide="phone">Preenchimento: </th>
+                                    <th data-hide="phone">Alinhamento: </th>
+                                    <th data-class="expand"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach (var m in Model)
+                                    {
+                                        var Id = m.Campo + "_" + m.Id;
+                                        var IdItem = "chk_" + Id;
+                                        <tr class="item-campo-exportar">
+                                            <td>
+                                                @m.Campo
+                                                @Html.Hidden("hdnConteudo", m.Conteudo)
+                                            </td>
+                                            <td><input id="posicaoIni-@Id" type="text" value="@m.PosicaoInicio" class="form-control grid-field" onchange="ChangeData(this, @m.CodigoLinha)" /></td>
+                                            <td><input id="posicaoFim-@Id" type="text" value="@m.PosicaoFim" class="form-control grid-field" onchange="ChangeData(this, @m.CodigoLinha)" /></td>
+                                            <td><input id="tamanho-@Id" type="text" value="@m.Tamanho" class="form-control grid-field" onchange="ChangeData(this, @m.CodigoLinha)" /></td>
+                                            <td>
+                                                <select id="formatacao-@Id" onchange="ChangeData(this, @m.CodigoLinha)">
+                                                    @foreach (TipoValidacao f in Enum.GetValues(typeof(TipoValidacao)))
+                                                    {
+                                                        <option value="@f" selected="@(m.Formatacao == f)">@f</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td><input id="preenchimento-@Id" type="text" value="@m.Preenchimento" class="form-control grid-field" onchange="ChangeData(this, @m.CodigoLinha)" /></td>
+                                            <td>
+                                                <select id="formatacao-@Id" onchange="ChangeData(this, @m.CodigoLinha)">
+                                                    @foreach (Direcao f in Enum.GetValues(typeof(Direcao)))
+                                                    {
+                                                        <option value="@f" selected="@(m.Direcao == f)">@f</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td><a id="btnRemoverCampo-@Id" class="btn btn-danger" onclick="DeletarSelecionados(this,@m.CodigoLinha)" ><i class="fa fa-remove"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#chk-todos").change(function () {
+            SelecionarTodos(this.checked);
+        });
+    });
+</script>

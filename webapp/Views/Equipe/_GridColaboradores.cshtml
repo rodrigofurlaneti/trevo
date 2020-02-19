@@ -1,0 +1,62 @@
+﻿@using Entidade.Uteis
+@model List<ColaboradorViewModel>
+<div style="margin-top: 20px;">
+    <div>
+        <h3>Colaboradores</h3>
+        <fieldset>
+            <section>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label>Turno:</label>
+                        @Html.DropDownList("TurnoId", "Selecione")
+                    </div>
+                    <div class="col-md-3">
+                        <label>Colaborador:</label>
+                        @Html.DropDownList("ColaboradorID", "Selecione")
+                    </div>
+                    <div class="col-md-2">
+                        <span class="btn btn-primary" id="add-Colaborador" onclick="adicionarColaborador()" style="margin-top: 9%;"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar Colaborador</span>
+                    </div>
+                </div>  
+
+            </section>
+        </fieldset>
+    </div>
+</div>
+@if (Model != null && Model.Any())
+{
+    <div style="margin-top:50px;">
+        <div class="col-xs-6">
+            <table id="data_table_address" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 1%; display:none;"></th>
+                        <th style="width: 50%;">Turno</th>
+                        <th style="width: 30%;">Colaborador</th>
+                        <th style="width: 20%;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (var x = 0; x < Model.Count; x++)
+                    {
+                    <tr class="line-blacklist">
+                        <td style="display:none;">@Model[x].Id</td>
+                        <td>
+                            @Model[x].Turno.Periodo
+                        </td>
+                        <td>
+                            @(Model[x].NomeColaborador == null ? "Slot Aberto" : Model[x].NomeColaborador.Pessoa.Nome)
+                        </td>
+                        <td>
+                            <span class="btn btn-danger" style="margin-right: 3px;" onclick="removerColaborador(@Model[x].Id)"><i class="fa fa-remove"></i></span>
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}

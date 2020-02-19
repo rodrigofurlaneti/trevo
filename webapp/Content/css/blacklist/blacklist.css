@@ -1,0 +1,23 @@
+﻿.info-situacao {
+    display: block;
+    width: auto;
+    float: right;
+    /*border-color: #45474b !important;*/
+    /*background: #4c4f53;*/
+    /*background: darkgreen;*/
+    color: #fff;
+    line-height: 32px;
+    box-sizing: border-box !important;
+    padding: 0 5px 0 5px;
+    margin: 0;
+}
+
+.info-situacao span {
+    cursor: pointer;
+}
+
+@media (min-width: 992px) {
+    .col-md-1e5 {
+        width: 9.66666667% !important;
+    }
+}

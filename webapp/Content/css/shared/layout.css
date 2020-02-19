@@ -1,0 +1,172 @@
+﻿@font-face {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'dax-light';
+    src: url("/areas/landing/content/fonts/dax/dax-light.ttf");
+}
+
+h1, h2, h3, h4, h5, h6, a, input, span, label, th, td, button {
+    font-family: "dax-light","Open Sans", Arial, Helvetica, Sans-Serif !important;
+}
+
+.font-size-18 {
+    font-size: 18px !important;
+}
+
+#alert-modal .modal-body h5 {
+    white-space: pre-line;
+}
+
+.toast-top-right {
+    top: 60px;
+    right: 12px;
+}
+
+.btn-green {
+    background-color: #00b9b3;
+    color: white;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+.no-lateral-margins {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+.margin-auto-content {
+    max-width: 1125px;
+    margin: auto;
+    text-align: center;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.margin-top-25 {
+    margin-top: 25px;
+}
+
+.margin-top-30 {
+    margin-top: 30px;
+}
+
+.padding-left-15 {
+    padding-left: 15px;
+}
+
+.padding-right-15 {
+    padding-right: 15px;
+}
+
+.no-padding-left{
+    padding-left: 0 !important;
+}
+
+.no-padding-right {
+    padding-right: 0 !important;
+}
+
+.menu-on-top #main-content {
+    margin-left: 0;
+    margin-top: 0px;
+    padding-bottom: 0px;
+}
+
+.footer-show {
+    /* ReSharper disable once HexColorValueWithAlpha */
+    background-color: #845736eb;
+    text-align: center;
+    margin-bottom: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+#footer span {
+    color: white !important;
+}
+
+.footer-show a:link {
+    background-color: transparent !important;
+}
+
+.footer-show span {
+    color: white !important;
+    background-color: transparent !important;
+}
+
+.footer-show-logo-area {
+    text-align: center !important;
+}
+
+.footer-show .col-md-4 {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.footer-show > .panel-group > .panel {
+    background-color: transparent;
+}
+
+    .footer-show > .panel-group > .panel img {
+        width: 200px !important;
+    }
+
+.aside-mobile, .navbar-mobile, .navbar-toggle {
+    display: none !important;
+}
+
+.aside-desktop, .navbar-desktop {
+    display: inherit !important;
+}
+
+    .navbar-desktop:hover{
+        height: 98vh;
+        max-height: 98vh
+    }
+
+    .collapse {
+        display: none;
+    }
+
+.page-title {
+    display: inherit !important;
+}
+
+@media only screen and (min-width: 750px) {
+    .footer-show .col-md-4 {
+        border-left: 1px #6d4f39 solid;
+    }
+}
+
+@media (max-width: 992px) {
+    .menu-on-top #left-panel {
+        left: 0;
+        display: inherit;
+    }
+
+    .aside-mobile, .navbar-mobile, .navbar-toggle {
+        display: inherit !important;
+    }
+
+    .aside-desktop, .navbar-desktop {
+        display: none !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-collapse.collapse {
+        display: none !important;
+        height: auto !important;
+        padding-bottom: 0;
+        overflow: visible !important;
+    }
+}

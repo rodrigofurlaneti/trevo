@@ -1,0 +1,173 @@
+﻿@using Portal.App_Helpers
+@model IEnumerable<MenuViewModel>
+@{
+    var menusPai = Model.Where(x => x.MenuPai == null || x.MenuPai.Id == 0).OrderBy(x => x.Posicao).ToList();
+}
+
+@if (Model != null && Model.Any())
+{
+    if (Model.Any())
+    {
+        if (ViewBag.IsMobile != null && ViewBag.IsMobile)
+        {
+            <nav class="navbar navbar-inverse navbar-fixed-top navbar-mobile">
+                <div class="container-fluid no-padding no-margin">
+                    <div class="navbar-header" style="margin: 0; width: 100%">
+                        <div class="col-xs-2 notify-header navbar-mobile-conteudo collapse in">
+                            <div class="btn-header transparent pull-left">
+                                <a id="aNotify" title="Notificações" class="notif button-badge">
+                                    <i id="iconNotify" class="faBlack fa fa-bell-o"></i>
+                                    <span id="countNotify" class="badge badge-red badge-alert"></span>
+                                </a>
+                                <ul class="dropdown-menu menu-ul" id="myNotifyList"></ul>
+                            </div>
+                        </div>
+                        <div class="col-xs-11 navbar-mobile-conteudo collapse">
+                            <div class="row" style="margin-bottom:  0px !important;margin-top:  10px;">
+                                <div type="button" class="menu-open close-menu close" aria-label="Close" data-toggle="collapse" data-target=".navbar-mobile-conteudo" aria-expanded="true" style="display:none;width:100%;height:100%;margin:auto;text-align:right;">
+                                    <span aria-hidden="true" style="font-size: 40px;font-weight: 400;color: #527788 !important;">×</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 no-padding no-margin text-align-center navbar-mobile-conteudo collapse">
+                            <a class="navbar-brand no-padding no-margin menu-open" href="#" style="text-align: center;float: none;">
+                                <img src="~/Content/img/logo.jpg" style="width: 205px;display: initial; padding-top: 5px;" />
+                            </a>
+                        </div>
+                        <div class="col-xs-10 navbar-mobile-conteudo collapse in">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-mobile-conteudo">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse navbar-collapse no-padding no-margin navbar-mobile-conteudo" id="navbar-mobile-content">
+
+
+                        <ul class="nav navbar-nav no-padding no-margin" style="height: calc(100% + 90px);">
+                            @if (Model != null)
+                            {
+                                foreach (var itemPai in menusPai)
+                                {
+                                    var action = itemPai.Url != null && itemPai.Url.Contains("/") ? itemPai.Url.Split('/').LastOrDefault() : itemPai.Url;
+                                    var controllerName = itemPai.Url != null && itemPai.Url.Contains("/") ? itemPai.Url.Split('/')[itemPai.Url.Split('/').Length - 2] : itemPai.Url;
+
+                                    <li class="drop_mobile">
+                                        @if (itemPai.Url != null && itemPai.Url.Contains("/"))
+                                        {
+                                            var actionName = itemPai.Url != null && itemPai.Url.Contains("/") ? itemPai.Url.Split('/').LastOrDefault() : itemPai.Url;
+                                            <a href="@Url.Action(actionName, controllerName)">@Html.DisplayFor(modelItem => itemPai.Descricao)</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="dropdown-toggle">
+                                                @Html.DisplayFor(modelItem => itemPai.Descricao)
+                                            </a>
+                                        }
+                                        @if (Model.Any(x => x.MenuPai != null && x.MenuPai.Id == itemPai.Id))
+                                        {
+                                            <ul class="sub_menu_mobile" style="display: none;">
+                                                @foreach (var itemFilho in Model.Where(x => x.MenuPai != null && x.MenuPai.Id == itemPai.Id).OrderBy(x => x.Posicao).ToList())
+                                                {
+                                                    var controllerNameFilho = itemFilho.Url != null && itemFilho.Url.Contains("/") ? itemFilho.Url.Split('/')[itemFilho.Url.Split('/').Length - 2].Trim() : itemFilho.Url.Trim();
+                                                    var actionNameFilho = itemFilho.Url != null && itemFilho.Url.Contains("/") ? itemFilho.Url.Split('/').LastOrDefault().Trim() : itemFilho.Url.Trim();
+
+                                                    <li>
+                                                        <a href="@Url.Action(actionNameFilho, controllerNameFilho)" title="@Html.DisplayFor(modelItem => itemFilho.Descricao)">@Html.DisplayFor(modelItem => itemFilho.Descricao)</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </li>
+                                }
+                            }
+                            <li class="drop_mobile" style="width:100%; text-align:center;border-bottom: none;">
+                                <div style="width: 199px !important;color: #527788;border: 1px solid #527788;margin: auto;height: 50px;margin-top: 22px">
+                                    <a href="@Url.Action("Logout", "Account")" title="Sair" class="no-padding" data-action="userLogout" style="padding-top: 10px !important;color:#527788 !important">
+                                        Sair do programa
+                                    </a>
+                                </div>
+                                <br />
+                            </li>
+                            <li class="drop_mobile" style="width:100%; text-align:center;height:90px;">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <script>
+                $(document).ready(function () {
+                    $('.navbar-toggle, .close-menu').on('click', function () {
+                        if ($('.menu-open').css('display') == "none") {
+                            $('.menu-open').show();
+                            $('.navbar-toggle').addClass('hidde');
+                            $('.navbar-mobile').css('height', '100%');
+                            $('.navbar-mobile .container-fluid').removeClass('background-transparent');
+                            $('.navbar-mobile .container-fluid').addClass('background-white');
+                        } else {
+                            setTimeout(function () {
+                                $('.menu-open').hide();
+                                $('.navbar-mobile').css('height', 'auto');
+                                $('.navbar-toggle').removeClass('hidde');
+                                $('.navbar-mobile .container-fluid').removeClass('background-white');
+                                $('.navbar-mobile .container-fluid').addClass('background-transparent');
+                            }, 400);
+                        }
+                    });
+                });</script>
+        }
+        else
+        {
+            <nav style="overflow: hidden !important" class="navbar-desktop">
+
+                <ul class="dropdown">
+
+                    @foreach (var itemPai in menusPai)
+                    {
+                        var action = itemPai.Url != null && itemPai.Url.Contains("/") ? itemPai.Url.Split('/').LastOrDefault() : itemPai.Url;
+                        var controllerName = itemPai.Url != null && itemPai.Url.Contains("/") ? itemPai.Url.Split('/')[itemPai.Url.Split('/').Length - 2] : itemPai.Url;
+
+                        <li class="drop @Html.RouteIf(controllerName, "active")">
+                            @if (itemPai.Url != null && itemPai.Url.Contains("/"))
+                            {
+                                var actionName = itemPai.Url != null && itemPai.Url.Contains("/") ? itemPai.Url.Split('/').LastOrDefault() : itemPai.Url;
+                                <div>
+                                    <a href="@Url.Action(actionName, controllerName)" title="@Html.DisplayFor(modelItem => itemPai.Descricao)">
+                                        @Html.DisplayFor(modelItem => itemPai.Descricao)
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <a href="#" title="@Html.DisplayFor(modelItem => itemPai.Descricao)">
+                                        @Html.DisplayFor(modelItem => itemPai.Descricao)
+                                    </a>
+                                </div>
+                            }
+                            @if (Model.Any(x => x.MenuPai != null && x.MenuPai.Id == itemPai.Id))
+                            {
+                                <ul class="sub_menu">
+                                    @foreach (var itemFilho in Model.Where(x => x.MenuPai != null && x.MenuPai.Id == itemPai.Id).OrderBy(x => x.Posicao).ToList())
+                                    {
+                                        var controllerNameFilho = itemFilho.Url != null && itemFilho.Url.Contains("/") ? itemFilho.Url.Split('/')[itemFilho.Url.Split('/').Length - 2].Trim() : itemFilho.Url.Trim();
+                                        var actionNameFilho = itemFilho.Url != null && itemFilho.Url.Contains("/") ? itemFilho.Url.Split('/').LastOrDefault().Trim() : itemFilho.Url.Trim();
+
+                                        <li class="@Html.RouteIf(controllerNameFilho, "active")">
+                                            <div>
+                                                <a href="@Url.Action(actionNameFilho, controllerNameFilho)" title="@Html.DisplayFor(modelItem => itemFilho.Descricao)">@Html.DisplayFor(modelItem => itemFilho.Descricao)</a>
+                                            </div>
+                                        </li>
+
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+}

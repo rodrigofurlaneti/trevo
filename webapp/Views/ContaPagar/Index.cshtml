@@ -1,0 +1,208 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ContasAPagarViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ContaPagarController;
+}
+
+@section pagespecific {
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/contaPagar/conta-pagar.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/contaPagar/conta-pagar.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Contas à Pagar
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            @using (Html.BeginForm("SalvarDados", "ContaPagar", FormMethod.Post, new { id = "Form" }))
+                            {
+                                @Html.HiddenFor(x => x.Id)
+                                @Html.HiddenFor(x => x.CodigoAgrupadorParcela)
+                                @Html.HiddenFor(x => x.StatusConta)
+
+                                <div id="conteudo" class="row margin-bottom-20">
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Conta Financeira: </label>
+                                            @Html.DropDownListFor(x => x.ContaFinanceira.Id, new SelectList(controller.ListaContaFinanceira, "Id", "Descricao"), "Selecione uma Conta Financeira...", new { @id = "contaFinanceira", @class = "chosen-select", data_placeholder = "Selecione uma Conta Financeira..." })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Fornecedor: </label>
+                                            @Html.DropDownListFor(x => x.Fornecedor.Id, new SelectList(controller.ListaFornecedor, "Id", "Descricao"), "Selecione um Fornecedor...", new { @id = "fornecedor", @class = "chosen-select", data_placeholder = "Selecione um Fornecedor..." })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Departamento: </label>
+                                            @Html.DropDownListFor(x => x.Departamento.Id, new SelectList(controller.ListaDepartamento, "Id", "Nome"), "Selecione um Departamento...", new { @id = "departamento", @class = "chosen-select", data_placeholder = "Selecione um Departamento..." })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Forma de Pagamento: </label>
+                                            @Html.DropDownListFor(x => x.FormaPagamento, new SelectList(controller.ListaFormaPagamento ?? new List<ChaveValorViewModel>(), "Id", "Descricao"), "Selecione uma Forma...", new { @id = "formaPagamento", @class = "chosen-select form-control", data_placeholder = "Selecione uma Forma..." })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 nopadding">
+                                            <label class="font-weight-bold">Número de Parcelas: </label>
+                                            <br />
+                                            <select id="numeroParcelas" name="NumeroParcela">
+                                                @for (int i = 1; i <= 12; i++)
+                                                {
+                                                    <option value="@i" @(Model != null && Model.NumeroParcela == i ? "selected" : "")>@i</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Data: </label>
+                                            @Html.TextBoxFor(x => x.DataVencimento, new { @id = "data", Value = Model != null && Model.DataVencimento > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataVencimento.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Valor Total: </label>
+                                            @Html.TextBoxFor(x => x.ValorTotal, new { @id = "valor-total", @class = "form-control heightfield", @autocomplete = "off", @maxlength = "21", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4" id="container-codigo-de-barras" style="@(Model != null && Model.Id > 0 && (Model.FormaPagamento == Entidade.Uteis.FormaPagamento.Boleto || Model.FormaPagamento == Entidade.Uteis.FormaPagamento.BoletoConcessionaria) ? "" : "display: none;" )">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Código De Barras: </label>
+                                            @Html.TextBoxFor(x => x.CodigoDeBarras, new { @id = "codigo-de-barras", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4" id="container-contribuinte" style="display: none">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Contribuinte: </label>
+                                            @Html.TextBoxFor(x => x.Contribuinte, new { @id = "contribuinte", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Competência: </label>
+                                            @Html.TextBoxFor(x => x.DataCompetencia, new { @id = "competencia", Value = (Model != null && Model.DataCompetencia.HasValue && Model.DataCompetencia.Value > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataCompetencia.Value.ToString("MM/yyyy") : Model != null && Model.DataVencimento > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataVencimento.ToString("MM/yyyy") : DateTime.Now.ToString("MM/yyyy")), @class = "form-control fieldDate", @autocomplete = "off" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 no-padding">
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="col-xs-12 no-padding">
+                                                <label class="font-weight-bold">Conta Contábil: </label>
+                                                @Html.DropDownList("GridContaContabil", new SelectList(controller.ListaContaContabil, "Id", "DescricaoCompleta"), "Selecione uma Conta...", new { @id = "grid-contacontabil", @class = "chosen-select", data_placeholder = "Selecione uma Conta Contábil..." })
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="col-xs-12 no-padding">
+                                                <label class="font-weight-bold">Unidade: </label>
+                                                @Html.DropDownList("GridUnidade", new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione uma Unidade...", new { @id = "grid-unidade", @class = "chosen-select", data_placeholder = "Selecione uma Unidade..." })
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="col-xs-12 col-md-11 no-padding">
+                                                <label class="font-weight-bold">Valor: </label>
+                                                @Html.TextBox("GridValor", "", new { @id = "grid-valor", @class = "form-control heightfield valmoney", @autocomplete = "off", @maxlength = "21" })
+                                            </div>
+                                            <div class="col-xs-12 col-md-1 no-padding">
+                                                <button style="margin-top: 34px" class="btn btn-default" onclick="event.preventDefault(); AdicionarItem()"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="lista-item">
+                                        @Html.Partial("_GridItens", Model?.ContaPagarItens ?? controller.ListaItens ?? new List<ContasAPagarItemViewModel>())
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-12">
+                                        <div class="col-xs-12 no-padding">
+                                            <label class="font-weight-bold">Observações: </label>
+                                            @Html.TextAreaFor(x => x.Observacoes, new { @id = "observacoes", @class = "form-control", @rows = "3", @maxlength = "500" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 nopadding">
+                                            <div class="col-xs-12 nopadding">
+                                                <div class="checkbox">
+                                                    <label class="font-weight-bold">
+                                                        @Html.CheckBoxFor(x => x.PodePagarEspecie, new { @class = "form-control margin-right-10", @autocomplete = "off" }) <p class="texto-checkbox">Pode ser pago em espécie</p>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 no-padding">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-6 no-padding">
+                                                <label class="font-weight-bold">Juros: </label>
+                                                <div class="col-xs-12 input-group">
+                                                    <div class="col-xs-2 no-padding"><input id="chkJuros" type="checkbox" onclick="HabilitarJuros();" autocomplete="off" class="form-control"></div>
+                                                    <div class="col-xs-10 no-padding-left">@Html.TextBoxFor(x => x.ValorJuros, new { @id = "juros", @class = "form-control valmoney" })</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <label class="font-weight-bold">Tipo: </label>
+                                                @Html.DropDownListFor(x => x.TipoJuros, new SelectList(controller.ListaTipoJuros, "Id", "Descricao"), "Selecione um Tipo...", new { @id = "dropTipoJuros", @class = "chosen-select", data_placeholder = "Selecione um Tipo..." })
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-6 no-padding">
+                                                <label class="font-weight-bold">Multa: </label>
+                                                <div class="col-xs-12 input-group">
+                                                    <div class="col-xs-2 no-padding"><input id="chkMulta" type="checkbox" onclick="HabilitarMulta();" autocomplete="off" class="form-control margin-right-10"></div>
+                                                    <div class="col-xs-10 no-padding-left">@Html.TextBoxFor(x => x.ValorMulta, new { @id = "multa", @class = "form-control valmoney" })</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <label class="font-weight-bold">Tipo: </label>
+                                                @Html.DropDownListFor(x => x.TipoMulta, new SelectList(controller.ListaTipoMulta, "Id", "Descricao"), "Selecione um Tipo...", new { @id = "dropTipoMulta", @class = "chosen-select", data_placeholder = "Selecione um Tipo..." })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="conteudo" class="row margin-bottom-20">
+                                    <div class="col-xs-12 col-md-12">
+                                        <div class="row margin-bottom-5">
+                                            <div class="pull-right margin-right-15">
+                                                <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                            </div>
+                                            <div class="pull-right margin-right-10">
+                                                <button type="submit" class="btn btn-lg btn-primary">
+                                                    <i class="fa fa-save"></i> Salvar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+
+@Html.Partial("_GridContasAPagar")
+
+<div id="modalDivBloqueio"></div>

@@ -1,0 +1,48 @@
+﻿@using Core.Extensions;
+
+<script src="~/Scripts/funcionario/RegraCalculo/DozeTrintaSeis/modal-doze-trinta-seis.js"></script>
+
+<div>
+    <div class="modal fade" id="modal-doze-trinta-seis" role="dialog" style="display:none">
+        <div class="modal-dialog" style="width: 80%">
+            <div class="modal-content" id="modalContent">
+                <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Intervalos 12/36</h4>
+                </div>
+
+                <div id="modalBodyInformacoes" class="modal-body no-padding">
+                    <div class="row no-margin-bottom">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="col-xs-12 margin-top-20">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-12 col-md-2">
+                                            <label>Data Inicial</label>
+                                            @Html.TextBox("DozeTrintaSeisDataInicial", "", new { @id = "modal-doze-trintaseis-data-inicial", @class = "form-control data" })
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-2">
+                                            <label>Data Final</label>
+                                            @Html.TextBox("DozeTrintaSeisDataFinal", "", new { @id = "modal-doze-trintaseis-data-final", @class = "form-control data" })
+                                        </div>
+                                        <div class="col-xs-12 col-md-8">
+                                            <button style="margin-top: 33px" class="btn btn-default" onclick="event.preventDefault(); AdicionarIntervaloModalDozeTrintaSeis()"><i class="fa fa-plus"></i> Adicionar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="lista-intervalo-doze-trinta-seis">
+                                @Html.Partial("_GridIntervaloDozeTrintaSeis", new List<FuncionarioIntervaloDozeTrintaSeisViewModel>())
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

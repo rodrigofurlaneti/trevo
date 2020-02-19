@@ -1,0 +1,59 @@
+﻿@using Entidade.Uteis
+@model List<VagaCortesiaVigenciaViewModel>
+
+<div style="margin-top:50px;">
+    <div class="col-xs-10">
+        <table id="tablevigencia" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">
+                        Selecionar Todos
+                        <input id="todos" type="checkbox" autocomplete="off" onClick="HabilitaDesabilita(this)" class="form-control center-block no-float seleciona-retirada-cofre">
+                    </th>
+                    <th style="width: 1%; display:none;"></th>
+                    <th style="width: 10%;">Unidade</th>
+                    <th style="width: 10%;">Data Inicio</th>
+                    <th style="width: 10%;">Horario Inicio</th>
+                    <th style="width: 10%;">Data Fim</th>
+                    <th style="width: 10%;">Horario Fim</th>
+                    <th style="width: 5%;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    for (var x = 0; x < Model.Count; x++)
+                    {
+                        <tr>
+                            <td style="display:none;">@Model[x].Id</td>
+                            <td>
+                                <div class="col-xs-12 nopadding input-group">
+                                    <input name="selecionalinha" checked="@(Model[x].Selecionado)" data-id="@Model[x].Id" type="checkbox" autocomplete="off"  onChange="AdicionaSelecionado(this, @Model[x].Id)" class="form-control center-block no-float seleciona-retirada-cofre">
+                                </div>
+                            </td>
+                            <td style="width: 10%">
+                                @(Model[x].Unidade.Nome)
+                            </td>
+                            <td style="width: 10%">
+                                @(Model[x].DataInicio)
+                            </td>
+                            <td style="width: 10%">
+                                @Model[x].HorarioInicio
+                            </td>
+                            <td style="width: 10%">
+                                @(Model[x].DataFim)
+                            </td>
+                            <td style="width: 10%">
+                                @Model[x].HorarioFim
+                            </td>
+                            <td style="width: 15%">
+                                <button type="button" name="botaoedicao" class="btn btn-primary" style="margin-right: 2px;" onclick="editarItem(@Model[x].Id)"><i class="fa fa-edit"></i></button>
+                                <button type="button" name="botaoedicao" class="btn btn-danger" style="margin-right: 3px;" onclick="removerItem(@Model[x].Id)"><i class="fa fa-remove"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

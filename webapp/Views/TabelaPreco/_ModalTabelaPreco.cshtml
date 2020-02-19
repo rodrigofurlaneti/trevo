@@ -1,0 +1,27 @@
+﻿@model Aplicacao.ViewModels.TabelaPrecoViewModel
+
+<div id="modalInformacoes" class="modal fade" role="dialog" style="width:auto; ">
+    <div class="modal-dialog" style="width:700px">
+        <div class="modal-content col-xs-12" style="width:700px;  background-color: lightgray">
+            <div id="modalBodyInformacoes" class="modal-body col-xs-12" style=" background-color: lightgray; height: 500px;overflow-y: auto;">
+                <p class="text-center">Tabela de Preço</p>
+                <br />
+
+                @if (Model != null)
+                {  
+                    <div class="row">
+                        <div style="border: solid 1px;">
+                            <label>Descrição: @(Model.Descricao) </label>
+                        </div>
+                    </div>
+                    <br />
+                    
+                }
+
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+﻿@using Portal.Controllers;
+@using Aplicacao.ViewModels;
+@model Aplicacao.ViewModels.ParametroNegociacaoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ParametroNegociacaoController;
+}
+
+@section pagespecific{
+    @*@Styles.Render("~/content/css/cliente/cliente.css")*@
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/ParametroNegociacao/ParametroNegociacao.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+
+}
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Parâmetro de Negociação
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("Salva", "ParametroNegociacao", FormMethod.Post, new { id = "ParametroNegociacaoForm" }))
+                                {
+                                    @Html.HiddenFor(parametroNegociacao => parametroNegociacao.Id, new { @id = "hdnParametroNegociacao" })
+                                    <div id="conteudo" class="row margin-bottom-5">
+                                        <div class="col-xs-2">
+                                            <label>Unidade:</label><br />
+                                            @Html.DropDownListFor(parametroNegociacao => parametroNegociacao.Unidade.Id
+                                                    , new SelectList(controller.ListaUnidades, "Id", "Nome")
+                                                    , "Selecione..."
+                                                    , new { @id = "unidade"
+                                                            , @class = "chosen-select"
+                                                            , data_placeholder = "Selecione..." })
+
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <label>Perfil:</label><br />
+                                            @Html.DropDownListFor(parametroNegociacao => parametroNegociacao.Perfil.Id
+                                                    , new SelectList(controller.ListaPerfis, "Id", "Nome")
+                                                    , "Selecione..."
+                                                    , new { @id = "perfil"
+                                                            , @class = "chosen-select"
+                                                            , data_placeholder = "Selecione..." })
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @Html.Partial("../LimiteDesconto/_GridLimiteDesconto", Model != null && Model.LimitesDesconto != null ? Model.LimitesDesconto : new List<LimiteDescontoViewModel>())
+                                    </div>
+                                    <div id="conteudo" class="row margin-bottom-5">
+                                        <div class="pull-right margin-right-10">
+                                            <a class="btn btn-lg btn-danger" href="/parametronegociacao/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Buscar Parâmetro de Negociação
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="row margin-bottom-5">
+                                <div class="col-xs-2">
+                                    <label>Unidade:</label><br />
+                                    @Html.DropDownList("unidadeBusca"
+                                                        , new SelectList(controller.ListaUnidades, "Id", "Nome")
+                                                        ,"Selecione"
+                                                         , new
+                                                         {
+                                                             @id = "unidadeBusca"
+                                                            ,@class = "chosen-select"
+                                                            ,data_placeholder = "Selecione..."
+                                                         })
+
+                                </div>
+                                <div class="col-xs-1" style="border:0px;border-style:solid; min-width:70px;">
+                                    <br />
+                                    <div class="pull-right margin-right-10 margin-top-10">
+                                        <a class="btn btn-primary" id="buscar" onclick="BuscarParametroNegociacao()"><i class="fa fa-search"></i>&nbsp;Buscar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div id="divParametroNegociacao">
+
+            </div>
+        </section>
+    </div>
+</div>
+
+

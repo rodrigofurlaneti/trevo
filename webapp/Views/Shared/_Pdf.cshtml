@@ -1,0 +1,221 @@
+﻿@model PropostaPdfViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+
+        .logo {
+            width: 200px;
+            margin-top: 25px;
+        }
+
+        .ticket {
+            width: 200px;
+            margin-top: -180px;
+        }
+
+        .fonte {
+            font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+        }
+
+        .fonte-dinamica {
+            font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+            font-size: 21px;
+        }
+
+        .center {
+            height: 200px;
+            position: relative;
+        }
+
+        .center p {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .barra-cabecalho {
+            background-color: #0093D3;
+            width: 100%;
+            height: 15px;
+        }
+
+        .barra-separacao {
+            background-color: #C01429;
+            width: 100%;
+            height: 2px;
+        }
+
+        .barra-site {
+            background-color: #000000;
+            width: 100%;
+            height: 20px;
+        }
+
+        .texto-barra-site {
+            color: #F9F9F9;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .barra-rodape {
+            background-color: #C52028;
+            width: 100%;
+            height: 30px;
+        }
+
+        .titulo {
+            color: #00AFEF;
+            font-size: 45px;
+            font-weight: 800;
+        }
+
+        .sub-titulo {
+            color: #00AFEF;
+            font-size: 40px;
+            font-weight: 800;
+        }
+
+        .rodape {
+            color: #000000;
+            font-size: 10px;
+        }
+
+        ul li label {
+            font-size: 21px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        ul li {
+            color: #3c3c3c;
+            list-style: none;
+            font-size: 21px;
+            margin-left: -40px;
+        }
+
+        ul li::before {
+            color: #C52028;
+            /* color of bullet or square */
+            content: "\2022";
+            /* Unicode of character to precede the list item */
+            font-size: 1em;
+            /* em or %*/
+            padding-right: 1.1225em;
+            /* use em*/
+            position: relative;
+            top: 0em;
+            /* use em or % */
+        }
+
+        .esquerda {
+            float: left;
+        }
+
+        .direita {
+            float: right;
+        }
+
+        .espacamento {
+            padding-left: 37px;
+            padding-right: 37px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .cor-barra-texto {
+            color: red;
+        }
+
+        li + li {
+            margin-top: 25px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="barra-cabecalho"></div>
+    <div class="espacamento">
+        <h1 class="titulo fonte esquerda">Proposta para a sua empresa</h1>
+        <img class="logo direita" src="@Model.CaminhoImagemLogo" />
+        <div style="clear: both;"></div>
+    </div>
+    <div class="barra-separacao"></div>
+    <div class="espacamento">
+        <ul>
+            <li><label class="fonte">Empresa:</label> <span class="fonte-dinamica">@Model.Empresa</span></li>
+            <li><label class="fonte">Telefone:</label> <span class="fonte-dinamica">@Model.Telefone</span></li>
+            <li><label class="fonte">Filial:</label> <span class="fonte-dinamica">@Model.Filial</span></li>
+            <li><label class="fonte">Endereço:</label> <span class="fonte-dinamica">@Model.Endereco</span></li>
+            <li><label class="fonte">Horário Funcionamento:</label> <span class="fonte-dinamica">@Model.HorarioFuncionamento</span></li>
+        </ul>
+        <img class="ticket direita" src="@Model.CaminhoImagemTicket" />
+        <br />
+        <h2 class="sub-titulo fonte">Padrão de venda:</h2>
+        <ul>
+            <li class="fonte">
+                A quantidade mínima para aquisição é de <strong>50 (cinquenta)</strong> selos para <strong>cada período</strong> escolhido.
+            </li>
+            <li class="fonte">
+                O prazo de entrega é de até <strong>48 horas úteis</strong>.
+            </li>
+            <li class="fonte">
+                Não fique sem selos! Programe-se para fazer um novo pedido antes que acabe os que dispõe.
+            </li>
+            <li class="fonte">
+                @if (Model.PossuiValidade)
+                {
+                    <span>Os selos terão validade conforme impresso no mesmo</span>
+                }
+                else
+                {
+                    <span>Os selos <strong>não tem data de validade</strong>, porém a falta de compra e utilização por um período de 3 meses, pode acarretar em um cancelamento de vendas futuras.</span>
+                }
+            </li>
+            <li class="fonte">
+                @if (Model.TipoPagamento == Entidade.Uteis.TipoPagamentoSelo.Pospago)
+                {
+                    <span>A forma de pagamento será através de<strong> boleto bancário </strong> com vencimento determinado no boleto, após a emissão dos selos. Caso precise de um prazo maior os selos são enviados após a confirmação do crédito.</span>
+                }
+                else
+                {
+                    <span>A forma de pagamento será através de<strong> boleto bancário </strong> antecipado, ou seja, os selos serão enviados somente após confirmação do crédito. Portanto, o prazo de pagamento ficará a seu critério.</span>
+                }
+            </li>
+            <li class="fonte">
+                Não há limite de compras no mês desde que o último boleto esteja pago. Não há taxa de entrega no 1° pedido do mês. A partir do <strong>2° pedido no mesmo mês</strong> é cobrado <strong>R$15,00 de emissão. (Este item não aparece para CONVÊNIO DEMANDA)</strong>.
+            </li>
+            <li class="fonte">
+                <strong>Em caso do serviço ser encerrado por qualquer uma das partes</strong>, só serão <strong>reembolsados</strong> os selos comprados nos últimos <strong>3 meses. (Este item não aparece para CONVÊNIO DEMANDA)</strong>.
+            </li>
+            <li class="fonte">
+                Esta proposta contempla @(Model.Quantidade) selos e totalizará R$@(Model.ValorTotal), no período @(Model.Periodo).
+            </li>
+        </ul>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="barra-site center">
+        <p class="texto-barra-site fonte">
+            http://www.estacionamentostrevo.com.br
+        </p>
+    </div>
+    <div class="barra-rodape"></div>
+</body>
+</html>

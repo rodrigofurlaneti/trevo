@@ -1,0 +1,201 @@
+﻿@using Portal.Controllers
+@model PessoaViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as PessoaController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/pessoa/pessoa.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/Pessoa/Pessoa.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+}
+
+<div id="content">
+    <section id="widget-grid">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget " id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                        <h2>Cadastro</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body">
+                            @using (Html.BeginForm("SalvarDados", "Pessoa", FormMethod.Post, new { id = "PessoaForm" }))
+                            {
+                                @Html.HiddenFor(x => x.Id, new { @id = "hdnPessoa" })
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Nome:</label>
+                                            @Html.TextBoxFor(x => x.Nome, new { @class = "form-control max-width-95" })
+                                            <br />
+                                            @Html.ValidationMessageFor(x => x.Nome, "Informe o Nome!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Gênero:</label>
+                                            <br />
+                                            Masculino @Html.RadioButtonFor(x => x.Sexo, "Masculino", new { @class = "margin-right-15", Checked = "checked" })
+                                            Feminino @Html.RadioButtonFor(x => x.Sexo, "Feminino")
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Ativo:</label>
+                                            <br />
+                                            @Html.CheckBoxFor(x => x.Ativo, new { @id = "Ativo"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Empresa de Registro (RH):</label>
+                                            <br />
+                                            @Html.ListBoxFor(x => x.IdLojas, new SelectList(controller.ListaLojas, "Id", "RazaoSocial"), new { @id = "lojas", @class = "form-control chosen-select max-width-95", data_placeholder = "Selecione uma empresa...", multiple = "" })
+                                            <br />
+                                            <label id="lblMensagemLojaResultado" style="max-width: 300px; color: #b94a48;"></label>
+                                            @Html.ValidationMessageFor(x => x.Lojas, "Selecione a(s) Empresas(s)!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>CPF:</label>
+                                            <br />
+                                            @Html.HiddenFor(x => x.IdDocumentoCpf, new { @id = "hdnCpf" })
+                                            @Html.TextBoxFor(x => x.Cpf, new { @id = "cpf", @class = "form-control", onchange = "validaCPF(this);" })
+                                            @Html.ValidationMessageFor(x => x.Cpf, "Informe um CPF válido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>RG:</label>
+                                            <br />
+                                            @Html.HiddenFor(x => x.IdDocumentoRg, new { @id = "hdnRg" })
+                                            @Html.TextBoxFor(x => x.Rg, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Rg, "Informe o RG!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Data de Nascimento:</label>
+                                            <br />
+                                            @Html.TextBoxFor(x => x.DataNascimento, new { @id = "dtNascimento", Value = Model != null && Model.DataNascimento > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataNascimento.Value.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                            @Html.ValidationMessageFor(x => x.DataNascimento, "Informe a Data!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom-5">
+                                    <div class="col-xs-12">
+                                        @Html.Partial("../Contact/_SearchAddressByCEP", Model != null && Model.Enderecos.Count > 0 ? Model.Enderecos.FirstOrDefault() : new EnderecoViewModel())
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom-5">
+                                    <div class="col-xs-12">
+                                        @Html.Partial("../Contact/_Contacts", Model != null && Model.Contatos != null ? Model.Contatos.ToList() : new List<ContatoViewModel>())
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom-5">
+                                    <div class="pull-right margin-right-10">
+                                        <a class="btn btn-lg btn-danger" href="/pessoa/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                    </div>
+                                    <div class="pull-right margin-right-10">
+                                        <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Pesquisa de Pessoas</h2>
+                    </header>
+                    <div class="widget-body">
+                        <div class="col-xs-12 margin-bottom-25">
+                            <div class="col-md-3">
+                                <label>Nome:</label>
+                                <br />
+                                @Html.TextBoxFor(x => x.NomePesquisa, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>CPF:</label>
+                                <br />
+                                @Html.TextBoxFor(x => x.CPFPesquisa, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2" style="margin-top: 30px;">
+                                <a class="btn btn-primary" id="pesquisar" onclick="BuscarPessoas();"><i class="fa fa-search"></i>&nbsp;Pesquisar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget hide-toolbar" id="wid-id-3" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i></span>
+                        <div><h2 style="margin-left: 10px;float: left;">Lista de Pessoas</h2></div>
+                    </header>
+                    <div>
+                        <div class="widget-body lista-pessoas">
+                            <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="hasinput" style="width: 5%">
+                                            <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                        </th>
+                                        <th class="hasinput" style="width: 20%">
+                                            <input type="text" class="form-control" placeholder="Filtrar Nome" />
+                                        </th>
+                                        <th class="hasinput" style="width: 10%">
+                                            <input type="text" class="form-control" placeholder="Filtrar CPF" />
+                                        </th>
+                                        <th class="hasinput" style="width: 10%">
+                                            <input type="text" class="form-control" placeholder="Filtrar RG" />
+                                        </th>
+                                        <th class="hasinput" style="width: 8%">
+                                            <input type="text" class="form-control" placeholder="Filtrar Sexo" />
+                                        </th>
+                                        <th class="hasinput" style="width: 8%">
+                                            <input type="text" class="form-control" placeholder="Filtrar Dt Nasc" />
+                                        </th>
+                                        <th class="hasinput" style="width: 30%">
+                                            <input type="text" class="form-control" placeholder="Filtrar Endereço" />
+                                        </th>
+                                        <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th data-hide="phone">Id</th>
+                                        <th data-hide="expand">Nome: </th>
+                                        <th data-hide="phone">CPF: </th>
+                                        <th data-hide="phone">RG: </th>
+                                        <th data-hide="phone">Sexo: </th>
+                                        <th data-hide="phone">Dt Nasc: </th>
+                                        <th data-hide="phone">Endereço: </th>
+                                        <th data-class="expand">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>

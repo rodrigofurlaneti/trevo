@@ -1,0 +1,101 @@
+﻿<!-- ASIDE DESKTOP -->
+<link href="~/Content/css/aside/aside-desktop.css" rel="stylesheet" />
+<aside id="left-panel" class="aside-desktop">
+
+    <div class="div-aside">
+        <div class="col-md-12" style="min-height: 0px;">
+
+            <div class="col-md-1 scroller-area">
+                <div class="btn-header transparent pull-left">
+                    <a id="aNotify" title="Notificações" class="notif button-badge">
+                        <i id="iconNotify" class="faBlack fa fa-bell-o"></i>
+                        <span id="countNotify" class="badge badge-red badge-alert"></span>
+                    </a>
+                    <ul class="dropdown-menu menu-ul" id="myNotifyList"></ul>
+                </div>
+            </div>
+
+            <div class="col-md-1 scroller-area">
+                <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+            </div>
+            <div class="col-md-7" style="text-align:center;">
+                @{ Html.RenderAction("RetornaPartialMenusLaterais", "Account", new { isMobile = false }); }
+            </div>
+            <div class="col-md-1 scroller-area">
+                <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="btn-header transparent pull-right">
+                    <span>
+                        <a href="@Url.Action("Index", "Home")" title="Home">
+                            <i class="fa fa-home"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="btn-header transparent pull-right">
+                    <span>
+                        <a href="@Url.Action("Logout", "Account")" title="Sair" data-action="userLogout">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<div id="modalNot" class="modal fade" role="dialog" style="z-index:9999999;">
+    <div id="mdlDialogNotify" class="modal-dialog modal-fitContent">
+        <div class="modal-content col-xs-12 col-md-12 no-padding modal-fitContent">
+            <div id="myNot" class="modal-body col-xs-12 col-md-12 modal-maxContent" style="overflow: auto;">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalNotGeral" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">
+                    <img src="/Content/img/nty.png" style="height: 50px; width: 50px">
+                    Notificações
+                </h4>
+            </div>
+            <div class="modal-body" id="myAllNotifications">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Aside/aside-desktop.js"></script>
+<!-- END ASIDE DESKTOP -->
+<!-- ASIDE MOBILE -->
+<link href="~/Content/css/aside/aside-mobile.css" rel="stylesheet" />
+<aside id="left-panel-mobile" class="aside-mobile no-print">
+    <div class="div-aside">
+        <div class="col-xs-12 col-md-12 no-padding" style="min-height: 0px;">
+            @{ Html.RenderAction("RetornaPartialMenusLaterais", "Account", new { isMobile = true }); }
+        </div>
+    </div>
+</aside>
+@{
+    @Scripts.Render("~/Scripts/Notificacao/Notificacao.js")
+    @Styles.Render("~/content/css/Notificacao/notificacoes.css")
+}
+<!-- END ASIDE MOBILE -->

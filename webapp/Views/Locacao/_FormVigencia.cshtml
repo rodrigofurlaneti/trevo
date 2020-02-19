@@ -1,0 +1,41 @@
+﻿@using Core.Extensions
+@using Entidade.Uteis
+@using Aplicacao.ViewModels
+@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller as LocacaoController;
+}
+
+<div style="margin-top: 20px;">
+    <div>
+        @Html.Hidden("id")
+        <fieldset>
+            <section>
+                <p>Lançamentos Adicionais</p>
+                <div class="col-md-12 no-padding">
+                    <div class="row">
+                        <div class="col-xs-4 no-padding">
+                            <label>Descrição</label><br />
+                            @Html.TextBox("descricao", "", new { @class = "form-control", @style = "display:inline; max-width: 95% !important;", @maxlength = "100" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 no-padding">
+                            <label>Valor: </label>
+                            @Html.TextBox("valoritem", "", new { @id = "valoritem", @class = "form-control heightfield valmoney", @autocomplete = "off", @maxlength = "18" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 no-padding">
+                            <div class="pull-right margin-right-10">
+                                <button type="button" class="btn btn-primary" id="add-address" onclick="adicionarItem()"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</button>
+                                <button type="button" class="btn btn-danger" id="cancel" style="display:none; margin-top:2px;" onclick="cancelarEdicaoDeItem()"><i class="fa fa-minus-circle"></i>&nbsp;Cancelar Edição</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </fieldset>
+    </div>
+</div>

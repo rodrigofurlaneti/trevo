@@ -1,0 +1,193 @@
+﻿@using Entidade.Uteis
+@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ClienteCadastroViewModel
+
+@{
+    ViewBag.Title = "Cadastrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ClienteController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/cliente/cliente.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/contact/search-address-by-cep.css")
+    @Styles.Render("~/content/css/contact/contacts.css")
+
+
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/cliente/search-address-by-cep-with-grid.js")
+    @Scripts.Render("~/Scripts/contact/contacts.js")
+    @Scripts.Render("~/Scripts/jquery.inputmask.bundle.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/Modelo/modelo-autocomplete.js")
+    @Scripts.Render("~/Scripts/Marca/marca-autocomplete.js")
+    @Scripts.Render("~/Scripts/cliente/cliente-cadastro.js")
+    @Scripts.Render("~/Scripts/OcorrenciaCliente/ocorrencia-cliente.js")
+    @Scripts.Render("~/Scripts/cliente/search-address-by-cep-with-grid-comercial.js")
+    @Scripts.Render("~/Scripts/veiculo/veiculo-cadastro-cliente.js")
+    @Scripts.Render("~/Scripts/cliente/cliente-autocomplete.js")
+    @Scripts.Render("~/Scripts/ContratoMensalista/ContratoMensalista.js")
+
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Cliente
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDadosCadastroCliente", "Cliente", FormMethod.Post, new { id = "ClienteForm" }))
+                                {
+                                    @Html.HiddenFor(x => x.Cliente.Id, new { @id = "hdnCliente" })
+                                    @Html.HiddenFor(x => x.ClienteId, new { @id = "hdnClienteCadastro" })
+                                    <div id="conteudo" class="row">
+                                        <div class="row margin-bottom-5">
+                                            <div class="col-xs-12">
+                                                <label>Tipo de pessoa:</label>
+                                                <br />
+                                                <div class="pull-left padding-left-15">
+                                                    <label>
+                                                        @Html.RadioButtonFor(x => x.Cliente.TipoPessoa, (int)TipoPessoa.Fisica, new { @id = "tipo-pessoa-fisica", Checked = "checked" }) Física
+                                                    </label>
+                                                </div>
+                                                <div class="pull-left padding-left-15">
+                                                    <label>
+                                                        @Html.RadioButtonFor(x => x.Cliente.TipoPessoa, (int)TipoPessoa.Juridica, new { @id = "tipo-pessoa-juridica" }) Jurídica
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tipocontratofiltro" class="col-xs-4 col-md-4">
+                                            @Html.LabelFor(x => x.Cliente.ListaUnidade, "Unidades: ", new { @class = "espacoControle" })
+                                            <br />
+                                            @Html.ListBoxFor(x => x.Cliente.ListaUnidade, new SelectList(controller.ListaUnidades, "Id", "Nome"), new { @id = "unidades", @class = "chosen-select", data_placeholder = "Selecione as Unidades...", multiple = "" })
+                                        </div>
+                                        <div class="col-xs-12 col-md-2">
+                                            <label>Exige Nota Fiscal:</label><br />
+                                            @Html.CheckBoxFor(x => x.Cliente.ExigeNotaFiscal, new { @id = "exigeNotaFiscal", @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-12 col-md-2">
+                                            <label>Nota Fiscal s/Desconto:</label><br />
+                                            @Html.CheckBoxFor(x => x.Cliente.NotaFiscalSemDesconto, new { @id = "nota-fiscal-sem-desconto", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="container-pessoa-fisica col-xs-12 col-md-12 no-padding" style="display: none">
+                                        <div id="conteudo" class="row margin-bottom-5">
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>CPF:</label>
+                                                @Html.HiddenFor(x => x.Cliente.Pessoa.IdDocumentoCpf, new { @id = "hdnCpf" })
+                                                @Html.TextBoxFor(x => x.Cliente.Pessoa.Cpf, new { @id = "cpf", @class = "form-control", onchange = "validaCPF(this);" })
+                                                @Html.ValidationMessageFor(x => x.Cliente.Cpf, "Informe um CPF válido!", new { @class = "text-danger" })
+                                                @Html.HiddenFor(x => x.Cliente.Pessoa.Cpf, new { @id = "hdnCpfDoc" })
+                                            </div>
+                                        </div>
+                                        <div id="conteudo" class="row margin-bottom-5">
+                                            <div class="col-xs-3">
+                                                <label>Nome:</label>
+                                                @Html.TextBoxFor(x => x.Cliente.Pessoa.Nome, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Cliente.Pessoa.Nome, "Informe o Nome!", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="col-xs-12 no-padding">
+                                                    <label>Data de Nascimento:</label>
+                                                    <br />
+                                                    @Html.TextBoxFor(x => x.Cliente.Pessoa.DataNascimento, new { @id = "dtNascimento", Value = Model != null && Model.Cliente.Pessoa.DataNascimento.HasValue && Model.Cliente.Pessoa.DataNascimento != DateTime.MinValue ? Model.Cliente.Pessoa.DataNascimento.Value.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate", @autocomplete = "off" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-pessoa-juridica col-xs-12 col-md-12 no-padding" style="display: none">
+                                        <div id="conteudo" class="row margin-bottom-5 col-xs-12 col-md-12 no-padding">
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>CNPJ:</label>
+                                                @Html.TextBoxFor(x => x.Cliente.Cnpj, new { @id = "cnpj", @class = "form-control", onchange = "validaCNPJ(this);" })
+                                                @Html.ValidationMessageFor(x => x.Cliente.Cnpj, "Informe o Cnpj!", new { @class = "text-danger" })
+                                                @Html.HiddenFor(x => x.Cliente.Cnpj, new { @id = "hdnCnpjDoc" })
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label>Razão Social:</label>
+                                                @Html.TextBoxFor(x => x.Cliente.RazaoSocial, new { @id = "razao_social", @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Cliente.RazaoSocial, "Informe a Razão Social!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-12 no-padding">
+                                        <div id="conteudo" class="row margin-bottom-5">
+                                            <div id="div-endereco-comercial" class="row margin-bottom-5">
+                                                <div class="col-xs-12">
+                                                    @Html.Partial("../Cliente/_SearchAddressByCEPWithGridComercial", Model)
+                                                </div>
+                                            </div>
+                                            <div id="div-endereco-residencial" class="row margin-bottom-5">
+                                                <div class="col-xs-12">
+                                                    @Html.Partial("../Cliente/_SearchAddressByCEPWithGridResidencial", Model)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../Cliente/_Contato", Model)
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../Cliente/_Veiculo", Model?.Cliente?.Veiculos?.Select(x => x?.Veiculo)?.ToList() ?? new List<VeiculoViewModel>())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../Cliente/_ContratoMensalista", Model)
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../Cliente/_GridContratoMensalista", controller.ListaContratosMensalistas ?? new List<ContratoMensalistaViewModel>())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../OcorrenciaCliente/_CamposCadastroCliente", Model?.Ocorrencia ?? new OcorrenciaClienteViewModel())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../Cliente/_ContaCorrente", Model?.Cliente.ContaCorrenteCliente ?? new ContaCorrenteClienteViewModel())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../SeloCliente/_Campos", Model?.Cliente ?? new ClienteViewModel())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-10">
+                                        <div class="pull-right margin-right-10">
+                                            <a class="btn btn-lg btn-danger" href="/cliente/cadastrar"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        </div>
+                                    </div>
+                                    <br />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

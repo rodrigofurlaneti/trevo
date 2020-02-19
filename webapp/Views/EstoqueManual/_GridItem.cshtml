@@ -1,0 +1,63 @@
+﻿@using Portal.Controllers
+@using Entidade.Uteis
+@using Core.Extensions;
+
+@model List<EstoqueManualItemViewModel>
+
+<div id="container-tables" style=" width: auto">
+    @if (Model != null && Model.Any())
+    {
+        <h3></h3>
+        <div class="table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div>
+                <table id="tabela-EstoqueManualItem" class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th data-hide="expand">Codigo</th>
+                            <th data-hide="expand">Nº Material</th>
+                            <th data-hide="expand">Estoque</th>
+                            <th data-hide="expand">Unidade</th>
+                            <th data-hide="expand">Material</th>
+                            <th data-hide="expand" class="select-item" style="display: none"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model)
+                        {
+                            <tr class="item-gerado">
+                                <td>@m.CodigoMaterial.ToString().PadLeft(7, '0')</td>
+                                <td>@m.NumeroMaterial</td>
+                                <td>@(m.Estoque != null ? m.Estoque.Nome : "")</td>
+                                <td>@(m.Unidade != null ? m.Unidade.Nome : "")</td>
+                                <td>@(m.Material != null ? m.Material.Nome : "")</td>
+                                <td class="select-item" style="display: none">
+                                    <div class="col-xs-12 nopadding input-group">
+                                        <input name="selecionalinha" type="checkbox" onChange="ArmazenarItensSelecionados(this, @m.Id)" autocomplete="off" class="form-control center-block no-float">
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3></h3>
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="tabela-EstoqueManualItem" class="table table-hover">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        Nenhum Item gerado!
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

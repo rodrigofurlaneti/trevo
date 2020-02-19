@@ -1,0 +1,28 @@
+﻿@using Core.Extensions
+@using Entidade.Uteis
+@using Aplicacao.ViewModels
+@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller as AberturaOISController;
+}
+
+<div>
+    <fieldset>
+        <section>
+            <div class="col-md-12 no-padding">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="funcionario">Funcionario:</label>
+                        @Html.DropDownList("funcionario", new SelectList(controller.ListaFuncionario, "Id", "Pessoa.Nome"), "Selecione...", new { @id = "funcionario", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-primary pull-right" id="adicionar-ois-funcionario" onclick="adicionarOisFuncionario()"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </fieldset>
+</div>

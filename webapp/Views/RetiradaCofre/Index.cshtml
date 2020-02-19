@@ -1,0 +1,48 @@
+﻿@using Aplicacao.ViewModels;
+@model RetiradaCofreViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/RetiradaCofre/RetiradaCofre.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Retirada Cofre - Aprovação
+                            </h2>
+                        </header>
+                        <div>
+                            <div id="filtros-retirada-cofre">
+                                @Html.Partial("_FiltrosRetiradaCofre")
+                            </div>
+
+                            <div id="retirada-cofre">
+
+                            </div>
+
+                            <div id="area-modal-informacoes" style="width:700px; ">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

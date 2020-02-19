@@ -1,0 +1,48 @@
+﻿@using Entidade.Uteis
+@model List<EnderecoViewModel>
+
+<div style="margin-top:50px;">
+    <div class="col-xs-12">
+        <div class="jarviswidget jarviswidget-color-blueDark margin-bottom-0" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Endereços</h2>
+            </header>
+            <table id="data_table_address" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 1%; display:none;"></th>
+                        <th style="width: 50%;">Endereços</th>
+                        <th style="width: 20%;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        for (var x = 0; x < Model.Count; x++)
+                        {
+                            <tr>
+                                <td style="display:none;">@Model[x].Id</td>
+                                <td>
+                                    @Model[x].Resumo
+                                </td>
+                                <td>
+                                    <span class="btn btn-primary" style="margin-right: 2px;" onclick="editarEndereco(@Model[x].Id)"><i class="fa fa-edit"></i></span>
+                                    <span class="btn btn-danger" style="margin-right: 3px;" onclick="removerEndereco(@Model[x].Id)"><i class="fa fa-remove"></i></span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3">
+                                Nenhum Informação Inserida
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

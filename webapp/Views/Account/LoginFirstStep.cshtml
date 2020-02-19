@@ -1,0 +1,36 @@
+﻿@model Aplicacao.ViewModels.AccountLoginModel
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+}
+
+@if (ViewBag.MsgErro != null)
+{
+    <script type="text/javascript">
+        toastr.error('@ViewBag.MsgErro', 'Login');
+    </script>
+}
+
+<div>
+    <form action="@Url.Action("LoginFirstStep", "account")" method="POST" id="login-form">
+        <div>@Html.ValidationMessage("ErroLogin")</div>
+        @Html.HiddenFor(m => m.ReturnUrl)
+        <fieldset>
+            <section class="section-cpf">
+                <div>
+                    <label>
+                        <i class="icon-append fa fa-user"></i>
+                        <input type="text" name="cpf" id="cpf" onchange="validaCPF(this);" autocomplete="off">
+                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Entre com seu login (CPF)</b>
+                    </label>
+                </div>
+            </section>
+        </fieldset>
+        <footer>
+            <button type="submit">
+                Avançar
+            </button>
+        </footer>
+    </form>
+    <script src="~/Scripts/account/login.js"></script>
+</div>

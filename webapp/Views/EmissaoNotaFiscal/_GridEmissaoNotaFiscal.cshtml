@@ -1,0 +1,118 @@
+﻿@using Core.Extensions;
+@using Entidade.Uteis;
+
+@model EmissaoNotaFiscalViewModel
+
+<div id="content">
+    <div>
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Notas Fiscais</h2>
+                    </header>
+                    <div>
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <div class="widget-body no-padding">
+                            @if (Model != null && Model.Pagamentos != null && Model.Pagamentos.Any())
+                            {
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Conta Contábil" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Data Pagamento" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Número de Documento" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Status" />
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                            </th>
+                                            <th data-hide="phone">Unidade</th>
+                                            <th data-hide="phone">Conta Contábil</th>
+                                            <th data-hide="phone">Data Pagamento</th>
+                                            <th data-hide="phone">Valor</th>
+                                            <th data-hide="phone">Número de Documento</th>
+                                            <th data-hide="phone">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Pagamentos)
+                                        {
+                                            <tr>
+
+                                                @{
+                                                    var statusAtual = "Movimento Pendente";
+                                                    if (@item.StatusEmissao != 0)
+                                                    {
+
+                                                        statusAtual = @item.StatusEmissao.ToDescription();
+                                                    }
+                                                }
+
+                                                @{ 
+                                                    var contacontabilDescricao = item.ContaContabil != null && !string.IsNullOrEmpty(item.ContaContabil.Descricao) ? item.ContaContabil.Descricao : "";
+                                                    }
+
+                                                <td>
+                                                    <div class="col-xs-12 nopadding input-group">
+
+                                                        @if (item.StatusEmissao == StatusEmissao.MovimentoPendente || item.StatusEmissao == 0)
+                                                        {
+                                                            <input data-lancamentoreembolsoid="@item.Id" type="checkbox" autocomplete="off" class="form-control center-block no-float seleciona-retirada-cofre" onchange="AdicionarRetiradaSelecionada(this)">
+                                                        }
+
+                                                    </div>
+                                                </td>
+                                                <td>@item.Unidade.Nome</td>
+                                                <td>@contacontabilDescricao</td>
+                                                <td>@item.DataPagamento.ToShortDateString()</td>
+                                                <td>@item.ValorPago.ToString("C")</td>
+                                                <td>@item.NossoNumero</td>
+                                                <td>@statusAtual</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <br />
+                                <div class="row margin-bottom-5">
+                                    <div class="pull-right margin-right-10">
+                                        <button id="salvar" type="submit" onclick="ExecutarPagamentoModal()" class="btn btn-lg btn-success"><i class="fa fa-save"></i> Liberar Nota</button>
+                                        <a class="btn btn-lg btn-danger" href="/emissaonotafiscal/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <tr>
+                                        <td>
+                                            Nenhum Pagamento foi encontrado.
+                                        </td>
+                                    </tr>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

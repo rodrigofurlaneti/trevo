@@ -1,0 +1,32 @@
+﻿@using Core.Extensions
+@using Entidade.Uteis
+@using Aplicacao.ViewModels
+@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller as AberturaOISController;
+}
+
+<div>
+    <fieldset>
+        <section>
+            <div class="col-md-12 no-padding">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="categoria">Categoria:</label>
+                        @Html.DropDownList("categoria", new SelectList(controller.ListaCategoria, "Id", "Descricao"), "Selecione...", new { @id = "categoria", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                    </div>
+                    <div id="container-outra-categoria" class="col-md-6" style="display: none">
+                        <label for="outra-categoria">Outra Categoria:</label>
+                        @Html.TextBox("outraCategoria", "", new { @id = "outra-categoria", @class = "form-control"})
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-primary pull-right" id="adicionar-ois-categoria" onclick="adicionarOisCategoria()"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </fieldset>
+</div>

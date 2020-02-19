@@ -1,0 +1,180 @@
+﻿@using Entidade.Uteis
+
+@model DadosValidacaoNotificacaoDesbloqueioReferenciaModal
+
+<div class="modal fade" id="myModalBloqueioReferencia" tabindex="-1" role="dialog" aria-labelledby="myModalBloqueioReferenciaLabel" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content panel-info" id="modalContentBloqueioReferencia">
+            <div class="modal-header panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalBloqueioReferenciaLabel">Verificação Liberação de Bloqueio de Referência</h4>
+            </div>
+            <div class="modal-body">
+                <h5 id="msgBody" style="white-space:pre-line; text-align:center !important;">
+                    Aguarde enquanto a solicitação está em aprovação... <img style="width:10px; height:10px;" src="/content/img/loading.gif" />
+                    <br />
+                    Verifique o status de sua solicitação, clicando no botão "Verificar Liberação".
+                </h5>
+
+                <input id="hdnNotificacao" type="hidden" value="@(Model != null ? Model.IdNotificacao : 0)" />
+                <input id="hdnIdRegistro" type="hidden" value="@(Model != null ? Model.IdRegistro : 0)" />
+                <input id="hdnEntidadeRegistro" type="hidden" value="@(Model != null ? Model.EntidadeRegistro : 0)" />
+                <input id="hdnStatusDesbloqueioLiberacao" type="hidden" value="@(Model != null ? Model.StatusDesbloqueioLiberacao : 0)" />
+                <input id="hdnDataReferencia" type="hidden" value="@(Model != null ? Model.DataReferencia.ToShortDateString() : string.Empty)" />
+                <input id="hdnLiberacaoUtilizada" type="hidden" value="@(Model != null ? Convert.ToInt32(Model.LiberacaoUtilizada) : 0)" />
+                <input id="hdnUs" type="hidden" value="@(Model != null ? Model.UsuarioLogadoId : 0)" />
+            </div>
+            <div class="modal-footer">
+                <a id="verificar" style="display:inline;" class="btn btn-success margin-right-15" onclick="VerificarLiberacao();">Verificar Liberação</a>
+                <a id="novaLiberacao" style="display:none;" class="btn btn-info margin-right-15" onclick="NovaDeliberacao();">Solicitar Nova Liberação</a>
+                <input type="button" class="btn" data-dismiss="modal" value="Fechar" onclick="FecharModalBloqueio();" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModalBloqueioReferencia').modal({ backdrop: 'static', keyboard: false });
+
+    function VerificarLiberacao() {
+        var idNotificacao = $("#hdnNotificacao").val();
+        var idRegistro = $("#hdnIdRegistro").val();
+        var entidadeRegistro = $("#hdnEntidadeRegistro").val();
+        var statusDesbloqueioLiberacao = $("#hdnStatusDesbloqueioLiberacao").val();
+        var dataReferencia = $("#hdnDataReferencia").val();
+        var liberacaoUtilizada = $("#hdnLiberacaoUtilizada").val();
+        var usl = $("#hdnUs").val();
+
+        $.ajax({
+            url: "/BloqueioReferencia/VerificarLiberacao",
+            type: "POST",
+            dataType: "json",
+            data: {
+                IdNotificacao: idNotificacao,
+                IdRegistro: idRegistro,
+                EntidadeRegistro: entidadeRegistro,
+                StatusDesbloqueioLiberacao: statusDesbloqueioLiberacao,
+                DataReferencia: dataReferencia,
+                LiberacaoUtilizada: liberacaoUtilizada,
+                UsuarioLogadoId: usl
+            },
+            success: function (result) {
+                if (result.resultado.Sucesso) {
+                    toastr.success(result.resultado.Mensagem, result.resultado.Titulo);
+                    FecharModalBloqueio();
+                }
+                else if (result.resultado.TipoModal === "warning") {
+                    toastr.warning(result.resultado.Mensagem, result.resultado.Titulo);
+                }
+                else if (result.resultado.TipoModal === "info") {
+                    toastr.info(result.resultado.Mensagem, result.resultado.Titulo);
+                }
+                else {
+                    toastr.error(result.resultado.Mensagem, result.resultado.Titulo);
+                }
+
+                $("#hdnNotificacao").val(result.Liberacao.IdNotificacao);
+                $("#hdnStatusDesbloqueioLiberacao").val(result.Liberacao.StatusDesbloqueioLiberacao);
+
+                if (result.Liberacao.StatusDesbloqueioLiberacao === 3
+                    || result.Liberacao.StatusDesbloqueioLiberacao === 4) {
+                    $('#verificar').css("display", "none");
+                    $('#novaLiberacao').css("display", "inline");
+                }
+                else {
+                    $('#verificar').css("display", "inline");
+                    $('#novaLiberacao').css("display", "none");
+                }
+
+                ////if (typeof result.resultado === "object") {
+                ////openCustomModal(null,
+                ////    null,
+                ////    result.resultado.TipoModal,
+                ////    result.resultado.Titulo,
+                ////    result.resultado.Mensagem,
+                ////    false,
+                ////    null,
+                ////    function () {
+                ////        if (result.resultado.Sucesso)
+                ////            FecharModalBloqueio();
+                ////    });
+                ////}
+            },
+            error: function (error) {
+                console.log(error.responseText);
+                hideLoading();
+            },
+            beforeSend: function () {
+                showLoading();
+            },
+            complete: function () {
+                hideLoading();
+            }
+        });
+    }
+
+    function NovaDeliberacao() {
+        var idNotificacao = $("#hdnNotificacao").val();
+        var idRegistro = $("#hdnIdRegistro").val();
+        var entidadeRegistro = $("#hdnEntidadeRegistro").val();
+        var statusDesbloqueioLiberacao = $("#hdnStatusDesbloqueioLiberacao").val();
+        var dataReferencia = $("#hdnDataReferencia").val();
+        var liberacaoUtilizada = $("#hdnLiberacaoUtilizada").val();
+        var usl = $("#hdnUs").val();
+
+        $.ajax({
+            url: "/BloqueioReferencia/NovaDeliberacao",
+            type: "POST",
+            dataType: "json",
+            data: {
+                IdNotificacao: idNotificacao,
+                IdRegistro: idRegistro,
+                EntidadeRegistro: entidadeRegistro,
+                StatusDesbloqueioLiberacao: statusDesbloqueioLiberacao,
+                DataReferencia: dataReferencia,
+                LiberacaoUtilizada: liberacaoUtilizada,
+                UsuarioLogadoId: usl
+            },
+            success: function (result) {
+                if (result.resultado.Sucesso) {
+                    toastr.success(result.resultado.Mensagem, result.resultado.Titulo);
+                    FecharModalBloqueio();
+                }
+                else if (result.resultado.TipoModal === "warning") {
+                    toastr.warning(result.resultado.Mensagem, result.resultado.Titulo);
+                }
+                else if (result.resultado.TipoModal === "info") {
+                    toastr.info(result.resultado.Mensagem, result.resultado.Titulo);
+                }
+                else {
+                    toastr.error(result.resultado.Mensagem, result.resultado.Titulo);
+                }
+
+                $("#hdnNotificacao").val(result.Liberacao.IdNotificacao);
+                $("#hdnStatusDesbloqueioLiberacao").val(result.Liberacao.StatusDesbloqueioLiberacao);
+
+                if (result.Liberacao.StatusDesbloqueioLiberacao === 3
+                    || result.Liberacao.StatusDesbloqueioLiberacao === 4) {
+                    $('#verificar').css("display", "none");
+                    $('#novaLiberacao').css("display", "inline");
+                }
+                else {
+                    $('#verificar').css("display", "inline");
+                    $('#novaLiberacao').css("display", "none");
+                }
+            },
+            error: function (error) {
+                console.log(error.responseText);
+                hideLoading();
+            },
+            beforeSend: function () {
+                showLoading();
+            },
+            complete: function () {
+                hideLoading();
+            }
+        });
+    }
+</script>

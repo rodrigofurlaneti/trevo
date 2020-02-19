@@ -1,0 +1,73 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Lista de compra</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="listaCompra && listaCompra.Itens.length > 0">
+        <h3 style="display: none;" class="cart-preview--title">Itens na lista</h3>
+        <div class="product-list_table-head">
+            <div class="itens">
+                Itens
+            </div>
+        </div>
+        <div class="cart-preview">
+            <div class="product--mini" *ngFor="let item of listaCompra.Itens">
+                <figure class="product--thumb" *ngIf="item.Produto.Informacoes.length <= 0">
+                    <img src="assets/image/produtos/default.jpg" style="border-width: 0px;">
+                </figure>
+                <figure class="product--thumb" *ngIf="item.Produto.Informacoes.length > 0">
+                    <img src="{{item.Produto.Informacoes[0].Descricao}}" style="border-width: 0px;">
+                </figure>
+                <div class="product--info">
+                    <div class="product--info---cell">
+                        <span class="spn-title">{{item.Produto.Nome}}</span>
+                    </div>
+                    <div class="product--info---cell"><div class="item-valor">R${{item.Preco.Valor.toFixed(2)}}</div><div>R${{item.Total.toFixed(2)}}</div></div>
+                    <div class="product--info---cell">
+                        <div class="product--actions">
+                            <div class="qtd-group">
+                                <button ion-button icon-only round class="btn-qtde-dec" (click)="alterarItem(item, 'menos')">
+                                    <ion-icon name="remove"></ion-icon>
+                                </button>
+                                <input type="number" min="1" class="input-qtde" [(ngModel)]="item.Quantidade" (blur)="alterarItem(item, 'blur')" />
+                                <button ion-button icon-only round class="btn-qtde-inc" (click)="alterarItem(item, 'mais')">
+                                    <ion-icon name="add"></ion-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product--info---cell">
+                        <ion-icon name="trash" class="icon-remove" (click)='removeItem(item)'></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cart-preview--subtotal">
+                <span>Subtotal</span> <b class="cart-preview--subtotal_value">R$ {{listaCompra.Total.toFixed(2)}}</b>
+            </div>
+        </div>
+
+        <div class="pre-table--action">
+            <button ion-button class="btn btn-oranger square store" (click)="continuarComprando()">Continuar Comprando</button>
+            <button ion-button class="btn btn-oranger square" (click)="finalizarCompra()">Finalizar compra</button>
+        </div>
+    </div>
+
+    <div class="cart-empty" *ngIf="!listaCompra || listaCompra.Itens.length == 0">
+        <div style="width: 65%;margin: 0 auto;">
+            <img src="assets/image/empty-cart.png" style="border-width: 0px;">
+        </div>
+
+        <h3 class="msg">Ainda não existem itens em seu carrinho</h3>
+        <div class="pre-table--action">
+            <button ion-button class="btn btn-oranger square store" (click)="continuarComprando()">Voltar às compras</button>
+        </div>
+    </div>
+</ion-content>

@@ -1,0 +1,93 @@
+﻿
+@model List<Aplicacao.ViewModels.GeracaoCNABLancamentoCobrancaViewModel>
+
+@if (Model != null && Model.Any())
+{
+    <div class="col-xs-12 col-md-12 nopadding text-right">
+        <a class="btn btn-danger btn-lg" id="retirarSelecionados" onclick="RetirarLancamentosSelecionados();"><i class="fa fa-remove"></i>&nbsp;Retirar Selecionados</a>
+    </div>
+    <div class="col-xs-12 col-md-12 nopadding">
+        <div class="widget-body">
+            <table id="datatable_fixed_column" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="hasinput" style="width: 5%">
+                            <input type="text" class="form-control" placeholder="Filtrar Codigo" />
+                        </th>
+                        <th class="hasinput" style="width: 18%">
+                            <input type="text" class="form-control" placeholder="Filtrar Sacador" />
+                        </th>
+                        <th class="hasinput" style="width: 10%">
+                            <input type="text" class="form-control" placeholder="Filtrar Dt. Geração" />
+                        </th>
+                        <th class="hasinput" style="width: 10%">
+                            <input type="text" class="form-control" placeholder="Filtrar Dt. Vencimento" />
+                        </th>
+                        <th class="hasinput" style="width: 5%">
+                            <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                        </th>
+                        <th class="hasinput" style="width: 5%">
+                            <input type="text" class="form-control" placeholder="Filtrar Valor Multa" />
+                        </th>
+                        <th class="hasinput" style="width: 5%">
+                            <input type="text" class="form-control" placeholder="Filtrar Valor Juros" />
+                        </th>
+                        <th class="hasinput" style="width: 5%">
+                            <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                        </th>
+                        <th style="width: 5%" colspan="2">
+
+                        </th>
+                    </tr>
+                    <tr>
+                        <th data-hide="expand">Codigo</th>
+                        <th data-hide="expand">Sacador</th>
+                        <th data-hide="expand">Dt. Geração</th>
+                        <th data-hide="expand">Dt. Vencimento</th>
+                        <th data-hide="expand">Valor</th>
+                        <th data-hide="expand">Valor Multa</th>
+                        <th data-hide="expand">Valor Juros</th>
+                        <th data-hide="expand">Unidade</th>
+                        <th data-hide="expand" class="text-center">
+                            <input type="checkbox" id="chktodos" onclick="CheckTodos()" class="form-control" style="display:inherit;" />
+                        </th>
+                        <th data-hide="expand" class="text-align-center">
+                            Retirar
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>@(m.Id)</td>
+                            <td>@(!string.IsNullOrEmpty(m.Cliente.Pessoa.Nome) ? m.Cliente.Pessoa.Nome : m.Cliente.NomeFantasia)</td>
+                            <td>@(m.DataGeracao.ToString("yyyy-MM-dd"))</td>
+                            <td>@(m.DataVencimento.ToString("yyyy-MM-dd"))</td>
+                            <td>@(m.ValorContrato.ToString("N2"))</td>
+                            <td>@(m.ValorMulta.ToString("N2"))</td>
+                            <td>@(m.ValorJuros.ToString("N2"))</td>
+                            <td>@(m.Unidade.Nome)</td>
+                            <td class="text-center">
+                                <input type="checkbox" id="chkuni-@(m.Id)" onclick="CheckUni(this);" class="form-control" style="display:inherit;" />
+                            </td>
+                            <td class="text-center">
+                                <a class="btn btn-danger" onclick="RetirarLancamento(@(m.Id));"><i class="fa fa-remove"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <table id="datatable_fixed_column" class="table table-striped table-bordered" style="width:100%">
+        <tr>
+            <td>
+                Nenhum Lançamento de Cobrança foi encontrado.
+            </td>
+        </tr>
+    </table>
+}

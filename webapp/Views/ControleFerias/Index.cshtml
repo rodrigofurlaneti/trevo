@@ -1,0 +1,155 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ControleFeriasViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section pagespecific {
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/ControleFerias/controle-ferias.js")
+    @Scripts.Render("~/Scripts/Funcionario/funcionario-autocomplete.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Controle de Férias
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            @using (Html.BeginForm("SalvarDados", "ControleFerias", FormMethod.Post, new { id = "controle-ferias-form", @novalidate = "novalidate" }))
+                            {
+                                @Html.HiddenFor(x => x.Id)
+
+                                <div id="conteudo">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-4">
+                                                <label>Funcionário:</label><br />
+                                                @Html.TextBoxFor(x => x.Funcionario.Pessoa.Nome, new { id = "funcionarios", @class = "form-control" })
+                                                @Html.HiddenFor(x => x.Funcionario.Id, new { id = "funcionario", @required = "required" })
+                                            </div>
+
+                                            <div class="col-xs-12 col-md-4">
+                                                <label>Unidade:</label><br />
+                                                @Html.TextBox("Unidade", "", new { id = "unidade", @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-4">
+                                                <label>Data Inicial:</label><br />
+                                                @Html.TextBoxFor(x => x.DataInicial, new { id = "data-inicial", @class = "form-control campo-data", @required = "required" })
+                                            </div>
+
+                                            <div class="col-xs-12 col-md-4">
+                                                <label>Data Final:</label><br />
+                                                @Html.TextBoxFor(x => x.DataFinal, new { id = "data-final", @class = "form-control campo-data", @required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div class="row margin-bottom-5">
+                                            <div class="pull-right margin-right-15">
+                                                <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                            </div>
+                                            <div class="pull-right margin-right-10">
+                                                <button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div id="lista-controle-ferias">
+                <div class="row">
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                            <header>
+                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                <h2>Férias Encontradas</h2>
+                            </header>
+
+                            <div>
+                                <div class="widget-body no-padding">
+
+                                    <div class="paginacao">
+                                        @Html.Partial("~/Views/Shared/_PaginacaoGenericaAjax.cshtml")
+                                    </div>
+
+                                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%" style="margin-top: 0px !important">
+                                        <thead>
+                                            <tr>
+                                                <th class="hasinput">
+                                                    <input id="coluna-busca-funcionario" type="text" class="form-control" placeholder="Filtrar Funcionário" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input id="coluna-busca-unidade" type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input id="coluna-busca-mes" type="text" class="form-control" placeholder="Filtrar Mês" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input id="coluna-busca-ano" type="text" class="form-control" placeholder="Filtrar Ano" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input id="coluna-busca-data-inicial" type="text" class="form-control mascara-data" placeholder="Filtrar Data Inicial" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input id="coluna-busca-data-final" type="text" class="form-control mascara-data" placeholder="Filtrar Data Final" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input id="coluna-busca-trabalhada" type="text" class="form-control" placeholder="Filtrar Trabalhada" />
+                                                </th>
+                                                <th>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Funcionário</th>
+                                                <th>Unidade</th>
+                                                <th>Mês</th>
+                                                <th>Ano</th>
+                                                <th>Data Inicial</th>
+                                                <th>Data Final</th>
+                                                <th>Trabalhada</th>
+                                                <th>Autorizar Trabalhar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @Html.Partial("_Grid", new List<ControleFeriasViewModel>())
+                                        </tbody>
+                                    </table>
+
+                                    <div class="paginacao">
+                                        @Html.Partial("~/Views/Shared/_PaginacaoGenericaAjax.cshtml")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+@Html.Partial("_ModalPeriodoPermitido")

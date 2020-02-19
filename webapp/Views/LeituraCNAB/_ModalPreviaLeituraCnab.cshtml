@@ -1,0 +1,171 @@
+﻿@using System.Linq
+@using Entidade
+@using Core.Extensions
+@using Entidade.Uteis;
+
+@model KeyValuePair<string, List<LeituraCNABPreviaViewModel>>
+
+<div class="row col-xs-12 col-md-12 no-padding margin-zero imprimir print">
+    <style media="print">
+        .page-header, .page-header-space {
+          height: 170px;
+        }
+
+        .page-footer, .page-footer-space {
+          height: 150px;
+        }
+
+        .page-footer {
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+        }
+
+        .page-header {
+          position: fixed;
+          top: 0mm;
+          width: 100%;
+        }
+
+        .page {
+          page-break-after: always;
+        }
+
+        @@page {
+          margin: 20mm
+        }
+
+        @@media print {
+           thead {display: table-header-group;}
+           tfoot {display: table-footer-group;}
+
+           button {display: none;}
+
+           body {margin: 0;}
+        
+            .linha {
+                font-size: 10px !important;
+            }
+
+            .text-center {
+                text-align: center !important;
+            }
+
+            h2 {
+                font-size: 12px !important;
+            }
+
+            th {
+                font-size: 12px !important;
+            }
+
+            label {
+                font-size: 12px !important;
+            }
+        }
+
+        @@media screen and (-webkit-min-device-pixel-ratio:0) {
+            .linha {
+                font-size: 10px !important;
+            }
+
+            .text-center {
+                text-align: center !important;
+            }
+        }
+    </style>
+    <div class="row col-xs-12 col-md-12 no-padding page-header" style="margin-left: 0 !important;">
+        <div class="row col-xs-12 col-md-12 no-padding" style="margin-bottom: 20px !important;">
+            <img src="~/Content/img/logo.png" style="float:left; width:150px; height:45px;" />
+            <h2 style="float:left; width:100%; position:absolute; text-align:center;">Prévia de Leitura do CNAB</h2>
+        </div>
+        <br />
+        <div class="row col-xs-12 col-md-12 no-padding" style="clear:both; height:45px; margin-bottom:5px; vertical-align:bottom; text-align:left; background-color: lightblue; 
+                color: black; border:1px solid black; padding-right:0; -webkit-print-color-adjust: exact;">
+            <table style="width:100%;">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: bottom; height: 40px; width:8%">&nbsp;Nº Cobrança</th>
+                        <th style="vertical-align: bottom; height: 40px; width:8%">Nosso Número</th>
+                        <th style="vertical-align: bottom; height: 40px; width:28%">Cliente</th>
+                        <th style="vertical-align: bottom; height: 40px; width:7%">Dt. Pagamento</th>
+                        <th style="vertical-align: bottom; height: 40px; width:8%">Pago</th>
+                        <th style="vertical-align: bottom; height: 40px; width:8%">Status</th>
+                        <th style="vertical-align: bottom; height: 40px; width:10%">Cód. Ocorrência</th>
+                        <th style="vertical-align: bottom; height: 40px; width:12%">Resultado</th>
+                        <th style="vertical-align: bottom; height: 40px; width:11%">Observação</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        @{
+            if (Model.Value == null || !Model.Value.Any())
+            {
+                <div class="row col-xs-12 col-md-12 no-padding float-left" style="border-bottom: 1px solid black; background-color:#ededed; margin-bottom:0;">
+                    <label>Não possui dados para exibir</label>
+                </div>
+            }
+            else
+            {
+                <br />
+                <div class="row col-xs-12 col-md-12 no-padding margin-bottom-0 float-left" style="border-bottom: 1px solid black;">
+                    <label><b>Arquivo:</b> @Model.Key</label>
+                </div>
+                <br />
+            }
+        }
+    </div>
+    @{
+        if (Model.Value != null && Model.Value.Any())
+        { 
+            <table class="row col-xs-12 col-md-12" style="width:100%;">
+                <thead>
+                    <tr>
+                        <td>
+                            <div class="page-header-space"></div>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Value.Count; i++)
+                    {
+                        var item = Model.Value[i];
+
+                        <tr style="background-color: @(i % 2 == 0 ? "#9bd4f550;" : "white;" ) -webkit-print-color-adjust: exact;">
+                            <td style="width:8%" class="linha">&nbsp;@item.CobrancaId</td>
+                            <td style="width:8%" class="linha">@item.NossoNumero</td>
+                            <td style="width:28%" class="linha">@item.Cliente</td>
+                            <td style="width:7%" class="linha">@item.DataPagamento.ToShortDateString()</td>
+                            <td style="width:8%" class="linha">@item.ValorPago.ToString("N2")</td>
+                            <td style="width:8%" class="linha">@(item.StatusCobranca)</td>
+                            <td style="width:10%" class="linha">@(item.CodigoOcorrencia)</td>
+                            <td style="width:12%" class="linha">@(item.Resultado)</td>
+                            <td style="width:11%" class="linha">@item.Observacao</td>
+                        </tr>
+                    }
+                    <tr style="background-color: #ededed; -webkit-print-color-adjust: exact;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="linha">@(Model.Value.Sum(x => x.ValorPago).ToString("N2"))</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <div class="row col-xs-12 col-md-12 nopadding margin-bottom-0 float-left">
+                <label style="float:left; text-align:left;">Total Geral: @Model.Value.Count</label>
+            </div>
+        }
+    }
+</div>
+<div class="row col-xs-12 col-md-12 col-lg-12 text-align-center margin-top-10">
+    <a id="imprimirRelatorio" onclick="Imprimir()" class="btn btn-lg btn-warning" style="margin-right:40px;"><i class="fa fa-print"></i> Imprimir</a>
+
+    <a id="fecharRelatorio" onclick="Cancelar()" class="btn btn-lg btn-danger"><i class="fa fa-remove"></i> Cancelar</a>
+</div>

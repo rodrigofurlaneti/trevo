@@ -1,0 +1,53 @@
+﻿@using Core.Extensions
+@model DadosModal
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content panel-@(Model.TipoModal.ToDescription())" id="modalContent">
+            <div class="modal-header panel-heading">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">@Model.Titulo</h4>
+            </div>
+            <div class="modal-body">
+                <h5 style="white-space:pre-line">@(Html.Raw(Model.Mensagem))</h5>
+            </div>
+            <div class="modal-footer">
+                @if (!string.IsNullOrEmpty(Model.AcaoConfirma))
+                {
+                    @Html.ActionLink(Model.TituloConfirma, Model.AcaoConfirma, new { id = Model.Id }, new { @class = "btnAction btn btn-" + Model.TipoModal.ToDescription() })
+                }
+                else if (!string.IsNullOrEmpty(Model.AcaoFunction))
+                {
+                    <input id="@(Model != null ? Model.Id : 0)" value="@(Model.TituloConfirma)" type="button" class="btnAction btn btn-@(Model.TipoModal.ToDescription())" onclick="@(Model.AcaoFunction)" />
+                }
+                <input type="button" class="btn" data-dismiss="modal" value="Fechar" onclick="redirectCofirmation();" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').modal();
+    
+    function redirectCofirmation () {
+        var modalType = '@Model.TipoModal'
+        var redirect = '@Model.RedirectUrl';
+
+        if (modalType == 'Success' && window.location.pathname.indexOf('confirmardelete') >= 0) {
+            window.location = window.location.origin + "/" + window.location.pathname.split('/')[1] + "/Index";
+            return true;
+        }
+
+        if (!redirect && modalType == 'Success')
+            redirect = "Index";
+
+        if (redirect) {
+            window.location = redirect;
+            return true;
+        }
+    }
+</script>

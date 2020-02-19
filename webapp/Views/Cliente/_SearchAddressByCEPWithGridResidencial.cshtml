@@ -1,0 +1,56 @@
+﻿
+@using Core.Extensions
+@using Entidade.Uteis
+@using Aplicacao.ViewModels
+@model ClienteCadastroViewModel
+
+<div style="margin-top: 20px;">
+    <div>
+        @Html.Hidden("id")
+        @Html.Hidden("blacklist")
+        @Html.Hidden("tipoMotivo")
+        @Html.Hidden("descricaoMotivo")
+        <fieldset>
+            @Html.Label("Endereço Residencial", new { style = "font-weight: bold; font-size: 1.17em;" })
+            <section>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>Cep:</label><br />
+                        @Html.TextBoxFor(x => x.EnderecoResidencial.Cep, new { @id = "zipcode", @class = "form-control", @style = "display:inline; max-width: 98% !important;", @maxlength = "9" })
+                        <span class="icon"><i id="search-icon" class="fa fa-search"></i></span>
+                        <span id="invalid_zipcode" style="color: #b94a48; display: none;">Cep Inválido!</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Endereço:</label>
+                        @Html.TextBoxFor(x => x.EnderecoResidencial.Logradouro, new { @id = "address", @class = "form-control" })
+                    </div>
+                    <div class="col-md-1">
+                        <label>Nº:</label>
+                        @Html.TextBoxFor(x => x.EnderecoResidencial.Numero, new { @id = "number", @class = "form-control" })
+                    </div>
+                    <div class="col-md-2 no-padding">
+                        <label>Complemento:</label>
+                        @Html.TextBoxFor(x => x.EnderecoResidencial.Complemento, new { @id = "complement", @class = "form-control" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Bairro:</label>
+                        @Html.TextBoxFor(x => x.EnderecoResidencial.Bairro, new { @id = "district", @class = "form-control" })
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>Cidade:</label>
+                        @Html.TextBoxFor(x => x.EnderecoResidencial.Cidade.Descricao, new { @id = "city", @class = "form-control" })
+                        @Html.HiddenFor(x => x.EnderecoResidencial.Cidade.Id, new { @id = "city-id" })
+                    </div>
+                    <div class="col-sm-2">
+                        <label>Estado:</label>
+                        @Html.TextBoxFor(x => x.EnderecoResidencial.Estado, new { @id = "state", @class = "form-control" })
+                    </div>
+                </div>
+            </section>
+        </fieldset>
+    </div>
+</div>

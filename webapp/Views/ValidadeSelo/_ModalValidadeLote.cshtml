@@ -1,0 +1,58 @@
+﻿@model Aplicacao.ViewModels.EmissaoSeloViewModel
+
+<h3 class="text-center">Defina uma nova validade</h3>
+
+<br />
+@{
+
+    var item = Model;
+
+    <input id="idemissaoselo" value=@item.Id type="hidden" />
+
+    <div class="col-xs-12 col-sm-12">
+        <div class="col-xs-4 heightline">
+            <label>Numero Lote:</label>
+        </div>
+        <div class="col-xs-8 heightline" style="margin-bottom:30px;">
+            <p>@item.Id.ToString().PadLeft(8, '0')</p>
+        </div>
+        <div class="col-xs-4 heightline">
+            <label>Nova Validade:</label>
+        </div>
+        <div class="col-xs-8 heightline">
+            @Html.TextBoxFor(x => x.Validade, new { @id = "numerodocumento", Value = Model != null && Model.Validade > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.Validade.Value.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+
+        </div>
+    </div>
+
+}
+<div class="col-xs-12 col-sm-12">
+    <div class="pull-right margin-right-10">
+        <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">
+            <i class="fa fa-save"></i> Cancelar
+        </button>
+    </div>
+    <div class="pull-right margin-right-10">
+        <button type="button" class="btn btn-lg btn-primary" onclick="ConfirmarAlteracao();" data-dismiss="modal">
+            <i class="fa fa-save"></i> Alterar
+        </button>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        FormatarCampoData('numerodocumento');
+
+
+       //$(window).load(function () {
+
+        //    $("input[name=valorAPagar]").val(0);
+        //    alert('teste2');
+
+        //});
+    });
+
+
+</script>

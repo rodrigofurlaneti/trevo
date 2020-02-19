@@ -1,0 +1,62 @@
+﻿@model Aplicacao.ViewModels.AccountLoginModel
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+}
+
+<link href="~/Content/css/account/login.css" rel="stylesheet" />
+
+<div id="content" class="container">
+    <div class="home-button" onclick="window.location = '/';">
+        <i class="fa fa-home"></i>
+    </div>
+    <div class="logo-cacau-second-step">
+        <img src="../content/img/logo.png">
+    </div>
+    <div class="row no-lateral-margins login-area-second-step">
+        <div class="well no-padding">
+            <div>
+                <form action="@Url.Action("Login", "account")" method="POST" id="login-form">
+                    <div>@Html.ValidationMessage("ErroLogin")</div>
+                    @Html.HiddenFor(m => m.ReturnUrl)
+                    @Html.HiddenFor(x => x.CPF)
+                    <fieldset>
+                        <section>
+                            <div>
+                                @if (Model.Sexo.Contains("Masc"))
+                                {
+                                    <label class="welcome">Bem-Vindo, @Model.Nome</label>
+                                }
+                                else
+                                {
+                                    <label class="welcome">Bem-Vinda, @Model.Nome</label>
+                                }
+                            </div>
+                            <div class="img-profile">
+                                <img src="@(!string.IsNullOrEmpty(Model.Imagem) ? Model.Imagem : "../../content/img/avatars/sunny.png")" />
+                            </div>
+                        </section>
+                        <section class="section-password">
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                <input type="password" name="password">
+                            </label>
+                            <div class="note">
+                                <a href="@Url.Action("ForgotPassword", "Account")">Esqueceu sua senha?</a>
+                            </div>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit">
+                            Entrar
+                        </button>
+                    </footer>
+                </form>
+                <button onclick="history.back()">
+                    Voltar
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/account/login.js"></script>
+</div>

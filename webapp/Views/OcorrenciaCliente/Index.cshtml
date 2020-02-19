@@ -1,0 +1,187 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@using Entidade.Uteis;
+@model OcorrenciaClienteViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as OcorrenciaClienteController;
+    var statusList = Enum.GetValues(typeof(StatusOcorrencia)).OfType<StatusOcorrencia>().Select(m => new { Text = m.ToString(), Value = (int)m }).ToList();
+    statusList.Add(new { Text = "Todos", Value = 0 });
+
+    var origemList = Enum.GetValues(typeof(TipoOrigem)).OfType<TipoOrigem>().Select(m => new { Text = m.GetDescription(), Value = (int)m }).ToList();
+    origemList.Add(new { Text = "Selecione uma origem", Value = 0 });
+
+    var tipoPrioridadeList = Enum.GetValues(typeof(TipoPrioridade)).OfType<TipoPrioridade>().Select(m => new { Text = m.GetDescription(), Value = (int)m }).ToList();
+    tipoPrioridadeList.Add(new { Text = "Selecione uma prioridade", Value = 0 });
+
+    var statusOcorrenciaList = Enum.GetValues(typeof(StatusOcorrencia)).OfType<StatusOcorrencia>().Select(m => new { Text = m.GetDescription(), Value = (int)m }).ToList();
+    statusOcorrenciaList.Add(new { Text = "Selecione um status", Value = 0 });
+
+    var TipoNaturezaList = Enum.GetValues(typeof(TipoNatureza)).OfType<TipoNatureza>().Select(m => new { Text = m.GetDescription(), Value = (int)m }).ToList();
+    TipoNaturezaList.Add(new { Text = "Selecione uma natureza", Value = 0 });
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/cliente/cliente.css")
+
+
+    @Scripts.Render("~/Scripts/cliente/cliente-autocomplete.js")
+    @Scripts.Render("~/Scripts/funcionario/funcionario-autocomplete.js")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/OcorrenciaCliente/ocorrencia-cliente.js")
+
+    
+}
+
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Ocorrências
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            @*@using (Html.BeginForm("SalvarDadosOcorrencia", "OcorrenciaCliente", FormMethod.Post, new { id = "OcorrenciaClienteForm" }))
+                                {*@
+                            @Html.HiddenFor(x => x.Id, new { @id = "hdnOcorrenciaCliente" })
+
+                            <div class="row col-xs-12">
+                                <div class="row col-xs-12">
+                                    <div class="col-xs-2">
+                                        <label>Número de Protocolo:</label><br />
+                                        @Html.TextBoxFor(p => p.NumeroProtocolo, new { @id = "ocorrencia-cliente-numero-protocolo", @class = "form-control" })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Competência:</label><br />
+                                        @Html.TextBoxFor(p => p.DataInsercao, new { id = "ocorrencia-cliente-data-competencia", Value = Model.DataInsercao.ToString("MM/yyyy"), @class = "form-control fieldDate" })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Origem:</label><br />
+                                        @Html.DropDownListFor(x => x.Origem, new SelectList(origemList, "Value", "Text", "Selecione uma Origem..."), new { @id = "ocorencia-origem", @class = "chosen-select form-control", data_placeholder = "Selecione uma origem..." })
+                                    </div>
+                                </div>
+                                <div class="row col-xs-12">
+                                    <div class="col-xs-3">
+                                        <label>Cliente:</label><br />
+                                        @Html.TextBoxFor(x => x.Cliente.Descricao, new { @id = "clientes", @class = "form-control" })
+                                        @Html.HiddenFor(x => x.Cliente.Id, new { @id = "cliente" })
+                                        @Html.HiddenFor(x => x.Cliente.Descricao, new { @id = "clienteText" })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Unidade:</label><br />
+                                        @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(string.Empty, "Value", "Text"), "Selecione uma unidade...", new { @id = "ocorrencia-cliente-unidade", @class = "form-control", data_placeholder = "Selecione uma unidade..." })
+                                        @Html.Hidden("ocorrencia-cliente-unidade-selecionada", (Model != null ? Model.Unidade.Id.ToString() : string.Empty), new { @id = "ocorrencia-cliente-unidade-selecionada" })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Placa Veículo:</label><br />
+                                        @Html.DropDownListFor(x => x.Veiculo.Id, new SelectList(string.Empty, "Id", "Text"), "Selecione uma placa...", new { @id = "ocorrencia-cliente-placa", @class = "form-control", data_placeholder = "Selecione uma placa..." })
+                                        @Html.Hidden("ocorrencia-cliente-placa-veiculo", (Model != null ? Model.Veiculo.Id.ToString() : string.Empty), new { @id = "placa-selecionada" })
+                                    </div>
+
+                                </div>
+                                <div class="row col-xs-12">
+                                    <div class="col-xs-3">
+                                        <label>Atribuido:</label><br />
+                                        @Html.TextBoxFor(x => x.FuncionarioAtribuido.Pessoa.Nome, new { @id = "funcionarios", @class = "form-control" })
+                                        @Html.HiddenFor(x => x.FuncionarioAtribuido.Id, new { @id = "funcionario" })
+                                        @Html.HiddenFor(x => x.FuncionarioAtribuido.Pessoa.Nome, new { @id = "funcionarioText" })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Data:</label><br />
+                                        @Html.TextBoxFor(x => x.DataOcorrencia, new { @id = "data-ocorrencia", Value = Model != null && Model.DataOcorrencia != null && Model.DataOcorrencia != DateTime.MinValue ? Model.DataOcorrencia.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Natureza:</label><br />
+                                        @Html.DropDownListFor(x => x.Natureza, new SelectList(TipoNaturezaList, "Value", "Text", "Selecione uma natureza..."), new { @id = "ocorencia-natureza", @class = "chosen-select form-control", data_placeholder = "Selecione uma natureza..." })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Prioridade:</label><br />
+                                        @Html.DropDownListFor(x => x.Prioridade, new SelectList(tipoPrioridadeList, "Value", "Text", "Selecione uma prioridade..."), new { @id = "ocorencia-prioridade", @class = "chosen-select form-control", data_placeholder = "Selecione uma prioridade..." })
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Status:</label><br />
+                                        @Html.DropDownListFor(x => x.StatusOcorrencia, new SelectList(statusOcorrenciaList, "Value", "Text", "Selecione uma status..."), new { @id = "ocorencia-status", @class = "chosen-select form-control", data_placeholder = "Selecione uma status..." })
+                                    </div>
+                                </div>
+                                <div class="row col-xs-12">
+                                    <div class="col-xs-12 col-md-12">
+                                        <label>Descrição:</label>
+                                        @Html.TextAreaFor(x => x.Descricao, new { @id = "descricao-ocorrencia", @class = "form-control", @placeholder = "Descrição Ocorrência", @rows = "5", @style = "resize: none;" })
+                                        @Html.HiddenFor(x => x.Id, new { @id = "id-ocorrencia" })
+                                    </div>
+                                </div>
+                                <div class="row col-xs-12">
+                                    <div class="col-xs-12 col-md-12">
+                                        <label>Solução:</label>
+                                        @Html.TextAreaFor(x => x.Solucao, new { @id = "ocorrencia-solucao", @class = "form-control", @placeholder = "Descrição da Solução", @rows = "5", @style = "resize: none;" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-5">
+                                <div class="pull-right margin-right-10">
+                                    <a class="btn btn-lg btn-danger" href="/OcorrenciaCliente/Index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                </div>
+                                <div class="pull-right margin-right-10">
+                                    <button id="salvar" type="submit" class="btn btn-lg btn-primary" onclick="SalvarOcorrencia()"><i class="fa fa-save"></i> Salvar</button>
+                                </div>
+                            </div>
+                            <br />
+                            @*}*@
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Buscar Ocorrências
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="col-xs-12">
+                                <div class="col-md-2">
+                                    <label>Protocolo:</label>
+                                    <br />
+                                    <input type="text" id="protocoloBusca" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Cliente:</label>
+                                    <br />
+                                    <input type="text" id="nomeBusca" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="col-xs-12">
+                                        <label>Status:</label><br />
+                                        @Html.DropDownList("Selecione um status...", new SelectList(statusList, "Value", "Text", 0), new { id = "statusBusca", @class = "chosen-select form-control", data_placeholder = "Selecione uma status..." })
+                                    </div>
+                                </div>
+                                <div class="col-xs-2">
+                                    <br />
+                                    <div class="pull-right margin-right-10 margin-top-10">
+                                        <a class="btn btn-lg btn-primary" id="buscar" onclick="event.preventDefault(); BuscarOcorrenciasCliente()" tabindex="0"><i class="fa fa-search"></i>&nbsp;Buscar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div id="lista-ocorrencias">
+
+            </div>
+        </section>
+    </div>
+</div>

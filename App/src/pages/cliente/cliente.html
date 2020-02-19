@@ -1,0 +1,91 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Dados pessoais</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="cliente" padding>
+    <div>
+        <div class="cliente-form">
+            <label>CPF *</label>
+            <input class="input-edit" [(ngModel)]="documento.Cpf" [textMask]="{mask: cpfMask, guide: false}" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>Nome *</label>
+            <input class="input-edit" [(ngModel)]="usuario.Pessoa.Nome" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>Sexo *</label>
+            <select class="input-select" [(ngModel)]="usuario.Pessoa.Sexo">
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+            </select>
+            <!--<div class="cliente-form">
+                <input class="input-radio" type="radio" value="Masculino" name="sexo" [(ngModel)]="usuario.Pessoa.Sexo">Masculino
+                <input class="input-radio" type="radio" value="Feminino" name="sexo" [(ngModel)]="usuario.Pessoa.Sexo">Feminino
+            </div>-->
+        </div>
+        <div class="cliente-form">
+            <label>Data de nascimento *</label>
+            <input class="input-edit" [(ngModel)]="usuario.Pessoa.DataNascimento" [textMask]="{mask: nascimentoMask, guide: false}" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>Celular *</label>
+            <input class="input-edit" [(ngModel)]="contato.Celular" [textMask]="{mask: celularMask, guide: false}" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>E-mail *</label>
+            <input class="input-edit" [(ngModel)]="contato.Email" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>CEP *</label>
+            <input class="input-edit" [(ngModel)]="endereco.Cep" [textMask]="{mask: cepMask, guide: false}" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>Logradouro *</label>
+            <input class="input-edit" [(ngModel)]="endereco.Logradouro" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>Numero *</label>
+            <input class="input-edit" [(ngModel)]="endereco.Numero" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>Complemento</label>
+            <input class="input-edit" [(ngModel)]="endereco.Complemento" type="text" />
+        </div>
+        <div class="cliente-form">
+            <label>Pais *</label>
+            <select class="input-select" [(ngModel)]="paisSelected">
+                <option *ngFor="let pais of paises" [value]="pais.Id">{{pais.Descricao}}</option>
+            </select>
+        </div>
+        <div class="cliente-form">
+            <label>Estado *</label>
+            <select class="input-select" [(ngModel)]="estadoSelected" (change)="onChangeEstado($event.target.value)">
+                <option *ngFor="let estado of estados" [value]="estado.Id">{{estado.Descricao}}</option>
+            </select>
+        </div>
+        <div class="cliente-form">
+            <label>Cidade *</label>
+            <select class="input-select" [(ngModel)]="cidadeSelected">
+                <option *ngFor="let cidade of cidades" [value]="cidade.Id">{{cidade.Descricao}}</option>
+            </select>
+        </div>
+        <div class="cliente-form" *ngIf="logado">
+            <label>Senha *</label>
+            <input class="input-edit" [(ngModel)]="usuario.Senha" type="password" />
+        </div>
+        <div class="cliente-form" *ngIf="logado">
+            <label>Confirmar senha *</label>
+            <input class="input-edit" [(ngModel)]="usuario.ConfirmarSenha" type="password" />
+        </div>
+    </div>
+    <div>
+        <button class="cliente-form" ion-button color="primary" block (click)="salvar()">
+            Salvar
+        </button>
+    </div>
+</ion-content>

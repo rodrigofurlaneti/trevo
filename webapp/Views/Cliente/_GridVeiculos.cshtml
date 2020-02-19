@@ -1,0 +1,70 @@
+﻿@using Entidade.Uteis
+@model IList<EnderecoViewModel>
+
+<div style="margin-top:50px;">
+    <div class="col-xs-12">
+        <div class="jarviswidget jarviswidget-color-blueDarkmargin-bottom-0" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Veículos</h2>
+            </header>
+            <table id="data_table_address" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 1%; display:none;"></th>
+                        <th style="width: 50%;">Endereços</th>
+                        <th style="width: 20%;">Ações</th>
+                        <th style="width: 28%;">Motivo</th>
+                        <th style="width: 1%; display:none;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @for (var x = 0; x < Model.Count; x++)
+                        {
+                            <tr class="@(Model[x].Blacklist ? "line-blacklist" : "" )">
+                                <td style="display:none;">@Model[x].Id</td>
+                                <td>
+                                    @Model[x].Resumo
+                                </td>
+                                <td>
+                                    <span class="btn btn-primary" style="margin-right: 2px;" onclick="editContact(this, @x)"><i class="fa fa-edit"></i></span>
+                                    <span class="btn btn-danger" style="margin-right: 3px;" onclick="removeAddress(this)"><i class="fa fa-remove"></i></span>
+                                    @if (Model[x].Blacklist && Model[x].TipoMotivo == TipoMotivo.Inclusao)
+                                    {
+                                        <span class="btn btn-success" onclick="AddBlacklist('endereco','@Model[x].Cep', '@((int)TipoMotivo.Exclusao)')"><i class="fa fa-thumbs-o-up"></i></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-danger" onclick="AddBlacklist('endereco', '@Model[x].Cep', '@((int)TipoMotivo.Inclusao)')"><i class="fa fa-thumbs-o-down"></i></span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (Model[x].TipoMotivo == TipoMotivo.Inclusao)
+                                    {
+                                        <label>@Model[x].DescricaoMotivo</label>
+                                    }
+                                </td>
+                                <td style="display: none;">
+                                    @Html.Hidden(string.Format("{0}Id", x.ToString()), Model[x].Id, new { @id = string.Format("{0}Id", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Tipo", x.ToString()), Model[x].Tipo, new { @id = string.Format("{0}Tipo", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Cep", x.ToString()), Model[x].Cep, new { @id = string.Format("{0}Cep", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Logradouro", x.ToString()), Model[x].Logradouro, new { @id = string.Format("{0}Logradouro", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Numero", x.ToString()), Model[x].Numero, new { @id = string.Format("{0}Numero", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Bairro", x.ToString()), Model[x].Bairro, new { @id = string.Format("{0}Bairro", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Cidade", x.ToString()), Model[x].Cidade, new { @id = string.Format("{0}Cidade", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Estado", x.ToString()), Model[x].Estado, new { @id = string.Format("{0}Estado", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Complemento", x.ToString()), Model[x].Complemento, new { @id = string.Format("{0}Complemento", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}Blacklist", x.ToString()), Model[x].Blacklist, new { @id = string.Format("{0}Blacklist", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}TipoMotivo", x.ToString()), (int)Model[x].TipoMotivo, new { @id = string.Format("{0}TipoMotivo", x.ToString()) })
+                                    @Html.Hidden(string.Format("{0}DescMotivo", x.ToString()), Model[x].DescricaoMotivo, new { @id = string.Format("{0}DescMotivo", x.ToString()) })
+                                </td>
+                            </tr>
+                        }
+                    }                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

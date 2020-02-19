@@ -1,0 +1,294 @@
+﻿@using Portal.Controllers
+@model Aplicacao.ViewModels.PedidoLocacaoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as PedidoLocacaoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/PedidoLocacao/pedido-locacao.css")
+    @Styles.Render("~/Content/bootstrap/datepicker/bootstrap-datepicker.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/PedidoLocacao/pedido-locacao.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Pedido Locação
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "PedidoLocacao", FormMethod.Post, new { id = "pedido-locacao-form" }))
+                                {
+                                    @Html.HiddenFor(x => x.Id)
+                                    @Html.HiddenFor(x => x.Ativo)
+                                    if (Model != null && Model.Cliente != null)
+                                    {
+                                        <input id="cliente-selecionado" type="hidden" name="name" value="@Model.Cliente.Id" />
+                                    }
+
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-4">
+                                                        <label>Unidade: </label>
+                                                        @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-4">
+                                                        <label>Cliente: </label>
+                                                        @Html.DropDownListFor(x => x.Cliente.Id, new SelectList(new List<ClienteViewModel>(), "Id", "Nome"), "Selecione...", new { @id = "cliente", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-4">
+                                                        @if (Model != null)
+                                                        {
+                                                            @Html.Hidden("TipoLocacaoSelecionada", Model.TipoLocacao.Id, new { id = "tipo-locacao-selecionada" })
+                                                        }
+                                                        <label>Tipo da Locação: </label>
+                                                        <div id="tipo-locacoes">
+                                                            @Html.Partial("_TipoLocacoes", new List<TipoLocacaoViewModel>())
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-4">
+                                                        <label>Valor: </label>
+                                                        @Html.TextBoxFor(x => x.Valor, htmlAttributes: new { @id = "valor", @class = "form-control valmoney" })
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-4">
+                                                        <label>Valor Total: </label>
+                                                        @Html.TextBoxFor(x => x.ValorTotal, htmlAttributes: new { @id = "valor-total", @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-4">
+                                                        <label>Desconto: </label>
+                                                        @Html.DropDownListFor(x => x.IdDesconto, new SelectList(controller.ListaDesconto, "Id", "Descricao"), "Selecione...", new { @id = "desconto", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row no-margin-bottom">
+                                                    <div class="col-xs-12 col-md-4">
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <label>Possui Fiador: </label>
+                                                            <div class="col-xs-12 no-padding">
+                                                                @Html.RadioButtonFor(x => x.PossuiFiador, "true", htmlAttributes: new { @id = "possui-fiador-sim", @name = "possui-fiador", @value = "true" })
+                                                                <label for="possui-fiador-sim">Sim</label>
+
+                                                                @if (Model != null && Model.PossuiFiador)
+                                                                {
+                                                                    @Html.RadioButtonFor(x => x.PossuiFiador, "false", htmlAttributes: new { @id = "possui-fiador-nao", @name = "possui-fiador", @value = "false" })
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.RadioButtonFor(x => x.PossuiFiador, "false", htmlAttributes: new { @id = "possui-fiador-nao", @name = "possui-fiador", @value = "false", @checked = "checked" })
+                                                                }
+
+                                                                <label for="possui-fiador-nao">Não</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <label>Nome do Fiador: </label>
+                                                            @Html.TextBoxFor(x => x.NomeFiador, htmlAttributes: new { @id = "nome-fiador", @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <label>Forma de Garantia: </label>
+                                                            @Html.TextAreaFor(x => x.FormaGarantia, htmlAttributes: new { @id = "forma-garantia", @class = "form-control text-area-garantia", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-4 no-padding">
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <div class="col-xs-6">
+                                                                <label>Tipo do Reajuste: </label>
+                                                                @Html.DropDownListFor(x => x.TipoReajuste, new SelectList(controller.ListaTipoReajuste, "Id", "Descricao"), "Selecione...", new { @id = "tipo-reajuste", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                            </div>
+
+                                                            <div class="col-xs-6">
+                                                                <label>Valor Reajuste: </label>
+                                                                @Html.TextBoxFor(x => x.ValorReajuste, htmlAttributes: new { @id = "valor-reajuste", @class = "form-control valmoney" })
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <div class="col-xs-6">
+                                                                <label>Inicio do Reajuste: </label>
+                                                                @Html.TextBoxFor(x => x.DataReajuste, htmlAttributes: new { @id = "data-reajuste", Value = Model != null && Model.DataReajuste > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataReajuste.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                                            </div>
+
+                                                            <div class="col-xs-6">
+                                                                <label>Prazo do Reajuste: </label>
+                                                                @Html.DropDownListFor(x => x.PrazoReajuste, new SelectList(controller.ListaPrazoReajuste, "Id", "Descricao"), "Selecione...", new { @id = "prazo-reajuste", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <div class="row no-margin-left no-margin-right col-xs-12">
+                                                                <label>Ramo de Atividade: </label>
+                                                                @Html.TextBoxFor(x => x.RamoAtividade, htmlAttributes: new { @id = "ramoatividade", @class = "form-control" })
+                                                            </div>
+
+                                                            <div class="row no-margin-left no-margin-right col-xs-6">
+                                                                <label>Valor Depósito: </label>
+                                                                @Html.TextBoxFor(x => x.ValorDeposito, htmlAttributes: new { @id = "valordeposito", @class = "form-control valmoney", Value = Model != null ? Model.ValorDeposito.ToString("N2") : "0,00" })
+                                                            </div>
+
+                                                            <div class="row no-margin-left no-margin-right col-xs-6">
+                                                                <label>Prazo de Contrato Determinado: </label>
+                                                                <div class="col-xs-12 no-padding">
+                                                                    @Html.RadioButtonFor(x => x.PrazoContratoDeterminado, "true", htmlAttributes: new { @id = "prazodeterminado-sim", @name = "prazodeterminado", @value = "true", @checked = "checked" })
+                                                                    <label for="prazodeterminado-sim">Sim</label>
+
+                                                                    @if (Model != null && Model.PrazoContratoDeterminado)
+                                                                    {
+                                                                        @Html.RadioButtonFor(x => x.PrazoContratoDeterminado, "false", htmlAttributes: new { @id = "prazodeterminado-nao", @name = "prazodeterminado", @value = "false" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.RadioButtonFor(x => x.PrazoContratoDeterminado, "false", htmlAttributes: new { @id = "prazodeterminado-nao", @name = "prazodeterminado", @value = "false" })
+                                                                    }
+
+                                                                    <label for="antecipado-nao">Não</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-4 no-padding">
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <div class="col-xs-6">
+                                                                <label>Forma de Pagamento: </label>
+                                                                @Html.DropDownListFor(x => x.FormaPagamento, new SelectList(controller.ListaFormaPagamento, "Id", "Descricao"), "Selecione...", new { @id = "forma-pagamento", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <label>Antecipado: </label>
+                                                                <div class="col-xs-12 no-padding">
+                                                                    @Html.RadioButtonFor(x => x.Antecipado, "true", htmlAttributes: new { @id = "antecipado-sim", @name = "antecipado", @value = "true" })
+                                                                    <label for="antecipado-sim">Sim</label>
+
+                                                                    @if (Model != null && Model.Antecipado)
+                                                                    {
+                                                                        @Html.RadioButtonFor(x => x.Antecipado, "false", htmlAttributes: new { @id = "antecipado-nao", @name = "antecipado", @value = "false" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.RadioButtonFor(x => x.Antecipado, "false", htmlAttributes: new { @id = "antecipado-nao", @name = "antecipado", @value = "false", @checked = "checked" })
+                                                                    }
+
+                                                                    <label for="antecipado-nao">Não</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <div class="col-xs-6">
+                                                                <label>Data do Primeira Cobrança: </label>
+                                                                @Html.TextBoxFor(x => x.DataPrimeiroPagamento, htmlAttributes: new { @id = "data-primeiro-pagamento", Value = Model != null && Model.DataPrimeiroPagamento > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataPrimeiroPagamento.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                                            </div>
+
+                                                            <div class="col-xs-6">
+                                                                <label>Valor do Primeira Cobrança: </label>
+                                                                @Html.TextBoxFor(x => x.ValorPrimeiroPagamento, htmlAttributes: new { @id = "valor-primeiro-pagamento", @class = "form-control valmoney" })
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <label class="col-xs-12">Ciclo Mensal: </label>
+
+                                                            <div class="col-xs-12">
+                                                                @if (Model != null && !Model.PossuiCicloMensal)
+                                                                {
+                                                                    @Html.RadioButtonFor(x => x.PossuiCicloMensal, "true", htmlAttributes: new { @id = "possui-ciclo-mensal-sim", @name = "possui-ciclo-mensal", @value = "false" })
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.RadioButtonFor(x => x.PossuiCicloMensal, "true", htmlAttributes: new { @id = "possui-ciclo-mensal-sim", @name = "possui-ciclo-mensal", @value = "false", @checked = "checked" })
+                                                                }
+                                                                <label for="ciclo-mensal-sim">Sim</label>
+
+                                                                @Html.RadioButtonFor(x => x.PossuiCicloMensal, "false", htmlAttributes: new { @id = "possui-ciclo-mensal-nao", @name = "possui-ciclo-mensal", @value = "true" })
+                                                                <label for="possui-ciclo-mensal-nao">Não</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <div class="col-xs-6">
+                                                                <label>Inicio Ciclo de Cobranças: </label>
+                                                                @Html.TextBoxFor(x => x.DataDemaisPagamentos, htmlAttributes: new { @id = "data-demais-pagamentos", Value = Model != null && Model.DataDemaisPagamentos > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataDemaisPagamentos.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                                            </div>
+
+                                                            <div class="col-xs-6">
+                                                                <label>Ciclo de Cobranças em Dias: </label>
+                                                                @Html.TextBoxFor(x => x.CicloPagamentos, htmlAttributes: new { @id = "ciclo-pagamentos", @class = "form-control", @type = "number" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-8 no-padding">
+                                                        @Html.Partial("_ComponenteLancamentosAdicionais", Model)
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-4 no-padding">
+                                                        <div class="row no-margin-left no-margin-right">
+                                                            <h5 class="col-xs-12">Vigência Contrato: </h5>
+
+                                                            <div class="row no-margin-left no-margin-right">
+                                                                <div class="col-xs-12">
+                                                                    <label>Data Início: </label>
+                                                                    @Html.TextBoxFor(x => x.DataVigenciaInicio, htmlAttributes: new { @id = "data-vigencia-inicio", Value = Model != null && Model.DataVigenciaInicio > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataVigenciaInicio.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row no-margin-left no-margin-right">
+                                                                <div class="col-xs-12">
+                                                                    <label>Data Fim: </label>
+                                                                    @Html.TextBoxFor(x => x.DataVigenciaFim, htmlAttributes: new { @id = "data-vigencia-fim", Value = Model != null && Model.DataVigenciaFim > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataVigenciaFim.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button id="salvar" type="submit" class="btn btn-lg btn-primary" value="SalvarDados" @(Model != null && Model.Status == Entidade.Uteis.StatusSolicitacao.Aguardando ? "disabled" : "") name="SalvarDados">Solicitar Aprovação</button>
+                                        <a id="cancelar" href="/PedidoLocacao/Index" class="btn btn-lg btn-danger" value="CancelarPedido" name="CancelarPedido">Cancelar Pedido</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+
+            <div id="lista-pedido-locacao">
+            </div>
+
+        </section>
+    </div>
+</div>
+<div id="modalDivBloqueio"></div>

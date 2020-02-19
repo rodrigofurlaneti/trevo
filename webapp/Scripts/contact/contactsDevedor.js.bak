@@ -1,0 +1,189 @@
+﻿$(document).ready(function () {
+    $("#telephone").mask("(99) 9999-9999");
+    $("#cellphone").mask("(99) 99999-9999");
+
+    $("#add-contact-dev").click(function (ele) {
+        debugger;
+        var email = $("#email").val();
+        if (email && !EmailValido(email)) {
+            toastr.error("Preencha um e-mail válido!", "E-mail Inválido!");
+            return false;
+        }
+
+        var dadosValidos = true;
+
+        var telefone = $("#telephone").val();
+        var celular = $("#cellphone").val();
+
+        if (!VerificarTelefone(telefone)) {
+            dadosValidos = false;
+        }
+
+        if (!VerificarCelular(celular)) {
+            dadosValidos = false;
+        }
+
+        if (!dadosValidos) {
+            e.preventDefault();
+            return false;
+        }
+
+        var contact = [
+            document.getElementById("email").value,
+            document.getElementById("telephone").value,
+            document.getElementById("cellphone").value
+        ];
+
+        for (var i = 0; i < contact.length; i++) {
+            if (contact[i]) {
+                $('#data_table_contacts_dev tbody')
+                    .append('<tr>' +
+                        '<td style="display:none;" id="id_contact">' + (idContactInEdit ? idContactInEdit : 0) + '</td>' +
+                        '<td class="col-xs-10">' + contact[i] + '</td>' +
+                        '<td class="col-xs-2">' +
+                        '<span class="btn btn-primary" style="margin-right: 10px;" onclick="editContact(this)"><i class="fa fa-edit"></i></span>' +
+                        '<span class="btn btn-danger" onclick="removeContact(this)"><i class="fa fa-remove"></i></span>' +
+                        '</td>' +
+                        '</tr>');
+            }
+        }
+
+        //for (var i = 0; i < contact.length; i++) {
+        //    if (contact[i]) {
+        //        $("#data_table_contacts_dev tbody")
+        //            .append("<tr>" +
+        //                "<td style="display:none;" id="id_contact">" + (idContactInEdit ? idContactInEdit : 0) + "</td>" +
+        //                "<td class="col-xs-10">" + contact[i] + "</td>" +
+        //                "<td class="col-xs-2">" +
+        //                "<span class="btn btn-primary" style="margin-right: 10px;" onclick="editContact(this)"><i class="fa fa-edit"></i></span>" +
+        //                "<span class="btn btn-danger" onclick="removeContact(this)"><i class="fa fa-remove"></i></span>" +
+        //                "</td>" +
+        //                "</tr>");
+        //    }
+        //}
+
+        removeHiddenItems();
+        saveContacts();
+        clearFields();
+    });
+
+});
+
+var idContactInEdit;
+function saveContacts() {
+    var dt = $("#data_table_contacts_dev tbody tr");
+    //dt.splice(0, 0);
+    if ($("#data_table_contacts_dev tbody tr.odd").length > 0)
+        $("#data_table_contacts_dev tbody tr.odd").remove();
+
+    var obj = [];
+
+    for (var i = 0; i < dt.length; i++) {
+        var newObj = {
+            Id: dt[i].children[0] != undefined ? dt[i].children[0].innerText ? parseInt(dt[i].children[0].innerText) : 0 : 0,
+            Email: dt[i].children[1] != undefined ? dt[i].children[1].innerText.indexOf("@") > 0 ? dt[i].children[1].innerText : "" : "",
+            Celular: dt[i].children[1] != undefined ? dt[i].children[1].innerText.length == 15 && dt[i].children[1].innerText.indexOf("(") == 0
+                ? dt[i].children[1].innerText
+                : "" : "",
+            Telefone: dt[i].children[1] != undefined ? dt[i].children[1].innerText.length == 14 && dt[i].children[1].innerText.indexOf("(") == 0
+                ? dt[i].children[1].innerText
+                : "" : ""
+        };
+
+        if (newObj.Celular || newObj.Telefone || newObj.Email)
+            obj.push(newObj);
+    }
+
+    $.ajax({
+        url: "/contato/AdicionarContatoDevedor",
+        type: "POST",
+        dataType: "json",
+        data: { json: JSON.stringify(obj) },
+        success: function (data) { }
+    });
+
+    if (obj.length > 0 && $("#data_table_contacts_dev tbody tr.odd").length > 0)
+        $("#data_table_contacts_dev tbody tr.odd").remove();
+}
+
+function editContact(ele) {
+    var hiddenItems = $("#data_table_contacts_dev tbody tr:hidden");
+    if (hiddenItems) hiddenItems.show();
+    clearFields();
+    $("#cancel").hide();
+
+    idContactInEdit = ele.parentElement.parentElement.children[0].innerText.trim();
+    var value = ele.parentElement.parentElement.children[1].textContent.trim();
+
+    if (value.length == 15 && value.indexOf("(") == 0)
+        document.getElementById("cellphone").value = value;
+    else if (value.length == 14 && value.indexOf("(") == 0)
+        document.getElementById("telephone").value = value;
+    else if (value.indexOf("@") > 0)
+        document.getElementById("email").value = value;
+
+    $("#cancel").show();
+    $(ele.parentElement.parentElement).hide();
+
+    VisibilidadeMsgSemContatos();
+}
+
+function removeContact(ele) {
+    ele.parentElement.parentElement.remove();
+    saveContacts();
+
+    VisibilidadeMsgSemContatos();
+}
+
+function cancelEdit() {
+    var hiddenItems = $("#data_table_contacts_dev tbody tr:hidden");
+    if (hiddenItems) hiddenItems.show();
+    clearFields();
+    $("#cancel").hide();
+
+    VisibilidadeMsgSemContatos();
+}
+
+function removeHiddenItems() {
+    var hiddenItems = $("#data_table_contacts_dev tbody tr:hidden");
+    if (hiddenItems) hiddenItems.remove();
+}
+
+function clearFields() {
+    idContactInEdit = 0;
+    document.getElementById("email").value = "";
+    document.getElementById("telephone").value = "";
+    document.getElementById("cellphone").value = "";
+    $("#cancel").hide();
+}
+
+function VisibilidadeMsgSemContatos() {
+    var totalContatos = $("#data_table_contacts_dev tbody tr").length;
+    var totalContatosInvisiveis = $("#data_table_contacts_dev tbody tr:hidden").length;
+    if (totalContatos === 0 || totalContatos === totalContatosInvisiveis)
+        $("#data_table_contacts_dev tbody")
+            .append(
+                "<tr class='odd'><td valign='top' colspan='2' class='dataTables_empty'>Nenhum registro encontrado</td></tr>");
+    else
+        $("#data_table_contacts_dev tbody tr.odd").remove();
+}
+
+function VerificarTelefone(valor) {
+
+    if (!ValidaTelefone(valor)) {
+        toastr.error("Preencha um Telefone válido!", "Telefone Inválido!");
+        return false;
+    }
+
+    return true;
+}
+
+function VerificarCelular(valor) {
+
+    if (!ValidaCelular(valor)) {
+        toastr.error("Preencha um Celular válido!", "Celular Inválido!");
+        return false;
+    }
+
+    return true;
+}

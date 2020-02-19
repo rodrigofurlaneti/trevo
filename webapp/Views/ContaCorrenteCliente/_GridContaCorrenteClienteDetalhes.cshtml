@@ -1,0 +1,39 @@
+﻿@using Entidade.Uteis
+
+@model List<ContaCorrenteClienteDetalheViewModel>
+
+<div class="col-xs-12 margin-top-20" style="padding-right: 5px">
+    <table id="tableitem" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Tipo Operação</th>
+                <th>Data Referência</th>
+                <th>Valor</th>
+                <th style="width: 160px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+            <tr class="linha-beneficio-funcionario-detalhe">
+                <td>
+                    @item.TipoOperacaoContaCorrente.ToString()
+                </td>
+                <td>
+                    @(item.DataCompetencia.ToString("yyyy-MM"))
+                </td>
+                <td>
+                    @(item.Valor)
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="EditarContaCorrenteCliente(@((int)item.TipoOperacaoContaCorrente), '@(item.DataCompetencia.ToString("yyyy-MM-dd"))')"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger" onclick="RemoverContaCorrenteCliente(@((int)item.TipoOperacaoContaCorrente), '@(item.DataCompetencia.ToString("yyyy-MM-dd"))')"><i class="fa fa-remove"></i></button>
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

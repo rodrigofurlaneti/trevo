@@ -1,0 +1,133 @@
+﻿
+.heightfield{
+    height: 33px !important;
+}
+.heightline{
+    height: 37px;
+}
+
+#pointer {
+    width: 200px;
+    height: 40px;
+    position: relative;
+    background: red;
+}
+
+    #pointer:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 20px solid white;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+    }
+
+    #pointer:before {
+        content: "";
+        position: absolute;
+        right: -20px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 20px solid red;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+    }
+
+.max-width-95 {
+    max-width: 95% !important;
+}
+
+.fieldDate {
+    min-width: 100% !important;
+}
+
+#conteudo {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+#data_table_contacts tbody tr td:last-child span:first-child{
+    margin-right:2px;
+}
+
+label {
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #conteudo {
+        margin-left: 5% !important;
+        margin-right: 5% !important;
+    }
+
+    #add-contact {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+
+#search-icon {
+    position: relative;
+    z-index: 1;
+    left: -25px;
+    top: 1px;
+    color: #7B7B7B;
+    cursor: pointer;
+    width: 0;
+}
+
+#conteudo input {
+    max-width: 300px;
+}
+
+label {
+    margin-top: 10px;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0 !important;
+}
+
+.display-none {
+    display: none;
+}
+
+.line-blacklist {
+    background-color: #eed0d0 !important;
+}
+
+.nopadding {
+    padding: 0 !important;
+}
+.nopadding-left {
+    padding-left: 0 !important;
+}
+.nopadding-right {
+    padding-right: 0 !important;
+}
+
+@media only screen and (max-width: 768px) {
+    #zipcode {
+        display: inline;
+    }
+
+    #conteudo {
+        margin-left: 5% !important;
+        margin-right: 5% !important;
+    }
+
+        #conteudo input {
+            max-width: 300px !important;
+        }
+}
+
+@media only screen and (max-width: 361px) {
+    #conteudo input {
+        max-width: 294px !important;
+    }
+}

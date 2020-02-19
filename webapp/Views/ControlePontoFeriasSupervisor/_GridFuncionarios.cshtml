@@ -1,0 +1,55 @@
+﻿@using Core.Extensions;
+
+@model List<FuncionarioViewModel>
+
+<div class="row">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Lista de Funcionários</h2>
+            </header>
+
+            <div>
+                <div class="widget-body no-padding">
+
+                    <div class="paginacao">
+                        @Html.Partial("~/Views/Shared/_PaginacaoGenericaAjax.cshtml")
+                    </div>
+
+                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%" style="margin-top: 0px !important">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px">
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-unidade" type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-supervisor" type="text" class="form-control" placeholder="Filtrar Supervisor" />
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-funcionario" type="text" class="form-control" placeholder="Filtrar Funcionário" />
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Ação</th>
+                                <th>Unidade</th>
+                                <th>Supervisor</th>
+                                <th>Funcionário</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @Html.Partial("_GridFuncionariosBody", new List<FuncionarioViewModel>())
+                        </tbody>
+                    </table>
+
+                    <div class="paginacao">
+                        @Html.Partial("~/Views/Shared/_PaginacaoGenericaAjax.cshtml")
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </article>
+</div>

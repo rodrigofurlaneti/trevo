@@ -1,0 +1,57 @@
+﻿
+@model List<Aplicacao.ViewModels.DepartamentoViewModel>
+
+
+<div class="widget-body">
+    @if (Model != null && Model.Any())
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th class="hasinput" style="width: 30%">
+                        <input type="text" class="form-control" placeholder="Filtrar Nome" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Abreviação" />
+                    </th>
+                    <th class="hasinput" style="width: 30%">
+                        <input type="text" class="form-control" placeholder="Filtrar Responsável" />
+                    </th>
+                    <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                    </th>
+                </tr>
+                <tr>
+                    <th data-hide="expand">Nome</th>
+                    <th data-hide="expand">Abreviação</th>
+                    <th data-hide="expand">Responsável</th>
+                    <th data-class="expand">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.Nome</td>
+                        <td>@m.Sigla</td>
+                        <td>@(string.Join("; ", (m.DepartamentoResponsaveis?.Select(x => x.Funcionario?.Pessoa?.Nome)) ?? new List<string>()))</td>
+                        <td>
+                            <a class="btn btn-primary" href="/departamento/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                            <a class="btn btn-danger" href="/departamento/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <tr>
+                <td>
+                    Nenhum departamento foi encontrado.
+                </td>
+            </tr>
+        </table>
+
+    }
+</div>

@@ -1,0 +1,62 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model OcorrenciaFuncionarioViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section pagespecific {
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/OcorrenciaFuncionario/ocorrencia-funcionario.js")
+    @Scripts.Render("~/Scripts/Funcionario/funcionario-autocomplete.js")
+    @Scripts.Render("~/Scripts/Unidade/unidade-autocomplete.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Ocorrência Funcionário
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            @using (Html.BeginForm("SalvarDados", "OcorrenciaFuncionario", FormMethod.Post, new { id = "ocorrencia-funcionario-form", @novalidate = "novalidate" }))
+                            {
+                                <div id="conteudo">
+                                    @Html.Partial("_Campos", Model)
+
+                                    <div class="col-xs-12">
+                                        <div class="row margin-bottom-5">
+                                            <div class="pull-right margin-right-15">
+                                                <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                            </div>
+                                            <div class="pull-right margin-right-10">
+                                                <button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div id="lista-ocorrencia-funcionario">
+                @Html.Partial("_Grid", new List<OcorrenciaFuncionarioViewModel>())
+            </div>
+        </section>
+    </div>
+</div>

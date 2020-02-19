@@ -1,0 +1,32 @@
+﻿@model Aplicacao.ViewModels.PedidoLocacaoViewModel
+
+<div class="row no-margin-left no-margin-right">
+    <h5 class="col-xs-12">Lançamentos Adicionais: </h5>
+
+    <div class="row no-margin-left no-margin-right">
+        <div class="col-xs-6">
+            <label>Descrição: </label>
+            @Html.TextBox("LancamentoAdicionalDescricao", string.Empty, new { @id = "lancamento-adicional-descricao", @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="row no-margin-left no-margin-right">
+        <div class="col-xs-6">
+            <label>Valor: </label>
+            @Html.TextBox("LancamentoAdicionalValor", string.Empty, new { @id = "lancamento-adicional-valor", @class = "form-control valmoney" })
+        </div>
+    </div>
+
+    <div class="row no-margin-left no-margin-right">
+        <div class="col-xs-6">
+            <button id="adicionar-lancamento-adicional" type="button" class="btn btn-lg btn-primary pull-right" onclick="AdicionarLancamentoAdicional()">Adicionar</button>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+
+        <div id="lista-pedido-locacao-lancamentos-adicionais">
+            @Html.Partial("_GridPedidoLocacaoLancamentosAdicionais", Model?.PedidoLocacaoLancamentosAdicionais ?? new List<PedidoLocacaoLancamentoAdicionalViewModel>())
+        </div>
+    </div>
+</div>

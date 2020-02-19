@@ -1,0 +1,60 @@
+﻿@using Core.Extensions;
+
+@model List<OrcamentoSinistroCotacaoItemViewModel>
+
+<div class="row">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Lista de Registros</h2>
+            </header>
+
+            <div>
+                <div class="widget-body no-padding">
+                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%" style="margin-top: 0px !important">
+                        <thead>
+                            <tr>
+                                <th><input type="text" class="form-control" placeholder="Filtrar Data Serviço" /></th>
+                                <th><input type="text" class="form-control" placeholder="Filtrar Tipo Compra/Serviço" /></th>
+                                <th><input type="text" class="form-control" placeholder="Filtrar Oficina" /></th>
+                                <th><input type="text" class="form-control" placeholder="Filtrar Fornecedor" /></th>
+                                <th><input type="text" class="form-control" placeholder="Filtrar Status" /></th>
+                                <th><input type="text" class="form-control" placeholder="Filtrar Nova Data" /></th>
+                                <th class="hasinput" style="width: 60px" rowspan="1" colspan="1"></th>
+                            </tr>
+                            <tr>
+                                <th>Data Serviço</th>
+                                <th>Tipo Compra/Serviço</th>
+                                <th>Oficina</th>
+                                <th>Fornecedor</th>
+                                <th>Status</th>
+                                <th>Nova Data</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.DataServico</td>
+                                        <td>@item.PecaServico.Nome</td>
+                                        <td>@(item.Oficina?.Nome)</td>
+                                        <td>@(item.Fornecedor?.Nome)</td>
+                                        <td>@item.StatusCompraServico.ToDescription()</td>
+                                        <td>@item.NovaData</td>
+                                        <td>
+                                            <a class="btn btn-primary" href="@Url.Action("editar", new {orcamentoCotacaoId = item.OrcamentoSinistroCotacao.Id, pecaServicoId = item.PecaServico.Id })"><i class='fa fa-edit'></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>

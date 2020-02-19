@@ -1,0 +1,38 @@
+﻿@model List<ChaveValorCategoriaViewModel>
+
+@if (Model != null && Model.Any())
+{
+    <table id="datatable_associados" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th style="width: 70%;">@(Model.FirstOrDefault().Categoria)</th>
+                <th style="width: 30%;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (var x = 0; x < Model.Count; x++)
+            {
+                <tr>
+                    <td>
+                        @(Model[x].Descricao)
+                    </td>
+                    <td>
+                        <span class="btn btn-danger" style="margin-right: 3px;" onclick="removerAssociado(@Model[x].Id)"><i class="fa fa-remove"></i></span>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <table id="datatable_associados" class="table table-striped table-bordered" style="width:100%">
+        <tr>
+            <td>
+                Nenhum registro foi encontrado.
+            </td>
+        </tr>
+    </table>
+}

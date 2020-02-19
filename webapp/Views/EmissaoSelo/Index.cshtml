@@ -1,0 +1,289 @@
+﻿@using Portal.Controllers
+@model Aplicacao.ViewModels.EmissaoSeloViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as EmissaoSeloController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Content/bootstrap/datepicker/bootstrap-datepicker.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/EmissaoSelo/EmissaoSelo.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Emissão de Selo
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "EmissaoSelo", FormMethod.Post))
+                                {
+                                    <div class="margin-bottom-5">
+                                        @Html.HiddenFor(x => x.Id, new { @id = "hdnEmissaoSelo" })
+
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <label>Cliente:<span style="color: red">*</span></label><br />
+                                            @Html.TextBoxFor(p => p.PedidoSelo.Cliente.Descricao, new { id = "clientes", @class = "form-control" })
+                                            @Html.HiddenFor(x => x.PedidoSelo.Cliente.Id, new { id = "cliente" })
+                                            @Html.HiddenFor(x => x.PedidoSelo.Cliente.Descricao, new { id = "clienteText" })
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <label>Unidade:<span style="color: red">*</span> </label><br />
+                                            @{
+                                                if ((Model != null && Model.Id != 0))
+                                                {
+                                                    @Html.HiddenFor(x => x.PedidoSelo.Unidade.Id)
+                                                    @Html.DropDownListFor(x => x.PedidoSelo.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Descricao"), new { @id = "unidade", @class = "chosen-select form-control", @disabled = "true" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(x => x.PedidoSelo.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Descricao"), new { @id = "unidade", @class = "chosen-select form-control" })
+                                                }
+                                            }
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <label>Convênio:<span style="color: red">*</span> </label><br />
+                                            @{
+                                                if ((Model != null && Model.Id != 0))
+                                                {
+                                                    @Html.HiddenFor(x => x.PedidoSelo.Convenio.Id)
+                                                    @Html.DropDownListFor(x => x.PedidoSelo.Convenio.Id, new SelectList(controller.ListaConvenio, "Id", "Descricao"), new { @id = "convenio", @class = "chosen-select form-control", @disabled = "true" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(x => x.PedidoSelo.Convenio.Id, new SelectList(controller.ListaConvenio, "Id", "Descricao"), new { @id = "convenio", @class = "chosen-select form-control" })
+                                                }
+                                            }
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <label>Tipo de Selo: </label><br />
+                                            @{
+                                                if ((Model != null && Model.Id != 0))
+                                                {
+                                                    @Html.HiddenFor(x => x.PedidoSelo.TipoSelo.Id)
+                                                    @Html.DropDownListFor(x => x.PedidoSelo.TipoSelo.Id, new SelectList(controller.ListaTipoSelo, "Id", "Descricao"), "Selecione...", new { @id = "tiposelo", @class = "chosen-select form-control", @disabled = "true", data_placeholder = "Selecione..." })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(x => x.PedidoSelo.TipoSelo.Id, new SelectList(controller.ListaTipoSelo, "Id", "Descricao"), "Selecione...", new { @id = "tiposelo", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @*Filtrar Pedidos*@
+                                    <br />
+
+
+                                    if ((Model == null || Model.Id == 0))
+                                    {
+                                        <div class="col-md-12 margin-bottom-5 margin-top-5">
+                                            <div class="pull-right">
+                                                <span id="filtrarpedidos" class="btn btn-lg btn-primary" onclick="FiltrarPedidos()"><i class="fa fa-save"></i> Filtrar</span>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <hr />
+
+                                    <div id="validade-filtro" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 margin-bottom-5">
+                                        <label>Validade do Selo: </label>
+                                        @{
+                                            if ((Model != null && Model.Id != 0))
+                                            {
+                                                @Html.HiddenFor(x => x.Validade)
+                                                @Html.TextBoxFor(x => x.Validade, new { @id = "data-validade", Value = ((Model != null && Model.Validade != null) && Model.Validade.Value > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.Validade.Value.ToString("dd/MM/yyyy") : string.Empty), @class = "form-control fieldDate", @disabled = "true" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(x => x.Validade, new { @id = "data-validade", Value = ((Model != null && Model.Validade != null) && Model.Validade.Value > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.Validade.Value.ToString("dd/MM/yyyy") : string.Empty), @class = "form-control fieldDate" })
+                                            }
+                                        }
+                                    </div>
+
+                                    if ((Model == null || Model.Id == 0))
+                                    {
+                                        @*Pedido Selo*@
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border: solid thin;  overflow: scroll ; max-height: 300px;">
+                                                <div>
+                                                    <div class="row margin-bottom-5">
+                                                        <div id="lista-pedido-result" class="col-xs-12 no-padding">
+                                                            @Html.Partial("../EmissaoSelo/_GridPedido", new List<PedidoSeloViewModel>())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <br />
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                        <div class="pull-left">
+
+                                            @{
+                                                if (Model != null && Model.Selo != null && Model.Selo.ToList().Count > 0)
+                                                {
+                                                    <button id="gerarselos" type="button" class="btn btn-lg btn-primary" onclick="MensagemSelos()"><i class="fa fa-save"></i> Gerar Selos</button>
+                                                }
+                                                else
+                                                {
+                                                    <span id="gerarselos" class="btn btn-lg btn-primary" onclick="GerarSelos()"><i class="fa fa-save"></i> Gerar Selos</span>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @*Grid Selos*@
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="border: solid thin;  overflow: scroll ; max-height: 300px;">
+                                            <div>
+                                                <div class="row margin-bottom-5">
+                                                    <div id="lista-selo-result" class="col-xs-12">
+                                                        @Html.Partial("../EmissaoSelo/_GridSelo", (Model != null && Model.Selo != null && Model.Selo.ToList().Count > 0) ? Model.Selo.ToList() : new List<SeloViewModel>())
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="row">
+                                                <label>Nome Impressão no Selo: </label>
+                                                @Html.TextBoxFor(x => x.NomeImpressaoSelo, new { @id = "nomeImpressaoSelo", @class = "form-control", maxlength = 50 })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                        <div class="row">
+                                            <div class="pull-right margin-right-10">
+                                                <button type="submit" class="btn btn-lg btn-primary margin-right-10">
+                                                    <i class="fa fa-save"></i> Salvar
+                                                </button>
+                                                @{
+                                                    if (Model != null && Model.StatusSelo == Entidade.Uteis.StatusSelo.CanceladoLote)
+                                                    {
+                                                        <button id="btnImprimir" disabled="disabled" type="button" onclick="Imprimir()" class="btn btn-lg btn-success  margin-right-10"><i class="fa fa-print"></i> Imprimir</button>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <button id="btnImprimir" type="button" onclick="Imprimir()" class="btn btn-lg btn-success  margin-right-10"><i class="fa fa-print"></i> Imprimir</button>
+
+                                                    }
+
+
+                                                    if (Model != null && Model.Id > 0)
+                                                    {
+                                                        <a class="btn btn-lg btn-warning margin-right-10" onclick="ImprimirProtocolo()"><i class="fa fa-list"></i>&nbsp;Protocolo</a>
+                                                        <a class="btn btn-lg btn-warning" onclick="ImprimirEnvelope()"><i class="fa fa-envelope"></i>&nbsp;Envelope</a>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*Registro de Entregas*@
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <label>Entrega Realizada: </label>
+                                                <br />
+                                                @Html.CheckBoxFor(x => x.EntregaRealizada, new { @id = "entregarealizada", @class = "form-control" })
+                                            </div>
+
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <label>Data Entrega: </label><br />
+                                                @Html.TextBoxFor(x => x.DataEntrega, new { @id = "data-entrega", Value = ((Model != null && Model.DataEntrega != null) && Model.DataEntrega.Value > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataEntrega.Value.ToString("dd/MM/yyyy") : string.Empty), @class = "form-control fieldDate" })
+                                                @Html.ValidationMessageFor(x => x.DataEntrega, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <label>Cliente Remetente: </label>
+                                                <br />
+                                                @Html.TextBoxFor(x => x.ClienteRemetente, new { @id = "clienteRemetente", @class = "form-control" })
+                                            </div>
+
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <label>Responsável: </label><br />
+                                                @Html.TextBoxFor(x => x.Responsavel, new { @id = "responsavel", @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Responsavel, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div class="row margin-bottom-5">
+                                            <div class="pull-right margin-right-10">
+                                                <a id="btnTransferir" onclick="CancelarLote()" class="btn btn-lg btn-danger"><i class="fa fa-save"></i>&nbsp;Cancelar Lote</a>
+                                                <a class="btn btn-lg btn-danger" href="/EmissaoSelo/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista Emissao Selo</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div id="lista-lote-result">
+                            @Html.Partial("../EmissaoSelo/_GridLote")
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+            <!-- end row -->
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        MetodoUtil();
+    });
+</script>

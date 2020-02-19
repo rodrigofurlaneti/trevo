@@ -1,0 +1,133 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+
+@using Entidade.Uteis
+@model ContasAPagarViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ContaPagarController;
+}
+
+@*@section pagespecific{
+        @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+        @Styles.Render("~/content/css/ContaPagar/ContaPagar.css")
+        @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+        @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+        @Scripts.Render("~/Scripts/ContaPagar/ContaPagar.js")
+        @Scripts.Render("~/Scripts/jquery.moneymask.js")
+        @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    }*@
+
+@section pagespecific {
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/contaPagar/conta-pagar.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/contaPagar/conta-pagar.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Contas à Pagar
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <div class="widget-body">
+                                <div>
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Conta Financeira: </label>
+                                                @Html.DropDownListFor(x => x.ContaFinanceira.Id, new SelectList(controller.ListaContaFinanceira, "Id", "Descricao"), "Selecione uma Conta Financeira...", new { @id = "contaFinanceira", @class = "chosen-select", data_placeholder = "Selecione uma Conta Financeira..." })
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Tipo de Pagamento: </label>
+                                                @Html.DropDownListFor(x => x.TipoPagamento, new SelectList(controller.ListaTipoPagamento, "Id", "Descricao"), "Selecione um Tipo de Pagamento...", new { @id = "tipoPagamento", @class = "chosen-select form-control", data_placeholder = "Selecione um Tipo de Pagamento..." })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr />
+
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Unidade: </label>
+                                                @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione uma Unidade...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione uma Unidade..." })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Data Vencimento:</label>
+                                                @Html.TextBoxFor(x => x.DataVencimento, new { @id = "data", Value = Model != null && Model.DataVencimento > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataVencimento.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div id="conteudo" class="row">
+
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Departamento: </label>
+                                                @Html.DropDownListFor(x => x.Departamento.Id, new SelectList(controller.ListaDepartamento, "Id", "Nome"), "Selecione um Departamento...", new { @id = "departamento", @class = "chosen-select form-control", data_placeholder = "Selecione um Departamento..." })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Fornecedor:</label>
+                                                @Html.DropDownListFor(x => x.Fornecedor, new SelectList(controller.ListaFornecedor, "Id", "Descricao"), "Selecione um Fornecedor...", new { @id = "fornecedor", @class = "chosen-select form-control", data_placeholder = "Selecione um Fornecedor..." })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-12 margin-top-20 nopadding-right">
+                                            <div class="pull-right">
+                                                <button type="submit" id="pesquisar" class="btn btn-lg btn-primary" onclick="Pesquisar();">
+                                                    <i class="fa fa-search"></i> Buscar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="lista-lancamentoCobrancas">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<div id="modalPagamento" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content col-xs-12">
+            <div id="modalBodyPagamento" class="modal-body col-xs-12">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_ModalNegar")

@@ -1,0 +1,42 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model BeneficioFuncionarioViewModel
+
+<script src="~/Scripts/BeneficioFuncionario/shared-beneficio-funcionario.js"></script>
+
+@Html.HiddenFor(beneficioFuncionario => beneficioFuncionario.BeneficioFuncionarioId, new { @id = "beneficio-funcionario-id" })
+@Html.Hidden("guidSession", null, new { id = "guidSession" })
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <label>Funcionário:</label><br />
+            @Html.TextBoxFor(beneficioFuncionario => beneficioFuncionario.Funcionario.Pessoa.Nome, new { id = "beneficio-funcionario-funcionarios", @class = "form-control", @readonly = "readonly" })
+            @Html.HiddenFor(beneficioFuncionario => beneficioFuncionario.Funcionario.Id, new { id = "beneficio-funcionario-funcionario" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <div class="col-xs-12 no-padding">
+                <label>Tipo Benefício: </label>
+                @Html.DropDownList("TipoBeneficio", new SelectList(ViewBag.ListaTipoBeneficio, "Id", "Descricao"), "Selecione um...", new { @id = "beneficio-funcionario-tipo-beneficio", @class = "chosen-select", data_placeholder = "Selecione um..." })
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <div class="col-xs-12 col-md-11 no-padding">
+                <label>Valor: </label>
+                @Html.TextBox("Valor", "0,00", new { id = "beneficio-funcionario-valor", @class = "form-control valmoney" })
+            </div>
+            <div>
+                <button style="position: absolute; bottom: 0; top: initial; left: initial" class="btn btn-default" onclick="event.preventDefault(); AdicionarBeneficioFuncionario()"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="lista-beneficio-funcionario-detalhe">
+            @Html.Partial("../BeneficioFuncionario/_GridBeneficioFuncionarioDetalhes", Model?.BeneficioFuncionarioDetalhes ?? new List<BeneficioFuncionarioDetalheViewModel>())
+        </div>
+    </div>
+</div>

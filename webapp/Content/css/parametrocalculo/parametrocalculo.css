@@ -1,0 +1,49 @@
+﻿.parametro-detalhe {
+    border: 1px solid #ddd;
+}
+
+.parametro-titulo {
+    border-color: #45474b !important;
+    background: #4c4f53;
+    color: #fff;
+    height: 32px;
+    text-align: center;
+}
+
+    .parametro-titulo label {
+        font-weight: bold;
+    }
+
+.parametro-campo {
+    border: 1px solid #ddd;
+    text-align: right;
+    padding-left: 0;
+    background-color: #f9f9f9;
+    height: 32px;
+}
+
+    .parametro-campo label {
+        font-weight: bold;
+    }
+
+.align-right {
+    text-align: right;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.margin-top {
+    margin-top: 7px;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.padding-side {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+

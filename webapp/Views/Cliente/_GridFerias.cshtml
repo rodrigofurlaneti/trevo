@@ -1,0 +1,65 @@
+﻿
+@model List<FeriasClienteViewModel>
+
+@if (Model != null && Model.Any())
+{
+    <div class="col-xs-12 col-md-12">
+        <div class="jarviswidget jarviswidget-color-blueDark margin-bottom-0" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Férias Cliente</h2>
+            </header>
+            <table id="data_table_ferias" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Início</th>
+                        <th style="width: 40%;">Fim</th>
+                        <th style="width: 20%; text-align:center;">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        var item = Model[i];
+                        <tr>
+                            <td>
+                                @item.DataInicio.ToShortDateString()
+                            </td>
+                            <td>
+                                @item.DataFim.ToShortDateString()
+                            </td>
+                            <td class="text-align-center">
+                                @if (item.DataCompetencia >= new DateTime(DateTime.Now.AddMonths(1).Year, DateTime.Now.AddMonths(1).Month, 1))
+                                {
+                                    <a class="btn btn-primary" onclick="EditarItemFerias(@i, @item.Id)"><i class='fa fa-edit'></i></a>
+                                    <a class="btn btn-danger" onclick="ExcluirItemFerias(@i, @item.Id)"><i class="fa fa-remove"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        ConfigTabelaGridSemCampoFiltroPrincipal();
+    </script>
+}
+else
+{
+    <div class="col-xs-12 col-md-12">
+        <div class="jarviswidget jarviswidget-color-blueDark margin-bottom-0" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Férias Cliente</h2>
+            </header>
+            <table id="data_table_ferias" class="table table-striped table-bordered" style="width:100%">
+                <tr>
+                    <td>
+                        Nenhum registro foi encontrado.
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}

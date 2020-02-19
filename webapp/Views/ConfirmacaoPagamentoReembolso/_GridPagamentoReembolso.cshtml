@@ -1,0 +1,102 @@
+﻿@using Core.Extensions
+
+@model List<Aplicacao.ViewModels.PagamentoReembolsoViewModel>
+
+<div id="content">
+    <div>
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Lista Pagamentos de Reembolso</h2>
+                    </header>
+                    <div>
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <div class="widget-body no-padding">
+                            @if (Model != null && Model.Any())
+                            {
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Nome do Funcionário" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Data Solicitação" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Número Cobrança" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Departamento" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Número Recibo" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Status" />
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                            </th>
+                                            <th data-hide="phone">Nome do Funcionário</th>
+                                            <th data-hide="phone">Data Solicitação</th>
+                                            <th data-hide="phone">Número Cobrança</th>
+                                            <th data-hide="phone">Departamento</th>
+                                            <th data-hide="phone">Unidade</th>
+                                            <th data-hide="phone">Número Recibo</th>
+                                            <th data-hide="phone">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="col-xs-12 nopadding input-group">
+                                                        <input data-lancamentoreembolsoid="@item.Id" type="checkbox" autocomplete="off" class="form-control center-block no-float seleciona-retirada-cofre" onchange="AdicionarRetiradaSelecionada(this)">
+                                                    </div>
+                                                </td>
+                                                <td>@item.ContasAPagarViewModel.Departamento.NomeResponsaveis</td>
+                                                <td>@item.DataInsercao.ToShortDateString()</td>
+                                                <td>@item.ContasAPagarViewModel.CodigoAgrupadorParcela</td>
+                                                <td>@item.ContasAPagarViewModel.Departamento.Nome</td>
+                                                <td>@item.ContasAPagarViewModel.Unidade.Nome</td>
+                                                <td>@item.NumeroRecibo</td>
+                                                <td>@(item.StatusPagamentoReembolso.ToDescription())</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div class="col-xs-12 no-padding margin-top-5 margin-bottom-20">
+                                    <button id="Pagar" type="button" class="btn btn-lg btn-danger pull-right margin-left-5 margin-right-10" onclick="NegarPagamento()"><i class="fa fa-save"></i> Negar</button>
+                                    <button id="Pagar" type="button" class="btn btn-lg btn-primary pull-right margin-left-5" onclick="ConfirmaPagamento()"><i class="fa fa-save"></i> Pagar</button>
+                                    <button type="button" id="inf" class="btn btn-lg btn-info pull-right margin-left-5" data-toggle="modal" data-target="#myModal" onclick="VerificaRecibo()">Verificar Recibos</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <tr>
+                                        <td>
+                                            Nenhum Pagamento de Reembolso foi encontrado.
+                                        </td>
+                                    </tr>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

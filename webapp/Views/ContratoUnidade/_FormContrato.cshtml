@@ -1,0 +1,151 @@
+﻿@using Portal.Controllers
+@{
+    var controller = ViewContext.Controller as ContratoUnidadeController;
+}
+@model ContratoUnidadeViewModel
+
+<div class="row">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-collapsed" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                <h2>
+                    Contratos
+                </h2>
+            </header>
+            <div class="widget-body">
+                @using (Html.BeginForm("SalvarDados", "ContratoUnidade", FormMethod.Post, new { id = "ContratoForm" }))
+                {
+                    @*@Html.HiddenFor(x => x.Id, new { @id = "hdnId" })
+                        @Html.HiddenFor(x => x.IdCredor, new { @id = "CodigoCredorSelecionado" })
+                        @Html.HiddenFor(x => x.IdProduto, new { @id = "CodigoProdutoSelecionado" })
+                        @Html.HiddenFor(x => x.IdCarteira, new { @id = "CodigoCarteiraSelecionado" })
+
+                        @Html.HiddenFor(x => x.IdCredorCadastro, new { @id = "CodigoCredorSelecionadoCadastro" })
+                        @Html.HiddenFor(x => x.IdProdutoCadastro, new { @id = "CodigoProdutoSelecionadoCadastro" })
+                        @Html.HiddenFor(x => x.IdCarteiraCadastro, new { @id = "CodigoCarteiraSelecionadoCadastro" })*@
+
+                    <div id="formContrato">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget margin-bottom-25" id="wid-id-3" data-widget-editbutton="false" data-widget-deletebutton="false">
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                                    <h2>Informações do contrato</h2>
+                                </header>
+                                <div class="widget-body">
+                                    @Html.HiddenFor(x => x.Id, new { @id = "hdnId" })
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-12 margin-bottom-5">
+                                            <div id="unidadefiltro" class="col-xs-4">
+                                                <label>Unidade: </label>
+                                                <br />
+                                                @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                            </div>
+                                            <div id="tipocontratofiltro" class="col-xs-4">
+                                                <label>Tipo Contrato:</label>
+                                                <br />
+                                                @Html.EnumDropDownListFor(x => x.TipoContrato, "Selecione um tipo contrato", new { @id = "tipocontrato", @class = "form-control" })
+                                            </div>
+                                            <div id="numerocontratofiltro" class="col-xs-4">
+                                                <label>Numero Contrato:</label>
+                                                <br />
+                                                @Html.TextBoxFor(x => x.NumeroContrato, new { @class = "form-control", @type = "number", @min="1" })
+                                            </div>
+                                        </div>
+                                        <div id="camposfiltro">
+                                            <div class="col-xs-12 margin-bottom-5">
+                                                <div id="diavencimentofiltro" class="col-xs-6 col-md-2">
+                                                    <div class="col-xs-12 no-padding">
+                                                        <label>Dia Vencimento:</label>
+                                                        <br />
+                                                        @Html.EditorFor(x => x.DiaVencimento, new { @id = "diavencimento", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div id="informarvencimentodiasfiltro" class="col-xs-6 col-md-2">
+                                                    <div class="col-xs-12 no-padding">
+                                                        <label>Informar vencimento antes dos:</label>
+                                                        <br />
+                                                        @Html.EditorFor(x => x.InformarVencimentoDias, new { @id = "informarvencimentodias" }) (Dias)
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-md-4">
+                                                    <div id="valorfiltro" class="col-xs-12 no-padding">
+                                                        <label>Valor:</label>
+                                                        <br />
+                                                        @Html.TextBoxFor(x => x.Valor, new { @id = "valor", @class = "form-control heightfield valmoney" })
+                                                    </div>
+                                                </div>
+                                                <div id="tipovalorfiltro" class="col-md-3">
+                                                    <label>Tipo de Valor:</label>
+                                                    <br />
+                                                    @Html.EnumDropDownListFor(x => x.TipoValor, "Selecione um tipo contrato", new { @id = "tipovalor", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 margin-bottom-25">
+                                                <div id="iniciocontratofiltro" class="col-md-2">
+                                                    <label>Inicio do Contrato:</label>
+                                                    <br />
+                                                    @Html.TextBoxFor(x => x.InicioContrato, new { @id = "iniciocontrato", Value = Model != null && Model.InicioContrato > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.InicioContrato.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                                </div>
+                                                <div id="finalcontratofiltro" class="col-md-2">
+                                                    <label>Final do Contrato:</label>
+                                                    <br />
+                                                    @Html.TextBoxFor(x => x.FinalContrato, new { @id = "finalcontrato", Value = Model != null && Model.FinalContrato > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.FinalContrato.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                                </div>
+                                                <div id="indicereajustefiltro" class="col-md-2">
+                                                    <label>Indice de Reajuste:</label>
+                                                    <br />
+                                                    @Html.EnumDropDownListFor(x => x.IndiceReajuste, "Selecione um indice de reajuste", new { @id = "indicereajuste", @class = "form-control" })
+                                                </div>
+                                                <div id="existirareajustefiltro" class="col-md-2">
+                                                    <label>Existirá Reajuste:</label>
+                                                    <br />
+                                                    @Html.CheckBoxFor(x => x.ExistiraReajuste, new { @id = "existirareajuste", @class = "form-control" })
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label>Ativo:</label>
+                                                    <br />
+                                                    @Html.CheckBoxFor(x => x.Ativo, new { @checked = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        @*<div class="col-xs-12 margin-bottom-25">
+                                            
+                                        </div>*@
+
+
+                                        <div class="row margin-bottom-5">
+                                            <div class="pull-right margin-right-10">
+                                                <button id="salvar" type="submit" class="btn btn-lg btn-primary">
+                                                    <i class="fa fa-save"></i> Salvar
+                                                </button>
+                                                <a class="btn btn-lg btn-danger" href="/contratounidade/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        @*<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget" id="wid-id-4" data-widget-editbutton="false" data-widget-deletebutton="false">
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                                    <h2>Informações da parcela</h2>
+                                </header>
+                                <div class="widget-body">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("_Parcelas", Model != null && Model.Parcelas != null ? Model.Parcelas : new List<ParcelaViewModel>())
+                                        </div>
+                                    </div>
+                            </div>
+                        </article>*@
+
+                    </div>
+                }
+            </div>
+        </div>
+    </article>
+</div>

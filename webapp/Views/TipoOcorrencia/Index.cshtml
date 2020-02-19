@@ -1,0 +1,76 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model TipoOcorrenciaViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section pagespecific {
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/TipoOcorrencia/tipo-ocorrencia.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Tipo Ocorrência
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            @using (Html.BeginForm("SalvarDados", "TipoOcorrencia", FormMethod.Post, new { id = "tipo-ocorrencia-form", @novalidate = "novalidate" }))
+                            {
+                                @Html.HiddenFor(x => x.Id)
+
+                                <div id="conteudo">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-3">
+                                                <div class="col-xs-12 no-padding">
+                                                    <label>Descrição: </label>
+                                                    @Html.TextBoxFor(x => x.Descricao, new { id = "descricao", @class = "form-control valmoney", @required = "required" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>Percentual:</label><br />
+                                                @Html.TextBoxFor(x => x.Percentual, new { id = "percentual", @class = "form-control somente-decimais", @required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div class="row margin-bottom-5">
+                                            <div class="pull-right margin-right-15">
+                                                <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                            </div>
+                                            <div class="pull-right margin-right-10">
+                                                <button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div id="lista-tipo-ocorrencia">
+                @Html.Partial("_Grid", new List<TipoOcorrenciaViewModel>())
+            </div>
+        </section>
+    </div>
+</div>

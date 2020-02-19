@@ -1,0 +1,74 @@
+﻿
+
+.max-width-95 {
+    max-width: 95% !important;
+}
+
+.fieldDate {
+    width: 100px !important;
+}
+
+#conteudo {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+#data_table_contacts tbody tr td:last-child span:first-child{
+    margin-right:2px;
+}
+
+label {
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #conteudo {
+        margin-left: 5% !important;
+        margin-right: 5% !important;
+    }
+
+    #add-contact {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+
+#search-icon {
+    position: relative;
+    z-index: 1;
+    left: -25px;
+    top: 1px;
+    color: #7B7B7B;
+    cursor: pointer;
+    width: 0;
+}
+
+#conteudo input {
+    max-width: 300px;
+}
+
+label {
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #zipcode {
+        display: inline;
+    }
+
+    #conteudo {
+        margin-left: 5% !important;
+        margin-right: 5% !important;
+    }
+
+        #conteudo input {
+            max-width: 300px !important;
+        }
+}
+
+@media only screen and (max-width: 361px) {
+    #conteudo input {
+        max-width: 294px !important;
+    }
+}

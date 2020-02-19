@@ -1,0 +1,141 @@
+﻿@using Core.Extensions
+@using Entidade
+@using Entidade.Uteis
+@using Portal.Controllers
+
+@model CalculoFechamentoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as CalculoFechamentoController;
+}
+@section pagespecific{
+    @Styles.Render("~/content/css/parametrocalculo/parametrocalculo.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/CalculoFechamento/CalculoFechamento.js")
+}
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Cálculo de Fechamento
+            </h2>
+        </header>
+        <div>
+            <div class="widget-body">
+                @using (Html.BeginForm("SalvarDados", "CalculoFechamento", FormMethod.Post, new { id = "calculoFechamentoForm" }))
+                {
+                    <div id="conteudo" class="row margin-bottom-5">
+                        <div class="col-xs-12 no-padding margin-bottom-10">
+
+                            @Html.HiddenFor(x => x.Id, new { @id = "Id" })
+
+                            <div class="col-xs-12 col-sm-12">
+
+                                <div class="col-xs-2 no-padding">
+                                    <label>Empresa:</label>
+                                    <br />
+                                    @Html.DropDownListFor(consolida => consolida.AjusteFaturamento.Empresa.Id
+                                 , new SelectList(controller.ListaEmpresaUnidade, "Id", "Descricao")
+                                 , "Selecione uma empresa..."
+                                 , new
+                                 {
+                                     @id = "EmpresaFechamento",
+                                     name = "EmpresaFechamento"
+                                         ,
+                                     @class = "form-control chosen-select"
+                                         ,
+                                     data_placeholder = "Selecione uma empresa..."
+                                 })
+                                </div>
+
+                                <div class="col-xs-3 no-padding">
+                                    <label>Unidade:</label>
+                                    <br />
+                                    @*<select id="unidadeOrigem" class="form-control">
+                                            <option value="0">Selecione uma unidade</option>
+                                        </select>*@
+                                    @Html.DropDownListFor(consolida => consolida.AjusteFaturamento.Unidade.Id
+        , new SelectList(ViewBag.ListaUnidade, "Id", "Nome")
+        , "Selecione uma unidade"
+        , new
+        {
+            @id = "UnidadeFechamento",
+            name = "UnidadeFechamento"
+                ,
+            @class = "form-control chosen-select"
+                ,
+            data_placeholder = "Selecione uma unidade..."
+        })
+                                </div>
+
+                                <div class="col-xs-2 no-padding">
+                                    <label>Mês: </label>
+                                    <br />
+                                    @Html.DropDownListFor(x => x.AjusteFaturamento.Mes,
+                                            (SelectList)ViewBag.ListaMes, "Selecione um mês...",
+                                            new
+                                            {
+                                                @id = "MesFechamento",
+                                                name = "MesFechamento",
+                                                @class = "form-control chosen-select",
+                                                data_placeholder = "Selecione um mês..."
+                                            })
+                                    @Html.ValidationMessageFor(x => x.AjusteFaturamento.Mes, "Campo deve ser preenchido!", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="col-xs-2 no-padding">
+                                    <label>Ano: </label>
+                                    <br />
+                                    @Html.DropDownListFor(x => x.AjusteFaturamento.Ano,
+                                        (SelectList)ViewBag.ListaAnos, "Selecione um ano...",
+                                        new
+                                        {
+                                            @id = "AnoFechamento",
+                                            name = "AnoFechamento",
+                                            @class = "form-control chosen-select",
+                                            data_placeholder = "Selecione um ano..."
+                                        })
+                                    @Html.ValidationMessageFor(x => x.AjusteFaturamento.Ano, "Campo deve ser preenchido!", new { @class = "text-danger" })
+
+                                </div>
+
+
+
+                                <div class="col-xs-3 no-padding" style="margin-top:1%;" id="divbotaoconsultar">
+
+                                    <a id="btnConsultar" onclick="buscarDadosFechamento()" class="btn btn-lg btn-primary"><i class="fa fa-search fa-4" aria-hidden="true"></i>&nbsp;Pesquisar</a>
+
+                                </div>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="col-xs-12">
+                                    &nbsp;
+                                </div>
+                                <div class="col-xs-12">
+                                    &nbsp;
+                                </div>
+                                <div class="col-xs-12">
+                                    &nbsp;
+                                </div>
+                            </div>
+                            <div id="divFechamentoDetalhado">
+                                @Html.Partial("../CalculoFechamento/_FechamentoDetalhado")
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

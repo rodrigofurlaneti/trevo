@@ -1,0 +1,136 @@
+﻿@using Entidade.Uteis
+@model List<FuncionarioViewModel>
+
+@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+
+<html>
+<head>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .row {
+            width: 100%;
+            margin: 0 !important
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 12px
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 2px 4px;
+        }
+
+            td > div {
+                border-bottom: 1px solid #dddddd;
+                text-align: left;
+                padding: 4px;
+                height: 13px
+            }
+
+        .pagina {
+            padding-top: 1.75cm;
+            padding-left: 1cm;
+            width: 18.15cm;
+            height: 18cm;
+            height: 24cm;
+            margin: 0 auto;
+        }
+
+        .totais {
+            width: 30%;
+            float: right;
+            margin-right: 1px
+        }
+
+        .label-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        label {
+            font-size: 16px
+        }
+
+        h1 {
+            font-size: 18px;
+            margin-bottom: 5px
+        }
+
+        .subtitulo {
+            font-size: 16px;
+            width: 100%;
+            display: block;
+            font-weight: normal !important;
+            margin-bottom: 10px;
+        }
+
+        span {
+            font-weight: bold
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .no-padding {
+            padding: 0 !important
+        }
+
+        @@page {
+            size: A4;
+            margin: 0mm;
+        }
+
+        @@media print {
+            .pagina {
+                page-break-inside: avoid;
+            }
+
+            pre, blockquote {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body onload="window.print(); window.close()">
+    <div class="pagina">
+        <h1 class="text-center">Lista de Funcionários</h1>
+
+        <p>Nome do Supervisor: @Model.FirstOrDefault().Supervisor.Pessoa.Nome</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Unidade</th>
+                    <th width="115px">Data de Admissão</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var funcionario in Model)
+                {
+                    <tr>
+                        <td>@(funcionario.Pessoa.Nome)</td>
+                        <td>@(funcionario.Unidade.Nome)</td>
+                        <td>@(funcionario.DataAdmissao?.ToShortDateString())</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

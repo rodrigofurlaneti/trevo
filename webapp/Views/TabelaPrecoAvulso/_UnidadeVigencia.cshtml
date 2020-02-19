@@ -1,0 +1,46 @@
+﻿@model List<TabelaPrecoAvulsoUnidadeViewModel>
+
+<table id="gridUnidade" class="table table-striped table-bordered" style="width: 100%;">
+    <thead>
+        <tr>
+            <th data-hide="phone">Unidade</th>
+            <th data-hide="phone">Início</th>
+            <th data-hide="phone">Fim</th>
+            <th data-hide="phone">Valor Diária</th>
+            <th data-hide="phone">Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var m in Model)
+            {
+                <tr>
+                    <td class="coluna-unidade">@m.Unidade.Nome</td>
+                    <td class="coluna-horaInicio">@m.HoraInicio</td>
+                    <td class="coluna-horaFim">@m.HoraFim</td>
+                    <td class="coluna-valorDiaria">R$ @m.ValorDiaria</td>
+                    <td class="text-center">
+                        <div class="pull-left">
+                            <input type="hidden" class="idUnidade" value="@m.Unidade.Id">
+                            <input type="hidden" class="nomeUnidade" value="@m.Unidade.Nome">
+                            <input type="hidden" class="horaInicio" value="@m.HoraInicio">
+                            <input type="hidden" class="horaFim" value="@m.HoraFim">
+                            <input type="hidden" class="valorDiaria" value="@m.ValorDiaria">
+                            <a href="javascript:void(0);" class="btn btn-primary" onclick="editarUnidadeVigencia('@m.Unidade.Id','@m.HoraInicio', '@m.HoraFim', '@m.ValorDiaria')"><i class='fa fa-edit'></i></a>
+                            <a href="javascript:void(0);" class="btn btn-danger" onclick="excluirUnidadeVigencia('@m.Unidade.Id')"><i class='fa fa-remove'></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td align="center" colspan="5">
+                    Nenhum registro foi encontrado.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

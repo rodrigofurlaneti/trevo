@@ -1,0 +1,97 @@
+﻿@using Core.Extensions;
+
+@model List<Aplicacao.ViewModels.PedidoLocacaoViewModel>
+
+<!-- row -->
+<div class="row">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Lista Pedidos Locação</h2>
+            </header>
+            <div>
+                <div class="widget-body no-padding">
+                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Cliente" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Tipo Locação" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Data de Pagamento" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Desconto" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Forma de Pagamento" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Data Prox. Reajuste" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Status" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Ativo" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Valor Reajuste" />
+                                </th>
+                                <th class="hasinput" style="width: 100px">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Unidade</th>
+                                <th>Cliente</th>
+                                <th>Tipo Locação</th>
+                                <th>Data de Pagamento</th>
+                                <th>Valor</th>
+                                <th>Desconto</th>
+                                <th>Forma de Pagamento</th>
+                                <th>Data Prox. Reajuste</th>
+                                <th>Status</th>
+                                <th>Ativo</th>
+                                <th>Valor Reajuste</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in Model)
+                            {
+                            <tr>
+                                <td>@(m.Unidade != null ? m.Unidade.Nome : "")</td>
+                                <td>@(m.Cliente != null ? string.IsNullOrEmpty(m.Cliente.RazaoSocial) ? m.Cliente.Pessoa.Nome : m.Cliente.RazaoSocial : "Não encontrado")</td>
+                                <td>@(m.TipoLocacao != null ? m.TipoLocacao.Descricao : "")</td>
+                                <td>@(m.DataPrimeiroPagamento != null ? m.DataPrimeiroPagamento.ToShortDateString() : "")</td>
+                                <td>@m.Valor</td>
+                                <td>@(m.Desconto != null && !string.IsNullOrEmpty(m.Desconto.Valor) ? m.Desconto.Valor : string.Empty)</td>
+                                <td>@m.FormaPagamento.ToDescription()</td>
+                                <td>@m.DataReajuste.ToShortDateString()</td>
+                                <td>@m.Status.ToDescription()</td>
+                                <td>@(m.Ativo ? "Sim" : "Não")</td>
+                                <td>@(!string.IsNullOrEmpty(m.ValorReajuste) ? Convert.ToDecimal(m.ValorReajuste).ToString("C") : string.Empty)</td>
+                                <td class="text-center" style="font-size: 5px">
+                                    <button type="submit" @(!m.Ativo ? "disabled" : "") id="visualizar" class="btn btn-warning btn-xs" title="visualizar" style="width: inherit" onclick="ExecutarModal(@(m.Id))"><i class='fa fa-eye'></i></button>
+                                    <a class="btn btn-primary btn-xs" href="/pedidolocacao/edit/@m.Id"><i class='fa fa-edit'></i></a>                                
+                                    <button type="submit" @(!m.Ativo ? "disabled" : "") id="inativar" class="btn btn-danger btn-xs" title="inativar" onclick="InativarPedido(@(m.Id))" style="width: inherit"><i class='fa fa-ban'></i></button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>

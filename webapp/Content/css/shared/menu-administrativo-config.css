@@ -1,0 +1,13 @@
+﻿#main-content {
+    margin-top: 60px !important;
+}
+
+#left-panel {
+    padding-top: 0px !important;
+    background-image: url('../../../content/img/header-background.png') !important;
+    background-size: 100% !important;
+}
+
+.fa-bell:before {
+    color: red
+}

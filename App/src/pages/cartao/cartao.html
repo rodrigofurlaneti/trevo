@@ -1,0 +1,46 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Cartões</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <div style="width:95%; margin: 0 auto;">
+        <div class="cartao--mini" *ngFor="let cartao of cartoes">
+            <figure class="cartao--thumb">
+                <img src="assets/image/cartoes/{{detectCardType(cartao.Numero)}}.png" style="border-width: 0px;">
+            </figure>
+            <div class="cartao--info">
+                <div class="cartao--info---cell">
+                    <div class="spn-title" style="display: inline-flex;">
+                        <div style="margin-top: -4px;">
+                            <span style="vertical-align:super;">&hellip;</span>
+                        </div>
+                        <div style="margin-left: 3px;">
+                            {{cartao.Numero.substr(cartao.Numero.length - 4)}}
+                        </div>
+                    </div>
+                </div>
+                <div class="cartao--info---cell">
+                    <span class="spn-title">{{cartao.Validade}}</span>
+                </div>
+                <div class="cartao--info---cell">
+                    <ion-icon name="create" class="icon-remove" (click)='editar(cartao)'></ion-icon>
+                    <ion-icon name="trash" class="icon-remove" (click)='remover(cartao)'></ion-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!cartoes || cartoes == null || cartoes.length == 0">
+        <h3 class="msg">Ainda não há cartões cadastrados</h3>
+    </div>
+
+    <div class="pre-table--action">
+        <button ion-button class="btn btn-oranger square store" (click)="editar()">Novo cartão</button>
+    </div>
+</ion-content>

@@ -1,0 +1,30 @@
+﻿<div>
+    <div class="modal fade" id="modal-historico-data" role="dialog" style="display:none">
+        <div class="modal-dialog" style="width: 80%">
+            <div class="modal-content" id="modalContent">
+                <div class="col-xs-12">
+                    <div class="modal-header panel-heading">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Histórico</h4>
+                    </div>
+
+                    <div id="modalBodyInformacoes" class="modal-body no-padding">
+                        <div class="row no-margin-bottom">
+                            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div id="lista-historico-data">
+                                    @Html.Partial("_GridHistoricoData", new List<OrcamentoSinistroCotacaoHistoricoDataItemViewModel>())
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="padding: 27px">
+                    <a data-dismiss="modal" class="btn btn-default">Fechar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

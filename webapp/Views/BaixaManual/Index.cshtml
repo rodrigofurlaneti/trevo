@@ -1,0 +1,179 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@using Entidade.Uteis
+@model BaixaManualViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var controller = ViewContext.Controller as BaixaManualController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/LancamentoCobranca/LancamentoCobranca.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/LancamentoCobranca/BaixaManual.js")
+    @Scripts.Render("~/Scripts/cliente/cliente-autocomplete.js")
+    @Scripts.Render("~/Scripts/jquery.inputmask.bundle.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Baixa Manual
+                            </h2>
+
+                        </header>
+                        <div>
+                            <div class="widget-body">
+
+                                @Html.HiddenFor(x => x.Id)
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.HiddenFor(x => x.Id)
+                                            <label>Conta Financeira: </label>
+                                            <br />
+                                            @Html.DropDownListFor(x => x.ContaFinanceira.Id, new SelectList(controller.ListaContaFinanceira, "Id", "Descricao"), "Selecione um conta financeira...", new { @id = "contaFinanceira", @class = "chosen-select", data_placeholder = "Selecione um Conta Financeira..." })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.HiddenFor(x => x.Id)
+                                            <label>Tipo de Serviço: </label>
+                                            <br />
+                                            @Html.DropDownListFor(x => x.TipoServico, new SelectList(controller.ListaTipoServico, "Id", "Descricao"), "Selecione um tipo...", new { @id = "tipoServico", @class = "chosen-select form-control", data_placeholder = "Selecione um Tipo..." }) <br />
+
+                                            @Html.ValidationMessageFor(x => x.TipoServico, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-1">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Data de Vencimento</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Entre</label>
+                                            @Html.TextBoxFor(x => x.DataVencimentoInicio, new { @id = "dtVencimentoInicio", Value = Model != null && Model.DataVencimentoInicio > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataVencimentoInicio.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                            @Html.ValidationMessageFor(x => x.DataVencimentoInicio, "Informe a Data!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>E</label>
+                                            @Html.TextBoxFor(x => x.DataVencimentoFim, new { @id = "dtVencimentoFim", Value = Model != null && Model.DataVencimentoFim > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataVencimentoFim.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                            @Html.ValidationMessageFor(x => x.DataVencimentoFim, "Informe a Data!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Cliente: </label>
+                                            @Html.TextBoxFor(p => p.Cliente.Descricao, new { id = "clientes", @class = "form-control" })
+                                            @Html.HiddenFor(x => x.Cliente.Id, new { id = "cliente" })
+                                            @Html.HiddenFor(x => x.Cliente.Descricao, new { id = "clienteText" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.Documento, "CPF/CNPJ: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 no-padding">
+                                            @Html.TextBoxFor(x => x.Documento, new { @id = "documento", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom-5">
+                                    <div class="pull-right margin-right-10">
+                                        <button type="submit" id="pesquisar" class="btn btn-lg btn-primary" onclick="Pesquisar()">
+                                            <i class="fa fa-search"></i> Pesquisar
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row col-xs-12 col-md-12 nopadding">
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                    <h2>Lista de Lançamentos</h2>
+                                </header>
+                                <div id="lista-lancamentoCobrancas">
+                                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                        <tr>
+                                            <td>
+                                                Nenhuma pesquisa efetuada no momento...
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <footer class="margin-top-20 margin-bottom-10 clearfix nopadding">
+                                <div class="col-md-3">
+                                    Total de Lançamentos: <br /> <input class="form-control" id="TotalLancamento" name="TotalLancamento" type="text" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                                <div class="col-md-3">
+                                    Valor Total de Contratos:<br /> <input class="form-control heightfield valmoney" id="ValorTotalContrato" name="ValorTotalContrato" type="text" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                                <div class="col-md-3">
+                                    Valor Total de Multas:<br />  <input class="form-control heightfield valmoney" id="ValorTotalMulta" name="ValorTotalMulta" type="text" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                                <div class="col-md-3">
+                                    Valor Total Juros:<br />  <input class="form-control heightfield valmoney" id="ValorTotalJuros" name="ValorTotalJuros" type="text" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                            </footer>
+
+                            <footer class="margin-top-20 margin-bottom-10 clearfix nopadding">
+                                <div class="pull-right">
+                                    <a class="btn btn-lg btn-danger" href="/baixamanual/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                </div>
+                                @*  Retirado a pedido da Trevo - 04/12/19
+                                <div class="pull-right margin-right-10">
+                                    <button type="submit" class="btn btn-lg btn-primary" onclick="PagamentoParcial();">
+                                        <i class="fa fa-money"></i> Pagamento Parcial
+                                    </button>
+                                </div>
+                                    *@
+                                <div class="pull-right margin-right-10">
+                                    <button type="submit" class="btn btn-lg btn-primary" onclick="PagamentoTotal();">
+                                        <i class="fa fa-money"></i> Pagamento Total
+                                    </button>
+                                </div>
+                            </footer>
+
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div id="modalPagamento" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content col-xs-12">
+            <div id="modalBodyPagamento" class="modal-body col-xs-12">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalDivBloqueio"></div>

@@ -1,0 +1,4 @@
+﻿@model ControlePontoViewModel
+
+@Html.TextBoxFor(x => x.Funcionario.Pessoa.Nome, new { id = "campo-funcionarios", @class = "form-control" })
+@Html.HiddenFor(x => x.Funcionario.Id, new { id = "campo-funcionario" })

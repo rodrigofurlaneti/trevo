@@ -1,0 +1,53 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Encontre uma loja</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div style="height: 37vh;width:90vw;margin: 0 auto;">
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [zoomControl]="false">
+            <agm-marker [latitude]="lat"
+                        [longitude]="lng"
+                        [iconUrl]="'assets/image/pin.png'">
+                <agm-info-window>
+                    <strong>Estou aqui</strong>
+                </agm-info-window>
+            </agm-marker>
+            <agm-marker *ngFor="let marker of markers"
+                        [latitude]="marker.lat"
+                        [longitude]="marker.lng">
+                <agm-info-window>
+                    <strong>{{marker.nome}}</strong>
+                </agm-info-window>
+            </agm-marker>
+        </agm-map>
+    </div>
+
+    <ion-scroll id="loja-scroll" scrollY="true" class="loja-scroll">
+        <div class="loja-content">
+            <div class="loja--mini" *ngFor="let loja of lojas" (click)="entrar(loja.Entidade)">
+                <div class="loja--thumb">
+                    <!--<img src="assets/image/loja-pin.png" style="border-width: 0px;">-->
+                    <div><ion-icon class="loja-pin" name="pin"></ion-icon></div>
+                    <div class="loja-distancia">{{loja.Distancia != 0 ? (loja.Distancia/1000).toFixed(2) + 'km' : ''}}</div>
+                </div>
+                <div class="loja--info">
+                    <div class="loja--info---cell">
+                        <span class="spn-title">{{loja.Entidade.Descricao}}</span>
+                    </div>
+                    <div class="loja--info---cell">
+                        {{loja.Entidade.Endereco.Resumo}}
+                        <span class="loja-cidade" *ngIf="loja.Entidade.Endereco.Cidade != null && loja.Entidade.Endereco.Cidade.Estado != null">
+                            <br />
+                            {{loja.Entidade.Endereco.Cidade.Descricao}}/{{loja.Entidade.Endereco.Cidade.Estado.Sigla}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-scroll>
+</ion-content>

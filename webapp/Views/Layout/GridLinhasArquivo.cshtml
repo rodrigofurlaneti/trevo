@@ -1,0 +1,53 @@
+﻿@using Portal.Controllers
+@model List<LayoutLinhaViewModel>
+@{
+    var controller = ViewContext.Controller as LayoutController;
+}
+
+@if (Model != null)
+{
+    foreach (var m in Model)
+    {
+        <section id="widget-grid" class="">
+            <div class="row no-margin-bottom">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Linha: @m.TipoLinha</h2>
+                            @Html.Hidden(m.CodigoLinha, new { @id = "hdnCodLinha_" + m.CodigoLinha })
+                        </header>
+                        <div>
+                            <div class="col-xs-8 col-md-12">
+                                <div class="col-xs-3">
+                                    <label>Conteudo:</label>
+                                    @Html.TextBox("txtConteudo")
+                                </div>
+                                <div class="col-xs-12 col-md-3">
+                                    <label>Dado do Campo:</label>
+                                    @Html.DropDownList("exportFields_"+@m.CodigoLinha, controller.ListaCamposDisponiveis, "Selecione um Campo...")
+                                </div>
+                                <div class="col-xs-4 col-md-4 text-align-right">
+                                    <a id="btnAddField" class="btn btn-primary" onclick="AdicionarCampo(@m.CodigoLinha)"><i class='fa fa-plus'></i></a>
+                                </div>
+                            </div>
+
+                            <div id="div-campos-exportacao_@m.CodigoLinha" class="col-xs-12 margin-top-10" >
+                                @Html.Partial("GridCamposArquivo", m.Campos ?? new List<LayoutCampoViewModel>())
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    }
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#chk-todos").change(function () {
+            SelecionarTodos(this.checked);
+        });
+    });
+</script>

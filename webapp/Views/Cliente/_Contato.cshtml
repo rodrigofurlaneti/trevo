@@ -1,0 +1,31 @@
+﻿
+
+@model Aplicacao.ViewModels.ClienteCadastroViewModel
+
+@Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+@Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+@Styles.Render("~/content/css/contact/contacts.css")
+
+<div id="conteudo">
+    <div>
+        <fieldset>
+            @Html.Label("Contato", new { style = "font-weight: bold; font-size: 1.17em;" })
+            <section>
+                <div class="col-md-2">
+                    <label>Telefone (Fixo/Recado):</label>
+                    @Html.TextBoxFor(x => x.Contato.Telefone, new { @id="telephone", @class="form-control", @value="(__) ____-____", @type="tel" })
+                </div>
+                <div class="col-md-2">
+                    <label>Celular:</label>
+                    @Html.TextBoxFor(x => x.Contato.Celular, new { @id = "cellphone", @class = "form-control", @value = "(__) ____-____", @type = "tel" })
+                </div>
+                <div class="col-md-2">
+                    <label>E-mail:</label><br />
+                    @Html.TextBoxFor(x => x.Contato.Email, new { @id = "email", @class = "form-control", @type = "email" })
+                </div>
+            </section>
+        </fieldset>
+    </div>
+</div>
+
+@Scripts.Render("~/scripts/contact/contacts.js")

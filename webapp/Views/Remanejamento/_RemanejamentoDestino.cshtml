@@ -1,0 +1,50 @@
+﻿@using Portal.Controllers;
+@using Aplicacao.ViewModels;
+@model Aplicacao.ViewModels.RemanejamentoTransferenciaViewModel
+@{
+
+    var controller = ViewContext.Controller as RemanejamentoController;
+}
+<div>
+    <div>
+        <div class="row margin-bottom-5">
+            <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12 no-padding">
+                    <label>Unidade:</label><br />
+                    @Html.DropDownListFor(remanejamento => remanejamento.Unidade.Id
+                            , new SelectList(controller.ListaUnidade, "Id", "Nome")
+                            , "Selecione..."
+                            , new { @id = "unidadeDestino"
+                                    ,@onchange = "SetarOperacaoTransferencia()"
+                                    , @class = "form-control chosen-select"
+                                    , data_placeholder = "Selecione..." })
+                </div>
+            </div>
+        </div>
+
+        <div class="row margin-bottom-5">
+            <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12 no-padding">
+                    <label>Tipo Equipe:</label><br />
+                    <select id="tipoEsquipeDestino" class="form-control" onchange="SetarOperacaoTransferencia()">
+                        <option value="0">Selecione o Tipo Equipe</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row margin-bottom-5">
+            <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12 no-padding">
+                    <label>Equipe:</label><br />
+                    <select id="equipeDestino" class="form-control" onchange="SetarOperacaoTransferencia()">
+                        <option value="0">Selecione a Equipe</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="lista-colaboradores-result">
+            @Html.Partial("../Remanejamento/_GridColaboradoresDestino", Model.Equipe != null ? Model.Equipe : new EquipeViewModel())
+        </div>
+    </div>
+</div>

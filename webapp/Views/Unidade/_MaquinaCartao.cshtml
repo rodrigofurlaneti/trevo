@@ -1,0 +1,58 @@
+﻿@using Portal.Controllers;
+@using Aplicacao.ViewModels;
+@model UnidadeViewModel
+@{
+    var controller = ViewContext.Controller as UnidadeController;
+}
+<div>
+    <div id="conteudo" class="row margin-bottom-5">
+        @if ( (Model != null && Model.TiposPagamento != null && Model.TiposPagamento.Count > 0) 
+            && (Model.TiposPagamento.Count(x => x.Id == 1 || x.Id == 2) <= 0) )
+        {
+            <div>
+                <p style="color: red">Selecione o Tipo de Pagamento: Cartão de Crédito ou Débito</p>
+            </div>
+        }
+        <div class="col-xs-2">
+            <label>Número da Máquina:</label><br />
+            @Html.TextBoxFor(unidade =>
+                            unidade.MaquinaCartao.NumeroMaquina, new { @class = "form-control" })
+            @* @Html.ValidationMessageFor(unidade => unidade.MaquinaCartao.NumeroMaquina, "Informe o Número da Máquina!", new { @class = "text-danger" })*@
+        </div>
+        <div class="col-xs-2">
+            <label>CNPJ:</label><br />
+            @Html.TextBoxFor(unidade =>
+                            unidade.MaquinaCartao.CNPJ.Numero, new { @class = "form-control" })
+            @*@Html.ValidationMessageFor(unidade => unidade.MaquinaCartao.CNPJ.Numero, "Informe o CNPJ!", new { @class = "text-danger" })*@
+
+        </div>
+    </div>
+    <div id="conteudo" class="row margin-bottom-5">
+        <div class="col-xs-2">
+            <label>Marca da Máquina:</label><br />
+            @Html.TextBoxFor(unidade =>
+                            unidade.MaquinaCartao.MarcaMaquina, new { @class = "form-control" })
+            @*@Html.ValidationMessageFor(unidade => unidade.MaquinaCartao.NumeroMaquina, "Informe a Marca da Máquina!", new { @class = "text-danger" })*@
+        </div>
+        <div class="col-xs-2">
+
+            <label>Reponsavel:</label><br />
+            @Html.DropDownListFor(unidade => unidade.MaquinaCartao.IdSupervisorMaquina
+                                    , new SelectList(controller.ListaSupervisor, "Id", "Pessoa.Nome")
+                                    , "Selecione..."
+                                    , new { @id = "supervisorResponsavel"
+                                    , @class = "form-control chosen-select"
+                                    , data_placeholder = "Selecione um Responsável..." })
+
+        </div>
+
+    </div>
+    <div class="row margin-bottom-5">
+        <div class="col-xs-4">
+            <label>Observação:</label><br />
+            @Html.TextAreaFor(unidade =>
+                            unidade.MaquinaCartao.Observacao, new { @class = "form-control" })
+            @* @Html.ValidationMessageFor(unidade => unidade.MaquinaCartao.Observacao, "Informe a Observação!", new { @class = "text-danger" })*@
+        </div>
+    </div>
+</div>

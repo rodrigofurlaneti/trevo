@@ -1,0 +1,82 @@
+﻿@using Portal.Controllers
+@using Core.Extensions
+
+@model Aplicacao.ViewModels.EmissaoSeloViewModel
+
+@{
+    var controller = ViewContext.Controller as EmissaoSeloController;
+}
+
+<!-- widget edit box -->
+<div class="jarviswidget-editbox">
+    <!-- This area used as dropdown edit box -->
+</div>
+<!-- end widget edit box -->
+<!-- widget content -->
+<div class="widget-body no-padding">
+    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+        <thead>
+            <tr>
+                <th class="hasinput" style="width:10%">
+                    <input type="text" class="form-control" placeholder="Filtrar Nº do Lote" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Cliente" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Data Validade" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Entregue" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Data Entrega" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Status" />
+                </th>
+                <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                </th>
+            </tr>
+            <tr>
+                <th data-hide="phone">Nº do Lote</th>
+                <th data-hide="phone">Unidade: </th>
+                <th data-hide="phone">Cliente: </th>
+                <th data-hide="phone">Data Validade: </th>
+                <th data-hide="phone">Entregue: </th>
+                <th data-hide="phone">Data Entrega: </th>
+                <th data-hide="phone">Status: </th>
+                <th data-class="expand">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                var listEmissaoSelos = controller.ListaEmissaoSelo;
+            }
+            @if (controller != null && listEmissaoSelos != null)
+            {
+                foreach (var m in listEmissaoSelos)
+                {
+                    <tr>
+                        <td>@m.Id</td>
+                        <td>@(m.PedidoSelo != null ? m.PedidoSelo.Unidade.Nome : string.Empty)</td>
+                        <td>@(m.PedidoSelo != null ? m.PedidoSelo.Cliente.NomeExibicao : string.Empty)</td>
+                        <td>@(m.Validade != null ? m.Validade.Value.ToShortDateString() : string.Empty)</td>
+                        <td>@(m.EntregaRealizada ? "Sim" : "Não")</td>
+                        <td>@(m.DataEntrega != null ? m.DataEntrega.Value.ToShortDateString() : string.Empty)</td>
+                        <td>@m.StatusSelo.ToDescription()</td>
+                        <td>
+                            <a class="btn btn-primary" href="/EmissaoSelo/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                            <a name="botaoexcluir" class="btn btn-danger" href="/EmissaoSelo/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+<!-- end widget content -->

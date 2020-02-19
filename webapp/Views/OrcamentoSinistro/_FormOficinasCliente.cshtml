@@ -1,0 +1,19 @@
+﻿@using Entidade.Uteis
+@using Core.Extensions
+@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller as OrcamentoSinistroController;
+}
+
+<div class="col-md-12 no-padding">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <label for="oficina-cliente">Oficinas Apresentadas pelo Cliente:</label>
+            @Html.DropDownList("OficinaCliente", new SelectList(controller.ListaOficinaCliente, "Id", "Nome"), "Selecione...", new { @id = "oficina-cliente", @class = "form-control" })
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <button style="margin-top: 24px" type="button" class="btn btn-primary pull-right" id="adicionar-oficina-cliente" onclick="adicionarOficinaCliente()"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</button>
+        </div>
+    </div>
+</div>

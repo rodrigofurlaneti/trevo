@@ -1,0 +1,103 @@
+﻿@using Core.Extensions;
+@model List<Aplicacao.ViewModels.BaixaManualViewModel>
+
+@if (Model != null && Model.Any())
+{
+    <div class="widget-body">
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Codigo" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Data Vencimento" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Status" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th class="hasinput" style="width: 8%">
+                        <input type="text" class="form-control" placeholder="Filtrar Tipo Serviço" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Cliente" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th class="hasinput" style="width: 10%">
+                        <input type="text" class="form-control" placeholder="Filtrar CPF/CNPJ" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Valor" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th class="hasinput" style="width: 6%">
+                        <input type="text" class="form-control" placeholder="Filtrar $Multa" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar $Juros" onchange="CalcularValoresTotais()" />
+                    </th>
+                    <th style="width: 5%">
+                    </th>
+                </tr>
+                <tr>
+                    <th data-hide="expand">Codigo</th>
+                    <th data-hide="expand">Data Vencimento</th>
+                    <th data-hide="expand">Status</th>
+                    <th data-hide="expand">Tipo Serviço</th>
+                    <th data-hide="expand">Cliente</th>
+                    <th data-hide="expand">CPF/CNPJ</th>
+                    <th data-hide="expand">Valor</th>
+                    <th data-hide="expand">Valor Multa</th>
+                    <th data-hide="expand">Valor Juros Acumulados</th>
+                    <th> <input id="SelecionarTodos" type="checkbox" class="form-control" onclick="SelecionarTodos();" /> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        @*convertendo valores para apresentação monetário*@
+                        @{
+                            var valorcontrato = Convert.ToDecimal(m.ValorContrato).ToString("0.00");
+                            var valormulta = Convert.ToDecimal(m.ValorMulta).ToString("0.00");
+                            var valorjuros = Convert.ToDecimal(m.ValorJuros).ToString("0.00");
+                        }
+
+                        <td>@m.Id</td>
+                        <td>@m.DataVencimento.ToShortDateString()</td>
+                        <td>@m.StatusLancamentoCobranca.ToDescription()</td>
+                        <td>@m.TipoServico.ToDescription()</td>
+                        <td>@m.Cliente.NomeExibicao</td>
+                        <td>@(m.Cliente.DocumentoPessoal)</td>
+                        <td>R$ @valorcontrato</td>
+                        <td>R$ @valormulta</td>
+                        <td>R$ @valorjuros</td>
+                        <td class="text-center">
+                            @if (!m.DataBaixa.HasValue)
+                            {
+                                <input id="chkItem-@(m.Id)" type="checkbox" class="form-control" value="@m.Id" onclick="SelecionaItem();" />
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <script>
+        ConfigTabelaGridSemCampoFiltroPrincipal();
+    </script>
+}
+else
+{
+    <div class="widget-body" style="min-height:unset !important;">
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <tbody>
+                <tr>
+                    <td>
+                        Nenhum Lançamento de Cobrança foi encontrado.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+

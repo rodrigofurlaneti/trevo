@@ -1,0 +1,178 @@
+﻿@using Portal.Controllers
+@using Core.Extensions
+@model KeyValuePair<Aplicacao.ViewModels.EmissaoSeloViewModel, TabelaPrecoAvulsoViewModel>
+
+@{
+    ViewBag.Title = "Envelope - Emissão de Selo";
+    Layout = null;
+    var controller = ViewContext.Controller as EmissaoSeloController;
+}
+
+<html>
+<head>
+    <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/paper.css" rel="stylesheet" />
+    <link href="~/Content/css/EmissaoSelo/emissaoSelo.css" rel="stylesheet" />
+
+    <style type="text/css" media="print">
+        html {
+            background-color: white;
+        }
+
+        .row {
+            width: 24.1cm !important;
+            margin: 0 !important;
+        }
+
+        .font-size-10 {
+            font-size: 10px !important;
+        }
+
+        .margin-10 {
+            margin: 10px 10px 10px 10px !important;
+        }
+
+        .margin-top-10 {
+            margin-top: 10px !important;
+        }
+
+        .margin-top-20 {
+            margin-top: 20px !important;
+        }
+
+        .margin-bottom-10 {
+            margin-bottom: 10px !important;
+        }
+
+        .margin-bottom-20 {
+            margin-bottom: 20px !important;
+        }
+
+        .text-align-center {
+            text-align: center !important;
+        }
+
+        .text-left {
+            text-align: left !important;
+        }
+
+        .text-right {
+            text-align: right !important;
+        }
+
+        page {
+            background: white;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 0.5cm;
+            box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+        }
+
+            page[size="A4"] {
+                width: 21cm;
+                height: 29.7cm;
+            }
+
+                page[size="A4"][layout="landscape"] {
+                    width: 29.7cm;
+                    height: 21cm;
+                }
+
+            page[size="A3"] {
+                width: 29.7cm;
+                height: 42cm;
+            }
+
+                page[size="A3"][layout="landscape"] {
+                    width: 42cm;
+                    height: 29.7cm;
+                }
+
+            page[size="A5"] {
+                width: 14.8cm;
+                height: 21cm;
+            }
+
+                page[size="A5"][layout="landscape"] {
+                    width: 21cm;
+                    height: 14.8cm;
+                }
+
+        @@media print {
+            page {
+                width: 24.1cm !important;
+                height: 10.5cm !important;
+                margin: 0;
+                box-shadow: 0;
+            }
+        }
+
+        .center {
+            width: 24.1cm !important;
+            position: absolute;
+        }
+
+        footer {
+            height: 100px;
+            width: 24.1cm;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body class="A5 landscape" style="background: white !important; width: 24.1cm !important; max-height: 10.5cm !important; height: 10.5cm !important;" onload="window.print();; window.close()">
+    <page size="A5" layout="landscape" class="print">
+        <div class="margin-10 center" style="margin-top: 50px !important;">
+
+            @if (Model.Key.PedidoSelo.Cliente.ExigeNotaFiscal)
+            {
+                <div style="position:absolute; top: calc(50% - 85px); right: 70px">
+                    <img src="~/Content/img/nfe.png" style="width:85px;" />
+                </div>
+            }
+
+            <div class="col-xs-12" style="height:100%; width:100%;">
+                <div class="row">
+                    <div class="col-xs-12 text-align-center">
+                        Unid.: @Model.Key.PedidoSelo.Unidade.Nome
+                    </div>
+                </div>
+                <div class="row margin-top-20 margin-bottom-10">
+                    <div class="col-xs-12 text-align-center">
+                        Para:
+                        <br />
+                        @Model.Key.NomeImpressaoSelo
+                    </div>
+                </div>
+                <div class="row margin-bottom-10">
+                    <div class="col-xs-12 text-align-center">
+                        @(Model.Key != null && Model.Key.PedidoSelo != null && Model.Key.PedidoSelo.TipoSelo != null ? Model.Key.PedidoSelo.TipoSelo.Nome : "_________ às __________") - Qtd: @Model.Key.Selo.Count
+                    </div>
+                </div>
+            </div>
+            <div class="row col-xs-12 no-padding" style="text-align:center; width:24.1cm !important;">
+                <div class="col-xs-12 text-center no-padding">
+                    <span style="text-align: center !important; float:left;" class="col-xs-12">
+                        @(Html.Raw(Model.Key.PedidoSelo.Cliente.ExigeNotaFiscal ? "Supervisor,<br /> Favor, levar a(s) NF-e(s)" : string.Empty))
+                    </span>
+                    <br />
+                    @if (Model.Key.PedidoSelo.TemBoleto)
+                    {
+                        <span style="text-align: center !important; float:left;" class="col-xs-6 col-xs-push-3">
+                            *** Boleto(s) no interior do envelope ***
+                        </span>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Key.PedidoSelo.Unidade.NomeSupervisor.TitleCase()))
+                    {
+                        <span style="text-align: right !important; font-size: 9px !important; float:right; right:70px;" class="col-xs-3">
+                            @($"{Model.Key.PedidoSelo.Unidade.NomeSupervisor}")
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </page>
+</body>
+</html>

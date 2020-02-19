@@ -1,0 +1,3 @@
+﻿@model List<EstoqueViewModel>
+
+@Html.DropDownList("Estoques", new SelectList(Model, "Id", "Nome"), "Selecione um...", new { @id = "estoque", @class = "chosen-select", data_placeholder = "Selecione um..." })

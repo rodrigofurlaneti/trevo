@@ -1,0 +1,58 @@
+﻿@using Core.Extensions;
+@using Portal.Controllers;
+@using Aplicacao.ViewModels;
+@model List<ControlePontoFeriasUnidadeApoioViewModel>
+
+<div class="widget-body no-padding">
+    <table id="datatable_unidadeapoio_combo" class="table table-striped table-bordered" width="100%" style="margin-top: 0px !important">
+        <thead>
+            <tr>
+                <th class="hasinput" style="width: 60px">
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Data" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Dia da Semana" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Entrada Apoio" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Saída Apoio" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar HE" />
+                </th>
+            </tr>
+            <tr>
+                <th>Ação</th>
+                <th>Data</th>
+                <th>Dia da Semana</th>
+                <th>Unidade</th>
+                <th>Entrada Apoio</th>
+                <th>Saída Apoio</th>
+                <th>HE</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-primary" href="#combo-controle-ponto-ferias-supervisor" onclick="EditarControlePontoFeriasDia('@(item.Data.ToShortDateString())')"><i class='fa fa-edit'></i></a>
+                    </td>
+                    <td>@(item.Data.ToShortDateString())</td>
+                    <td>@(item.Data.ToString("dddd").ToUpper())</td>
+                    <td>@(item.Unidade?.Nome)</td>
+                    <td>@(item.HorarioEntrada)</td>
+                    <td>@(item.HorarioSaida)</td>
+                    <td>@(item.TipoHoraExtra.ToDescription())</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

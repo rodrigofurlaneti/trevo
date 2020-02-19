@@ -1,0 +1,41 @@
+﻿<div class="row">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-collapsed" id="combo-busca-funcionario-supervisor" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                <h2>
+                    Buscar Funcionários
+                </h2>
+            </header>
+            <div class="widget-body" style="display: none">
+                <div class="col-xs-12">
+                    <div class="row clearfix">
+                        <div class="col-md-2">
+                            <label>Unidade:</label>
+                            @Html.TextBox("BuscaUnidade", "", new { id = "busca-unidades", @class = "form-control" })
+                            @Html.Hidden("BuscaUnidadeId", "", new { id = "busca-unidade" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>Supervisor:</label>
+                            @Html.TextBox("BuscaSupervisor", "", new { id = "busca-supervisores", @class = "form-control" })
+                            @Html.Hidden("BuscaSupervisorId", "", new { id = "busca-supervisor" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>Funcionario:</label>
+                            @Html.TextBox("BuscarFuncionario", "", new { id = "busca-funcionarios", @class = "form-control" })
+                            @Html.Hidden("BuscarFuncionarioId", "", new { id = "busca-funcionario" })
+                        </div>
+                        <div class="col-xs-2" style="margin-top: 23px">
+                            <a class="btn btn-primary" onclick="BuscarFuncionarios()"><i class="fa fa-search"></i>&nbsp;Buscar</a>
+                        </div>
+                    </div>
+
+                    <div id="lista-funcionario">
+                        @Html.Partial("_GridFuncionarios", new List<FuncionarioViewModel>())
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </article>
+</div>

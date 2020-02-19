@@ -1,0 +1,114 @@
+﻿@using Entidade.Uteis
+@using Portal.Controllers
+@model IList<ContatoViewModel>
+@{
+    var controller = ViewContext.Controller as ClienteController;
+}
+
+@Styles.Render("~/content/css/contact/contacts.css")
+
+<div id="conteudo" style="margin-top:20px;">
+    <div>
+        <fieldset>
+            <section>
+                <div class="col-md-5">
+                    <label>E-mail:</label><br />
+                    <input type="email" id="email" class="form-control max-width-95" />
+                </div>
+                <div class="col-md-2">
+                    <label>Telefone:</label>
+                    <input type="tel" id="telephone" value="(__) ____-____" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label>Celular:</label>
+                    <input type="tel" id="cellphone" value="(__) _____-____" class="form-control" />
+                </div>
+                <div class="col-md-1" style="height: 65px;top: 32px;">
+                    <span class="btn btn-primary" id="add-contact-dev" style="margin-top:2px;"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar Contato</span>
+                    <span class="btn btn-danger" id="cancel" style="display:none;margin-top:2px;" onclick="cancelEdit()"><i class="fa fa-minus-circle"></i>&nbsp;Cancelar Edicao &nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </section>
+        </fieldset>
+    </div>
+    <div style="margin-top:50px;">
+        <div class="col-xs-12">
+            <table id="data_table_contacts_dev" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Contato</th>
+                        <th style="width: 20%;">Ações</th>
+                        <th style="width: 28%;">Motivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(item.Blacklist? "line-blacklist" : "" )">
+                            <td style="display:none;" id="id_contact">@item.Id</td>
+                            @if (!string.IsNullOrEmpty(item.Email))
+                            {
+                                <td class="col-xs-10">
+                                    @item.Email
+                                </td>
+                            }
+                            else if (!string.IsNullOrEmpty(item.Telefone))
+                            {
+                                <td class="col-xs-10">
+                                    @item.Telefone
+                                </td>
+                            }
+                            else if (!string.IsNullOrEmpty(item.Celular))
+                            {
+                                <td class="col-xs-10">
+                                    @item.Celular
+                                </td>
+                            }
+                            <td class="col-md-2">
+                                <span class="btn btn-primary" style="margin-right: 2px;" onclick="editContact(this)"><i class="fa fa-edit"></i></span>
+                                <span class="btn btn-danger" style="margin-right: 3px;" onclick="removeContact(this)"><i class="fa fa-remove"></i></span>
+                                @{
+                                    var blackList = (item.Blacklist && item.TipoMotivo == TipoMotivo.Inclusao);
+                                    var tipo = "";
+                                    var parametro = "";
+                                    var tipoMotivoBusca = blackList ? (int)TipoMotivo.Exclusao : (int)TipoMotivo.Inclusao;
+                                }
+
+                                @if (!string.IsNullOrEmpty(item.Celular))
+                                {
+                                    tipo = "celular";
+                                    parametro = item.Celular;
+                                }
+                                else if (!string.IsNullOrEmpty(item.Telefone))
+                                {
+                                    tipo = "telefone";
+                                    parametro = item.Telefone;
+                                }
+                                else if (!string.IsNullOrEmpty(item.Email))
+                                {
+                                    tipo = "email";
+                                    parametro = item.Email;
+                                }
+                                @if (blackList)
+                                {
+                                    <span class="btn btn-success" onclick="AddBlacklist('@tipo', '@parametro', '@tipoMotivoBusca')"><i class="fa fa-thumbs-o-up"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="btn btn-danger" onclick="AddBlacklist('@tipo', '@parametro', '@tipoMotivoBusca')"><i class="fa fa-thumbs-o-down"></i></span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.TipoMotivo == TipoMotivo.Inclusao)
+                                {
+                                    <label>@item.DescricaoMotivo</label>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

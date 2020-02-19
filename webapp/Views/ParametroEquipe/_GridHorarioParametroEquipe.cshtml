@@ -1,0 +1,91 @@
+﻿@using Portal.Controllers
+@using Entidade.Uteis
+@model List<HorarioParametroEquipeViewModel>
+
+
+@{
+    var controller = ViewContext.Controller as ParametroEquipeController;
+}
+
+
+<div id="container-tables" style="margin-top:50px;">
+    @if (Model != null && Model.Any())
+    {
+        <h3>Horários e Unidades</h3>
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="teste" class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var horarioPreco in Model)
+                        {
+
+                            <tr>
+                                @*style="border: solid; border-color: lightgray ">*@
+
+                                @*<td><input name="equipamento" type="text" id="@horarioPreco.Id" class="horario" value="@horarioPreco.Unidade.Id" placeholder="equipamento" /></td>*@
+                                @*<td>@Html.DropDownListFor(x => @horarioPreco.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })</td>*@
+                                @*<td>@Html.DropDownList("unidade", new SelectList(controller.ListaUnidade, "ID", "Nome", horarioPreco.Unidade.Id), new { @class = "chosen-select form-control", data_placeholder = "Selecione..." })</td>*@
+                                <td>
+                                    <label>Unidade:</label>
+                                    <select class="chosen-select" name="unidade" data-value="@horarioPreco.Unidade.Id" style="margin: 10px"></select>
+                                </td>
+                                <td>Data Início:<input name="datainicio" type="text" id="@horarioPreco.Id" class="datepicker" style="margin: 10px" data-date-format="dd/mm/yyyy" value="@horarioPreco.DataInicio" placeholder="" /></td>
+                                <td>Data Fim:<input name="datafim" type="text" id="@horarioPreco.Id" class="datepicker" style="margin: 10px" data-date-format="dd/mm/yyyy" value="@horarioPreco.DataFim" placeholder="" /></td>
+
+                                <td>Horário Início:<input name="horarioinicio" type="time" id="@horarioPreco.Id" class="horario" style="margin: 10px" value="@horarioPreco.HorarioInicio" placeholder="" /></td>
+                                <td>Horário Fim:<input name="horariofim" type="time" id="@horarioPreco.Id" class="horario" style="margin: 10px" value="@horarioPreco.HorarioFim" placeholder="" /></td>
+
+                                @*<td onclick="myFunction(this)"><span class="btn btn-danger btn-circle" data-idhorario="@horarioPreco.Id" name="deleta-equipamento" onclick="DeletaEquipamento($(this).data('idhorario'))"><i class="fa" style="color: white">X</i>&nbsp;</span></td>*@
+                                <td><span class="btn btn-danger btn-circle" onclick="DeletaEquipamento(this)" style="margin: 10px" data-idhorario="@horarioPreco.Id" name="deleta-equipamento"><i class="fa" style="color: white">X</i>&nbsp;</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @*<td>
+                        <button id="addlinha" type="button" class="btn btn-success btn-add-new-row">Hora Adicional</button>
+                    </td>*@
+                <span class="btn btn-warning btn-circle" id="adiciona-equipamento" onclick="AdicionaEquipamento(1)"><i class="fa fa-plus" style="color: white"></i>&nbsp;</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3>Horários e Unidades</h3>
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="teste" class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                @*<td>
+                        <button id="addlinha" type="button" class="btn btn-success btn-add-new-row">Hora Adicional</button>
+                    </td>*@
+                <span class="btn btn-warning btn-circle" id="adiciona-veiculo" onclick="AdicionaEquipamento(1)"><i class="fa fa-plus" style="color: white"></i>&nbsp;</span>
+            </div>
+        </div>
+    }
+</div>
+

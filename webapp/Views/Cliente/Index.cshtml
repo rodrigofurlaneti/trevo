@@ -1,0 +1,309 @@
+﻿@using Entidade.Uteis
+@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ClienteViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ClienteController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/cliente/cliente.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/cliente/cliente.js")
+    @Styles.Render("~/content/css/contact/search-address-by-cep.css")
+    @Styles.Render("~/content/css/contact/contacts.css")
+    @Scripts.Render("~/Scripts/cliente/search-address-by-cep-with-grid.js")
+    @Scripts.Render("~/Scripts/contact/contacts.js")
+    @Scripts.Render("~/Scripts/veiculo/veiculo.js")
+    @Scripts.Render("~/Scripts/jquery.inputmask.bundle.js")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/cliente/cliente-autocomplete.js")
+
+    @Scripts.Render("~/Scripts/OcorrenciaCliente/ocorrencia-cliente.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Cliente
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "Cliente", FormMethod.Post, new { id = "ClienteForm" }))
+                                {
+                                    @Html.HiddenFor(x => x.Id, new { @id = "hdnCliente" })
+
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-12">
+                                                <label>Tipo de pessoa:</label><br />
+                                                @Html.DropDownListFor(x => x.TipoPessoa, (SelectList)ViewBag.TipoPessoaSelectList, "Selecione um Tipo de Pessoa...", new { @id = "tipo-pessoa", @class = "form-control chosen-select", data_placeholder = "Selecione um Tipo de Pessoa..." })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tipocontratofiltro" class="col-xs-4 col-md-4">
+                                        @Html.LabelFor(x => x.ListaUnidade, "Unidades: ", new { @class = "espacoControle" })
+                                        <br />
+                                        @Html.ListBoxFor(x => x.ListaUnidade, new SelectList(controller.ListaUnidades, "Id", "Nome"), new { @id = "unidades", @class = "chosen-select", data_placeholder = "Selecione as Unidades...", multiple = "" })
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Exige Nota Fiscal:</label><br />
+                                        @Html.CheckBoxFor(x => x.ExigeNotaFiscal, new { @id = "exigeNotaFiscal", @class = "form-control" })
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Nota Fiscal s/Desconto:</label><br />
+                                        @Html.CheckBoxFor(x => x.NotaFiscalSemDesconto, new { @id = "nota-fiscal-sem-desconto", @class = "form-control" })
+                                    </div>
+                                    @*<div class="col-xs-12 col-md-4">
+                                        <label>Convênio:</label><br />
+                                        @Html.TextBoxFor(x => x.NomeConvenio, new { @id = "nomeConvenio", @class = "form-control" })
+                                    </div>*@
+                                    <div class="container-pessoa-fisica col-xs-12 col-md-12 no-padding" style="display: none">
+                                        <div id="conteudo" class="row margin-bottom-5">
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>CPF:</label>
+                                                @Html.HiddenFor(x => x.Pessoa.IdDocumentoCpf, new { @id = "hdnCpf" })
+                                                @Html.TextBoxFor(x => x.Pessoa.Cpf, new { @id = "cpf", @class = "form-control", onchange = "validaCPF(this);" })
+                                                @Html.ValidationMessageFor(x => x.Cpf, "Informe um CPF válido!", new { @class = "text-danger" })
+                                                @Html.HiddenFor(x => x.Pessoa.Cpf, new { @id = "hdnCpfDoc" })
+                                            </div>
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>RG:</label>
+                                                @Html.HiddenFor(x => x.Pessoa.IdDocumentoRg, new { @id = "hdnRg" })
+                                                @Html.TextBoxFor(x => x.Pessoa.Rg, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Pessoa.Rg, "Informe o RG!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div id="conteudo" class="row margin-bottom-5">
+                                            <div class="col-xs-12">
+                                                <label>Nome:</label>
+                                                @Html.TextBoxFor(x => x.Pessoa.Nome, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Pessoa.Nome, "Informe o Nome!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div id="conteudo" class="row margin-bottom-5">
+                                            <div class="col-xs-12 col-md-3">
+                                                <div class="col-xs-12 no-padding">
+                                                    <label>Data de Nascimento:</label>
+                                                    <br />
+                                                    @Html.TextBoxFor(x => x.Pessoa.DataNascimento, new { @id = "dtNascimento", Value = Model != null && Model.Pessoa.DataNascimento.HasValue && Model.Pessoa.DataNascimento != DateTime.MinValue ? Model.Pessoa.DataNascimento.Value.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-md-3">
+                                                <div class="col-xs-12 no-padding">
+                                                    <label>Gênero:</label>
+                                                    <br />
+                                                    Masculino
+                                                    @Html.RadioButtonFor(x => x.Pessoa.Sexo, "Masculino", new { @class = "margin-right-15", Checked = "checked" })
+                                                    Feminino
+                                                    @Html.RadioButtonFor(x => x.Pessoa.Sexo, "Feminino")
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="container-pessoa-juridica col-xs-12 col-md-12 no-padding" style="display: none">
+                                        <div id="conteudo" class="row margin-bottom-5 col-xs-12 col-md-12 no-padding">
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>CNPJ:</label>
+                                                @Html.TextBoxFor(x => x.Cnpj, new { @id = "cnpj", @class = "form-control", onchange = "validaCNPJ(this);" })
+                                                @Html.ValidationMessageFor(x => x.Cnpj, "Informe o Cnpj!", new { @class = "text-danger" })
+                                                @Html.HiddenFor(x => x.Cnpj, new { @id = "hdnCnpjDoc" })
+                                            </div>
+                                        </div>
+                                        <div id="conteudo" class="row margin-bottom-5 col-xs-12 col-md-12 no-padding">
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>Nome Fantasia:</label>
+                                                @Html.TextBoxFor(x => x.NomeFantasia, new { @id = "nome_fantasia", @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.NomeFantasia, "Informe o Nome Fantasia!", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label>Razão Social:</label>
+                                                @Html.TextBoxFor(x => x.RazaoSocial, new { @id = "razao_social", @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.RazaoSocial, "Informe a Razão Social!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div id="conteudo" class="row margin-bottom-5 col-xs-12 col-md-12 no-padding">
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>Inscrição Estadual:</label>
+                                                @Html.TextBoxFor(x => x.InscricaoEstadual, new { @id = "inscricao_social", @class = "form-control" })
+                                            </div>
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>Inscrição Municipal:</label>
+                                                @Html.TextBoxFor(x => x.InscricaoMunicipal, new { @id = "inscricao_municipal", @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../Cliente/_SearchAddressByCEPWithGrid", Model != null && Model.Pessoa.Enderecos.Count > 0 ? Model.Pessoa.Enderecos.FirstOrDefault() : new EnderecoViewModel())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div id="lista-endereco-result" class="col-xs-12">
+                                            @Html.Partial("../Cliente/_GridEnderecos", Model != null && Model.Pessoa.Enderecos.Count > 0 ? Model.Pessoa.Enderecos : new List<EnderecoViewModel>())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../Contact/_Contacts", Model != null && Model.Pessoa.Contatos != null ? Model.Pessoa.Contatos.ToList() : new List<ContatoViewModel>())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../Veiculo/_Veiculo")
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div id="lista-contrato-result" class="col-xs-12">
+                                            @Html.Partial("../Cliente/_GridContratoMensalista", controller.ListaContratosMensalistas ?? new List<ContratoMensalistaViewModel>())
+                                        </div>
+                                    </div>
+                                    if (Model != null && Model.Id > 0)
+                                    {
+                                        <div class="row margin-bottom-5 col-xs-12 no-padding" style="padding-left:25px !important;">
+                                            <div class="jarviswidget jarviswidget-color-blueDark margin-bottom-0" id="div-ferias" data-widget-editbutton="false" data-widget-colorbutton="false"
+                                                 data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                                                <header>
+                                                    <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                                                    <h2>
+                                                        Férias/Ausência Cliente
+                                                    </h2>
+                                                </header>
+                                                <div class="widget-body col-xs-12">
+                                                    <div class="row col-xs-12 no-padding">
+                                                        <div class="col-md-2 col-xs-12">
+                                                            <label>Início:</label><br />
+                                                            <input type="text" id="dtInicioFerias" class="form-control" />
+                                                            <input id="hdn-id-ferias" type="hidden" value="0" />
+                                                            <input id="hdn-index-ferias" type="hidden" value="0" />
+                                                            <input id="hdnIsEditedFerias" type="hidden" value="false" />
+                                                            <input id="hdnUsId" type="hidden" value="0" />
+                                                        </div>
+                                                        <div class="col-md-2 col-xs-12">
+                                                            <label>Fim:</label><br />
+                                                            <input type="text" id="dtFimFerias" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-2 col-xs-12">
+                                                            <label>Inutilizar Todas as Vagas?</label><br />
+                                                            <input type="checkbox" id="chkTodasAsVagas" class="form-control" style="width:24px;height:24px;" />
+                                                        </div>
+                                                        <div id="div-contratos-ferias" class="col-md-3 col-xs-12">
+                                                            <label>Contratos</label><br />
+                                                            <input id="numeroVagas-contrato-ferias" type="hidden" value="0" />
+                                                            <select id="contrato-ferias" class="chosen-select form-control" data_placeholder="Selecione um Contrato..."></select>
+                                                        </div>
+                                                        <div class="col-md-1 col-xs-12 no-padding">
+                                                            <label>Número de Vagas</label><br />
+                                                            <input type="number" id="qtdVagas" class="form-control" />
+                                                        </div>
+                                                        <div class="pull-right margin-right-10" style="margin-top:15px !important;">
+                                                            <a class="btn btn-lg btn-primary" onclick="AdicionarFerias()"><i class="fa fa-plus"></i>&nbsp;Adicionar</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row col-xs-12 no-padding">
+                                                        <div id="lista-ferias-result">
+                                                            @Html.Partial("../Cliente/_GridFerias", controller.ListaFerias ?? new List<FeriasClienteViewModel>())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("~/Views/ContaCorrenteCliente/_Campos.cshtml", Model?.ContaCorrenteCliente ?? new ContaCorrenteClienteViewModel())
+
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../OcorrenciaCliente/_CamposCadastroCliente", Model?.OcorrenciaCliente ?? new OcorrenciaClienteViewModel())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-20 col-xs-12 col-md-12">
+                                        <div class="col-xs-12 col-md-12">
+                                            <label>Observação Gerais do Cliente:</label>
+                                            @Html.TextAreaFor(x => x.Observacao, new { @id = "observacao", @class = "form-control", @rows = "5", @style = "resize: none;" })
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            @Html.Partial("../SeloCliente/_Campos", Model ?? new ClienteViewModel())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="pull-right margin-right-10">
+                                            <a class="btn btn-lg btn-danger" href="/cliente/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        </div>
+                                    </div>
+                                    <br />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Buscar Cliente
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="col-xs-12">
+                                <div class="col-md-2">
+                                    <label>CPF/CNPJ:</label>
+                                    <br />
+                                    <input type="text" id="cpfBusca" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Nome:</label>
+                                    <br />
+                                    <input type="text" id="nomeBusca" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Contrato:</label>
+                                    <br />
+                                    <input type="text" id="contratoBusca" class="form-control" />
+                                </div>
+                                <div class="col-xs-2">
+                                    <br />
+                                    <div class="pull-right margin-right-10 margin-top-10">
+                                        <a class="btn btn-lg btn-primary" id="buscar" onclick="event.preventDefault(); BuscarClientes()" tabindex="0"><i class="fa fa-search"></i>&nbsp;Buscar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div id="lista-clientes">
+
+            </div>
+        </section>
+    </div>
+</div>

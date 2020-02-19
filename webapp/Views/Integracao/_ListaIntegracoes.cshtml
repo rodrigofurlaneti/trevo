@@ -1,0 +1,82 @@
+﻿@model List<IntegracaoViewModel>
+
+@Scripts.Render("~/Scripts/integracao/integracao-lista.js")
+
+<div>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Contratos em atraso</h2>
+                        @Html.Hidden("hdnTipoLista")
+                    </header>
+                    <div>
+                        <div class="widget-body">
+                            <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="hasinput" style="width: 10%">
+                                            <input type="text" class="form-control" placeholder="Lote" />
+                                        </th>
+                                        <th class="hasinput" style="width: 10%">
+                                            <input type="text" class="form-control" placeholder="Assessoria" />
+                                        </th>
+                                        <th class="hasinput" style="width: 20%">
+                                            <input type="text" class="form-control" placeholder="Arquivo" />
+                                        </th>
+                                        <th class="hasinput" style="width: 10%">
+                                            <input type="text" class="form-control" placeholder="Data" />
+                                        </th>
+                                        <th class="hasinput" style="width: 10%">
+                                            <input type="text" class="form-control" placeholder="Hora" />
+                                        </th>
+                                        <th class="hasinput" style="width: 20%">
+                                            <input type="text" class="form-control" placeholder="Usuario" />
+                                        </th>
+                                        <th class="hasinput" style="width: 10%">
+                                            <input type="text" class="form-control" placeholder="Importação" />
+                                        </th>
+                                        <th class="hasinput" style="width: 10%">
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th data-hide="phone">Lote:</th>
+                                        <th data-hide="expand">Assessoria: </th>
+                                        <th data-hide="phone">Arquivo: </th>
+                                        <th data-hide="phone">Data: </th>
+                                        <th data-hide="phone">Hora: </th>
+                                        <th data-hide="phone">Usuário: </th>
+                                        <th data-hide="expand">Importação: </th>
+                                        <th data-hide="phone">Ação: </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        foreach (var m in Model.ToList())
+                                        {
+                                            <tr>
+                                                <td>@m.Lote.ToString()</td>
+                                                <td>@(m.Assessoria != null ? m.Assessoria.Descricao : "")</td>
+                                                <td>@m.NomeArquivo</td>
+                                                <td>@(m.DataHoraArquivo != null ? m.DataHoraArquivo.ToShortDateString() : "")</td>
+                                                <td>@(m.DataHoraArquivo != null ? m.DataHoraArquivo.ToShortTimeString() : "")</td>
+                                                <td>@(m.UsuarioImportacao != null ? m.UsuarioImportacao.Pessoa.Nome : "")</td>
+                                                <td>@(m.DataInsercao != null ? m.DataInsercao.ToShortDateString() + " " + m.DataInsercao.ToShortTimeString() : "")</td>
+                                                <td>
+                                                    <span class="btn btn-danger" onclick="removerIntegracao(@m.Id)"><i class="fa fa-remove"></i></span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>

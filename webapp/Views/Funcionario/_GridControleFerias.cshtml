@@ -1,0 +1,69 @@
+﻿@using Core.Extensions;
+
+@model List<ControleFeriasViewModel>
+
+<div class="row">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Férias Encontradas</h2>
+            </header>
+
+            <div>
+                <div class="widget-body no-padding">
+                    <table id="datatable_grid_controleferias" class="table table-striped table-bordered" width="100%" style="margin-top: 0px !important">
+                        <thead>
+                            <tr>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-funcionario" type="text" class="form-control" placeholder="Filtrar Funcionário" />
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-unidade" type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-mes" type="text" class="form-control" placeholder="Filtrar Mês" />
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-ano" type="text" class="form-control" placeholder="Filtrar Ano" />
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-data-inicial" type="text" class="form-control mascara-data" placeholder="Filtrar Data Inicial" />
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-data-final" type="text" class="form-control mascara-data" placeholder="Filtrar Data Final" />
+                                </th>
+                                <th class="hasinput">
+                                    <input id="coluna-busca-trabalhada" type="text" class="form-control" placeholder="Filtrar Trabalhada" />
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Funcionário</th>
+                                <th>Unidade</th>
+                                <th>Mês</th>
+                                <th>Ano</th>
+                                <th>Data Inicial</th>
+                                <th>Data Final</th>
+                                <th>Trabalhada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(item.Funcionario.Pessoa.Nome)</td>
+                                    <td>@(item.Funcionario?.Unidade?.Nome)</td>
+                                    <td>@(item.DataInicial.ToString("MMMM"))</td>
+                                    <td>@(item.DataInicial.Year)</td>
+                                    <td>@(item.DataInicial.ToShortDateString())</td>
+                                    <td>@(item.DataFinal.ToShortDateString())</td>
+                                    <td>@(item.AutorizadoTrabalhar ? "Sim" : "Não")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>

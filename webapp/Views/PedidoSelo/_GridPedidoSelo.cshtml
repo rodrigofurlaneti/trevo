@@ -1,0 +1,92 @@
+﻿@using Core.Extensions
+
+@model IList<Aplicacao.ViewModels.PedidoSeloViewModel>
+
+<div class="widget-body no-padding">
+    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+        <thead>
+            <tr>
+                <th class="hasinput" style="width:10%">
+                    <input type="text" class="form-control" placeholder="Filtrar Id" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Cliente" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Convênio" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Validade Pedido" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Tipo Selo" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Quantidade" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Status Convênio" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Status Pedido" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Tipo Pagamento" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Desconto" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Solicitação" />
+                </th>
+                <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                </th>
+            </tr>
+            <tr>
+                <th data-hide="phone">Id:</th>
+                <th data-hide="phone">Cliente: </th>
+                <th data-hide="phone">Convênio: </th>
+                <th data-hide="phone">Unidade: </th>
+                <th data-hide="phone">Validade Pedido:</th>
+                <th data-hide="phone">Tipo Selo: </th>
+                <th data-hide="phone">Quantidade: </th>
+                <th data-hide="phone">Status Convênio: </th>
+                <th data-hide="phone">Status Pedido: </th>
+                <th data-hide="phone">Tipo Pagamento: </th>
+                <th data-hide="phone">Desconto: </th>
+                <th data-hide="phone">Solicitação: </th>
+                <th data-class="expand">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model != null)
+            {
+                foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.Id</td>
+                        <td>@(string.IsNullOrEmpty(m.Cliente.Pessoa.Nome) ? m.Cliente.NomeFantasia : m.Cliente.Pessoa.Nome)</td>
+                        <td>@(m.Convenio != null ? m.Convenio.Descricao : "")</td>
+                        <td>@(m.Unidade != null ? m.Unidade.Nome : "")</td>
+                        <td>@(m.ValidadePedido.ToShortDateString())</td>
+                        <td>@(m.TipoSelo != null ? m.TipoSelo.Nome : "")</td>
+                        <td>@(m.Quantidade)</td>
+                        <td>@(m.Convenio != null ? (m.Convenio.Status ? "Ativo" : "Desativado") : "")</td>
+                        <td>@m.StatusPedido.ToDescription()</td>
+                        <td>@m.TiposPagamento.ToDescription()</td>
+                        <td>@(m.Desconto != null ? m.Desconto.Descricao : "")</td>
+                        <td>@m.TipoPedidoSelo.ToDescription()</td>
+
+                        <td>
+                            <a class="btn btn-primary" href="@Url.Action("Edit", new {m.Id})"><i class='fa fa-edit'></i></a>
+                            <a class="btn btn-danger" href="@Url.Action("Cancelar", new {m.Id})"><i class="fa fa-remove"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,76 @@
+﻿<!--
+  Generated template for the Produto page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar style="min-height: 0px;">
+
+        
+        <div style="display: inline;">
+            <div class="header-text">
+                <span class="msg">Detalhe do produto</span>
+            </div>
+            <div class="buttons">
+                <button ion-button icon-only clear color="secondary" class="btn-add-cart-menu cart-preview-detail--qtd" (click)="visualizarListaDeCompra()">
+                    <ion-icon name="cart">
+                        <!--<span class="cart-preview--num badge">62</span>-->
+                    </ion-icon>
+                </button>    
+            </div>
+        </div>
+    </ion-navbar>
+    
+    
+</ion-header>
+
+
+<ion-content padding>
+    <h6 class="nome-produto-detalhe">{{produtoMv.Produto.Nome}}</h6>
+    <div class="img-produto-detalhe-container">
+        <div *ngIf="!produtoMv || produtoMv.Imagens.length <= 0">
+            <img src="assets/image/produtos/default.jpg" class="img-produto-detalhe" alt="">
+        </div>
+
+        <ion-slides pager autoplay>
+            <ion-slide *ngFor="let slide of produtoMv.Imagens">
+                <img src={{slide.Descricao}} class="img-produto-detalhe" alt="">
+            </ion-slide>
+        </ion-slides>
+    </div>
+
+    <div class="produto-item-preco">
+        <div class="produto-preco-detalhe">
+            <span class="preco-completo-detalhe">
+                <span class="preco-titulo-detalhe">Por</span>
+                <strong class="preco-valor-detalhe">R${{produtoMv.Preco?.Valor.toFixed(2)}}</strong>
+            </span>
+        </div>
+    </div>
+
+    <div class="product--actions-detalhe">
+        <div class="qtd-group-detalhe">
+            <button ion-button icon-only round class="btn-qtde-dec-detalhe" (click)="decrementaQtde(produtoMv)">
+                <ion-icon name="remove"></ion-icon>
+            </button>
+            <input type="number" min="1" class="input-qtde-detalhe" [(ngModel)]="produtoMv.Quantidade" />
+            <button ion-button icon-only round class="btn-qtde-inc-detalhe" (click)="incrementaQtde(produtoMv)">
+                <ion-icon name="add"></ion-icon>
+            </button>
+            <button ion-button icon-only round outline color="secondary" class="btn-add-cart-detalhe" (click)="adicionarCarrinho(produtoMv)">
+                <ion-icon name="cart"></ion-icon>
+            </button>
+        </div>
+    </div>
+
+    <!--<div style="display: inline-flex;">
+        <ion-input style="width: 50px; border: solid 1px grey;" type="number" min="1" [(ngModel)]="produtoMv.Quantidade"></ion-input>
+        <button ion-button clear item-end (click)="adicionarCarrinho(produtoMv)">Adicionar à lista de compra</button>
+        <button ion-button clear item-end (click)="visualizarListaDeCompra()">Vizualizar lista de compra</button>
+    </div>-->
+    <div class="descricao">
+        <h4 class="produto-detalhe-desc-titulo">{{produtoMv.Produto.Descricao}}</h4>
+        <ion-label class="produto-detalhe-desc" *ngFor="let informacao of produtoMv.Descricoes">{{informacao.Descricao}}</ion-label>   
+    </div>
+</ion-content>

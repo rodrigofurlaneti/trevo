@@ -1,0 +1,4 @@
+﻿@using Portal.Controllers
+@model List<FornecedorViewModel>
+
+@Html.DropDownList("Fornecedor", new SelectList(Model, "Id", "Nome"), "Selecione...", new { @id = "fornecedor", @class = "chosen-select form-control", data_placeholder = "Selecione..." })

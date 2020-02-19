@@ -1,0 +1,31 @@
+﻿    <!-- HEADER -->
+<header id="header">
+    <div id="logo-group">
+        <!-- PLACE YOUR LOGO HERE -->
+        <span id="logo"> <img src="~/content/img/logo.png" alt="4WORLD Consultoria"> </span>
+        <!-- END LOGO PLACEHOLDER -->
+        @if (Request.IsAuthenticated)
+        {
+
+        }
+    </div>
+    @if (Request.IsAuthenticated)
+    {
+        @*<div id="hide-menu" class="btn-header pull-right">
+            <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+        </div>*@
+    }
+    <section id="top-right">
+        @if (@Model is HelperResult)
+        {
+            @Model
+        }
+        else
+        {
+            <div class="pull-right">
+                @Html.Partial("_TopRight")
+            </div>
+        }
+    </section>
+</header>
+<!-- END HEADER -->

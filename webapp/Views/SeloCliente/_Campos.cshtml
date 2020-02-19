@@ -1,0 +1,115 @@
+﻿
+@using Portal.Controllers
+@using Core.Extensions
+@using Entidade.Uteis;
+
+@model Aplicacao.ViewModels.ClienteViewModel
+
+@*@{
+    var tipoPagamentoSeloList = Enum.GetValues(typeof(TipoPagamentoSelo)).OfType<TipoPagamentoSelo>().Select(m => new { Text = m.GetDescription(), Value = (int)m }).ToList();
+}*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/SeloCliente/selo-cliente.js")
+}
+
+<div>
+    <div class="widget-body">        
+        @Html.HiddenFor(x => x.SeloCliente.Id, new { @id = "hdnIDSeloCliente" })
+        <div id="conteudo" class="row">
+            <div class="col-xs-12 col-md-12">
+                @Html.Label("Selo Cliente", new { style = "font-weight: bold; font-size: 1.17em;" })
+                <div id="conteudo" class="row">
+                    <div class="col-xs-12 col-md-2">
+                        <div class="col-xs-12 no-padding">
+                            <label>Tipo de Pagamento:</label>
+                            <br />
+                            @*<div class="pull-left padding-left-15>
+                        @foreach (var tipoPagemantoSelo in tipoPagamentoSeloList)
+                        {
+                            if (tipoPagemantoSelo.Equals(Model.TipoPagamentoSelo))
+                            {
+                                @Html.RadioButtonFor(m => m.TipoPagamentoSelo, tipoPagemantoSelo.Value,
+                                    new
+                                    {
+                                        id = "selo-cliente-" + tipoPagemantoSelo.Text,
+                                        @Checked = ""
+                                    })
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(m => m.TipoPagamentoSelo, tipoPagemantoSelo.Value,
+                                    new
+                                    {
+                                        id = "selo-cliente-" + tipoPagemantoSelo.Text,
+                                    })
+                            }
+                        }
+                    </div>*@
+                            <div class="pull-left padding-left-15">
+                                <label>
+                                    @if (Model.SeloCliente.TipoPagamentoSelo == TipoPagamentoSelo.Prepago)
+                                    {
+                                        @Html.RadioButtonFor(x => x.SeloCliente.TipoPagamentoSelo, (int)TipoPagamentoSelo.Prepago, new { @id = "selo-cliente-pre-pago", Checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(x => x.SeloCliente.TipoPagamentoSelo, (int)TipoPagamentoSelo.Prepago, new { @id = "selo-cliente-pre-pago" })
+                                    }
+                                    Pré-pago
+                                </label>
+                            </div>
+                            <div class="pull-left padding-left-15">
+                                <label>
+                                    @if (Model.SeloCliente.TipoPagamentoSelo == TipoPagamentoSelo.Pospago)
+                                    {
+                                        @Html.RadioButtonFor(x => x.SeloCliente.TipoPagamentoSelo, (int)TipoPagamentoSelo.Pospago, new { @id = "selo-cliente-pos-pago", Checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(x => x.SeloCliente.TipoPagamentoSelo, (int)TipoPagamentoSelo.Pospago, new { @id = "selo-cliente-pos-pago" })
+                                    }
+                                    Pós pago
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3">
+                        <div class="col-xs-12 no-padding">
+                            <label>Convênio:</label><br />
+                            @Html.TextBoxFor(x => x.NomeConvenio, new { @id = "nomeConvenio", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2">
+                        <div class="col-xs-12 no-padding">
+                            <label>Validade do Selo: </label>
+                            @Html.TextBoxFor(p => p.SeloCliente.ValidadeSelo, new { id = "selo-cliente-validade", @class = "form-control", type = "number", min = "0" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2">
+                        <div class="col-xs-12 no-padding">
+                            <label>Prazo de Pagamento: </label>
+                            @Html.TextBoxFor(x => x.SeloCliente.PrazoPagamentoSelo, new { id = "selo-cliente-prazo-pagamento", @class = "form-control", type = "number", min = "0" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2">
+                        <div class="col-xs-12 no-padding">
+                            <label>Emitir Nota Fiscal? </label>
+                            @Html.CheckBoxFor(x => x.SeloCliente.EmissaoNF, new { @id = "selo-cliente-emitir-nf", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalDivBloqueio"></div>

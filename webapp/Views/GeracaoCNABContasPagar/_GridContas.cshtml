@@ -1,0 +1,88 @@
+﻿@using Core.Extensions
+@model List<Aplicacao.ViewModels.GeracaoCNABContaPagarViewModel>
+
+@if (Model != null && Model.Any())
+{
+    <div class="col-xs-12 col-md-12 nopadding text-right">
+        <a class="btn btn-danger btn-lg" id="retirarSelecionados" onclick="RetirarContasSelecionadas();"><i class="fa fa-remove"></i>&nbsp;Retirar Selecionados</a>
+    </div>
+    <div class="col-xs-12 col-md-12 nopadding">
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Codigo" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Fornecedor" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Forma Pagamento" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Data" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Multa" />
+                    </th>
+                    <th class="hasinput" style="width: 5%">
+                        <input type="text" class="form-control" placeholder="Filtrar Juros" />
+                    </th>
+                    <th style="width: 5%">
+                    </th>
+                    <th style="width: 5%">
+                    </th>
+                </tr>
+                <tr>
+                    <th data-hide="expand">Codigo</th>
+                    <th data-hide="expand">Fornecedor</th>
+                    <th data-hide="expand">Forma Pagamento</th>
+                    <th data-hide="expand">Valor</th>
+                    <th data-hide="expand">Data</th>
+                    <th data-hide="expand">Multa</th>
+                    <th data-hide="expand">Juros</th>
+                    <th data-hide="expand" class="text-align-center">
+                        <input type="checkbox" id="chktodos" onclick="CheckTodos()" autocomplete="off" class="form-control" style="display:inherit;" />
+                    </th>
+                    <th data-hide="expand" class="text-align-center">Retirar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                <tr>
+                    <td>@m.Id</td>
+                    <td>@if (string.IsNullOrEmpty(@m.Fornecedor.NomeFantasia))
+                    { @m.Fornecedor.Nome }
+                    else
+                    { @m.Fornecedor.NomeFantasia }</td>
+                    <td>@m.FormaPagamento.ToDescription()</td>
+                    <td>@m.Valor</td>
+                    <td>@(m.DataVencimento?.ToShortDateString())</td>
+                    <td>@m.ValorMulta</td>
+                    <td>@m.ValorJuros</td>
+                    <td class="text-align-center">
+                        <input type="checkbox" id="chkuni-@(m.Id)" onclick="CheckUni(this)" autocomplete="off" class="form-control" style="display: inherit;" />
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-danger" onclick="RetirarConta(@(m.Id));"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+        <tr>
+            <td>
+                Nenhuma Conta foi encontrada.
+            </td>
+        </tr>
+    </table>
+}

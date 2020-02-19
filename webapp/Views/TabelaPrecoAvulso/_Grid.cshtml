@@ -1,0 +1,86 @@
+﻿@model List<Aplicacao.ViewModels.TabelaPrecoAvulsoGridViewModel>
+
+<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+    <header>
+        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+        <h2>Lista Tabela Preço</h2>
+    </header>
+    <div>
+        <div class="jarviswidget-editbox"></div>
+        <div class="widget-body no-padding">
+            <table id="datatable_fixed_column" class="table table-striped table-bordered" style="width: 100%;">
+                @if (Model != null && Model.Any())
+                {
+                    <thead>
+                        <tr>
+                            <th class="hasinput" style="width:10%">
+                                <input type="text" class="form-control" placeholder="Filtrar" />
+                            </th>
+                            <th class="hasinput">
+                                <input type="text" class="form-control" placeholder="Filtrar Nome da Tabela" />
+                            </th>
+                            <th class="hasinput">
+                                <input type="text" class="form-control" placeholder="Filtrar" />
+                            </th>
+                            <th class="hasinput">
+                                <input type="text" class="form-control" placeholder="Filtrar" />
+                            </th>
+                            <th class="hasinput">
+                                <input type="text" class="form-control" placeholder="Filtrar" />
+                            </th>
+                            <th class="hasinput">
+                                <input type="text" class="form-control" placeholder="Filtrar" />
+                            </th>
+                            <th class="hasinput">
+                                <input type="text" class="form-control" placeholder="Filtrar" />
+                            </th>
+                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th data-hide="phone">Nome da Tabela</th>
+                            <th data-hide="phone">Tempo Tolerância Pagamento</th>
+                            <th data-hide="phone">Tempo Tolerância Desistência</th>
+                            <th data-hide="phone">Unidade</th>
+                            <th data-hide="phone">Data Cadastro</th>
+                            <th data-hide="phone">Usuário</th>
+                            <th data-hide="phone">Status</th>
+                            <th data-class="expand">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.NomeTabela</td>
+                                <td>@item.TempoToleranciaPagamento</td>
+                                <td>@item.TempoToleranciaDesistencia</td>
+                                <td>@item.Unidade</td>
+                                <td>@item.DataCadastro</td>
+                                <td>@item.Usuario</td>
+                                <td>@item.Status</td>
+                                <td>
+                                    <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.Id })"><i class='fa fa-edit'></i></a>
+                                    <a class="btn btn-danger" onclick="confirmarExclusao('@item.Id', '@item.IdUnidade', '@item.ExclusaoGeral.ToString()')"><i class="fa fa-remove"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+                else
+                {
+                    <thead>
+                        <tr><td></td></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center">
+                                Nenhum registro foi encontrado.
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+</div>

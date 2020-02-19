@@ -1,0 +1,53 @@
+﻿@using Portal.Controllers;
+@using Aplicacao.ViewModels;
+@model Aplicacao.ViewModels.EquipeViewModel
+@{
+
+    var controller = ViewContext.Controller as RemanejamentoController;
+
+    var i = 0;
+}
+
+@if (Model.Colaboradores != null)
+{
+
+    <div id="divlistacolaboradoresorigem">
+        <div class="col-lg-6 table">
+            <div><h3><input type="checkbox" onclick="checkFluencyOrigem()" id="selecionarTodosOrigem" /><b>Equipe</b></h3></div>
+            <div class="col-xs-6">
+                <table id="tbColaboradorOrigem">
+                    <thead>
+                        <tr>
+                            <th style="width: 1%; display:none;"></th>
+                            <th style="width: 5%;"></th>
+                            <th style="width: 40%;"></th>
+                            <th style="width: 55%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="dynamicInputs">
+                        @foreach (var colaborador in Model.Colaboradores)
+                        {
+                            if (colaborador.Turno!= null)
+                            {
+                                i++;
+
+                                <tr id="linhaColadoradorOrigem">
+
+                                    <td><input type="checkbox" class="colaboradorSelecionadoOrigem" value="@colaborador.Id" name="colaboradorOrigemChk" id="@i" onclick="adicionarColaboradorOrigemClick(@colaborador.Id,@i)" /></td>
+                                    <td>@(colaborador.NomeColaborador == null ? "Slot Aberto" : colaborador.NomeColaborador.Pessoa.Nome)</td>
+                                    <td>Turno @colaborador.Turno.Periodo</td>
+                                    <td style="display:none;"> @(colaborador.NomeColaborador == null ? 0 : colaborador.NomeColaborador.Pessoa.Id)</td>
+                                </tr>
+                            }
+
+                           
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+}
+
+

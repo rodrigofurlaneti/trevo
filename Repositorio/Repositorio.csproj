@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E0240B2-B47E-40CC-AF42-AEB2744E4CD8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Repositorio</RootNamespace>
+    <AssemblyName>Repositorio</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Development|AnyCPU'">
+    <OutputPath>bin\Development\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator.SimpleInjectorAdapter, Version=2.8.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.SimpleInjectorAdapter.2.8.0\lib\portable-net4+sl4+wp8+win8+wpa81\CommonServiceLocator.SimpleInjectorAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.CommonServiceLocator.1.2.2\lib\net35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.10.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.10.4\lib\net452\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate, Version=5.2.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.5.2.0\lib\net461\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq.EagerFetching, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.EagerFetching.2.2.0\lib\net45\Remotion.Linq.EagerFetching.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=4.0.8.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.0.8\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Extensions">
+      <HintPath>..\..\..\..\Library\Frameworks\Mono.framework\Versions\5.10.1\lib\mono\4.5.2-api\System.Web.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <HintPath>..\..\..\..\Library\Frameworks\Mono.framework\Versions\5.10.1\lib\mono\4.5.2-api\System.Configuration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FeriasClienteRepositorio.cs" />
+    <Compile Include="Mapeamento\FeriasClienteMap.cs" />
+    <Compile Include="Mapeamento\SeloClienteMap.cs" />
+    <Compile Include="PedidoSeloHistoricoRepositorio.cs" />
+    <Compile Include="PedidoSeloEmailRepositorio.cs" />
+    <Compile Include="ContaCorrenteClienteRepositorio.cs" />
+    <Compile Include="BloqueioReferenciaRepositorio.cs" />
+    <Compile Include="ControleFeriasRepositorio.cs" />
+    <Compile Include="CalendarioRHRepositorio.cs" />
+    <Compile Include="ControlePontoFeriasRepositorio.cs" />
+    <Compile Include="ControlePontoRepositorio.cs" />
+    <Compile Include="LancamentoCobrancaContratoMensalistaRepositorio.cs" />
+    <Compile Include="Mapeamento\ContaCorrenteClienteMap.cs" />
+    <Compile Include="Mapeamento\BloqueioReferenciaMap.cs" />
+    <Compile Include="Mapeamento\ControleFeriasMap.cs" />
+    <Compile Include="Mapeamento\CalendarioRHMap.cs" />
+    <Compile Include="Mapeamento\ControlePontoFerias\ControlePontoFeriasDiaMap.cs" />
+    <Compile Include="Mapeamento\ControlePontoFerias\ControlePontoFeriasMap.cs" />
+    <Compile Include="Mapeamento\ControlePontoRh\ControlePontoDiaMap.cs" />
+    <Compile Include="Mapeamento\ControlePontoRh\ControlePontoMap.cs" />
+    <Compile Include="Mapeamento\LancamentoCobrancaContratoMensalistaMap.cs" />
+    <Compile Include="Mapeamento\NotificacaoDesbloqueioReferenciaMap.cs" />
+    <Compile Include="Mapeamento\OcorrenciaFuncionarioDetalheMap.cs" />
+    <Compile Include="Mapeamento\OcorrenciaClienteMap.cs" />
+    <Compile Include="NotificacaoDesbloqueioReferenciaRepositorio.cs" />
+    <Compile Include="OcorrenciaFuncionarioRepositorio.cs" />
+    <Compile Include="Mapeamento\OcorrenciaFuncionarioMap.cs" />
+    <Compile Include="OcorrenciaRepositorio.cs" />
+    <Compile Include="SeloClienteRepositorio.cs" />
+    <Compile Include="TipoOcorrenciaRepositorio.cs" />
+    <Compile Include="Mapeamento\TipoOcorrenciaMap.cs" />
+    <Compile Include="PlanoCarreiraRepositorio.cs" />
+    <Compile Include="ArquivoBaseRepositorio.cs" />
+    <Compile Include="Mapeamento\PlanoCarreiraMap.cs" />
+    <Compile Include="Mapeamento\BeneficioFuncionarioDetalheMap.cs" />
+    <Compile Include="Mapeamento\BeneficioFuncionarioMap.cs" />
+    <Compile Include="Mapeamento\ArquivoBaseMap.cs" />
+    <Compile Include="Mapeamento\TipoBeneficioMap.cs" />
+    <Compile Include="BeneficioFuncionarioRepositorio.cs" />
+    <Compile Include="TipoBeneficioRepositorio.cs" />
+    <Compile Include="ItemFuncionarioRepositorio.cs" />
+    <Compile Include="Mapeamento\ContasAPagarItemMap.cs" />
+    <Compile Include="Mapeamento\ItemFuncionarioDetalheMap.cs" />
+    <Compile Include="Mapeamento\ItemFuncionarioMap.cs" />
+    <Compile Include="Mapeamento\ParametroBoletoBancarioDescritivoMap.cs" />
+    <Compile Include="Mapeamento\ParametroBoletoBancarioMap.cs" />
+    <Compile Include="ParametroBoletoBancarioRepositorio.cs" />
+    <Compile Include="ContaPagarRepositorio.cs" />
+    <Compile Include="Mapeamento\OcorrenciaRetornoCNABMap.cs" />
+    <Compile Include="OcorrenciaRetornoCNABRepositorio.cs" />
+    <Compile Include="ControleCompraRepositorio.cs" />
+    <Compile Include="Mapeamento\LogMap.cs" />
+    <Compile Include="Mapeamento\ControleCompraMap.cs" />
+    <Compile Include="Mapeamento\OrcamentoSinistro\OrcamentoSinistroCotacaoItemMap.cs" />
+    <Compile Include="PecaServicoRepositorio.cs" />
+    <Compile Include="OrcamentoSinistroRepositorio.cs" />
+    <Compile Include="Mapeamento\OrcamentoSinistro\OrcamentoSinistroCotacaoMap.cs" />
+    <Compile Include="Mapeamento\PecaServicoMap.cs" />
+    <Compile Include="Mapeamento\OrcamentoSinistro\OrcamentoSinistroMap.cs" />
+    <Compile Include="OficinaRepositorio.cs" />
+    <Compile Include="Mapeamento\OficinaMap.cs" />
+    <Compile Include="OISRepositorio.cs" />
+    <Compile Include="Mapeamento\OISMap.cs" />
+    <Compile Include="MovimentacaoSeloRepositorio.cs" />
+    <Compile Include="Mapeamento\MovimentacaoSeloMap.cs" />
+    <Compile Include="Mapeamento\PedidoCompra\PedidoCompraNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\PedidoCompra\PedidoCompraCotacaoMaterialFornecedorMap.cs" />
+    <Compile Include="Mapeamento\PedidoCompra\PedidoCompraMap.cs" />
+    <Compile Include="PedidoCompra\PedidoCompraCotacaoMaterialFornecedorRepositorio.cs" />
+    <Compile Include="PedidoCompra\PedidoCompraNotificacaoRepositorio.cs" />
+    <Compile Include="PedidoCompra\PedidoCompraRepositorio.cs" />
+    <Compile Include="CotacaoNotificacaoRepositorio.cs" />
+    <Compile Include="NecessidadeCompra\NecessidadeCompraNotificacaoRepositorio.cs" />
+    <Compile Include="NecessidadeCompra\NecessidadeCompraMaterialFornecedorRepositorio.cs" />
+    <Compile Include="CotacaoRepositorio.cs" />
+    <Compile Include="NecessidadeCompra\NecessidadeCompraRepositorio.cs" />
+    <Compile Include="Mapeamento\CotacaoNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\NecessidadeCompra\NecessidadeCompraMaterialFornecedorMap.cs" />
+    <Compile Include="Mapeamento\NecessidadeCompra\NecessidadeCompraNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\NecessidadeCompra\NecessidadeCompraMap.cs" />
+    <Compile Include="Mapeamento\CotacaoMaterialFornecedorMap.cs" />
+    <Compile Include="Mapeamento\CotacaoMap.cs" />
+    <Compile Include="MaterialFornecedorRepositorio.cs" />
+    <Compile Include="Mapeamento\MaterialFornecedorMap.cs" />
+    <Compile Include="Mapeamento\MaterialNotificacaoMap.cs" />
+    <Compile Include="MaterialNotificacaoRepositorio.cs" />
+    <Compile Include="Mapeamento\ContratoMensalistaMap.cs" />
+    <Compile Include="Mapeamento\ContratoUnidadeMap.cs" />
+    <Compile Include="MaterialHistoricoRepositorio.cs" />
+    <Compile Include="EstoqueMaterialRepositorio.cs" />
+    <Compile Include="EstoqueManualRepositorio.cs" />
+    <Compile Include="Mapeamento\EstoqueManualMap.cs" />
+    <Compile Include="Mapeamento\EstoqueManualItemMap.cs" />
+    <Compile Include="EstoqueManualItemRepositorio.cs" />
+    <Compile Include="MaterialRepositorio.cs" />
+    <Compile Include="Mapeamento\MaterialHistoricoMap.cs" />
+    <Compile Include="Mapeamento\MaterialMap.cs" />
+    <Compile Include="Mapeamento\EstoqueMaterialMap.cs" />
+    <Compile Include="TipoMaterialRepositorio.cs" />
+    <Compile Include="Mapeamento\TipoMaterialMap.cs" />
+    <Compile Include="Mapeamento\PedidoLocacaoLancamentoCobrancaMap.cs" />
+    <Compile Include="Mapeamento\PedidoLocacaoNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\EstoqueMap.cs" />
+    <Compile Include="PedidoLocacaoLancamentoCobrancaRepositorio.cs" />
+    <Compile Include="PedidoLocacaoNotificacaoRepositorio.cs" />
+    <Compile Include="Base\Conventions\DateTimeConvention.cs" />
+    <Compile Include="Base\Conventions\EnumConvention.cs" />
+    <Compile Include="Base\Conventions\CascadeConvention.cs" />
+    <Compile Include="Base\FluentNHibContextTest.cs" />
+    <Compile Include="CalculoFechamentoRepositorio.cs" />
+    <Compile Include="CheckListAtividadeTipoAtividadeRepositorio.cs" />
+    <Compile Include="CheckListEstruturaUnidadeRepositorio.cs" />
+    <Compile Include="ChekListAtividadeRepositorio.cs" />
+    <Compile Include="AluguelRepositorio.cs" />
+    <Compile Include="ChequeEmitidoContaPagarRepositorio.cs" />
+    <Compile Include="ChequeEmitidoRepositorio.cs" />
+    <Compile Include="ChequeRecebidoRepositorio.cs" />
+    <Compile Include="ClienteCondominoRepositorio.cs" />
+    <Compile Include="CondominoVeiculoRepositorio.cs" />
+    <Compile Include="ClienteVeiculoRepositorio.cs" />
+    <Compile Include="ConsolidaAjusteFaturamentoRepositorio.cs" />
+    <Compile Include="ConsolidaAjusteFinalFaturamentoRepositorio.cs" />
+    <Compile Include="ConsolidaFaturamentoRepositorio.cs" />
+    <Compile Include="ContaContabilRepositorio.cs" />
+    <Compile Include="ContratoMensalistaRepositorio.cs" />
+    <Compile Include="ContratoMensalistaVeiculoRepositorio.cs" />
+    <Compile Include="ConvenioUnidadeRepositorio.cs" />
+    <Compile Include="EmissaoSeloRepositorio.cs" />
+    <Compile Include="FaturamentoRepositorio.cs" />
+    <Compile Include="LancamentoCobrancaPedidoSeloRepositorio.cs" />
+    <Compile Include="Mapeamento\CalculoFechamentoMap.cs" />
+    <Compile Include="Mapeamento\ChequeEmitidoMap.cs" />
+    <Compile Include="Mapeamento\ChequeRecebidoMap.cs" />
+    <Compile Include="Mapeamento\ClienteCondominoMap.cs" />
+    <Compile Include="Mapeamento\ConsolidaAjusteFaturamentoMap.cs" />
+    <Compile Include="Mapeamento\ConsolidaAjusteFinalFaturamentoMap.cs" />
+    <Compile Include="Mapeamento\ConsolidaDespesaMap.cs" />
+    <Compile Include="Mapeamento\ConsolidaFaturamentoMap.cs" />
+    <Compile Include="Mapeamento\ContaContabilMap.cs" />
+    <Compile Include="Mapeamento\ConvenioUnidadeMap.cs" />
+    <Compile Include="Mapeamento\EmissaoSeloMap.cs" />
+    <Compile Include="Mapeamento\EstruturaUnidadeMap.cs" />
+    <Compile Include="Mapeamento\FaturamentoMap.cs" />
+    <Compile Include="Mapeamento\HorarioUnidadeNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\LancamentoCobrancaPedidoSeloMap.cs" />
+    <Compile Include="Mapeamento\MovimentacaoMap.cs" />
+    <Compile Include="Mapeamento\NotificacaoAvisoPedidoSeloMap.cs" />
+    <Compile Include="Mapeamento\NegociacaoSeloDescontoNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\NotificacaoMap.cs" />
+    <Compile Include="Mapeamento\DescontoMap.cs" />
+    <Compile Include="Mapeamento\PagamentoMensalidadeMap.cs" />
+    <Compile Include="Mapeamento\ParametrizacaoLocacaoMap.cs" />
+    <Compile Include="Mapeamento\ChequeEmitidoContaPagarMap.cs" />
+    <Compile Include="Mapeamento\ParametroEquipeNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\ParametroNumeroNotaFiscalMap.cs" />
+    <Compile Include="Mapeamento\PedidoSeloEmailMap.cs" />
+    <Compile Include="Mapeamento\PedidoLocacaoLancamentoAdicionalMap.cs" />
+    <Compile Include="Mapeamento\PedidoSeloHistoricoMap.cs" />
+    <Compile Include="Mapeamento\PedidoLocacaoMap.cs" />
+    <Compile Include="Mapeamento\PedidoSeloMap.cs" />
+    <Compile Include="Mapeamento\PedidoSeloNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\PrecoNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\PrecoParametroSeloMap.cs" />
+    <Compile Include="Mapeamento\PropostaMap.cs" />
+    <Compile Include="Mapeamento\SelecaoDespesaMap.cs" />
+    <Compile Include="Mapeamento\SeloMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoAvulsaMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoAvulsoHoraValorMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoAvulsoUnidadeMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoAvulsoPeriodoMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoAvulsoMap.cs" />
+    <Compile Include="Mapeamento\VagaCortesiaVigenciaMap.cs" />
+    <Compile Include="Mapeamento\VagaCortesiaMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoMensalistaMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoAvulsoNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoMensalistaNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoMensalistaUnidadeMap.cs" />
+    <Compile Include="Mapeamento\ParametroNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\TipoLocacaoMap.cs" />
+    <Compile Include="Mapeamento\TipoNotificacaoMap.cs" />
+    <Compile Include="Mapeamento\TipoSeloMap.cs" />
+    <Compile Include="Mapeamento\UnidadeCondominoMap.cs" />
+    <Compile Include="MovimentacaoRepositorio.cs" />
+    <Compile Include="NotificacaoAvisoPedidoSeloRepositorio.cs" />
+    <Compile Include="DescontoRepositorio.cs" />
+    <Compile Include="NotificacaoRepositorio.cs" />
+    <Compile Include="ParametrizacaoLocacaoRepositorio.cs" />
+    <Compile Include="PedidoLocacaoLancamentoAdicionalRepositorio.cs" />
+    <Compile Include="PedidoSeloNotificacaoRepositorio.cs" />
+    <Compile Include="ParametroEquipeNotificacaoRepositorio.cs" />
+    <Compile Include="HorarioUnidadeNotificacaoRepositorio.cs" />
+    <Compile Include="NegociacaoSeloDescontoNotificacaoRepositorio.cs" />
+    <Compile Include="PedidoLocacaoRepositorio.cs" />
+    <Compile Include="PrecoNotificacaoRepositorio.cs" />
+    <Compile Include="PagamentoMensalidadeRepositorio.cs" />
+    <Compile Include="ParametroNotificacaoUsuarioRepositorio.cs" />
+    <Compile Include="ParametroNotificacaoRepositorio.cs" />
+    <Compile Include="ParametroNumeroNotaFiscalRepositorio.cs" />
+    <Compile Include="DespesaContasAPagarRepositorio.cs" />
+    <Compile Include="PedidoSeloRepositorio.cs" />
+    <Compile Include="PrecoParametroSeloRepositorio.cs" />
+    <Compile Include="PropostaRepositorio.cs" />
+    <Compile Include="SelecaoDespesaRepositorio.cs" />
+    <Compile Include="SeloRepositorio.cs" />
+    <Compile Include="TabelaPrecoAvulsaRepositorio.cs" />
+    <Compile Include="EstoqueRepositorio.cs" />
+    <Compile Include="VagaCortesiaVigenciaRepositorio.cs" />
+    <Compile Include="TabelaPrecoMensalistaNotificacaoRepositorio.cs" />
+    <Compile Include="TabelaPrecoAvulsoRepositorio.cs" />
+    <Compile Include="TabelaPrecoAvulsoNotificacaoRepositorio.cs" />
+    <Compile Include="VagaCortesiaRepositorio.cs" />
+    <Compile Include="TabelaPrecoMensalistaRepositorio.cs" />
+    <Compile Include="TabelaPrecoMensalistaUnidadeRepositorio.cs" />
+    <Compile Include="TabelaPrecoMensalRepositorio.cs" />
+    <Compile Include="TipoLocacaoRepositorio.cs" />
+    <Compile Include="TipoNotificacaoRepositorio.cs" />
+    <Compile Include="TipoSeloRepositorio.cs" />
+    <Compile Include="UnidadeCondominoRepositorio.cs" />
+    <Compile Include="VeiculoRepositorio.cs" />
+    <Compile Include="ColaboradorRepositorio.cs" />
+    <Compile Include="ConvenioRepositorio.cs" />
+    <Compile Include="EquipeRepositorio.cs" />
+    <Compile Include="FuncionamentoRepositorio.cs" />
+    <Compile Include="HorarioParametroEquipeRepositorio.cs" />
+    <Compile Include="HorarioPrecoRepositorio.cs" />
+    <Compile Include="HorarioUnidadeRepositorio.cs" />
+    <Compile Include="Mapeamento\AluguelMap.cs" />
+    <Compile Include="Mapeamento\CheckListEstruturaUnidadeMap.cs" />
+    <Compile Include="Mapeamento\ColaboradorMap.cs" />
+    <Compile Include="Mapeamento\ConvenioMap.cs" />
+    <Compile Include="Mapeamento\EquipeMap.cs" />
+    <Compile Include="Mapeamento\FuncionamentoMap.cs" />
+    <Compile Include="Mapeamento\HorarioParametroEquipeMap.cs" />
+    <Compile Include="Mapeamento\HorarioPrecoMap.cs" />
+    <Compile Include="Mapeamento\HorarioUnidadeMap.cs" />
+    <Compile Include="Mapeamento\MensalistaMap.cs" />
+    <Compile Include="Mapeamento\ParametroEquipeMap.cs" />
+    <Compile Include="Mapeamento\PeriodoHorarioMap.cs" />
+    <Compile Include="Mapeamento\PrecoMap.cs" />
+    <Compile Include="Mapeamento\PrecoStatusMap.cs" />
+    <Compile Include="Mapeamento\RemanejamentoMap.cs" />
+    <Compile Include="Mapeamento\RemanejamentoTransferenciaMap.cs" />
+    <Compile Include="Mapeamento\TipoMensalistaMap.cs" />
+    <Compile Include="MensalistaRepositorio.cs" />
+    <Compile Include="ContratoUnidadeContasAPagarRepositorio.cs" />
+    <Compile Include="ContratoUnidadeRepositorio.cs" />
+    <Compile Include="EquipamentoRepositorio.cs" />
+    <Compile Include="EquipamentoUnidadeRepositorio.cs" />
+    <Compile Include="EstruturaGaragemRepositorio.cs" />
+    <Compile Include="EstruturaUnidadeRepositorio.cs" />
+    <Compile Include="LimiteDescontoRepositorio.cs" />
+    <Compile Include="Mapeamento\EquipamentoMap.cs" />
+    <Compile Include="Mapeamento\EquipamentoUnidadeMap.cs" />
+    <Compile Include="Mapeamento\ParametroNegociacaoMap.cs" />
+    <Compile Include="Mapeamento\PeriodoMap.cs" />
+    <Compile Include="PagamentoRepositorio.cs" />
+    <Compile Include="LeituraCNABRepositorio.cs" />
+    <Compile Include="CargoRepositorio.cs" />
+    <Compile Include="ClienteRepositorio.cs" />
+    <Compile Include="CanaisComunicacaoRepositorio.cs" />
+    <Compile Include="ChequeRepositorio.cs" />
+    <Compile Include="ContaFinanceiraRepositorio.cs" />
+    <Compile Include="ParametroEquipeRepositorio.cs" />
+    <Compile Include="PeriodoHorarioRepositorio.cs" />
+    <Compile Include="Mapeamento\CheckListAtividadeMap.cs" />
+    <Compile Include="Mapeamento\EstruturaGaragemMap.cs" />
+    <Compile Include="Mapeamento\MaquinaCartaoMap.cs" />
+    <Compile Include="Mapeamento\TipoAtividadeMap.cs" />
+    <Compile Include="Mapeamento\TipoEquipeMap.cs" />
+    <Compile Include="MaquinaCartaoRepositorio.cs" />
+    <Compile Include="ParametroNegociacaoRepositorio.cs" />
+    <Compile Include="PeriodoRepositorio.cs" />
+    <Compile Include="PrecoRepositorio.cs" />
+    <Compile Include="PrecoStatusRepositorio.cs" />
+    <Compile Include="RecebimentoRepositorio.cs" />
+    <Compile Include="RemanejamentoRepositorio.cs" />
+    <Compile Include="RemanejamentoTransferenciaRepositorio.cs" />
+    <Compile Include="RetiradaCofreRepositorio.cs" />
+    <Compile Include="FuncionarioRepositorio.cs" />
+    <Compile Include="Mapeamento\LeituraCNABMap.cs" />
+    <Compile Include="Mapeamento\CanaisComunicacaoMap.cs" />
+    <Compile Include="Mapeamento\ChequeMap.cs" />
+    <Compile Include="Mapeamento\ContaFinanceiraMap.cs" />
+    <Compile Include="Mapeamento\RetiradaCofreMap.cs" />
+    <Compile Include="Mapeamento\DepartamentoMap.cs" />
+    <Compile Include="Mapeamento\ContasAPagarMap.cs" />
+    <Compile Include="Mapeamento\LancamentoCobrancaMap.cs" />
+    <Compile Include="Mapeamento\CargoMap.cs" />
+    <Compile Include="Mapeamento\MarcaMap.cs" />
+    <Compile Include="Mapeamento\ModeloMap.cs" />
+    <Compile Include="DepartamentoRepositorio.cs" />
+    <Compile Include="LancamentoCobrancaRepositorio.cs" />
+    <Compile Include="Mapeamento\PagamentoReembolsoMap.cs" />
+    <Compile Include="Mapeamento\RecebimentoMap.cs" />
+    <Compile Include="Mapeamento\TabelaPrecoMap.cs" />
+    <Compile Include="Mapeamento\TipoPagamentoMap.cs" />
+    <Compile Include="Mapeamento\TipoUnidadeMap.cs" />
+    <Compile Include="Mapeamento\UnidadeMap.cs" />
+    <Compile Include="Mapeamento\VeiculoMap.cs" />
+    <Compile Include="MarcaRepositorio.cs" />
+    <Compile Include="ImportacaoPagamentoRepositorio.cs" />
+    <Compile Include="BancoRepositorio.cs" />
+    <Compile Include="Mapeamento\ClienteMap.cs" />
+    <Compile Include="Mapeamento\ImportacaoPagamentoMap.cs" />
+    <Compile Include="PagamentoReembolsoRepositorio.cs" />
+    <Compile Include="Mapeamento\BancoMap.cs" />
+    <Compile Include="Mapeamento\ParametroFaturamentoMap.cs" />
+    <Compile Include="Mapeamento\FuncionarioMap.cs" />
+    <Compile Include="Mapeamento\PagamentoMap.cs" />
+    <Compile Include="ParametroFaturamentoRepositorio.cs" />
+    <Compile Include="ArquivoRepositorio.cs" />
+    <Compile Include="Base\NHibernateExtensions.cs" />
+    <Compile Include="Base\NHibTransformers.cs" />
+    <Compile Include="ModeloRepositorio.cs" />
+    <Compile Include="TipoAtividadeRepositorio.cs" />
+    <Compile Include="TipoMensalistaRepositorio.cs" />
+    <Compile Include="TipoEquipeRepositorio.cs" />
+    <Compile Include="TabelaPrecoRepositorio.cs" />
+    <Compile Include="TipoPagamentoRepositorio.cs" />
+    <Compile Include="TipoUnidadeRepositorio.cs" />
+    <Compile Include="UnidadeRepositorio.cs" />
+    <Compile Include="FilialRepositorio.cs" />
+    <Compile Include="Mapeamento\ArquivoMap.cs" />
+    <Compile Include="Mapeamento\FilialMap.cs" />
+    <Compile Include="Mapeamento\PessoaJuridicaMap.cs" />
+    <Compile Include="Mapeamento\RegionalEstadoMap.cs" />
+    <Compile Include="Mapeamento\FornecedorMap.cs" />
+    <Compile Include="Mapeamento\TipoFilialMap.cs" />
+    <Compile Include="RegionalEstadoRepositorio.cs" />
+    <Compile Include="RegionalRepositorio.cs" />
+    <Compile Include="Mapeamento\RegionalMap.cs" />
+    <Compile Include="EmpresaRepositorio.cs" />
+    <Compile Include="Mapeamento\EmpresaMap.cs" />
+    <Compile Include="MenuRepositorio.cs" />
+    <Compile Include="GrupoRepositorio.cs" />
+    <Compile Include="Base\AuditEventListener.cs" />
+    <Compile Include="Base\FluentNHibContext.cs" />
+    <Compile Include="Base\NHibContext.cs" />
+    <Compile Include="Base\NHibRepository.cs" />
+    <Compile Include="Base\NHibSession.cs" />
+    <Compile Include="DocumentoRepositorio.cs" />
+    <Compile Include="EnderecoRepositorio.cs" />
+    <Compile Include="ContatoRepositorio.cs" />
+    <Compile Include="Mapeamento\GrupoMap.cs" />
+    <Compile Include="Mapeamento\MenuMap.cs" />
+    <Compile Include="PaisRepositorio.cs" />
+    <Compile Include="EstadoRepositorio.cs" />
+    <Compile Include="CidadeRepositorio.cs" />
+    <Compile Include="Mapeamento\TokenMap.cs" />
+    <Compile Include="PermissaoRepositorio.cs" />
+    <Compile Include="PerfilRepositorio.cs" />
+    <Compile Include="Mapeamento\AuditMap.cs" />
+    <Compile Include="Mapeamento\CidadeMap.cs" />
+    <Compile Include="Mapeamento\ContatoMap.cs" />
+    <Compile Include="Mapeamento\DocumentoMap.cs" />
+    <Compile Include="Mapeamento\EnderecoMap.cs" />
+    <Compile Include="Mapeamento\EstadoMap.cs" />
+    <Compile Include="Mapeamento\PaisMap.cs" />
+    <Compile Include="Mapeamento\PermissaoMap.cs" />
+    <Compile Include="Mapeamento\PerfilMap.cs" />
+    <Compile Include="Mapeamento\UsuarioMap.cs" />
+    <Compile Include="Mapeamento\PessoaMap.cs" />
+    <Compile Include="FornecedorRepositorio.cs" />
+    <Compile Include="TipoFilialRepositorio.cs" />
+    <Compile Include="TokenRepositorio.cs" />
+    <Compile Include="UsuarioRepositorio.cs" />
+    <Compile Include="PessoaRepositorio.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AuditRepositorio.cs" />
+    <Compile Include="TrabalhoRepositorio.cs" />
+    <Compile Include="Mapeamento\TrabalhoMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entidade\Entidade.csproj">
+      <Project>{3c0337df-e437-4905-9848-0845b9f46610}</Project>
+      <Name>Entidade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Servico\Dominio.csproj">
+      <Project>{9DC80615-73E7-4D73-814E-90E469364530}</Project>
+      <Name>Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\Core.csproj">
+      <Project>{D910ECAD-DDF8-409C-B7D6-ABC6CA831B53}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

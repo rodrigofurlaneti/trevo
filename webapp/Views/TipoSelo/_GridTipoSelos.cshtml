@@ -1,0 +1,65 @@
+﻿@model List<Aplicacao.ViewModels.TipoSeloViewModel>
+<div class="widget-body">
+    @if (Model != null && Model.Any())
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th class="hasinput" style="width: 30%">
+                        <input type="text" class="form-control" placeholder="Filtrar Nome" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Tipo Selo" />
+                    </th>
+                    <th class="hasinput" style="width: 15%">
+                        <input type="text" class="form-control" placeholder="Filtrar Com Validade" />
+                    </th>
+                    <th class="hasinput" style="width: 20%">
+                        <input type="text" class="form-control" placeholder="Filtrar Paga horas Adicionais" />
+                    </th>
+                    <th class="hasinput" style="width: 30%">
+                        <input type="text" class="form-control" placeholder="Filtrar Ativo" />
+                    </th>
+                    <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                    </th>
+                </tr>
+                <tr>
+                    <th data-hide="expand">Nome</th>
+                    <th data-hide="expand">Tipo do Selo</th>
+                    <th data-hide="expand">Selo Com Validade</th>
+                    <th data-hide="expand">Paga Horas Adicionais</th>
+                    <th data-class="expand">Ativo</th>
+                    <th data-class="expand">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.Nome</td>
+                        <td>@m.ParametroSeloFormatado</td>
+                        <td>@(m.ComValidade == true ? "Sim" : "Não")</td>
+                        <td>@(m.PagarHorasAdicionais == true ? "Sim" : "Não")</td>
+                        <td>@(m.Ativo == true ? "Sim" : "Não")</td>
+                        <td>
+                            <a class="btn btn-primary" href="/tiposelo/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                            <a class="btn btn-danger" href="/tiposelo/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <tr>
+                <td>
+                    Nenhuma Tabela de Preço foi encontrada.
+                </td>
+            </tr>
+        </table>
+
+    }
+</div>
+

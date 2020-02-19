@@ -1,0 +1,199 @@
+﻿@using Core.Extensions
+@using Portal.Controllers
+@model Aplicacao.ViewModels.ControleProdutoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ControleProdutoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/ControleProduto/ControleProduto.js")
+}
+
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Cadastro de Controle dos Produtos
+            </h2>
+        </header>
+        <div>
+            <div class="widget-body">
+                @using (Html.BeginForm("SalvarDadosProduto", "ControleProduto", FormMethod.Post, new { id = "frmControleProduto" }))
+                {
+                    <fieldset>
+                        <section>
+                            <div class="row margin-bottom-5">
+                                @Html.HiddenFor(x => x.Id, new { @id = "Id" })
+                                @Html.HiddenFor(x => x.IdCredor, new { @id = "IdCredor" })
+                                @Html.HiddenFor(x => x.IdProduto, new { @id = "IdProduto" })
+                                <div class="col-md-8">
+                                    <div class="col-md-6">
+                                        <label>Credor:</label><br />
+                                        @Html.DropDownList("Credor", new SelectList(string.Empty, "Value", "Text"), new { @class = "chosen-select form-control", data_placeholder = "Selecione um credor...", @id = "Credor" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-5">
+                                <div class="col-md-8">
+                                    <div class="col-md-6">
+                                        <label>Produto:</label><br />
+                                        @Html.DropDownList("Produto", new SelectList(string.Empty, "Value", "Text"), new { @class = "chosen-select form-control", data_placeholder = "Selecione um produto...", @id = "Produto" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-5">
+                                <div class="col-md-10">
+                                    <div class="col-md-6">
+                                        <label>Descrição:</label><br />
+                                        @Html.TextBoxFor(x => x.Descricao, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-5">
+                                <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <label>Data da Compra:</label><br />
+                                        @Html.TextBoxFor(x => x.DataCompra, new { Value = Model != null ? Model.DataCompra.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Valor da Compra:</label><br />
+                                        @Html.TextBoxFor(x => x.ValorCompra, new { Value = Model != null ? Model.ValorCompra.ToString("C") : string.Empty, @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-5">
+                                <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <label>Quantidade CPF:</label><br />
+                                        @Html.TextBoxFor(x => x.QuantidadeCpf, new { @class = "form-control" })
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Quantidade Contrato:</label><br />
+                                        @Html.TextBoxFor(x => x.QuantidadeContrato, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-5">
+                                <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <label>% de Lucro Esperado:</label><br />
+                                        @Html.TextBoxFor(x => x.PercLucroEsperado, new { Value = Model != null ? Model.PercLucroEsperado.ToString("N") : string.Empty, @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Valor Lucro Esperado:</label><br />
+                                        @Html.TextBoxFor(x => x.ValorLucroEsperado, new { Value = Model != null ? Model.ValorLucroEsperado.ToString("C") : string.Empty, @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </fieldset>
+                    <div class="form-actions">
+                        <button id="salvar" type="submit" class="btn btn-lg btn-primary">
+                            <i class="fa fa-save"></i> Salvar
+                        </button>
+                        <a class="btn btn-lg btn-danger" href="/controleproduto/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Produtos </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:3%">
+                                                <input type="text" class="form-control" placeholder="Id" />
+                                            </th>
+                                            <th class="hasinput" style="width:5%">
+                                                <input type="text" class="form-control" placeholder="Produto" />
+                                            </th>
+                                            <th class="hasinput" style="width:14%">
+                                                <input type="text" class="form-control" placeholder="Descrição" />
+                                            </th>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Data Compra" />
+                                            </th>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Valor Compra" />
+                                            </th>
+                                            <th class="hasinput" style="width:7%">
+                                                <input type="text" class="form-control" placeholder="Qtd CPF" />
+                                            </th>
+                                            <th class="hasinput" style="width:7%">
+                                                <input type="text" class="form-control" placeholder="Qtd Contrato" />
+                                            </th>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="% Lucro Esperado" />
+                                            </th>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Valor Lucro Esperado" />
+                                            </th>
+                                            <th style="width:7%">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-hide="phone">Produto</th>
+                                            <th data-hide="phone">Descrição</th>
+                                            <th data-hide="phone">Data Compra</th>
+                                            <th data-hide="phone">Valor Compra</th>
+                                            <th data-hide="phone">Qtd CPF</th>
+                                            <th data-hide="phone">Qtd Contrato</th>
+                                            <th data-hide="phone">% Lucro Esperado</th>
+                                            <th data-hide="phone">Valor Lucro Esperado</th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaControles != null)
+                                        {
+                                            foreach (var m in controller.ListaControles)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Produto.Descricao</td>
+                                                    <td>@m.Descricao</td>
+                                                    <td>@m.DataCompra.ToString("dd/MM/yyyy")</td>
+                                                    <td>@m.ValorCompra.ToString("C")</td>
+                                                    <td>@m.QuantidadeCpf</td>
+                                                    <td>@m.QuantidadeContrato</td>
+                                                    <td>@m.PercLucroEsperado.ToString("N")</td>
+                                                    <td>@m.ValorLucroEsperado.ToString("C")</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/controleproduto/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/controleproduto/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+

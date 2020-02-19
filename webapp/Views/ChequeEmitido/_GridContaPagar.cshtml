@@ -1,0 +1,42 @@
+﻿
+@model List<ContasAPagarViewModel>
+
+
+<div style="margin-top:25px;">
+    <div id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false" class="col-xs-6 jarviswidget jarviswidget-color-blueDark">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+            <h2>Lista de Conta Pagar</h2>
+        </header>
+        <table id="data_table_address" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 45%;">Data</th>
+                    <th style="width: 45%;">Valor Total</th>
+                    <th style="width: 10%;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="line-blacklist">
+                            <td>
+                                @item.DataVencimento.ToShortDateString()
+                            </td>
+                            <td>
+                                @item.ValorFormatado
+                            </td>
+                            <td>
+                                <span class="btn btn-danger" style="margin-right: 3px;" onclick="RemoverLancamento(@item.Id)"><i class="fa fa-remove"></i></span>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

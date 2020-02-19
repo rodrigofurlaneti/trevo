@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3C0337DF-E437-4905-9848-0845B9F46610}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Entidade</RootNamespace>
+    <AssemblyName>Entidade</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Development|AnyCPU'">
+    <OutputPath>bin\Development\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FeriasClienteDetalhe.cs" />
+    <Compile Include="FeriasCliente.cs" />
+    <Compile Include="ContaCorrenteClienteDetalhe.cs" />
+    <Compile Include="ContaCorrenteCliente.cs" />
+    <Compile Include="BloqueioReferencia.cs" />
+    <Compile Include="ContratoMensalistaNotificacao.cs" />
+    <Compile Include="ControleFerias\ControleFeriasPeriodoPermitido.cs" />
+    <Compile Include="ControleFerias\ControleFerias.cs" />
+    <Compile Include="ControlePontoFerias\ControlePontoFerias.cs" />
+    <Compile Include="ControlePontoFerias\ControlePontoFeriasDia.cs" />
+    <Compile Include="ControlePontoFerias\ControlePontoFeriasUnidadeApoio.cs" />
+    <Compile Include="FolhaPresenca.cs" />
+    <Compile Include="CalendarioRHUnidade.cs" />
+    <Compile Include="CalendarioRH.cs" />
+    <Compile Include="ControlePonto\ControlePontoUnidadeApoio.cs" />
+    <Compile Include="ControlePonto\ControlePontoDia.cs" />
+    <Compile Include="ControlePonto\ControlePonto.cs" />
+    <Compile Include="LancamentoCobrancaContratoMensalista.cs" />
+    <Compile Include="LeituraCNAB\LeituraCNABPreviaVO.cs" />
+    <Compile Include="Notificacao\NotificacaoDesbloqueioReferencia.cs" />
+    <Compile Include="FuncionarioIntervaloNoturno.cs" />
+    <Compile Include="FuncionarioIntervaloCompensacao.cs" />
+    <Compile Include="FuncionarioIntervaloDozeTrintaSeis.cs" />
+    <Compile Include="OcorrenciaCliente.cs" />
+    <Compile Include="OcorrenciaFuncionarioDetalhe.cs" />
+    <Compile Include="OcorrenciaFuncionario.cs" />
+    <Compile Include="FeriasClienteContaCorrente.cs" />
+    <Compile Include="PMS\PMSVO.cs" />
+    <Compile Include="RelatoriosFinanceiros\DadosPagamentoVO.cs" />
+    <Compile Include="RelatoriosFinanceiros\DadosSelosVO.cs" />
+    <Compile Include="RelatoriosFinanceiros\DadosLancamentosVO.cs" />
+    <Compile Include="SeloCliente.cs" />
+    <Compile Include="TipoOcorrencia.cs" />
+    <Compile Include="PlanoCarreira.cs" />
+    <Compile Include="BeneficioFuncionarioDetalhe.cs" />
+    <Compile Include="BeneficioFuncionario.cs" />
+    <Compile Include="ArquivoBase.cs" />
+    <Compile Include="TipoBeneficio.cs" />
+    <Compile Include="ContasAPagarItem.cs" />
+    <Compile Include="ItemFuncionarioDetalhe.cs" />
+    <Compile Include="ItemFuncionario.cs" />
+    <Compile Include="ParametroBoletoBancarioDescritivo.cs" />
+    <Compile Include="ParametroBoletoBancario.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Base\BaseEnitidadeNotificacao.cs" />
+    <Compile Include="Base\IBaseNotificacao.cs" />
+    <Compile Include="DepartamentoFuncionario.cs" />
+    <Compile Include="Notificacao\NotificacaoUsuarioAprovador.cs" />
+    <Compile Include="OcorrenciaRetornoCNAB.cs" />
+    <Compile Include="RetiradaCofreNotificacao.cs" />
+    <Compile Include="LancamentoCobrancaNotificacao.cs" />
+    <Compile Include="ControleCompra.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroCotacaoContasAPagar.cs" />
+    <Compile Include="OrcamentoSinistro\HistoricoDataItem.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroCotacaoNotificacao.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroNotificacao.cs" />
+    <Compile Include="PecaServico.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroCotacaoItem.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroCotacao.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroFornecedor.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroPecaServico.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroOficinaCliente.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistroOficina.cs" />
+    <Compile Include="OrcamentoSinistro\OrcamentoSinistro.cs" />
+    <Compile Include="Oficina.cs" />
+    <Compile Include="OIS\OISCategoria.cs" />
+    <Compile Include="OIS\OISFuncionario.cs" />
+    <Compile Include="OIS\OISContato.cs" />
+    <Compile Include="OIS\OISNotificacao.cs" />
+    <Compile Include="OIS\OISImagem.cs" />
+    <Compile Include="OIS\OIS.cs" />
+    <Compile Include="ContaPagarNotificacao.cs" />
+    <Compile Include="MovimentacaoSelo.cs" />
+    <Compile Include="PedidoCompra\PedidoCompraNotificacao.cs" />
+    <Compile Include="PedidoCompra\PedidoCompraCotacaoMaterialFornecedor.cs" />
+    <Compile Include="PedidoCompra\PedidoCompra.cs" />
+    <Compile Include="Cotacao\CotacaoNotificacao.cs" />
+    <Compile Include="Cotacao\Cotacao.cs" />
+    <Compile Include="Cotacao\CotacaoMaterialFornecedor.cs" />
+    <Compile Include="NecessidadeCompra\NecessidadeCompraNotificacao.cs" />
+    <Compile Include="NecessidadeCompra\NecessidadeCompraMaterialFornecedor.cs" />
+    <Compile Include="NecessidadeCompra\NecessidadeCompra.cs" />
+    <Compile Include="MaterialFornecedor.cs" />
+    <Compile Include="EstoqueManual.cs" />
+    <Compile Include="EstoqueManualItem.cs" />
+    <Compile Include="EstoqueMaterial.cs" />
+    <Compile Include="MaterialHistorico.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="MaterialNotificacao.cs" />
+    <Compile Include="TipoMaterial.cs" />
+    <Compile Include="CalculoFechamento.cs" />
+    <Compile Include="CheckListAtividade.cs" />
+    <Compile Include="CheckListAtividadeTipoAtividade.cs" />
+    <Compile Include="Aluguel.cs" />
+    <Compile Include="CheckListEstruturaUnidade.cs" />
+    <Compile Include="ChequeEmitido .cs" />
+    <Compile Include="ChequeRecebido.cs" />
+    <Compile Include="ChequeEmitidoContaPagar.cs" />
+    <Compile Include="ClienteCondomino.cs" />
+    <Compile Include="ClienteUnidades.cs" />
+    <Compile Include="CondominoVeiculo.cs" />
+    <Compile Include="Colaborador.cs" />
+    <Compile Include="ConsolidaAjusteFaturamento.cs" />
+    <Compile Include="ConsolidaAjusteFinalFaturamento.cs" />
+    <Compile Include="ConsolidaDespesa.cs" />
+    <Compile Include="ConsolidaFaturamento.cs" />
+    <Compile Include="ContaContabil.cs" />
+    <Compile Include="ContratoMensalista.cs" />
+    <Compile Include="ContratoMensalistaVeiculos.cs" />
+    <Compile Include="Convenio.cs" />
+    <Compile Include="ConvenioUnidade.cs" />
+    <Compile Include="ChequeRecebidoLancamentoCobranca.cs" />
+    <Compile Include="ConvenioUnidades.cs" />
+    <Compile Include="DespesaContaAPagar.cs" />
+    <Compile Include="EmissaoSelo.cs" />
+    <Compile Include="Equipe.cs" />
+    <Compile Include="EquipeColaborador.cs" />
+    <Compile Include="Faturamento.cs" />
+    <Compile Include="Funcionamento.cs" />
+    <Compile Include="HorarioParametroEquipe.cs" />
+    <Compile Include="HorarioPreco.cs" />
+    <Compile Include="HorarioUnidade.cs" />
+    <Compile Include="HorarioUnidadePeriodoHorario.cs" />
+    <Compile Include="LancamentoCobrancaPedidoSelo.cs" />
+    <Compile Include="Mensalista.cs" />
+    <Compile Include="Desconto.cs" />
+    <Compile Include="NotificacaoAvisoPedidoSelo.cs" />
+    <Compile Include="PagamentoPedidoSelo.cs" />
+    <Compile Include="ParametrizacaoLocacao.cs" />
+    <Compile Include="PedidoLocacaoLancamentoCobranca.cs" />
+    <Compile Include="PedidoLocacaoNotificacao.cs" />
+    <Compile Include="PedidoLocacaoLancamentoAdicional.cs" />
+    <Compile Include="PedidoLocacao.cs" />
+    <Compile Include="PedidoSeloHistorico.cs" />
+    <Compile Include="PedidoSeloEmail.cs" />
+    <Compile Include="PedidoSeloNotificacao.cs" />
+    <Compile Include="ParametroEquipeNotificacao.cs" />
+    <Compile Include="HorarioUnidadeNotificacao.cs" />
+    <Compile Include="NegociacaoSeloDescontoNotificacao.cs" />
+    <Compile Include="ParametroNotificacaoUsuario.cs" />
+    <Compile Include="ParametroNotificacao.cs" />
+    <Compile Include="Movimentacao.cs" />
+    <Compile Include="Notificacao\Notificacao.cs" />
+    <Compile Include="PagamentoMensalidade.cs" />
+    <Compile Include="ParametroEquipe.cs" />
+    <Compile Include="ParametroNumeroNotaFiscal.cs" />
+    <Compile Include="PedidoSelo.cs" />
+    <Compile Include="PeriodoHorario.cs" />
+    <Compile Include="Preco.cs" />
+    <Compile Include="ClienteVeiculo.cs" />
+    <Compile Include="ContasAPagar.cs" />
+    <Compile Include="ContratoUnidade.cs" />
+    <Compile Include="ContratoUnidadeContasAPagar.cs" />
+    <Compile Include="Equipamento.cs" />
+    <Compile Include="EquipamentoUnidade.cs" />
+    <Compile Include="EquipamentoUnidadeEquipamento.cs" />
+    <Compile Include="EstruturaGaragem.cs" />
+    <Compile Include="LeituraCNABLancamentoCobranca.cs" />
+    <Compile Include="LeituraCNAB.cs" />
+    <Compile Include="EstruturaUnidade.cs" />
+    <Compile Include="LancamentoCobranca.cs" />
+    <Compile Include="Cargo.cs" />
+    <Compile Include="LimiteDesconto.cs" />
+    <Compile Include="MaquinaCartao.cs" />
+    <Compile Include="PagamentoReembolso.cs" />
+    <Compile Include="ParametroNegociacao.cs" />
+    <Compile Include="Periodo.cs" />
+    <Compile Include="PrecoParametroSelo.cs" />
+    <Compile Include="PrecoStatus.cs" />
+    <Compile Include="Proposta.cs" />
+    <Compile Include="Recebimento.cs" />
+    <Compile Include="Remanejamento.cs" />
+    <Compile Include="RemanejamentoTransferencia.cs" />
+    <Compile Include="RetiradaCofre.cs" />
+    <Compile Include="SelecaoDespesa.cs" />
+    <Compile Include="Selo.cs" />
+    <Compile Include="TabelaPrecoAvulsa.cs" />
+    <Compile Include="TabelaPrecoAvulsoPeriodo.cs" />
+    <Compile Include="TabelaPrecoAvulsoHoraValor.cs" />
+    <Compile Include="TabelaPrecoAvulsoUnidade.cs" />
+    <Compile Include="TabelaPrecoMensal.cs" />
+    <Compile Include="TabelaPrecoAvulso.cs" />
+    <Compile Include="TabelaPrecoAvulsoNotificacao.cs" />
+    <Compile Include="Estoque.cs" />
+    <Compile Include="UnidadeCheckListAtividadeTipoAtividade.cs" />
+    <Compile Include="VagaCortesiaVigencia.cs" />
+    <Compile Include="VagaCortesia.cs" />
+    <Compile Include="TabelaPrecoMensalista.cs" />
+    <Compile Include="TabelaPrecoMensalistaNotificacao.cs" />
+    <Compile Include="TabelaPrecoMensalistaUnidade.cs" />
+    <Compile Include="TipoAtividade.cs" />
+    <Compile Include="TabelaPreco.cs" />
+    <Compile Include="TipoLocacao.cs" />
+    <Compile Include="TipoMensalista.cs" />
+    <Compile Include="PrecoNotificacao.cs" />
+    <Compile Include="TipoPagamento.cs" />
+    <Compile Include="TipoSelo.cs" />
+    <Compile Include="TipoNotificacao.cs" />
+    <Compile Include="TipoUnidade.cs" />
+    <Compile Include="TipoEquipe.cs" />
+    <Compile Include="Unidade.cs" />
+    <Compile Include="UnidadeCheckListAtividade.cs" />
+    <Compile Include="UnidadeCondomino.cs" />
+    <Compile Include="UnidadeFuncionario.cs" />
+    <Compile Include="UnidadeTipoPagamento.cs" />
+    <Compile Include="Uteis\BarCode39\BarCode.cs" />
+    <Compile Include="Veiculo.cs" />
+    <Compile Include="Cliente.cs" />
+    <Compile Include="CanaisComunicacao.cs" />
+    <Compile Include="Cheque.cs" />
+    <Compile Include="ContaFinanceira.cs" />
+    <Compile Include="Funcionario.cs" />
+    <Compile Include="Banco.cs" />
+    <Compile Include="Departamento.cs" />
+    <Compile Include="Marca.cs" />
+    <Compile Include="ImportacaoPagamento.cs" />
+    <Compile Include="ParametroFaturamento.cs" />
+    <Compile Include="AcordoParcela.cs" />
+    <Compile Include="Acordo.cs" />
+    <Compile Include="Boleto.cs" />
+    <Compile Include="Pagamento.cs" />
+    <Compile Include="Modelo.cs" />
+    <Compile Include="Arquivo.cs" />
+    <Compile Include="Filial.cs" />
+    <Compile Include="FilialContato.cs" />
+    <Compile Include="PessoaJuridica.cs" />
+    <Compile Include="RegionalEstado.cs" />
+    <Compile Include="Regional.cs" />
+    <Compile Include="EmpresaContato.cs" />
+    <Compile Include="Empresa.cs" />
+    <Compile Include="Grupo.cs" />
+    <Compile Include="Base\Audit.cs" />
+    <Compile Include="Base\BaseEntity.cs" />
+    <Compile Include="Base\IEntity.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="PessoaContato.cs" />
+    <Compile Include="PessoaLoja.cs" />
+    <Compile Include="PerfilMenu.cs" />
+    <Compile Include="Fornecedor.cs" />
+    <Compile Include="FornecedorContato.cs" />
+    <Compile Include="TipoFilial.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="UsuarioPerfil.cs" />
+    <Compile Include="Perfil.cs" />
+    <Compile Include="Permissao.cs" />
+    <Compile Include="Cidade.cs" />
+    <Compile Include="Contato.cs" />
+    <Compile Include="Documento.cs" />
+    <Compile Include="Endereco.cs" />
+    <Compile Include="Estado.cs" />
+    <Compile Include="Pais.cs" />
+    <Compile Include="Pessoa.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Usuario.cs" />
+    <Compile Include="Uteis\Constantes.cs" />
+    <Compile Include="CalculoDetalhe.cs" />
+    <Compile Include="Avalista.cs" />
+    <Compile Include="Trabalho.cs" />
+    <Compile Include="TrabalhoContato.cs" />
+    <Compile Include="TrabalhoEndereco.cs" />
+    <Compile Include="PessoaDocumento.cs" />
+    <Compile Include="PessoaEndereco.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Entidade.csproj" />
+    <None Include="Entidade.csproj.DotSettings" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tools\Core.csproj">
+      <Project>{D910ECAD-DDF8-409C-B7D6-ABC6CA831B53}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

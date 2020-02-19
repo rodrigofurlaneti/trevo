@@ -1,0 +1,65 @@
+﻿@model Aplicacao.ViewModels.OcorrenciaClienteViewModel
+
+@{
+    Layout = null;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/cliente/cliente.css")
+
+
+    @Scripts.Render("~/Scripts/cliente/cliente-autocomplete.js")
+    @Scripts.Render("~/Scripts/funcionario/funcionario-autocomplete.js")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @*@Scripts.Render("~/Scripts/OcorrenciaCliente/ocorrencia-cliente.js")*@
+
+}
+
+<div>
+    <input type="hidden" id="hdnIdOcorrencia" value="0" />
+    @Html.Label("Ocorrências", new { style = "font-weight: bold; font-size: 1.17em;" })
+    <div id="conteudo" class="row margin-bottom-5">
+        <div class="row col-xs-12">
+            <button class="btn btn-primary" id="adiciona-ocorrencia" style="margin-top:2px;" onclick="event.preventDefault(); ExecutarModalAdicionarOcorrencia();" tabindex="0" autocomplete="off"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar Ocorrência</button>
+        </div>
+    </div>
+    <div class="col-xs-12 no-padding">
+        <div class="row margin-bottom-5">
+            <div class="col-xs-12">
+                <div class="col-xs-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark margin-bottom-0" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false"
+                         data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Ocorrências</h2>
+                        </header>
+                        <table id="gridOcorrencias" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Id</th>
+                                    <th>Data</th>
+                                    <th>Atribuído</th>
+                                    <th>Descrição</th>
+                                    <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-ocorrencia-cliente" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content col-xs-12">
+            <div id="modalBodyOcorrenciaCliente" class="modal-body col-xs-12">
+                @Html.Partial("../OcorrenciaCliente/_ModalCampos", new OcorrenciaClienteViewModel())
+            </div>
+        </div>
+    </div>
+</div>

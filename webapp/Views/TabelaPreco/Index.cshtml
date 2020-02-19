@@ -1,0 +1,109 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model PrecoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as TabelaPrecoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/TabelaPreco/TabelaPreco.js")
+    @Scripts.Render("~/Scripts/TabelaPreco/Mensalista.js")
+    @Scripts.Render("~/Scripts/TabelaPreco/Convenio.js")
+    @Scripts.Render("~/Scripts/TabelaPreco/Aluguel.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro Tabela Preco
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "TabelaPreco", FormMethod.Post, new { id = "ClienteForm" }))
+                                {
+                                    @Html.HiddenFor(x => x.Id, new { @id = "hdnCliente" })
+
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-8">
+                                            <div class="col-xs-5">
+                                                <label>Nome da Tabela:</label><br />
+                                                @Html.TextBoxFor(x => x.Nome, new { @class = "form-control", required = "required", maxlength = 50, onclick = "ConfigurarMoney()" })
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <label>Tempo de Tolerância (minutos)</label><br />
+                                                @Html.TextBoxFor(x => x.TempoTolerancia, new { @class = "form-control", required = "required", @type = "number", maxlength = 10, onclick = "ConfigurarMoney()",@min="1" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div id="lista-funcionamentos-result" class="col-xs-12">
+                                            @Html.Partial("../TabelaPreco/_GridFuncionamentos", Model != null && Model.Funcionamentos.Count > 0 ? Model.Funcionamentos : new List<FuncionamentoViewModel>())
+                                        </div>
+                                    </div>
+                                    //GTE-1738 - inicio
+                                    @*<div class="row margin-bottom-5">
+                                        <div id="lista-mensalistas-result" class="col-xs-12">
+                                            @Html.Partial("../TabelaPreco/_GridMensalistas", Model != null && Model.Mensalistas.Count > 0 ? Model.Mensalistas : new List<MensalistaViewModel>())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div id="lista-alugueis-result" class="col-xs-12">
+                                            @Html.Partial("../TabelaPreco/_GridAlugueis", Model != null && Model.Alugueis != null ? Model.Alugueis.ToList() : new List<AluguelViewModel>())
+                                        </div>
+                                    </div>*@
+                                    //GTE-1738 - fim
+                                    <div class="row margin-bottom-5">
+                                        <div class="pull-right margin-right-10">
+                                            <a class="btn btn-lg btn-danger" href="/tabelapreco/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i>Solicitar Aprovação</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista de Tabela Preco</h2>
+                        </header>
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+
+                            <div id="lista-tabela-preco">
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+
+

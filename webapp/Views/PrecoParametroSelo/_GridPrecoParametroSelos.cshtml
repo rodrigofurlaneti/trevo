@@ -1,0 +1,70 @@
+﻿
+@model List<Aplicacao.ViewModels.PrecoParametroSeloViewModel>
+
+
+<div class="widget-body">
+    @if (Model != null && Model.Any())
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th class="hasinput" style="width: 10%">
+                        <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                    </th>
+                    <th class="hasinput" style="width: 2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Tipo Desconto Preço" />
+                    </th>
+                    <th class="hasinput" style="width: 15%">
+                        <input type="text" class="form-control" placeholder="Filtrar Desconto Tabela Preço" />
+                    </th>
+                    <th class="hasinput" style="width: 14%">
+                        <input type="text" class="form-control" placeholder="Desconto Máximo Valor" />
+                    </th>
+                    <th class="hasinput" style="width: 10%">
+                        <input type="text" class="form-control" placeholder="Filtrar Perfil" />
+                    </th>
+                    <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                    </th>
+                </tr>
+                <tr>
+                    <th data-hide="expand">Unidade</th>
+                    <th data-hide="expand">Tipo Desconto Preço</th>
+                    <th data-hide="expand">Desconto Tabela Preço</th>
+                    <th data-hide="expand">Desconto Máximo Valor</th>
+                    <th data-hide="expand">Perfil</th>
+                    <th data-class="expand">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                <tr>
+                    <td>@m.Unidade.Nome</td>
+                    @*<td>@(m.TipoPreco.ToString() == "1" ? "Monetário" : "Percentual")</td>*@
+                    <td>@(m.TipoPreco.Nome)</td>
+                    <td>@(Convert.ToString(Math.Round(Convert.ToDecimal(m.DescontoTabelaPreco), 2)).Replace(".", ","))</td>
+                    @*<td>@m.Preco.Nome</td>*@
+                    <td>@(Convert.ToString(Math.Round(Convert.ToDecimal(m.DescontoMaximoValor), 2)).Replace(".", ","))</td>
+                    <td>@m.Perfil.Nome</td>
+                    <td>
+                        <a class="btn btn-primary" href="/PrecoParametroSelo/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                        <a class="btn btn-danger" href="/PrecoParametroSelo/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <tr>
+                <td>
+                    Nenhuma Lista de Preço Parâmetro Selo foi encontrada.
+                </td>
+            </tr>
+        </table>
+
+    }
+</div>
+

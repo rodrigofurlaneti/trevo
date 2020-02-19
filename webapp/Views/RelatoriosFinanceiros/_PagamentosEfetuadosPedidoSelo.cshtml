@@ -1,0 +1,169 @@
+﻿@using System.Linq
+@using Portal.Controllers
+@using Entidade;
+
+@model List<DadosPagamentoVO>
+
+@{
+    var controller = ViewContext.Controller as RelatoriosFinanceirosController;
+}
+
+<div class="row col-xs-12 col-md-12 no-padding margin-zero imprimir print">
+    <style media="print">
+        @@media print {
+            .linha {
+                font-size: 10px !important;
+            }
+
+            .text-center {
+                text-align: center !important;
+            }
+
+            h2 {
+                font-size: 12px !important;
+            }
+
+            th {
+                font-size: 12px !important;
+            }
+
+            label {
+                font-size: 12px !important;
+            }
+        }
+
+        @@media screen and (-webkit-min-device-pixel-ratio:0) {
+            .linha {
+                font-size: 10px !important;
+            }
+
+            .text-center {
+                text-align: center !important;
+            }
+        }
+    </style>
+
+    <div class="row col-xs-12 col-md-12 no-padding" style="margin-bottom: 15px !important;">
+        <img src="~/Content/img/logo.png" style="float:left; width:150px; height:45px;" />
+        <h2 style="float:left; width:100%; position:absolute; text-align:center;">Relatório de Pagamentos Efetuados - Pedido de Selo</h2>
+    </div>
+    <br />
+    <div class="row col-xs-12 col-md-12 nopadding" style="clear:both; height:45px; vertical-align:bottom; text-align:left; background-color: lightblue; color: black; border:1px solid black; padding-right:0; -webkit-print-color-adjust: exact;">
+        <table style="width:100%;">
+            <thead>
+                <tr>
+                    <th style="vertical-align: bottom; height: 40px; width:40%">Cliente</th>
+                    <th style="vertical-align: bottom; height: 40px; width:10%">Número Pedido</th>
+                    <th style="vertical-align: bottom; height: 40px; width:5%">Boleto</th>
+                    <th style="vertical-align: bottom; height: 40px; width:5%">Pago</th>
+                    @*<th style="vertical-align: bottom; height: 40px; width:10%">Dt. Emissão</th>*@
+                    <th style="vertical-align: bottom; height: 40px; width:10%">Dt. Vencimento</th>
+                    <th style="vertical-align: bottom; height: 40px; width:10%">Dt. Pagamento</th>
+                    <th style="vertical-align: bottom; height: 40px; width:10%">Tipo Selo</th>
+                    @*<th style="vertical-align: bottom; height: 40px; width:10%">Tipo Pedido Selo</th>*@
+                    <th style="vertical-align: bottom; height: 40px; width:10%; text-align:center;">Qtde</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    @{
+        /**/
+
+        if (Model == null || !Model.Any())
+        {
+            <div class="row col-xs-12 col-md-12 nopadding float-left" style="border-bottom: 1px solid black; background-color:#ededed; margin-bottom:0;">
+                <label>Não possui dados para exibir</label>
+            </div>
+        }
+
+        var listaRefs = Model?.Select(x => $"{x.DataCompetencia.Month.ToString("00")}/{x.DataCompetencia.Year}")?.Distinct()?.ToList() ?? new List<string>();
+
+        for (int r = 0; r < listaRefs.Count; r++)
+        {
+            var referencia = listaRefs[r];
+            <br />
+            <div class="row col-xs-12 col-md-12 nopadding margin-bottom-0 float-left">
+                <label><b>Referência:</b> @referencia</label>
+            </div>
+            <br />
+            var listaUnidades = Model?.Where(x => x.DataCompetencia.Month == Convert.ToInt32(referencia.Split('/')[0])
+                                                    && x.DataCompetencia.Year == Convert.ToInt32(referencia.Split('/')[1]))
+                                        .Select(x => x.Unidade.Split(' ')[0])?.Distinct()?.OrderBy(x => x)?.ToList() ?? new List<string>();
+            for (int uni = 0; uni < listaUnidades.Count; uni++)
+            {
+                var unidade = listaUnidades[uni];
+                var totalPorUnidade = Model?.FirstOrDefault(x => x.Unidade.Split(' ')[0] == unidade)?.TotalVagasUnidade ?? 0;
+                var nomeUnidade = Model?.FirstOrDefault(x => x.Unidade.Split(' ')[0] == unidade).Unidade ?? string.Empty;
+
+                <div class="row col-xs-12 col-md-12 nopadding float-left" style="border-bottom: 1px solid black;">
+                    <label><b>Unidade:</b> @nomeUnidade</label>
+                </div>
+                <br />
+                <table class="row col-xs-12 col-md-12" style="width:100%;">
+                    <tbody>
+                        @{
+                            var dadosLista = Model.Where(x => x.Unidade.Split(' ')[0] == unidade
+                                        && x.DataCompetencia.Month == Convert.ToInt32(referencia.Split('/')[0])
+                                        && x.DataCompetencia.Year == Convert.ToInt32(referencia.Split('/')[1]))?
+                                        .OrderBy(x => x.Cliente)?.ToList() ?? new List<DadosPagamentoVO>();
+                            var listaCobrancasUnicas = new List<DadosPagamentoVO>();
+                        }
+                        @for (int i = 0; i < dadosLista.Count; i++)
+                        {
+                            var item = dadosLista[i];
+                            if (listaCobrancasUnicas.Any(x => x.CobrancaId == item.CobrancaId))
+                            {
+                                item.VlrPago =
+                                    item.VlrContrato =
+                                        item.VlrBoleto =
+                                            item.VlrTotal = 0;
+                            }
+
+                            listaCobrancasUnicas.Add(item);
+
+                        <tr style="background-color: @(i % 2 == 0 ? "#9bd4f550;" : "white;" ) -webkit-print-color-adjust: exact;">
+                            <td style="width:40%" class="linha">@item.Cliente</td>
+                            <td style="width:10%" class="linha">@item.Contrato</td>
+                            <td style="width:5%" class="linha">@item.VlrContrato.ToString("N2")</td>
+                            <td style="width:5%" class="linha">@item.VlrPago.ToString("N2")</td>
+                            @*<td style="width:10%" class="linha">@(item.DataGeracao > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? item.DataGeracao.ToShortDateString() : "")</td>*@
+                            <td style="width:10%" class="linha">@(item.DataVencimento > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? item.DataVencimento.ToShortDateString() : "")</td>
+                            <td style="width:10%" class="linha">@(item.DataPagamento > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? item.DataPagamento.ToShortDateString() : "")</td>
+                            <td style="width:10%" class="linha">@item.TipoSelo</td>
+                            @*<td style="width:10%" class="linha">@item.TipoPedidoSelo</td>*@
+                            <td style="width:10%" class="linha text-center">@item.Quantidade</td>
+                        </tr>
+                        }
+                        <tr style="background-color: #ededed; -webkit-print-color-adjust: exact;">
+                            <td></td>
+                            <td></td>
+                            <td class="linha">@(listaCobrancasUnicas.Sum(x => x.VlrContrato).ToString("N2"))</td>
+                            <td class="linha">@(listaCobrancasUnicas.Sum(x => x.VlrPago).ToString("N2"))</td>
+                            @*<td></td>*@
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="linha text-center">@(listaCobrancasUnicas.Sum(x => x.Quantidade))</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                if (uni + 1 < listaUnidades.Count && controller.QuebraPaginaPorUnidade)
+                {
+                    <div style="page-break-after:always;"></div>
+                }
+            }
+            if (r + 1 < listaRefs.Count)
+            {
+                <div style="page-break-after:always;"></div>
+            }
+        }
+    }
+</div>
+<div class="row col-xs-12 col-md-12 col-lg-12 text-align-center margin-top-10">
+    <a id="imprimirRelatorio" onclick="Imprimir()" class="btn btn-lg btn-warning" style="margin-right:40px;"><i class="fa fa-print"></i> Imprimir</a>
+
+    <a id="fecharRelatorio" onclick="Cancelar()" class="btn btn-lg btn-danger"><i class="fa fa-remove"></i> Cancelar</a>
+
+    <label style="float:left; text-align:left;">Total Geral: @Model.Count</label>
+</div>

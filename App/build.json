@@ -1,0 +1,11 @@
+﻿{
+  "android": {
+    "release": {
+      "keystore": "C:\\Workspaces\\DriveThru\\App\\drivethru.keystore",
+      "storePassword": "ful3r4",
+      "alias": "maykonelias",
+      "password": "!Fulera123",
+      "keystoreType": ""
+    }
+  }
+}

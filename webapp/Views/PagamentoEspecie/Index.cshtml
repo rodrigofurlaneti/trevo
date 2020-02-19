@@ -1,0 +1,45 @@
+﻿@using Aplicacao.ViewModels;
+@model ContasAPagarViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/PagamentoEspecie/PagamentoEspecie.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+}
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                        <h2>
+                            Pagamento em Espécie
+                        </h2>
+                    </header>
+
+                    <div id="filtros-pagamento-especie">
+                        @Html.Partial("_FiltrosPagamentoEspecie")
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="row">
+            <div id="pagamento-especie"></div>
+        </div>
+
+        <div id="area-modal-informar-recibo"></div>
+        <div id="area-modal-observacoes" style="width:600px; "></div>
+
+    </section>
+</div>

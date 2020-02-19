@@ -1,0 +1,197 @@
+﻿@using Portal.Controllers
+@using Core.Extensions
+
+@model Aplicacao.ViewModels.PedidoSeloViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as PedidoSeloController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/PedidoSelo/pedidoselo.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Pedido Selo
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "PedidoSelo", FormMethod.Post, new { id = "form" }))
+                                {
+                                    @Html.HiddenFor(x => x.Id, new { @id = "hdnPedidoSelo" })
+                                    @Html.HiddenFor(x => x.StatusPedido, new { @id = "hdnStatusPedido" })
+                                    @Html.HiddenFor(x => x.EmissaoSelo, new { @id = "hdnEmissaoSelo" })
+                                    @Html.HiddenFor(x => x.StatusEmissaoSelo, new { @id = "hdnStatusEmissaoSelo" })
+                                    @Html.HiddenFor(x => x.TipoPedidoSelo)
+                                    @Html.Hidden("hdnStatusLancamentoCobrancaPedidoSelo", controller.StatusLancamentoCobrancaPedidoSelo, new { })
+
+                                <div id="conteudo" class="row">
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Cliente: </label>
+                                            @Html.TextBoxFor(p => p.Cliente.Descricao, new { id = "clientes", @class = "form-control" })
+                                            @Html.HiddenFor(x => x.Cliente.Id, new { id = "cliente" })
+                                            @Html.HiddenFor(x => x.Cliente.Descricao, new { id = "clienteText" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Unidade: </label>
+                                            @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), new { @id = "unidade", @class = "chosen-select form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Convênio: </label>
+                                            @Html.DropDownListFor(x => x.Convenio.Id, new SelectList(controller.ListaConvenio, "Id", "Descricao"), new { @id = "convenio", @class = "chosen-select form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Tipo Pagamento: </label>
+                                                @Html.DropDownListFor(x => x.TiposPagamento, new SelectList(controller.ListaTipoPagamento, "Id", "Descricao"), new { @id = "tipopagamento", @class = "form-control chosen-select" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Desconto: </label>
+                                                @Html.DropDownListFor(x => x.Desconto.Id, new SelectList(controller.ListaNegociacaoSeloDesconto, "Id", "Descricao"), "Selecione...", new { @id = "negociacaodesconto", @class = "form-control chosen-select", data_placeholder = "Selecione..." })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Proposta: </label>
+                                                @Html.DropDownListFor(x => x.Proposta.Id, new SelectList(controller.ListaProposta, "Id", "Descricao"), new { @id = "proposta", @class = "form-control chosen-select" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Tipo Selo: </label>
+                                                @Html.DropDownListFor(x => x.TipoSelo.Id, new SelectList(controller.ListaTipoSelo, "Id", "Nome"), "Selecione...", new { @id = "tiposelo", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-2">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Validade Pedido: </label>
+                                                @Html.TextBoxFor(x => x.ValidadePedido, new { @id = "validadepedido", Value = Model != null && Model.ValidadePedido > System.Data.SqlTypes.SqlDateTime.MinValue.Value 
+                                                                                                                               ? Model.ValidadePedido.ToString("dd/MM/yyyy") 
+                                                                                                                               : DateTime.Now.Date.AddDays(1).DayOfWeek == DayOfWeek.Saturday 
+                                                                                                                                    ? DateTime.Now.Date.AddDays(3).ToShortDateString() 
+                                                                                                                                    : DateTime.Now.Date.AddDays(1).DayOfWeek == DayOfWeek.Sunday 
+                                                                                                                                        ? DateTime.Now.Date.AddDays(2).ToShortDateString() 
+                                                                                                                                        : DateTime.Now.Date.AddDays(1).ToShortDateString(), @class = "form-control fieldDate" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-2">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Quantidade: </label>
+                                                @Html.TextBoxFor(x => x.Quantidade, new { @id = "quantidade", @class = "form-control", @min = "1", @type = "number", Value = Model != null ? Model.Quantidade : 0 })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-2">
+                                            <div class="@(Model.DiasVencimento > 0 ? "col-xs-4" : "")no-padding" @(Model.DiasVencimento <= 0 ? "style=display:none;" : "")>
+                                                <label>Dias p/ Vencto: </label>
+                                                @Html.TextBoxFor(x => x.DiasVencimento, new { @id = "diasvencimento", @class = "form-control", @readonly = "true", Value = Model != null ? Model.DiasVencimento : 5 })
+                                            </div>
+                                            <div class="col-xs-@(Model.DiasVencimento > 0 ? "col-xs-8" : "col-xs-12") no-padding" @(Model.DiasVencimento > 0 ? "style=display:none;" : "")>
+                                                <label>Data para Vencimento: </label>
+                                                @Html.TextBoxFor(x => x.DataVencimento, new { @id = "datavencimento", @class = "form-control fieldDate", Value = Model != null && Model.DataVencimento > System.Data.SqlTypes.SqlDateTime.MinValue.Value
+                                                                                                                                                            ? Model.DataVencimento.ToShortDateString()
+                                                                                                                                                            : DateTime.Now.Date.AddDays(5).ToShortDateString()})
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-2">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Número Lote Selo: </label>
+                                                @Html.TextBoxFor(x => x.NumeroLoteSelo, new { @id = "emissaoselo", @class = "form-control" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12 col-md-12">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Status: @(Model?.StatusPedido.ToDescription())</label>
+                                                @Html.HiddenFor(x => x.StatusPedido)
+                                            </div>
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Tipo Pedido: @(Model?.TipoPedidoSelo.ToDescription())</label>
+	                                            @Html.HiddenFor(x => x.TipoPedidoSelo)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <a id="clonar" href="javascript:void(0);" class="btn btn-lg btn-success" value="ClonarPedido" name="ClonarPedido"> Clonar Pedido</a>
+                                        <button id="salvar" type="submit" class="btn btn-lg btn-primary" value="SalvarDados" name="SalvarDados"> Solicitar Aprovação</button>
+                                        <a id="bloquear" href="javascript:void(0);" class="btn btn-lg btn-primary" value="Bloquear" name="Bloquear"> Bloquear</a>
+                                        <a id="desbloquear" href="javascript:void(0);" class="btn btn-lg btn-primary" value="Desbloquear" name="Desbloquear"> Desbloquear</a>
+                                        <a id="cancelar" href="javascript:void(0);" class="btn btn-lg btn-danger" value="CancelarPedido" name="CancelarPedido"> Cancelar Pedido</a>
+
+                                        @if (Model != null && Model.Id != 0)
+                                        {
+                                            <a id="limpar" type="button" class="btn btn-lg btn-info" disabled href="@Url.Action("Index")"><i class="fa fa-refresh"></i>&nbsp;Limpar Tela</a>
+                                        }
+                                        else
+                                        {
+                                            <a id="limpar" class="btn btn-lg btn-info" href="@Url.Action("Index")"><i class="fa fa-refresh"></i>&nbsp;Limpar Tela</a>
+                                        }
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <div class="col-md-3">
+                    Busca por status: @Html.DropDownList("buscastatus", new SelectList(controller.ListaStatusPedido, "Id", "Descricao"), new { @id = "buscastatus", @class = "form-control chosen-select", data_placeholder = "Selecione um Tipo Pagamento..." })
+                </div>
+            </div>
+
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista de Registros</h2>
+                        </header>
+                        <div id="lista-pedido">
+
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+<div id="modalDivBloqueio"></div>

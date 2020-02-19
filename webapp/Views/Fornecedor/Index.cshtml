@@ -1,0 +1,236 @@
+﻿@using Antlr.Runtime.Misc
+@using Aplicacao.ViewModels
+@using Portal.Controllers
+@using Entidade.Uteis
+
+@model FornecedorViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as FornecedorController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Scripts.Render("~/Scripts/Fornecedor/Fornecedor.js")
+    @Scripts.Render("~/Scripts/Grupo/Grupo.js")
+}
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Cadastro de Fornecedor / Favorecido
+            </h2>
+        </header>
+        <div>
+            <div class="widget-body">
+                @using (Html.BeginForm("SalvarDados", "Fornecedor", FormMethod.Post, new { id = "fornecedor-form" }))
+                {
+                    <fieldset>
+                        <section>
+                            <div class="col-md-12 mobile-content">
+                                <label>Tipo de pessoa:</label><br />
+                                @Html.DropDownListFor(x => x.TipoPessoa, (SelectList)ViewBag.TipoPessoaSelectList, "Selecione um Tipo de Pessoa...", new { @id = "tipo-pessoa", @class = "form-control chosen-select", data_placeholder = "Selecione um Tipo de Pessoa..." })
+                            </div>
+
+
+                            <div class="container-pessoa-fisica" style="display: none">
+                                <div class="col-md-12 mobile-content">
+                                    @Html.HiddenFor(x => x.Id)
+                                    <label>Nome:</label><br />
+                                    @Html.TextBoxFor(x => x.Nome, new { @id = "pessoa-nome", @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Nome, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-12 mobile-content container-cpf">
+                                    <label>CPF:</label><br />
+                                    @Html.TextBoxFor(x => x.Cpf, new { @class = "form-control", @id = "cpf", @maxlength = "11", onchange = "validaCPF(this);" })
+                                    @Html.ValidationMessageFor(x => x.Cpf, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-12 mobile-content container-rg">
+                                    <label>RG:</label><br />
+                                    @Html.TextBoxFor(x => x.Rg, new { @class = "form-control", @id = "rg" })
+                                    @Html.ValidationMessageFor(x => x.Rg, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="container-pessoa-juridica" style="display: none">
+                                <div class="col-md-12 mobile-content">
+                                    @Html.HiddenFor(x => x.Id)
+                                    <label>Nome Fantasia:</label><br />
+                                    @Html.TextBoxFor(x => x.NomeFantasia, new { @id = "nome-fantasia", @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.NomeFantasia, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-12 mobile-content">
+                                    <label>Razão Social:</label><br />
+                                    @Html.TextBoxFor(x => x.RazaoSocial, new { @class = "form-control", @id = "razao-social" })
+                                    @Html.ValidationMessageFor(x => x.RazaoSocial, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-12 mobile-content container-cnpj">
+                                    <label>CNPJ:</label><br />
+                                    @Html.TextBoxFor(x => x.Cnpj, new { @class = "form-control", @id = "cnpj", @maxlength = "18", onchange = "validaCNPJ(this);" })
+                                    @Html.ValidationMessageFor(x => x.Cnpj, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-12 mobile-content container-inscricao-estadual">
+                                    <label>Inscricao Estadual:</label><br />
+                                    @Html.TextBoxFor(x => x.InscricaoEstadual, new { @class = "form-control", @id = "inscricao_social" })
+                                </div>
+                                <div class="col-md-12 mobile-content container-inscricao-municipal">
+                                    <label>Inscricao Municipal:</label><br />
+                                    @Html.TextBoxFor(x => x.InscricaoMunicipal, new { @class = "form-control", @id = "inscricao_municipal" })
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                @Html.Partial("../Contact/_SearchAddressByCEP", Model != null && Model.Endereco != null ? Model.Endereco : new EnderecoViewModel())
+                            </div>
+                            <div class="col-md-12">
+                                <label>
+                                    @Html.CheckBoxFor(x => x.ReceberCotacaoPorEmail, new { @id = "receber-cotacao" }) Receber Cotação por email
+                                </label>
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                @Html.Partial("../Contact/_Contacts", Model != null && Model.Contatos != null ? Model.Contatos : new List<ContatoViewModel>())
+                            </div>
+
+
+                            <div class="row no-margin">
+                                <div class="col-xs-12 col-md-3">
+                                    <div class="col-xs-12 no-padding">
+                                        <label>Banco: </label>
+                                        @Html.DropDownListFor(x => x.Banco.Id, new SelectList(controller.ListaBanco, "Id", "Descricao"), "Selecione um banco...", new { @id = "banco", @class = "chosen-select", data_placeholder = "Selecione um banco..." })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row no-margin">
+                                <div class="col-xs-12 col-md-2">
+                                    @Html.LabelFor(x => x.Agencia, "Agência: ")
+                                    @Html.TextBoxFor(x => x.Agencia, new { @id = "agencia", @class = "form-control somente-numeros", maxlength = "21" })
+                                </div>
+                                <div class="col-xs-12 col-md-2">
+                                    @Html.LabelFor(x => x.DigitoAgencia, "Digito Agência: ")
+                                    @Html.TextBoxFor(x => x.DigitoAgencia, new { @id = "digitoagencia", @class = "form-control somente-numeros", maxlength = "3" })
+                                </div>
+                            </div>
+                            <div class="row no-margin">
+                                <div class="col-xs-12 col-md-2">
+                                    @Html.LabelFor(x => x.Conta, "Conta: ")
+                                    @Html.TextBoxFor(x => x.Conta, new { @id = "conta", @class = "form-control somente-numeros", maxlength = "9" })
+                                </div>
+                                <div class="col-xs-12 col-md-2">
+                                    @Html.LabelFor(x => x.DigitoConta, "Digito Conta: ")
+                                    @Html.TextBoxFor(x => x.DigitoConta, new { @id = "digitoconta", @class = "form-control somente-numeros", maxlength = "3" })
+                                </div>
+                            </div>
+
+                            <div class="row no-margin">
+                                <div class="col-xs-12 col-md-2">
+                                    <label>CPF/CNPJ</label>
+                                    @Html.TextBoxFor(x => x.CPFCNPJ, new { @id = "cpfcnpj", @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="row no-margin">
+                                <div class="col-xs-12 col-md-2">
+                                    <label>Beneficiário</label>
+                                    @Html.TextBoxFor(x => x.Beneficiario, new { @id = "beneficiario", @class = "form-control" })
+                                </div>
+                            </div>
+                        </section>
+                    </fieldset>
+
+                    <div class="form-actions">
+                        <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                        <a class="btn btn-lg btn-danger" href="/fornecedor/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Fornecedores </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:5%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput" style="width:28%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Fornecedor" />
+                                            </th>
+                                            <th class="hasinput" style="width:17%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Razão Social" />
+                                            </th>
+                                            <th class="hasinput" style="width:13%">
+                                                <input type="text" class="form-control" placeholder="Filtrar CNPJ" />
+                                            </th>
+                                            <th class="hasinput" style="width:13%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Inscrição Estadual" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-class="expand">Fornecedor</th>
+                                            <th data-hide="phone">Razão Social</th>
+                                            <th data-hide="phone">CPF/CNPJ</th>
+                                            <th data-hide="phone">Inscrição Estadual</th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaFornecedores != null)
+                                        {
+                                            foreach (var m in controller.ListaFornecedores)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@(m.TipoPessoa == TipoPessoa.Fisica ? m.Nome : m.NomeFantasia)</td>
+                                                    <td>@m.RazaoSocial</td>
+                                                    <td>@(m.TipoPessoa == TipoPessoa.Fisica ? m.DocumentoCpf : m.DocumentoCnpj)</td>
+                                                    <td>@m.DocumentoIe</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/fornecedor/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/fornecedor/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $("#cnpj").on("keyup", function (e) {
+        $(this).val(
+            $(this).val()
+                .replace(/\D/g, '')
+                .replace(/^(\d{2})(\d{3})?(\d{3})?(\d{4})?(\d{2})?/, "$1.$2.$3/$4-$5"));
+    });
+</script>
+
+
+
+

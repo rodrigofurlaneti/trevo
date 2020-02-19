@@ -1,0 +1,92 @@
+﻿@model Aplicacao.ViewModels.AccountResetPasswordModel
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+}
+
+@section pagespecific{
+    @Styles.Render("~/Content/css/account/account.css")
+    @Scripts.Render("~/Scripts/Account/Account.js")
+}
+<link href="~/Content/css/account/login.css" rel="stylesheet" />
+
+@if (ViewBag.CompletePrimeiroLogin != null)
+{
+    <script type="text/javascript">
+        toastr.info('@ViewBag.CompletePrimeiroLogin', 'Primeiro Login');
+    </script>
+}
+
+<div id="content" class="container">
+    <div class="home-button" onclick="window.location = '/';">
+        <i class="fa fa-home"></i>
+    </div>
+    <div class="logo-cacau-first-login">
+        <img src="../content/img/logo-branco.png">
+    </div>
+    <div class="row no-lateral-margins login-area-first-login">
+        <div class="well no-padding">
+            <div>
+                <form action="@Url.Action("RegistrarPrimeiroLogin", "Account")" method="POST" id="first-login-form">
+                    @Html.HiddenFor(x => x.CPF);
+                    <fieldset>
+                        <section>
+                            <div class="text-align-center">
+                                <img id="imgAvatar" class="avatar" alt="Encontre uma Foto para seu usuário" src="@(Model != null ? Model.GetImage : "../../Content/img/avatars/sunny-big.png")" />
+                                <br />
+                                <label class="btn btn-sm btn-info btn-arredondado margin-top-5">Trocar a Foto<input id="uploadImgAvatar" type="file" style="display: none;" /></label>
+                            </div>
+                        </section>
+                        <section>
+                            <div>
+                                <label>Senha Anterior: </label>
+                            </div>
+                            <div>
+                                <label class="with-margin-bottom">
+                                    <i class="icon-append fa fa-lock"></i>
+                                    @Html.PasswordFor(x => x.OldPassword, new { id = "oldpass", name = "oldpass", required = "required" })
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Digite sua senha anterior</b>
+                                </label>
+                            </div>
+                        </section>
+                        <section>
+                            <div>
+                                <label>Nova Senha: </label>
+                            </div>
+                            <div>
+                                <label class="with-margin-bottom">
+                                    <i class="icon-append fa fa-lock"></i>
+                                    @Html.PasswordFor(x => x.Password, new { id = "password", name = "password", required = "requiredpass" })
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Digite sua nova senha</b>
+                                </label>
+                            </div>
+                        </section>
+                        <section>
+                            <div>
+                                <label>Confirme a Nova Senha: </label>
+                            </div>
+                            <div>
+                                <label class="with-margin-bottom">
+                                    <i class="icon-append fa fa-lock"></i>
+                                    @Html.PasswordFor(x => x.PasswordConfirm, new { id = "password-confirm", name = "password-confirm", required = "requiredpass" })
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Confirme sua nova senha</b>
+                                </label>
+                            </div>
+                        </section>
+                        <section>
+                            <div>
+                                <label class="label" id="no-match" style="color: red; display: none;">O campo confirmação de senha deve ser idêntico ao campo nova senha.</label>
+                            </div>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" id="send" disabled="disabled">Enviar</button>
+                    </footer>
+                </form>
+                <button onclick="history.back()">
+                    Voltar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

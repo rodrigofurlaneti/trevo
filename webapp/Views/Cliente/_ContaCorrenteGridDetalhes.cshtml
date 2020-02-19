@@ -1,0 +1,52 @@
+﻿
+@using Entidade.Uteis
+@model List<ContaCorrenteClienteDetalheViewModel>
+
+<div>
+    <div class="col-xs-12 col-md-12">
+        <div class="jarviswidget jarviswidget-color-blueDark margin-bottom-0 no-padding" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Conta Corrente</h2>
+            </header>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Data de Competência</th>
+                        <th>Tipo de ajuste</th>
+                        <th>Contrato</th>
+                        <th>Valor</th>
+                        <th style="width: 160px;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                    <tr class="linha-beneficio-funcionario-detalhe">
+                        <td>
+                            @item.DataCompetencia.ToString("yyyy-MM")
+                        </td>
+                        <td>
+                            @item.TipoOperacaoContaCorrente.ToString()
+                        </td>
+                        <td>
+                            @item.ContratoMensalista.NumeroContrato
+                        </td>
+                        <td>
+                            @item.Valor
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="EditarContaCorrenteClienteCadastro(@((int)item.TipoOperacaoContaCorrente))"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="RemoverContaCorrenteClienteCadastroCliente(@((int)item.TipoOperacaoContaCorrente))"><i class="fa fa-remove"></i></button>
+                        </td>
+                    </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

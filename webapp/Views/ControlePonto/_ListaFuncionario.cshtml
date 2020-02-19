@@ -1,0 +1,3 @@
+﻿@model List<ChaveValorViewModel>
+
+@Html.DropDownList("Funcionario", new SelectList(Model, "Id", "Descricao"), "Selecione um...", new { @id = "campo-funcionario", @class = "chosen-select", data_placeholder = "Selecione um..." })

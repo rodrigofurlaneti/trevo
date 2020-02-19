@@ -1,0 +1,215 @@
+﻿
+@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model EstoqueViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as EstoqueController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/Estoque/Estoque.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Estoque
+                            </h2>
+
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "Estoque", FormMethod.Post))
+                                {
+                                    @Html.HiddenFor(x => x.Id, new { @id = "ID" })
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <label>Nome</label>
+                                            <br />
+                                            @Html.EditorFor(x => x.Nome, new { @id = "nome", @class = "chosen-select form-control" })
+                                            @Html.ValidationMessageFor(x => x.Nome, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <label>Unidade: </label>
+                                            @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                        </div>
+
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <label>Estoque Principal: </label>
+                                            @Html.CheckBoxFor(x => x.EstoquePrincipal, new { @id = "estoque-principal", @class = "chosen-select form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                        <div class="col-xs-2">
+                                            <label>CEP:</label><br />
+                                            @Html.TextBoxFor(endereco => endereco.Cep, new { @class = "form-control", @id = "zipcode" })
+                                            @Html.ValidationMessageFor(endereco => endereco.Cep, "Informe o CEP!", new { @class = "text-danger" })
+
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>Estado:</label><br />
+                                            @Html.TextBoxFor(endereco => endereco.UF, new { @class = "form-control", @id = "state" })
+                                            @Html.ValidationMessageFor(endereco => endereco.UF, "Informe o Estado!", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>Cidade:</label><br />
+                                            @Html.TextBoxFor(endereco => endereco.CidadeNome, new { @class = "form-control", @id = "city" })
+                                            @Html.ValidationMessageFor(endereco => endereco.CidadeNome, "Informe a Cidade!", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>Bairro:</label><br />
+                                            @Html.TextBoxFor(endereco => endereco.Bairro, new { @class = "form-control", @id = "district" })
+                                            @Html.ValidationMessageFor(endereco => endereco.Bairro, "Informe o Bairro!", new { @class = "text-danger" })
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+
+                                        <div class="col-xs-2">
+                                            <label>Endereço:</label><br />
+                                            @Html.TextBoxFor(endereco => endereco.Logradouro, new { @class = "form-control", @id = "address" })
+                                            @Html.ValidationMessageFor(endereco => endereco.Logradouro, "Informe o Endereço!", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>N°:</label><br />
+                                            @Html.TextBoxFor(endereco => endereco.Numero, new { @class = "form-control", @id = "numeroEndereco" })
+                                            @Html.ValidationMessageFor(endereco => endereco.Numero, "Informe o Número!", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>Complemento:</label><br />
+                                            @Html.TextBoxFor(endereco => endereco.Complemento, new { @class = "form-control", @id = "complemento" })
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>Tipo:</label><br />
+                                            @Html.DropDownListFor(x => x.Tipo, new SelectList(controller._tipoendereco, "Id", "Descricao"), "Selecione...", new { @id = "type", @name = "type", @class = "chosen-select", data_placeholder = "Selecione..." }
+)
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="row col-xs-12 col-md-12 mobile-content margin-bottom-5 margin-top-10">
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                            <a class="btn btn-lg btn-danger" href="/Estoque/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista Estoques</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Nome" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Endereço" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Estoque Principal" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nome: </th>
+                                            <th>Unidade: </th>
+                                            <th>Endereço: </th>
+                                            <th>Estoque Principal: </th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaEstoque != null)
+                                        {
+                                            foreach (var m in controller.ListaEstoque)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Nome</td>
+                                                    <td>@(m.Unidade != null ? m.Unidade.Nome : "")</td>
+                                                    <td>@m.Logradouro</td>
+                                                    <td>@(m.EstoquePrincipal ? "Sim" : "Não")</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/Estoque/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/Estoque/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+            <!-- end row -->
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        MetodoUtil();
+    });
+</script>

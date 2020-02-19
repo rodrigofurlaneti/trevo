@@ -1,0 +1,25 @@
+﻿@using Portal.Controllers
+@model Aplicacao.ViewModels.LeituraCNABViewModel
+
+@{ 
+    var controller = ViewContext.Controller as LeituraCNABController;
+}
+
+<div id="conteudo" class="container-leitura-cnab row margin-bottom-5">
+    <div class="col-xs-12 col-md-2">
+        <label>Verificar como Prévia?</label>
+        <br /> @Html.CheckBox("chkPrevia", new { @checked = true, @id = "chkPrevia", style = "width:20px; height:20px;" })
+    </div>
+    <div class="col-xs-12 col-md-2">
+        <label>Conta Financeira</label>
+        @Html.DropDownList("ContaFinanceira", new SelectList(controller.ListaContaFinanceira, "Id", "Descricao"), "Selecione...", new { @id = "conta-financeira", @class = "chosen-select", data_placeholder = "Selecione..." })
+    </div>
+
+    <div class="col-xs-12 col-md-4 text-right">
+        <label class="font-size-18" style="margin-top:24px;">Upload de Arquivo de Retorno:</label>&nbsp;
+        <label id="btn-upload" class="btn btn-primary margin-top-0">
+            <i class="fa fa-upload"></i> Importar e Salvar
+            <input id="fileUpCNAB" type="file" accept=".txt, .ret, .RET" style="display:none;" />
+        </label>
+    </div>
+</div>

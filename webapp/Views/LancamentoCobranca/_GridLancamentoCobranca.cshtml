@@ -1,0 +1,103 @@
+﻿@using Core.Extensions;
+@model List<Aplicacao.ViewModels.LancamentoCobrancaViewModel>
+
+@if (Model != null && Model.Any())
+{
+    <table id="datatable_fixed_column" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th class="hasinput" style="width: 6%">
+                    <input type="text" class="form-control" placeholder="Filtrar Código" />
+                </th>
+                <th class="hasinput" style="width: 20%">
+                    <input type="text" class="form-control" placeholder="Filtrar Cliente" />
+                </th>
+                <th class="hasinput" style="width: 6%">
+                    <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                </th>
+                <th class="hasinput" style="width: 8%">
+                    <input type="text" class="form-control" placeholder="Filtrar Tipo Serviço" />
+                </th>
+                <th class="hasinput" style="width: 8%">
+                    <input type="text" class="form-control" placeholder="Filtrar Data Geração" />
+                </th>
+                <th class="hasinput" style="width: 8%">
+                    <input type="text" class="form-control" placeholder="Filtrar Data Competência" />
+                </th>
+                <th class="hasinput" style="width: 9%">
+                    <input type="text" class="form-control" placeholder="Filtrar Data Vencimento" />
+                </th>
+                <th class="hasinput" style="width: 8%">
+                    <input type="text" class="form-control" placeholder="Filtrar Data Pagamento" />
+                </th>
+                <th class="hasinput" style="width: 7%">
+                    <input type="text" class="form-control" placeholder="Filtrar Valor Total" />
+                </th>
+                <th class="hasinput" style="width: 9%">
+                    <input type="text" class="form-control" placeholder="Filtrar Valor Total Pago" />
+                </th>
+                <th class="hasinput" style="width: 6%">
+                    <input type="text" class="form-control" placeholder="Filtrar Nº Contrato" />
+                </th>
+                <th class="hasinput" style="width: 6%">
+                    <input type="text" class="form-control" placeholder="Filtrar Nº Recibo" />
+                </th>
+                <th class="hasinput" style="width: 7%">
+                    <input type="text" class="form-control" placeholder="Filtrar Status" />
+                </th>
+                <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                </th>
+            </tr>
+            <tr>
+                <th data-hide="expand">Código</th>
+                <th data-hide="expand">Cliente</th>
+                <th data-hide="expand">Unidade</th>
+                <th data-hide="expand">Tipo Serviço</th>
+                <th data-hide="expand">Data Geração</th>
+                <th data-hide="expand">Data Competência</th>
+                <th data-hide="expand">Data Vencimento</th>
+                <th data-hide="expand">Data Pagamento</th>
+                <th data-hide="expand">Valor Total</th>
+                <th data-hide="expand">Valor Total Pago</th>
+                <th data-hide="expand">Nº Contrato</th>
+                <th data-hide="expand">Nº Recibo</th>
+                <th data-hide="expand">Status</th>
+                <th data-class="expand">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in Model)
+            {
+                <tr>
+                    <td>@m.Id</td>
+                    <td>@(string.IsNullOrEmpty(m.Cliente?.NomeFantasia) ? string.IsNullOrEmpty(m.Cliente?.RazaoSocial) ? string.IsNullOrEmpty(m.Cliente?.Pessoa?.Nome) ? string.Empty : m.Cliente?.Pessoa?.Nome : m.Cliente?.RazaoSocial : m.Cliente?.NomeFantasia)</td>
+                    <td>@(m.Unidade == null ? "" : m.Unidade.Nome)</td>
+                    <td>@m.TipoServico.ToDescription()</td>
+                    <td>@m.DataGeracao.ToShortDateString()</td>
+                    <td>@(m.DataCompetencia.HasValue ? m.DataCompetencia.Value.ToString("yyyy/MM") : string.Empty)</td>
+                    <td>@m.DataVencimento.ToShortDateString()</td>
+                    <td>@(m.DataUltimoPagamento.HasValue && m.DataUltimoPagamento.Value > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? m.DataUltimoPagamento.Value.ToShortDateString() : string.Empty)</td>
+                    <td>@(Convert.ToDecimal(m.ValorTotal).ToString("C2"))</td>
+                    <td>@(m.ValorTotalPago)</td>
+                    <td>@m.NumeroContratoOuRegistro</td>
+                    <td>@m.NumeroRecibo</td>
+                    <td>@(m.StatusLancamentoCobranca.ToDescription())</td>
+                    <td>
+                        <a class="btn btn-primary" href="/lancamentoCobranca/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                        <a class="btn btn-danger" href="/lancamentoCobranca/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <table id="datatable_fixed_column" class="table table-striped table-bordered" style="width:100%">
+        <tr>
+            <td>
+                Nenhum Lançamento de Cobrança foi encontrado.
+            </td>
+        </tr>
+    </table>
+}

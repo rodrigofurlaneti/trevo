@@ -1,0 +1,69 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Finalizar compra</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <div class="titulo">
+        <div class="itens">
+            Escolha um cartão
+        </div>
+        <div>
+            <!--<button ion-button icon-only>-->
+                <ion-icon class="novo-cartao" name="add-circle" (click)="editar()"></ion-icon>
+            <!--</button>-->
+            <!--<button class="novo-cartao" ion-button color="primary" block (click)="editar()">
+                Novo cartão
+            </button>-->
+        </div>
+    </div>
+
+    <div *ngIf="cartoes && cartoes.length > 0">
+        <ion-list style="width: 256px;" radio-group [(ngModel)]="pedido.Cartao.Id">
+            <div style="display: inline-flex; margin-left: 3%" *ngFor="let cartao of cartoes">
+                <ion-thumbnail item-start style="float: left; width: 22%">
+                    <img src="assets/image/cartoes/{{detectCardType(cartao.Numero)}}.png">
+                </ion-thumbnail>
+
+                <div style="display: inline-table;">
+                    <p style="margin-left: 18px; font-weight: bold;"><span style="vertical-align:super;">&hellip;</span> {{cartao.Numero.substr(cartao.Numero.length - 4)}}</p>
+                </div>
+                <ion-radio style="margin-left: 35px; margin-top: 19px;" value="{{cartao.Id}}"></ion-radio>
+            </div>
+        </ion-list>
+    </div>
+    
+
+    <div class="titulo">
+        <div class="itens">
+            Escolha uma data para retirada
+        </div>
+    </div>
+    <div *ngIf="agendamentos && agendamentos.length > 0">
+        <ion-list style="width: 256px;" radio-group [(ngModel)]="pedido.Agendamento.Id">
+            <div style="display: inline-flex;" *ngFor="let agendamento of agendamentos">
+                <div style="display: inline-table;">
+                    <p style="margin-left: 18px;">{{agendamento.Data |  date: 'dd/MM/yyyy'}} às {{agendamento.Data |  date: 'HH:mm:ss'}}</p>
+                </div>
+
+                <ion-item>
+                    <ion-radio value="{{agendamento.Id}}"></ion-radio>
+                </ion-item>
+            </div>
+        </ion-list>
+    </div>
+    <div style="margin-top: 1%; margin-left: 1%;" *ngIf="!agendamentos || agendamentos.length == 0">
+        <p>Não há agendamentos disponíveis.</p>
+    </div>
+
+    <div>
+        <button [disabled]="!pedido.Cartao.Id || !pedido.Agendamento.Id" class="confirmar" block (click)="confirmarCompra()">
+            Confirmar
+        </button>
+    </div>
+</ion-content>

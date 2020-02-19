@@ -1,0 +1,186 @@
+﻿@using Portal.Controllers
+@model Aplicacao.ViewModels.ClienteCondominoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ClienteCondominoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+
+    @Styles.Render("~/Content/bootstrap/datepicker/bootstrap-datepicker.css")
+
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/bootstrap/datepicker/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/bootstrap/datepicker/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/ClienteCondomino/cliente-condomino.js")
+    @Scripts.Render("~/Scripts/cliente/cliente-autocomplete.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Controle Vagas - Condômino
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("Salvar", "ClienteCondomino", FormMethod.Post, new { @id = "cliente-condomino-form"}))
+                                {
+                                    @Html.HiddenFor(x => x.Id)
+
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                        <label>Cliente: </label>
+                                                        @Html.TextBoxFor(p => p.Cliente.Descricao, new { id = "clientes", @class = "form-control" })
+                                                        @Html.HiddenFor(x => x.Cliente.Id, new { id = "cliente" })
+                                                        @Html.HiddenFor(x => x.Cliente.Descricao, new { id = "clienteText" })
+                                                    </div>
+
+                                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                        <label>Unidade: </label>
+                                                        @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(new List<UnidadeCondominoViewModel>(), "Id", "Unidade.Nome"), "Selecione uma unidade...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione uma unidade..." })
+                                                        @Html.Hidden("UnidadeSelecionada", (Model != null ? Model.Unidade.Id.ToString() : string.Empty), new { id = "UnidadeSelecionada" })
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-2">
+                                                        <label>Número Total de Vagas: </label>
+                                                        @Html.TextBoxFor(x => x.NumeroVagas, new { @id = "numerovagas", @class = "chosen-select form-control somente-numeros" })
+                                                        @Html.ValidationMessageFor(x => x.NumeroVagas, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-2">
+                                                        <label>Vagas compartilhadas com a Frota?</label>
+                                                        @Html.CheckBoxFor(x => x.Frota, new { @id = "frota", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="row col-xs-12">
+                                                    <div class="col-xs-4">
+                                                        <label>Veículos:</label>
+                                                        <select id="veiculos" class="form-control chosen-select">
+                                                            <option value="0">Selecione o veículo</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <br />
+                                                        <button type="button" title="Atualizar a lista de veículos do cliente selecionado" class="btn btn-primary" onclick="CarregarVeiculos()" id="btAtualizarListaVeiculos"><i class="fa fa-refresh"></i></button>
+                                                        <button type="button" title="Adicionar veículo selecionado do cliente ao contrato" class="btn btn-primary" onclick="adicionarVeiculo()" id="add-Veiculo"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="row margin-bottom-5">
+                                                    <div id="lista-contratoveiculo-result" class="col-xs-12">
+                                                        @Html.Partial("../ClienteCondomino/_GridVeiculos", Model != null && Model.Veiculos.Count > 0 ? Model.Veiculos : new List<VeiculoViewModel>())
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        <a id="cancelar" href="@Url.Action("Index")" class="btn btn-lg btn-danger">Cancelar</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Vagas Condômino</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Total Vagas" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Data de Cadastro" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-hide="phone">Cliente: </th>
+                                            <th data-hide="phone">Unidade: </th>
+                                            <th data-hide="phone">Total Vagas: </th>
+                                            <th data-hide="phone">Data: </th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaUnidadesCondomino != null)
+                                        {
+                                            foreach (var m in controller.ListaUnidadesCondomino)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Cliente.Pessoa.Nome</td>
+                                                    <td>@m.Unidade.Unidade.Nome</td>
+                                                    <td>@m.NumeroVagas</td>
+                                                    <td>@m.DataInsercao.ToShortDateString()</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/ClienteCondomino/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/ClienteCondomino/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+            <!-- end row -->
+        </section>
+    </div>
+</div>
+

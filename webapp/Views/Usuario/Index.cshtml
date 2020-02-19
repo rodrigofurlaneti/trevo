@@ -1,0 +1,205 @@
+﻿@using Portal.Controllers
+@model UsuarioViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as UsuarioController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/Content/css/usuario/usuario.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/Usuario/Usuario.js")
+    @Scripts.Render("~/Scripts/Shared/Utils.js")
+}
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Cadastro de Usuário
+            </h2>
+        </header>
+        <div>
+            <div class="jarviswidget-editbox">
+            </div>
+            <div class="widget-body">
+                @using (Html.BeginForm("SalvarDados", "Usuario", FormMethod.Post, FormMethod.Post, new { id = "Form" }))
+                {
+                    <div class="row">
+                        <div class="col-xs-12 col-md-2 mobile-content text-align-center">
+                            <img id="imgAvatar" class="avatar" alt="Encontre uma Foto para seu usuário" src="@(Model != null ? Model.GetImage() :"../../Content/img/avatars/sunny-big.png")" />
+                            <br />
+                            <label class="btn btn-sm btn-info btn-arredondado margin-top-5">
+                                Trocar a Foto<input id="uploadImgAvatar" type="file" style="display: none;" />
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-md-10">
+                            <div class="row margin-top-20">
+                                <div class="col-xs-6 col-md-2 mobile-content">
+                                    @Html.CheckBoxFor(x => x.EhFuncionario, new { @id = "eh-funcionario", @checked = (Model?.EhFuncionario ?? true), style = "width:20px; height:20px;" })
+                                    @Html.LabelFor(x => x.EhFuncionario, "Funcionário:", new { @class = "espacoControle" })
+                                </div>
+                            </div>
+
+                            <div id="container-nome-funcionario" class="row" style="display: none">
+                                <div class="col-xs-12 mobile-content">
+                                    @Html.HiddenFor(x => x.Id)
+                                    <label>Nome do Funcionário: </label>
+                                    @Html.DropDownListFor(x => x.Funcionario.Id, new SelectList(controller.ListaFuncionario, "Id", "Pessoa.Nome"), "Selecione uma Pessoa...", new { @id = "funcionario", @class = "chosen-select", data_placeholder = "Selecione uma Pessoa..." })
+                                </div>
+                            </div>
+
+                            <div id="container-nome-completo" class="row" style="display: none">
+                                <div class="col-xs-12 mobile-content">
+                                    <label>Nome Completo: </label>
+                                    @Html.TextBoxFor(x => x.NomeCompleto, new { @id = "nome-completo", @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 mobile-content">
+                                    @Html.LabelFor(x => x.Perfils, "Perfis:", new { @class = "espacoControle" })
+                                    @Html.ListBoxFor(x => x.ListaPerfilId, new SelectList(controller.ListaPerfis, "Id", "Nome"), new { @id = "perfil", @class = "chosen-select", data_placeholder = "Selecione os Perfis...", multiple = "" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-2 mobile-content">
+                                    @Html.LabelFor(x => x.Login, "Login:", new { @class = "espacoControle" })
+                                    @Html.TextBoxFor(x => x.Login, new { @class = "form-control disabled", @disabled = "disabled", @style = "color:black;", @autocomplete = "off", @Value = (Model != null ? Model.Login : string.Empty), @maxlength = "255", @onchange = "validaCPF(this)" })
+                                </div>
+                                <div class="col-xs-12 col-md-3 mobile-content">
+                                    @Html.LabelFor(x => x.Senha, "Senha:", new { @class = "espacoControle" })
+                                    @Html.PasswordFor(x => x.Senha, new { @class = " form-control", @autocomplete = "off", @Value = (Model != null ? Model.Senha : string.Empty), @maxlength = "255" })
+                                </div>
+                                <div class="col-xs-12 col-md-3 mobile-content">
+                                    @Html.LabelFor(x => x.Email, "Email:", new { @class = "espacoControle" })
+                                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @autocomplete = "off", @Value = (Model != null ? Model.Email : string.Empty), @maxlength = "255" })
+                                </div>
+                                <div class="col-xs-12 col-md-3 mobile-content">
+                                    <a onclick="ToggleSenha()" id="btn-visualizar" style="display:block; color: black; font-size: 16px; cursor: pointer; margin-top: 33px">Visualizar Senha: <i class="fa fa-eye"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6 col-md-2 mobile-content">
+                                    @Html.CheckBoxFor(x => x.Ativo, new { @checked = true, style = "width:20px; height:20px;" })
+                                    @Html.LabelFor(x => x.Ativo, "Ativo:", new { @class = "espacoControle" })
+                                </div>
+                                <div class="col-xs-6 col-md-2 mobile-content">
+                                    @Html.CheckBoxFor(x => x.TemAcessoAoPDV, new { @id = "tem-acesso-ao-pdv", style = "width:20px; height:20px;" })
+                                    @Html.LabelFor(x => x.TemAcessoAoPDV, "Tem acesso ao PDV:", new { @class = "espacoControle" })
+                                </div>
+                                <div class="col-xs-6 col-md-2 mobile-content">
+                                    @Html.CheckBoxFor(x => x.PrimeiroLogin, new { @checked = true, style = "width:20px; height:20px;" })
+                                    @Html.LabelFor(x => x.PrimeiroLogin, "Primeiro Login:", new { @class = "espacoControle" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6 col-md-3 mobile-content">
+                                    @Html.LabelFor(x => x.OperadorPerfil, "Operador Perfil:", new { @class = "espacoControle" })
+                                    @if (Model == null || !Model.TemAcessoAoPDV)
+                                    {
+                                        @Html.DropDownListFor(x => x.OperadorPerfil, new SelectList(controller.ListaOperadorPerfilSoftpark, "Id", "Descricao"), "Selecione uma Pessoa...", new { @id = "operador-perfil", @class = "chosen-select form-control", data_placeholder = "Selecione uma Pessoa...", @disabled = "disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(x => x.OperadorPerfil, new SelectList(controller.ListaOperadorPerfilSoftpark, "Id", "Descricao"), "Selecione uma Pessoa...", new { @id = "operador-perfil", @class = "chosen-select form-control", data_placeholder = "Selecione uma Pessoa..." })
+                                    }
+                                </div>
+                                <div class="col-xs-6 col-md-3 mobile-content">
+                                    @Html.LabelFor(x => x.Unidade.Id, "Unidade:", new { @class = "espacoControle" })
+
+                                    @if (Model == null || !Model.TemAcessoAoPDV)
+                                    {
+                                        @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione uma Pessoa...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione uma Pessoa...", @disabled = "disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione uma Pessoa...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione uma Pessoa..." })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-xs-12 col-md-12 margin-bottom-20 margin-top-20">
+                        <div class="pull-right">
+                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                            <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div>
+        <section id="widget-grid">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget  hide-toolbar" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista de Usuários</h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                            </div>
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width: 10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput" style="width: 30%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Usuário" />
+                                            </th>
+                                            <th class="hasinput" style="width: 20%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Login" />
+                                            </th>
+                                            <th class="hasinput" style="width: 20%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Ativo" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id:</th>
+                                            <th data-hide="phone">Usuário: </th>
+                                            <th data-hide="phone">Login: </th>
+                                            <th data-hide="phone">Ativo: </th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaUsuarios != null)
+                                        {
+                                            foreach (var m in controller.ListaUsuarios)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@(m.EhFuncionario ? m.Funcionario?.Pessoa?.Nome : m.NomeCompleto)</td>
+                                                    <td>@m.Login</td>
+                                                    <td>@(m.Ativo ? "Sim" : "Não")</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/usuario/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/usuario/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

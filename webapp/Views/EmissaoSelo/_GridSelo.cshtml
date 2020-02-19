@@ -1,0 +1,67 @@
+﻿@using Portal.Controllers
+@using Entidade.Uteis
+@using Core.Extensions;
+
+@model List<SeloViewModel>
+
+@{
+    var controller = ViewContext.Controller as EmissaoSeloController;
+}
+
+<div id="container-tables" style=" width: auto">
+    @if (Model != null && Model.Any())
+    {
+        <h3></h3>
+        <div class="table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div>
+                <table id="tabela-selo" class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th data-hide="expand">Nº Lote</th>
+                            <th data-hide="expand">Nº Selo</th>
+                            <th data-hide="expand">Unidade</th>
+                            <th data-hide="expand">Tipo de Selo</th>
+                            <th data-hide="expand">Validade</th>
+                            <th data-hide="expand">Status</th>
+                            <th data-hide="expand">Valor Cobrança</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var selo in Model)
+                        {
+                            var valorValidade = selo.Validade != null ? selo.Validade.Value.ToShortDateString() : "";
+
+                            <tr>
+                                <td>@selo.EmissaoSelo.Id.ToString().PadLeft(7, '0')</td>
+                                <td>@selo.Sequencial</td>
+                                <td>@(selo.EmissaoSelo.PedidoSelo.Unidade.Nome)</td>
+                                <td>@selo.EmissaoSelo.PedidoSelo.TipoSelo.Nome</td>
+                                <td>@valorValidade</td>
+                                <td>@(selo.StatusSelo.ToDescription())</td>
+                                <td>@selo.Valor.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3></h3>
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="tabela-selo" class="table table-hover">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        Nenhum selo gerado!
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

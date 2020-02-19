@@ -1,0 +1,108 @@
+﻿@using Portal.Controllers;
+@using Core.Extensions;
+
+@{
+    var controller = ViewContext.Controller as OrcamentoSinistroController;
+}
+
+<div class="col-xs-12 margin-top-20">
+    <div class="row">
+
+        <div class="col-xs-12 col-md-3">
+            <label>Oficina: </label>
+            @Html.DropDownList("CotacaoOficina", new SelectList(controller.ListaOficinasModal, "Id", "Nome"), "Selecione...", new { @id = "cotacao-oficina", @class = "form-control", @placeholder = "Selecione..." })
+        </div>
+
+        @Html.Hidden("PecaServicoId", "", new { @id = "cotacao-peca-servico-id", @class = "form-control" })
+        <div class="col-xs-12 col-md-3">
+            <label>Peça a ser comprada/Serviço: </label>
+            @Html.TextBox("PecaServico", "", new { @id = "cotacao-peca-servico", @class = "form-control", @disabled = "disabled" })
+        </div>
+
+        <div class="col-xs-12 col-md-3">
+            <label>Fornecedor: </label>
+            @Html.DropDownList("CotacaoFornecedor", new SelectList(controller.ListaFornecedoresModal, "Id", "Nome"), "Selecione...", new { @id = "cotacao-fornecedor", @class = "form-control", @placeholder = "Selecione..." })
+        </div>
+
+        <div class="col-xs-12 col-md-3">
+            <label>Data Limite para Servico/Compra: </label><a id="btn-historico-data" class="btn btn-primary pull-right" style="display: none" onclick="AbrirModalHistoricoData()"><i class="fa fa-info-circle"></i></a>
+            @Html.TextBox("DataServico", "", new { @id = "data-servico", @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <label>Forma de Pagamento: </label>
+            @Html.DropDownList("CotacaoFormaPagamento", new SelectList(controller.ListaFormaPagamento, "Id", "Descricao"), "Selecione...", new { @id = "cotacao-forma-pagamento", @class = "form-control", @placeholder = "Selecione..." })
+        </div>
+
+        <div id="container-se-nao-seguro">
+            <div class="col-xs-12 col-md-3">
+                <label>Quantidade: </label>
+                @Html.TextBox("CotacaoQuantidade", "", new { @id = "cotacao-quantidade", @class = "form-control" })
+            </div>
+
+            <div class="col-xs-12 col-md-3">
+                <label>Valor Unitário: </label>
+                @Html.TextBox("ValorUnitario", "", new { @id = "cotacao-valor-unitario", @class = "form-control" })
+            </div>
+
+            <div class="col-xs-12 col-md-3">
+                <label>Valor Total: </label>
+                @Html.TextBox("CotacaoValorTotal", "", new { @id = "cotacao-valor-total", @class = "form-control", @disabled = "disabled" })
+            </div>
+        </div>
+    </div>
+
+    <div id="container-se-seguro" style="display: none">
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                @Html.CheckBox("TemSeguroReembolso", new { @id = "cotacao-tem-seguro-reembolso" })
+                <label for="cotacao-tem-seguro-reembolso">Seguro Através de reembolso: </label>
+            </div>
+
+            <div class="col-xs-12 col-md-3">
+                <label>Cia de Seguro: </label>
+                @Html.TextBox("CiaSeguroReembolso", "", new { @id = "cotacao-cia-seguro-reembolso", @class = "form-control" })
+            </div>
+
+            <div id="container-se-seguro-reembolso" style="display: none">
+                <div class="col-xs-12 col-md-3">
+                    <label>Data Prevista Reembolso: </label>
+                    @Html.TextBox("DataPrevistaReembolso", "", new { @id = "cotacao-data-prevista-reembolso", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <label>Quantidade: </label>
+                @Html.TextBox("CotacaoQuantidadeReembolso", "", new { @id = "cotacao-quantidade-reembolso", @class = "form-control" })
+            </div>
+
+            <div class="col-xs-12 col-md-3">
+                <label>Valor Unitário: </label>
+                @Html.TextBox("ValorUnitarioReembolso", "", new { @id = "cotacao-valor-unitario-reembolso", @class = "form-control" })
+            </div>
+
+            <div class="col-xs-12 col-md-3">
+                <label>Valor Reembolso: </label>
+                @Html.TextBox("CotacaoValorTotalReembolso", "", new { @id = "cotacao-valor-reembolso", @class = "form-control", @disabled = "disabled" })
+            </div>
+
+            <div class="col-xs-12 col-md-3">
+                <label>Valor Total: </label>
+                @Html.TextBox("CotacaoValorTotalReembolso", "", new { @id = "cotacao-valor-total-reembolso", @class = "form-control", @disabled = "disabled" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row no-margin-bottom">
+    <div class="col-xs-12">
+        <div class="col-xs-12">
+            <button type="button" class="btn btn-danger pull-right" id="cancelar-edicao-cotacao-item" style="display:none; margin-left:15px;" onclick="cancelarEdicaoDeCotacaoItem()"><i class="fa fa-minus-circle"></i>&nbsp;Cancelar Edição</button>
+            <button type="button" class="btn btn-primary pull-right" id="adicionar-cotacao-item" style="display:none;" onclick="adicionarCotacaoItem()"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</button>
+        </div>
+    </div>
+</div>

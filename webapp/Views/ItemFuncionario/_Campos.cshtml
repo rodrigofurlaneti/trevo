@@ -1,0 +1,88 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ItemFuncionarioViewModel
+
+<script src="~/Scripts/ItemFuncionario/shared-item-funcionario.js"></script>
+
+@Html.HiddenFor(itemFuncionario => itemFuncionario.ItemFuncionarioId, new { @id = "item-funcionario-id" })
+
+<div class="col-xs-12" id="campos-item-funcionario">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <label>Funcionário:</label><br />
+            @Html.TextBoxFor(itemFuncionario => itemFuncionario.Funcionario.Pessoa.Nome, new { id = "campo-funcionarios", @class = "form-control", @readonly = "readonly" })
+            @Html.HiddenFor(itemFuncionario => itemFuncionario.Funcionario.Id, new { id = "campo-funcionario" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <div class="col-xs-12 no-padding">
+                <label>Item: </label>
+                @Html.DropDownList("Material", new SelectList(ViewBag.ListaMaterial, "Id", "Nome"), "Selecione um...", new { @id = "material", @class = "chosen-select", data_placeholder = "Selecione um..." })
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <div class="col-xs-12 no-padding">
+                <label>Estoque: </label>
+                <div id="select-estoque">@Html.Partial("~/Views/ItemFuncionario/_Estoques.cshtml", new List<EstoqueViewModel>())</div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="col-xs-12 no-padding">
+                <label>Valor: </label>
+                @Html.TextBox("Valor", "0,00", new { id = "valor", @class = "form-control valmoney", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="col-xs-12 no-padding">
+                <label>Quantidade: </label>
+                @Html.TextBox("Quantidade", "", new { id = "quantidade", @class = "form-control somente-numeros" })
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="col-xs-12 col-md-11 no-padding">
+                <label>Valor Total: </label>
+                @Html.TextBox("ValorTotal", "", new { id = "valor-total", @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div>
+                <button style="position: absolute; bottom: 0; top: initial; left: initial" class="btn btn-default" onclick="event.preventDefault(); AdicionarFuncionarioItem()"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="lista-item">
+            @Html.Partial("../ItemFuncionario/_GridItensDetalhes", Model?.ItemFuncionariosDetalhes ?? new List<ItemFuncionarioDetalheViewModel>())
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <label>Data Entrega:</label><br />
+            @Html.TextBoxFor(itemFuncionario => itemFuncionario.DataEntrega, new { id = "data-entrega", @class = "form-control campo-data" })
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <label>Responsável:</label><br />
+            @Html.TextBoxFor(itemFuncionario => itemFuncionario.ResponsavelEntrega.Pessoa.Nome, new { id = "responsaveis-entrega", @class = "form-control" })
+            @Html.HiddenFor(itemFuncionario => itemFuncionario.ResponsavelEntrega.Id, new { id = "responsavel-entrega" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <label>Data Devolução:</label><br />
+            @Html.TextBoxFor(itemFuncionario => itemFuncionario.DataDevolucao, new { id = "data-devolucao", @class = "form-control campo-data" })
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <label>Responsável:</label><br />
+            @Html.TextBoxFor(itemFuncionario => itemFuncionario.ResponsavelDevolucao.Pessoa.Nome, new { id = "responsaveis-devolucao", @class = "form-control" })
+            @Html.HiddenFor(itemFuncionario => itemFuncionario.ResponsavelDevolucao.Id, new { id = "responsavel-devolucao" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12"><a class="btn btn-danger" onclick="Imprimir()">Imprimir Recibo</a></div>
+        <a id="botao-impressao" class="btn btn-danger" style="display: none" target="_blank" href="@Url.Action("Impressao", "ItemFuncionario")">Impressao</a>
+    </div>
+</div>

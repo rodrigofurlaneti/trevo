@@ -1,0 +1,66 @@
+﻿@using Portal.Controllers
+@model FiltroNegativacaoViewModel
+@{
+    ViewBag.Title = "Consulta situação de arquivos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as NegativacaoController;
+}
+@section pagespecific{
+    @Styles.Render("~/content/css/negativacao/negativacao.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/negativacao/negativacao.js")
+}
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Pesquisa
+            </h2>
+        </header>
+        <div>
+            <div class="widget-body">
+                @using (Html.BeginForm("Pesquisar", "Negativacao", FormMethod.Post))
+                {
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-md-1">
+                                <label>De:</label>
+                                <br />
+                                @Html.TextBoxFor(x => x.DataDe, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.DataDe, "Informe a data de início!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1">
+                                <label>Até:</label>
+                                <br />
+                                @Html.TextBoxFor(x => x.DataAte, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.DataAte, "Informe a data final!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Destino:</label>
+                                <br />
+                                @Html.DropDownListFor(x => x.CodigoDestino, controller.ListaDestino, new { @class = "chosen-select form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Situação:</label>
+                                <br />
+                                @Html.DropDownListFor(x => x.CodigoSituacao, controller.ListaSituacao, new { @class = "chosen-select form-control" })
+                            </div>
+                            <div class="col-md-1" style="padding-top: 21px;">
+                                <button type="button" id="pesquisar" class="btn btn-primary">
+                                    <i class="fa fa-search"></i>&nbsp;Pesquisar&nbsp;
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div id="grid-result">
+        @Html.Partial("_Grid")
+    </div>
+</div>

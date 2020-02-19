@@ -1,0 +1,218 @@
+﻿@using Portal.Controllers
+@model PropostaViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as PropostaController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/Proposta/proposta.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Proposta
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                            </div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "Proposta", FormMethod.Post, new { id = "PropostaForm" }))
+                                {
+                                    @Html.HiddenFor(x => x.Id, new { @id = "Id" })
+                                    @Html.HiddenFor(x => x.TemPedido, new { @id = "TemPedido" })
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-2">
+                                            <div class="col-xs-12">
+                                                <label>Número Proposta: </label>
+                                                @Html.TextBoxFor(x => x.NumeroProposta, new { @id = "numeroProposta", @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+	                                <div class="row">
+		                                <div class="col-xs-12 col-md-6">
+			                                <div class="col-xs-12">
+				                                
+			                                </div>
+		                                </div>
+	                                </div>
+	                                <div class="row">
+		                                <div class="col-xs-12 col-md-6">
+			                                <div class="col-xs-12">
+				                                <label>Cliente:</label>
+				                                @Html.TextBoxFor(p => p.Empresa.Descricao, new { id = "clientes", @class = "form-control" })
+				                                @Html.HiddenFor(x => x.Empresa.Id, new { id = "empresa" })
+			                                </div>
+		                                </div>
+	                                </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-2">
+                                            <div class="col-xs-12">
+                                                <label>Telefone: </label>
+                                                @Html.TextBoxFor(x => x.Telefone, new { @id = "telefone", @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12">
+                                                <label>Filial: </label>
+                                                @Html.DropDownListFor(x => x.Filial.Id,
+                                                    new SelectList(controller.ListaFiliais, "Id", "Nome"),
+                                                    "Selecione...",
+                                                    new
+                                                    {
+                                                        @id = "filial",
+                                                        @class = "chosen-select",
+                                                        @data_placeholder = "Selecione...",
+                                                        @onChange = "buscarEndereco(); buscarHorarioFuncionamento();"
+                                                    }
+                                                )
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-6">
+                                            <div class="col-xs-12">
+                                                <label>Endereço: </label>
+                                                @Html.TextBoxFor(x => x.Endereco, new { @id = "endereco", @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-2">
+                                            <div class="col-xs-12">
+                                                <label>Horário Funcionamento: </label>
+                                                @Html.TextBoxFor(x => x.HorarioFuncionamento, new { @id = "horarioFuncionamento", @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-6">
+                                            <div class="col-xs-12">
+                                                <label>Email:</label>
+                                                @Html.ListBoxFor(x => x.ListaEmail,
+                                                    new SelectList(controller.ListaEmails),
+                                                    new
+                                                    {
+                                                        @id = "emails",
+                                                        @class = "chosen-select",
+                                                        data_placeholder = "Selecione...",
+                                                        multiple = ""
+                                                    }
+                                                )
+                                                @Html.HiddenFor(x => x.Email, new { @id = "email" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <div class="pull-right margin-right-10">
+                                            <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <button type="submit" class="btn btn-lg btn-primary margin-right-15">
+                                            <i class="fa fa-save"></i>&nbsp;Salvar
+                                        </button>
+                                        @*<a class="btn btn-lg btn-danger" href="@Url.Action("GerarPdf")"><i class="fa fa-times"></i>&nbsp;PDF</a>*@
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Propostas</h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                            </div>
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Número Proposta" />
+                                            </th>
+                                            <th class="hasinput" style="width:25%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Empresa" />
+                                            </th>
+                                            <th class="hasinput" style="width:25%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Filial" />
+                                            </th>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Email Enviado" />
+                                            </th>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Pedido" />
+                                            </th>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Status Pedido" />
+                                            </th>
+                                            <th class="hasinput" style="width:10%">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Número Proposta:</th>
+                                            <th data-hide="phone">Empresa:</th>
+                                            <th data-hide="phone">Filial: </th>
+                                            <th data-hide="phone">Email Enviado: </th>
+                                            <th data-hide="phone">Pedido: </th>
+                                            <th data-hide="phone">Status Pedido: </th>
+                                            <th data-class="expand">Ações:</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaPropostas != null && controller.ListaPropostas.Any())
+                                        {
+                                            foreach (var m in controller.ListaPropostas)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Empresa</td>
+                                                    <td>@m.Filial</td>
+                                                    <td>@m.EmailEnviado</td>
+                                                    <td>@m.Pedido</td>
+                                                    <td>@m.StatusPedido</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="@Url.Action("Edit", new { id = m.Id })"><i class='fa fa-edit'></i></a>
+                                                        @if (m.TemPedido)
+                                                        {
+                                                            <a class="btn btn-danger" href="javascript:void(0);" onclick="excluirQuandoTemPedido();"><i class="fa fa-remove"></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-danger" href="@Url.Action("Delete", new { id = m.Id })"><i class="fa fa-remove"></i></a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

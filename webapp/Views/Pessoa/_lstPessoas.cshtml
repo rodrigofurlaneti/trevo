@@ -1,0 +1,62 @@
+﻿@model List<PessoaViewModel>
+
+<table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+    <thead>
+        <tr>
+            <th class="hasinput" style="width: 5%">
+                <input type="text" class="form-control" placeholder="Filtrar Id" />
+            </th>
+            <th class="hasinput" style="width: 20%">
+                <input type="text" class="form-control" placeholder="Filtrar Nome" />
+            </th>
+            <th class="hasinput" style="width: 10%">
+                <input type="text" class="form-control" placeholder="Filtrar CPF" />
+            </th>
+            <th class="hasinput" style="width: 10%">
+                <input type="text" class="form-control" placeholder="Filtrar RG" />
+            </th>
+            <th class="hasinput" style="width: 8%">
+                <input type="text" class="form-control" placeholder="Filtrar Sexo" />
+            </th>
+            <th class="hasinput" style="width: 8%">
+                <input type="text" class="form-control" placeholder="Filtrar Dt Nasc" />
+            </th>
+            <th class="hasinput" style="width: 30%">
+                <input type="text" class="form-control" placeholder="Filtrar Endereço" />
+            </th>
+            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+            </th>
+        </tr>
+        <tr>
+            <th data-hide="phone">Id</th>
+            <th data-hide="expand">Nome: </th>
+            <th data-hide="phone">CPF: </th>
+            <th data-hide="phone">RG: </th>
+            <th data-hide="phone">Sexo: </th>
+            <th data-hide="phone">Dt Nasc: </th>
+            <th data-hide="phone">Endereço: </th>
+            <th data-class="expand">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var m in Model.ToList())
+            {
+        <tr>
+            <td>@m.Id</td>
+            <td>@m.Nome</td>
+            <td>@m.DocumentoComFormatacao()</td>
+            <td>@m.Rg</td>
+            <td>@m.Sexo</td>
+            <td>@(m.DataNascimento != null && m.DataNascimento != DateTime.MinValue ? ((DateTime)m.DataNascimento).ToString("dd/MM/yyyy") : "")</td>
+            <td>@(m.Enderecos.Count > 0 ? m.Enderecos.FirstOrDefault().Resumo : "")</td>
+            <td>
+                <a class="btn btn-primary" href="/pessoa/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                <a class="btn btn-danger" href="/pessoa/delete/@m.Id"><i class="fa fa-remove"></i></a>
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,253 @@
+﻿.margin-left-10 {
+    margin-left: 10px;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.typeNotify {
+    margin-left: 10px;
+}
+
+.menu-ul {
+    width: max-content;
+}
+
+.menu-li {
+    border: 1px solid lightgray;
+}
+
+.btnNotifyGroup {
+    font-weight: bold;
+    font-size: large;
+    padding: 3px 10px !important;
+}
+
+.fa-bell:before {
+    color: goldenrod;
+}
+
+.fa-bell-notificacao {
+    color: goldenrod;
+}
+
+    .fa-bell-notificacao:hover {
+        color: white;
+    }
+
+.fa-exclamation-circle:before {
+    color: goldenrod;
+}
+
+.fa-exclamation-circle-notificacao {
+    color: goldenrod;
+}
+
+    .fa-exclamation-circle-notificacao:hover {
+        color: white;
+    }
+
+.button-badge {
+    background-color: transparent !important;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    position: relative;
+    display: inline-block;
+    border-radius: .2rem;
+    transition: all ease 0.4s;
+    font-size: 25px;
+}
+
+    .button-badge:hover {
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+.badge {
+    position: absolute;
+    top: 5px;
+    right: -15px;
+    font-size: .8em !important;
+    padding: 1px 4px;
+}
+
+.badge-item {
+    position: inherit;
+    top: 5px;
+    right: -15px;
+    font-size: .8em !important;
+    padding: 1px 4px;
+    border-radius: 20px;
+}
+
+.faBlack {
+    color: black;
+}
+
+    .faBlack:before {
+        color: black;
+    }
+
+.faWhite {
+    color: white;
+}
+
+    .faWhite:before {
+        color: white;
+    }
+
+.badge-red {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+/*.buttonNotify {
+    color: white;
+    display: inline-block;
+    position: relative;
+    padding: 2px 5px;
+    background-image: url('../../../img/nty.png');
+}*/
+
+a.notif {
+    position: relative;
+    display: block;
+    height: 40px;
+    width: 40px;
+    /*background-image: url('../../img/notification.png');*/
+    background-size: contain;
+    text-decoration: none;
+}
+
+.num {
+    position: absolute;
+    right: 11px;
+    top: 6px;
+    color: #fff;
+}
+
+.entidade {
+    font-weight: bold;
+    font-size: large;
+}
+
+#notifications {
+    display: none;
+    width: 400px;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background: #FFF;
+    border: solid 1px rgba(100, 100, 100, .20);
+    -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .20);
+    z-index: 0;
+}
+
+    #notifications:before {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        color: transparent;
+        border: 10px solid #CCC;
+        border-color: transparent transparent #FFF;
+        margin-top: -20px;
+        margin-left: 10px;
+    }
+
+h3 {
+    display: block;
+    color: #333;
+    background: #FFF;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 8px;
+    margin: 0;
+    border-bottom: solid 1px rgba(100, 100, 100, .30);
+}
+
+.menu {
+    list-style: none;
+    float: left;
+}
+
+    .menu li {
+        position: relative;
+        float: left;
+        cursor: pointer;
+        font: 12px helvetica;
+        margin: 3px 2px 5px 12px;
+    }
+
+        .menu li a {
+            color: #333;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+        }
+
+            .menu li a:hover {
+                background: #333;
+                color: #fff;
+                -moz-box-shadow: 0 3px 10px 0 #CCC;
+                -webkit-box-shadow: 0 3px 10px 0 #ccc;
+                text-shadow: 0px 0px 5px #fff;
+            }
+
+.seeAll {
+    background: #F6F7F8;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    border-top: solid 1px rgba(100, 100, 100, .30);
+    text-align: center;
+}
+
+    .seeAll a {
+        color: #3b5998;
+    }
+
+        .seeAll a:hover {
+            background: #F6F7F8;
+            color: #3b5998;
+            text-decoration: underline;
+        }
+
+.loader {
+    border-top: 16px solid blue;
+    border-bottom: 16px solid blue;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#loading {
+    z-index: 10;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 90vh;
+    display: block;
+    opacity: 0.7;
+}
+
+#loading-image {
+    position: relative;
+    /*top: 40px;
+    left: 200px;
+    z-index: 100;*/
+}
+
+.selected {
+    background-color: #C00;
+    color: #FFF;
+}

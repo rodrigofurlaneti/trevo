@@ -1,0 +1,135 @@
+﻿@using Portal.Controllers
+@model Entidade.Perfil
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as PerfilController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/Perfil/Perfil.js")
+}
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Cadastro de Perfil
+            </h2>
+        </header>
+        <div>
+            <div class="jarviswidget-editbox">
+                <!-- This area used as dropdown edit box -->
+            </div>
+            <div class="widget-body">
+                @using (Html.BeginForm("Salvar", "Perfil", FormMethod.Post))
+                {
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="col-xs-12 col-md-12 mobile-content">
+                        @Html.LabelFor(x => x.Nome, "Nome do Perfil: ", new { @class = "espacoControle" })<br />
+                        @Html.TextBoxFor(x => x.Nome, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Nome, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-12 col-md-12 mobile-content">
+                        @Html.LabelFor(x => x.ListaMenu, "Menus: ", new { @class = "espacoControle" })<br />
+                        @Html.ListBoxFor(x => x.ListaMenu, new SelectList(controller.ListaMenus, "Id", "Descricao"), new { @id = "menus", @class = "chosen-select", data_placeholder = "Selecione os Menus...", multiple = "" })
+                    </div>
+                    <div class="row col-xs-12 col-md-12 mobile-content margin-bottom-5 margin-top-10">
+                        <div class="pull-right margin-right-10">
+                            <button type="submit" class="btn btn-lg btn-primary margin-right-10">
+                                <i class="fa fa-save"></i> Salvar
+                            </button>
+                            <a class="btn btn-lg btn-danger" href="/perfil/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div>
+        <section id="widget-grid" class="">
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                        <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
+                        -->
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Perfís</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput" style="width:70%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Nome" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-hide="phone">Nome Perfil: </th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaPerfils != null)
+                                        {
+                                            foreach (var m in controller.ListaPerfils)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Nome</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/perfil/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/perfil/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+            <!-- end row -->
+        </section>
+    </div>
+
+
+</div>

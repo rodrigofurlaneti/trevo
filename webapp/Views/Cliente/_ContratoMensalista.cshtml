@@ -1,0 +1,146 @@
+﻿
+@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ClienteCadastroViewModel
+
+@{
+    var controller = ViewContext.Controller as ClienteController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/cliente/cliente-autocomplete.js")
+    @Scripts.Render("~/Scripts/ContratoMensalista/ContratoMensalista.js")
+}   
+
+<div id="content">
+    @Html.Label("Contratos Mensalistas", new { style = "font-weight: bold; font-size: 1.17em;" })
+    <div>
+        <fieldset>
+            <section id="widget-grid" class="">
+                <div class="row">
+                    <div>
+                        <div class="widget-body">
+                            @Html.HiddenFor(cm => cm.ContratoMensalista.PagamentoCadastro, new { id = "hdnPagamentoCadastroCliente", @value = "false" })
+                            @Html.HiddenFor(cm => cm.ContratoMensalista.Id, new { id = "hdnContratoMensalista" })
+                            @Html.HiddenFor(cm => cm.ContratoMensalista.TabelaPrecoMensalista.Id, new { id = "TabelaPrecoMensalistaSelecionada" })
+
+                            <div class="col-xs-2">
+
+                                <label>Tipo de Mensalista:</label><br />
+
+                                @Html.DropDownListFor(x => x.ContratoMensalista.TipoMensalista.Descricao
+                                                , new SelectList(controller.ListaTipoMensalista, "Id", "Descricao")
+                                                , "Selecione..."
+                                                , new
+                                                {
+                                                    @id = "cbContratoMensalista_TipoMensalista"
+                                                        ,
+                                                    @class = "form-control chosen-select"
+                                                        ,
+                                                    data_placeholder = "Selecione..."
+                                                })
+
+                            </div>
+                            <div class="col-xs-2">
+                                <label>Unidade:</label><br />
+                                @Html.DropDownListFor(cm => cm.ContratoMensalista.Unidade.Id, new SelectList(string.Empty, "Value", "Text"), "Selecione uma unidade...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione uma unidade..." })
+                                @Html.Hidden("UnidadeSelecionada", (Model != null ? Model.ContratoMensalista.Unidade.Id.ToString() : string.Empty), new { id = "UnidadeSelecionada" })
+                                @Html.Hidden("UnidadeSelecionadaNome", (Model != null ? Model.ContratoMensalista.Unidade.Nome : string.Empty), new { id = "UnidadeSelecionadaNome" })
+                            </div>
+                            <div class="col-xs-2">
+                                <label>Nº de Vagas</label>
+                                @Html.TextBoxFor(x => x.ContratoMensalista.NumeroVagas, new { @id = "numero-vagas", @class = "form-control", type = "number", min = "0" })
+                            </div>
+                            <div class="col-xs-2">
+                                <label>Código do Contrato:</label>
+                                @Html.TextBoxFor(x => x.ContratoMensalista.NumeroContrato, new { @id = "txtCodContrato", @class = "form-control", type = "number", min = "0" })
+                                @Html.ValidationMessageFor(x => x.ContratoMensalista.NumeroContrato, "Informe o código do contrato!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-xs-2">
+                                <label>Valor especial:</label>
+                                @Html.TextBoxFor(x => x.ContratoMensalista.Valor, new { @id = "valor-contrato", @class = "form-control valmoney" })
+                                @*@Html.ValidationMessageFor(x => x.ContratoMensalista.Valor, "Informe o código do contrato!", new { @class = "text-danger" })*@
+                            </div>
+                            <div class="col-xs-1">
+                                <label>Data de Início</label>
+                                @Html.TextBoxFor(x => x.ContratoMensalista.DataInicio, new { @id = "dtInicio", Value = Model != null && Model.ContratoMensalista.DataInicio > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.ContratoMensalista.DataInicio.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                @Html.ValidationMessageFor(x => x.ContratoMensalista.DataInicio, "Informe a Data Inicio!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-xs-1">
+                                <label>Data de Fim</label>
+                                @Html.TextBoxFor(x => x.ContratoMensalista.DataFim, new { @id = "dtFim", Value = Model != null && Model.ContratoMensalista.DataFim > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.ContratoMensalista.DataFim.Value.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                            </div>
+                            <div>
+                                <div class="row col-xs-12">
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Vagas compartilhadas com a Frota?</label>
+                                        @Html.CheckBoxFor(x => x.ContratoMensalista.Frota, new { @id = "frota", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row col-xs-12">
+                                    <div class="col-xs-4">
+                                        <label>Veículos:</label>
+                                        <select id="veiculos" class="form-control chosen-select">
+                                            <option value="0">Selecione o veículo</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <button type="button" title="Adicionar veículo selecionado do cliente ao contrato" class="btn btn-primary" 
+                                                style="margin-top:25px;"
+                                                onclick="adicionarVeiculoCadastroCliente()" id="add-Veiculo"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom-5">
+                                    <div id="lista-contratoveiculo-result" class="col-xs-12">
+                                        @Html.Partial("../ContratoMensalista/_GridVeiculos", Session["VeiculosAdicionados"] != null ? (List<VeiculoViewModel>)Session["VeiculosAdicionados"] : new List<VeiculoViewModel>())
+                                    </div>
+                                </div>
+                                <div class="row col-xs-12">
+                                    <div class="col-xs-2">
+                                        <label>Tabela de Preço Mensalista:</label><br />
+                                        @Html.DropDownList("cbContratoMensalista_TabelaPrecoMensalista"
+                                                , new SelectList(string.Empty, "Value", "Text")
+                                                , new
+                                                {
+                                                    @class = "chosen-select form-control",
+                                                    data_placeholder = "Selecione uma tabela..."
+                                                })
+
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <label>Ativo:</label><br />
+                                        @Html.CheckBoxFor(x => x.ContratoMensalista.Ativo, new { @id = "ativo-contrato", @checked = true })
+                                    </div>
+                                    <div class="row col-xs-9 margin-bottom-5">
+                                        <div class="col-xs-3 heightline">
+                                            <label>Nº Recibo:</label>
+                                            @Html.TextBoxFor(x => x.ContratoMensalista.NumeroRecibo, new { @id = "nroRecibo", @class = "form-control heightfield", @type = "number", @maxlength = "40" })
+                                            @Html.ValidationMessageFor(x => x.ContratoMensalista.NumeroRecibo, "Informe um Nº Recibo!", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-xs-4 heightline">
+                                            <label>Valor Pago:</label>
+                                            @Html.TextBoxFor(x => x.ContratoMensalista.ValorPago, new { @id = "vlrPago", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.ContratoMensalista.ValorPago, "Informe o Valor Pago!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" style="height: 65px;top: 30px;">
+                                        <button class="btn btn-primary" id="adiciona-contrato-mensalista" style="margin-top:2px;" onclick="event.preventDefault(); AdicionarContratoMensalista();" tabindex="0"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar Contrato</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </fieldset>
+    </div>
+</div>
+<div id="printar">
+</div>
+<div id="modalDivBloqueio">
+</div>

@@ -1,0 +1,98 @@
+﻿@model Aplicacao.ViewModels.PedidoLocacaoViewModel
+
+<h3 class="text-center"></h3>
+
+<br />
+@{
+
+    var item = Model;
+
+    <input id="idemissaoselo" value=@item.Id type="hidden" />
+
+    <div class="col-xs-12 col-sm-12">
+        <div id="conteudo" class="row">
+            <div class="col-xs-12 col-md-3">
+                <div class="col-xs-12 no-padding">
+                    <label>Data Reajuste: </label>
+                    @Html.TextBoxFor(x => x.DataReajuste, new { @id = "reajuste", Value = Model != null && Model.DataReajuste > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataReajuste.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-3">
+                <div class="col-xs-12 no-padding">
+                    <label>Valor Reajuste: </label>
+                    @*@Html.TextBoxFor(x => x.ValorReajuste, new { @id = "valorreajuste", @class = "form-control heightfield valmoney", @autocomplete = "off", @maxlength = "21" })*@
+                    @Html.TextBoxFor(x => x.ValorReajuste, htmlAttributes: new { @id = "valorreajuste", @class = "form-control valmoney" })
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <div class="col-xs-12 no-padding">
+                    <label>Data Fim Vigência: </label>
+                    @Html.TextBoxFor(x => x.DataVigenciaFim, new { @id = "vigencia", Value = Model != null && Model.DataVigenciaFim > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataVigenciaFim.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            @Html.Partial("../Locacao/_FormVigencia", Model != null && Model.PedidoLocacaoLancamentosAdicionais != null && Model.PedidoLocacaoLancamentosAdicionais.Count > 0 ? Model.PedidoLocacaoLancamentosAdicionais.FirstOrDefault() : new PedidoLocacaoLancamentoAdicionalViewModel())
+        </div>
+        <div id="lista-item-result" class="col-xs-12">
+            @Html.Partial("../Locacao/_GridVigencia", Model != null && Model.PedidoLocacaoLancamentosAdicionais != null && Model.PedidoLocacaoLancamentosAdicionais.Count > 0 ? Model.PedidoLocacaoLancamentosAdicionais : new List<PedidoLocacaoLancamentoAdicionalViewModel>())
+        </div>
+    </div>
+
+}
+<div class="col-xs-12 col-sm-12">
+    <div class="pull-right margin-right-10">
+        <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">
+            <i class="fa fa-remove"></i> Cancelar
+        </button>
+    </div>
+    <div class="pull-right margin-right-10">
+        <button type="button" 
+                class="btn btn-lg btn-primary" 
+                @(Model != null && Model.Status == Entidade.Uteis.StatusSolicitacao.Aguardando ? "disabled" : "") 
+                onclick="ConfirmarAlteracao();" data-dismiss="modal">
+            <i class="fa fa-save"></i> Solicitar Aprovação
+        </button>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        //if ($("#valorreajuste").val() != '' && $("#valorreajuste").val() != undefined && $("#valorreajuste").val() != null)
+        //    $("#valorreajuste").val(ConvertToFloat($("#valorreajuste").val()));
+
+        $("input[class*=valmoney]").maskMoney({
+            prefix: "",
+            allowNegative: false,
+            allowZero: true,
+            thousands: ".",
+            decimal: ",",
+            affixesStay: false
+        });
+
+        $("input[class*=valmoney]").maskMoney('mask');
+
+        FormatarCampoData("reajuste");
+        FormatarCampoData("vigencia");
+
+        showLoading();
+        var id = $("#idemissaoselo").val();
+
+        $.post(`/Locacao/BuscarDadosDosGrids/${id}`)
+            .done((response) => {
+
+                items = response.items;
+
+            })
+            .always(() => { hideLoading(); })
+
+        $(window).load(function () {
+            alert('');
+        });
+
+    });
+</script>

@@ -1,0 +1,113 @@
+﻿@using Core.Extensions
+@using Portal.Controllers
+@model ContratoUnidadeViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ContratoUnidadeController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/contrato/contrato.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/contratounidade/contratounidade.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            @Html.Partial("_FormContrato")
+
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div id="gridContratos">
+                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-5" data-widget-editbutton="false" data-widget-deletebutton="false">
+                            <header>
+                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                <h2>Lista de Contratos </h2>
+                            </header>
+                            <div class="widget-body">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width: 3%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput" style="width: 7%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput" style="width: 6%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Tipo de Contrato" />
+                                            </th>
+                                            <th class="hasinput" style="width: 6%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Numero de Contrato" />
+                                            </th>
+                                            <th class="hasinput" style="width: 6%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Data de Vencimento" />
+                                            </th>
+                                            @*<th class="hasinput" style="width: 6%">
+                                                    <input type="text" class="form-control" placeholder="Filtrar Duração" />
+                                                </th>*@
+                                            <th class="hasinput" style="width: 6%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                                            </th>
+                                            <th class="hasinput" style="width: 8%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Reajuste" />
+                                            </th>
+                                            <th class="hasinput" style="width: 6%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Ativo" />
+                                            </th>
+                                            <th style="width: 10%">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-hide="phone">Unidade</th>
+                                            <th data-hide="phone">Tipo de Contrato</th>
+                                            <th data-hide="phone">Numero de Contrato</th>
+                                            <th data-hide="phone">Data de Vencimento</th>
+                                            @*<th data-hide="phone">Duração</th>*@
+                                            <th data-hide="phone">Valor</th>
+                                            <th data-hide="phone">Reajuste</th>
+                                            <th data-hide="phone">Ativo</th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller.ListaTiposEquipe != null)
+                                        {
+                                            foreach (var m in controller.ListaTiposEquipe)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@(m.Unidade != null && m.Unidade.Nome != null ? m.Unidade.Nome : "")</td>
+                                                    <td>@(m.TipoContrato)</td>
+                                                    <td>@(m.NumeroContrato)</td>
+                                                    <td>@(m.DiaVencimento)</td>
+                                                    @*<td>Duracao</td>*@
+                                                    <td>@(m.Valor.ToString("C2"))</td>
+                                                    <td>@(m.ExistiraReajuste != true ? "Não" : "Sim")</td>
+                                                    <td>@(m.Ativo != true ? "Não" : "Ativo")</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/contratounidade/Editar/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/contratounidade/deletar/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+
+</div>

@@ -1,0 +1,224 @@
+﻿@using Portal.Controllers
+@*@model Entidade.CheckListAtividade*@
+
+@*@model Entidade.HorarioUnidade*@
+@model Aplicacao.ViewModels.HorarioUnidadeViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as HorarioUnidadeController;
+}
+
+@section pagespecific{
+
+    <script src="~/Scripts/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+
+    @Scripts.Render("~/Scripts/HorarioUnidade/horariounidade.js")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+}
+
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Horário Unidade
+                            </h2>
+
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "HorarioUnidade", FormMethod.Post, new { id = "Form" }))
+                                {
+                                    <div class="col-xs-12 margin-bottom-5">
+
+                                        <div class="col-xs-4">
+                                            <label>Unidade:</label><br />
+
+                                            @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xs-12 margin-bottom-5">
+
+                                        @Html.HiddenFor(x => x.Id, new { @id = "hdnHorarioUnidade" })
+
+                                        <div class="col-xs-4">
+                                            <div class="col-xs-6 no-padding">
+                                                <label>Nome do Horário: </label>
+                                                @Html.TextBoxFor(x => x.Nome, new { @id = "nome", @class = "chosen-select form-control" })
+                                                @Html.ValidationMessageFor(x => x.Nome, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <label>Horário Fixo: </label>
+                                            <br />
+                                            @Html.CheckBoxFor(x => x.Fixo, new { @id = "horariofixo" })
+                                        </div>
+
+                                        <div id="datafiltro" class="col-xs-4">
+                                            <label>Data Validade: </label>
+                                            <br />
+                                            @Html.TextBoxFor(x => x.DataValidade, new { @id = "data", Value = Model != null && Model.DataValidade > System.Data.SqlTypes.SqlDateTime.MinValue.Value ? Model.DataValidade.ToString("dd/MM/yyyy") : string.Empty, @class = "form-control fieldDate" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 margin-bottom-5">
+
+                                        <div id="tipocontratofiltro" class="col-xs-4">
+                                            <label>Tipo de Horário:</label>
+                                            @Html.ListBoxFor(x => x.ListaTipoHorario, new SelectList(controller.ListaTipoHorario, "Id", "Descricao"), new { @id = "tipohorario", @class = "chosen-select", data_placeholder = "Selecione os Tipos de Horario...", multiple = "" })
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            @Html.LabelFor(x => x.Feriados, "Feriados ", new { @class = "espacoControle" })
+                                            <br />
+                                            @Html.CheckBoxFor(x => x.Feriados)
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div id="gridperiodo1" class="col-md-5" style="border: 1px solid ; border-color: lavender;">
+                                            @Html.Partial("../HorarioUnidade/_GridPeriodoHorario")
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="gridperiodo2" class="col-md-5" style="border: 1px solid ; border-color: lavender;">
+                                            @Html.Partial("../HorarioUnidade/_GridPeriodoHorario2")
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="gridperiodo3" class="col-md-5" style="border: 1px solid ; border-color: lavender;">
+                                            @Html.Partial("../HorarioUnidade/_GridPeriodoHorario3")
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="gridperiodo4" class="col-md-5" style="border: 1px solid ; border-color: lavender;">
+                                            @Html.Partial("../HorarioUnidade/_GridPeriodoHorario4")
+                                        </div>
+                                    </div>
+
+
+                                    <br />
+                                    <div class="form-actions">
+                                        @if (Model != null && Model.Status == Entidade.Uteis.StatusHorario.Aguardando)
+                                        {
+                                            <a id="salvar" disabled class="btn btn-lg btn-primary">Solicitar Aprovação</a>
+                                        }
+                                        else
+                                        {
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary">Solicitar Aprovação</button>
+                                        }
+                                        <a class="btn btn-lg btn-danger" href="/horariounidade/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Horários Unidade</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Nome" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Data Validade" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Status" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-hide="phone">Nome: </th>
+                                            <th data-hide="phone">Unidade: </th>
+                                            <th data-hide="phone">Data Validade: </th>
+                                            <th data-hide="phone">Status</th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaHorarioUnidade != null)
+                                        {
+                                            foreach (var m in controller.ListaHorarioUnidade)
+                                            {
+
+                                                <tr>
+
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Nome</td>
+                                                    <td>@m.Unidade.Nome</td>
+                                                    <td>@m.DataValidade.ToShortDateString()</td>
+                                                    <td>@m.Status</td>
+
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/HorarioUnidade/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/HorarioUnidade/deletar/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+            <!-- end row -->
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        MetodoUtil();
+    });
+</script>

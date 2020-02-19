@@ -1,0 +1,53 @@
+﻿@using Portal.Controllers
+@using Entidade.Uteis
+@model List<OcorrenciaFuncionarioDetalheViewModel>
+
+@{
+    var ehFuncionarioController = ViewContext.Controller.GetType() == typeof(FuncionarioController);
+}
+
+<div class="col-xs-12 margin-top-20" style="padding-right: 5px">
+    <table id="tableitem" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Ocorrência</th>
+                @if (ehFuncionarioController)
+                {
+                    <th>Valor</th>
+                }
+                <th>Data da Ocorrência</th>
+                <th>Usuário Responsável</th>
+                <th style="width: 160px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="linha-ocorrencia-funcionario-detalhe">
+                        <td>
+                            @item.TipoOcorrencia.Descricao
+                        </td>
+                        @if (ehFuncionarioController)
+                        {
+                            <td>
+                                @(item.TipoOcorrencia.Percentual)
+                            </td>
+                        }
+                        <td>
+                            @(item.DataOcorrencia.ToShortDateString())
+                        </td>
+                        <td>
+                            @(item.UsuarioResponsavel?.Funcionario?.Pessoa?.Nome)
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="EditarOcorrenciaFuncionarioDetalhe(@item.Id)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="RemoverOcorrenciaFuncionarioDetalhe(@item.Id)"><i class="fa fa-remove"></i></button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

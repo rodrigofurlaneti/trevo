@@ -1,0 +1,47 @@
+﻿@model Aplicacao.ViewModels.EnderecoViewModel
+
+@Styles.Render("~/content/css/contact/search-address-by-cep.css")
+
+<div id="conteudo" style="margin-top:20px;">
+    @Html.HiddenFor(x => x.Id, new { @id = "hdnEndereco" })
+    <fieldset>
+        <section>
+            <div class="col-md-4">
+                <label>Cep:</label><br />
+                @Html.TextBoxFor(x => x.Cep, new { @class = "form-control", @id = "zipcode", @style = "display:inline; width: 115px;", @maxlength = "9" })
+                <span class="icon"><i id="search-icon" class="fa fa-search"></i></span>
+                <span id="invalid_zipcode" style="color:#b94a48; display:none;">Cep Inválido!</span>
+            </div>
+            <div class="col-md-4">
+                <label>Cidade:</label>
+                @Html.TextBoxFor(x => x.Cidade.Descricao, new { @class = "form-control", @id = "city" })
+            </div>
+            <div class="col-md-4">
+                <label>Estado:</label>
+                @Html.TextBoxFor(x => x.Cidade.Estado.Descricao, new { @class = "form-control", @id = "state" })
+            </div>
+        </section>
+        <section>
+            <div class="col-md-4">
+                <label>Endereço:</label>
+                @Html.TextBoxFor(x => x.Logradouro, new { @class = "form-control", @id = "address" })
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-6 no-padding">
+                    <label>Nº:</label>
+                    @Html.TextBoxFor(x => x.Numero, new { @class = "form-control", @id = "number", @style = "width:100px;" })
+                </div>
+                <div class="col-md-6 no-padding">
+                    <label>Bairro:</label>
+                    @Html.TextBoxFor(x => x.Bairro, new { @class = "form-control", @id = "district" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>Complemento:</label>
+                @Html.TextBoxFor(x => x.Complemento, new { @class = "form-control", @id = "complement" })
+            </div>
+        </section>
+    </fieldset>
+</div>
+
+@Scripts.Render("~/scripts/contact/search-address-by-cep.js")

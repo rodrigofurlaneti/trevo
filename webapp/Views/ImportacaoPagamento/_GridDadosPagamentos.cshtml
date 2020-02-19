@@ -1,0 +1,84 @@
+﻿@using Portal.Controllers
+@model List<ImportacaoPagamentoViewModel>
+
+@{
+    var controller = ViewContext.Controller as ImportacaoPagamentoController;
+}
+
+<article class="col-md-12">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-5" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista Arquivos de Pagamento Importados</h2>
+                        </header>
+                        <div>
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:8%">
+                                                <input type="text" class="form-control" placeholder="Data Importação" />
+                                            </th>
+                                            <th class="hasinput" style="width:20%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Arquivo" />
+                                            </th>
+                                            <th class="hasinput" style="width:20%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Lote" />
+                                            </th>
+                                            <th class="hasinput" style="width:7%">
+                                                <input type="text" class="form-control" placeholder="Data Pagamento" />
+                                            </th>
+                                            <th class="hasinput" style="width:15%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Cedente" />
+                                            </th>
+                                            <th style="width:15%">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Data Importação</th>
+                                            <th data-class="phone">Arquivo</th>
+                                            <th data-hide="phone">Lote</th>
+                                            <th data-hide="phone">Data Pagamento</th>
+                                            <th data-hide="phone">Cedente</th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.DataInsercao.ToString("dd/MM/yyyy")
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Arquivo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Lote)
+                                                </td>
+                                                <td>
+                                                    @item.DataPagamento.ToString("dd/MM/yyyy")
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Cedente)
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger" href="/ImportacaoPagamento/delete/@item.Id"><i class="fa fa-remove"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</article>

@@ -1,0 +1,139 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model SelecaoDespesaViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as SelecaoDespesaController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/SelecaoDespesa/SelecaoDespesa.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/SelecaoDespesa/SelecaoDespesa.js")
+}
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Seleção Despesa
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "SelecaoDespesa", FormMethod.Post, new { id = "SelecaoDespesaForm" }))
+                                {
+                                <div class="col-xs-2">
+                                    <label>Empresa:</label>
+                                    <br />
+                                    @*@Html.DropDownList("empresas", new SelectList(controller.ListaEmpresaUnidade,"Id", "Descricao"),"Selecione uma empresa...", new { id = "cbEmpresaUnidade", @class = "chosen-select form-control" })*@
+                                    @Html.DropDownListFor(x => x.Empresa.Id, new SelectList(controller.ListaEmpresaUnidade,"Id", "RazaoSocial"),"Selecione uma empresa...", new { id = "cbEmpresaUnidade", @class = "chosen-select form-control" })
+                                </div>
+
+                                    <div class="col-xs-2">
+                                        <label>Unidade:</label>
+                                        <br />
+                                        @*@Html.DropDownList("unidades", new SelectList(controller.ListaUnidade,"Id","Nome"), new { id = "cbUnidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })*@
+                                        @Html.DropDownListFor(x => x.Unidade.Id
+                                            , new SelectList(ViewBag.ListaUnidade, "Id", "Nome")
+                                            , "Selecione uma unidade..."
+                                            , new
+                                            {
+                                                @id = "unidadeOrigem",
+                                                name = "unidadeOrigem"
+                                                ,
+                                                @class = "form-control chosen-select"
+                                            })
+                                    </div>
+
+                                    <div class="col-xs-2">
+                                        <label>Ano:</label>
+                                        <br />
+                                        @Html.DropDownListFor(x => x.Ano,
+                                            (SelectList)ViewBag.ListaAnos, "Selecione um ano...",
+                                            new
+                                            {
+                                                @id = "despesaAno",
+                                                name = "despesaAno",
+                                                @class = "form-control chosen-select",
+                                                data_placeholder = "Selecione um ano..."
+                                            })
+                                        @Html.ValidationMessageFor(x => x.Ano, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        @*@Html.DropDownList("anos", new SelectList(controller.ListaAnos), new { id = "cbAno", @class = "chosen-select form-control", data_placeholder = "Selecione..." })*@
+                                    </div>
+
+                                    <div class="col-xs-2">
+                                        <label>Mês Vigente:</label>
+                                        <br />
+                                        @Html.DropDownListFor(x => x.MesVigente,
+                                            (SelectList)ViewBag.ListaMes, "Selecione um mês...",
+                                            new
+                                            {
+                                                @id = "despesaMes",
+                                                name = "despesaMes",
+                                                @class = "form-control chosen-select",
+                                                data_placeholder = "Selecione um mês..."
+                                            })
+                                        @Html.ValidationMessageFor(x => x.MesVigente, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        @*@Html.DropDownList("meses", new SelectList(controller.ListaMeses,"Value","Text"), new { id = "cbMes", @class = "chosen-select form-control", data_placeholder = "Selecione..." })*@
+                                    </div>
+
+                                    <div class="col-xs-2">
+                                        <span class="btn btn-primary" id="btnSearch" onclick="Pesquisar()" style="margin-top:11%;"><i class="fa fa-search-plus"></i>&nbsp; Pesquisar</span>
+                                    </div>
+                                    <div class="row">
+                                    </div>
+                                    <div class="row">
+                                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                                                <header>
+                                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                                    <h2>Lista de Despesas</h2>
+                                                </header>
+                                                <div>
+                                                    <!-- widget edit box -->
+                                                    <div class="jarviswidget-editbox">
+                                                        <!-- This area used as dropdown edit box -->
+                                                    </div>
+
+                                                    <div id="dvListaDespesas">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+
+                                    <div id="conteudo" class="row margin-bottom-20">
+                                        <div class="col-xs-12 col-md-12">
+                                            <div class="row margin-bottom-5">
+                                                <div class="pull-right margin-right-15">
+                                                    <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                                </div>
+                                                <div class="pull-right margin-right-10">
+                                                    <button id="btnSalvar" type="submit" class="btn btn-lg btn-primary">
+                                                        <i class="fa fa-save"></i> Salvar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>      
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+

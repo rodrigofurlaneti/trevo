@@ -1,0 +1,57 @@
+﻿@using Portal.Controllers
+@using Entidade.Uteis
+@model List<TabelaPrecoMensalistaUnidadeViewModel>
+
+
+@{
+    var controller = ViewContext.Controller as TabelaPrecoMensalistaController;
+}
+
+
+<div id="container-tables" style="margin-top:50px;">
+    @if (Model != null && Model.Any())
+    {
+        <h3>Vigência Unidades</h3>
+        <div class="col-lg-5">
+            <div class="col-xs-5">
+                <table id="teste" class="table table-hover" style="width: auto">
+
+                    <tbody>
+                        @foreach (var horarioPreco in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <label>Unidade:</label>
+                                    <select class="chosen-select" name="unidade" data-value="@horarioPreco.Unidade.Id" style="margin: 10px"></select>
+                                </td>
+
+                                <td>Horário Início:<input name="horarioinicio" type="time" id="@horarioPreco.Id" class="horario" style="margin: 10px" value="@horarioPreco.HorarioInicio" placeholder="" /></td>
+                                <td>Horário Fim:<input name="horariofim" type="time" id="@horarioPreco.Id" class="horario" style="margin: 10px" value="@horarioPreco.HorarioFim" placeholder="" /></td>
+                                <td>Dias para Corte:<input name="diasparacorte" type="number" id="@horarioPreco.Id"style="margin: 10px" value="@horarioPreco.DiasParaCorte" placeholder="" /></td>
+                                <td>Hora Adicional:<input name="horaadicional" type="checkbox" id="@horarioPreco.Id" onclick="HabilitaDesabilitaCampo(this)" style="margin: 10px" checked="@horarioPreco.HoraAdicional" placeholder="" /></td>
+                                <td>Qtd Hora(s):<input name="quantidadehoras" type="number" id="@horarioPreco.Id" disabled="@(horarioPreco.HoraAdicional ? false : true)" style="margin: 10px" value="@horarioPreco.QuantidadeHoras" placeholder="" /></td>
+                                <td>Valor por Qtd:<input name="valorquantidade" class="form-control heightfield valmoney" type="text" id="@horarioPreco.Id" disabled="@(horarioPreco.HoraAdicional ? false : true)" style="margin: 10px; width: auto" value="@horarioPreco.ValorQuantidade" placeholder="" /></td>
+
+                                <td><span class="btn btn-danger btn-circle" onclick="DeletaEquipamento(this)" style="margin: 10px" data-idhorario="@horarioPreco.Id" name="deleta-equipamento"><i class="fa" style="color: white">X</i>&nbsp;</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <span class="btn btn-warning btn-circle" id="adiciona-item" onclick="AdicionaEquipamento(1)"><i class="fa fa-plus" style="color: white"></i>&nbsp;</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3>Vigência Unidades</h3>
+        <div class="col-lg-5">
+            <div class="col-xs-5">
+                <table id="teste" class="table table-hover" style="width: auto">
+                    <tbody></tbody>
+                </table>
+                <span class="btn btn-warning btn-circle" id="adiciona-item" onclick="AdicionaEquipamento(1)"><i class="fa fa-plus" style="color: white"></i>&nbsp;</span>
+            </div>
+        </div>
+    }
+</div>
+

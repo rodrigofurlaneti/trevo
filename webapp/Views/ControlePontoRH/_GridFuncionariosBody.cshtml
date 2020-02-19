@@ -1,0 +1,22 @@
+﻿@using Core.Extensions;
+
+@model List<FuncionarioViewModel>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a class="btn btn-primary" href="@Url.Action("editar", new { funcionarioId = item.Id, ano = ViewBag.AnoSelecionado, mes = ViewBag.MesSelecionado })"><i class='fa fa-edit'></i></a>
+            </td>
+            <td>@(item?.Unidade?.Nome)</td>
+            <td>@(item?.Supervisor?.Pessoa?.Nome)</td>
+            <td>@(item?.Pessoa?.Nome)</td>
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd"><td valign="top" colspan="10" class="dataTables_empty">Nenhum registro encontrado</td></tr>
+}

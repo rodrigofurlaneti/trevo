@@ -1,0 +1,26 @@
+﻿@model List<LancamentoCobrancaViewModel>
+<div>
+    <h1>Lançamento(s) com CNAB</h1>
+    <div>
+        <h3>
+            O(s) Lançamento(s) abaixo ja contém CNAB gerado(s) deseja gerar novamente?<br />
+            @foreach (var id in Model.Select(x => x.Id))
+            {   
+                <b>@id</b><br />
+            }
+        </h3>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 margin-top-20">
+        <div class="pull-right margin-right-10">
+            <button type="submit" class="btn btn-lg btn-danger" onclick="Cancelar();">
+                <i class="fa fa-remove"></i> Cancelar
+            </button>
+        </div>
+        <div class="pull-right margin-right-10">
+            <button type="submit" class="btn btn-lg btn-primary" onclick="GerarCNABModal();">
+                <i class="fa fa-file-o"></i> Gerar CNAB
+            </button>
+        </div>
+    </div>
+</div>

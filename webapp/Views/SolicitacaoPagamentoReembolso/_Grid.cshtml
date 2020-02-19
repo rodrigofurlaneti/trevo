@@ -1,0 +1,111 @@
+﻿@model List<Aplicacao.ViewModels.ContasAPagarViewModel>
+@{
+    Layout = null;
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista de Solicitações</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                @if (Model != null && Model.Any())
+                                {
+                                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th class="hasinput">
+                                                    <input type="text" class="form-control" placeholder="Filtrar Número da Cobrança" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input type="text" class="form-control" placeholder="Filtrar Data de Pagamento" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input type="text" class="form-control" placeholder="Filtrar Fornecedor" />
+                                                </th>
+                                                <th class="hasinput">
+                                                    <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    Número da Cobrança
+                                                </th>
+                                                <th>
+                                                    Data de Pagamento
+                                                </th>
+                                                <th>
+                                                    Fornecedor
+                                                </th>
+                                                <th>
+                                                    Valor
+                                                </th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var conta in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="col-xs-12 nopadding input-group">
+                                                            <input data-contaAPagarId="@conta.Id" type="checkbox" autocomplete="off" class="form-control center-block no-float" onchange="AdicionarContaSelecionada(this)">
+                                                        </div>
+                                                    </td>
+                                                    <td>@conta.Id</td>
+                                                    <td>@conta.DataVencimento.ToShortDateString()</td>
+                                                    <td>@conta.FornecedorFormatado</td>
+                                                    <td>@conta.ValorFormatado</td>
+                                                    <td>
+                                                        <a class="btn btn-danger" data-contaAPagarId="@conta.Id" onclick="removeItemDoGrid(this);"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                    @Html.Partial("_Botoes")
+                                }
+                                else
+                                {
+                                    <table id="datatable_fixed_column" class="table table-striped table-bordered" style="width:100%">
+                                        <tr>
+                                            <td>
+                                                Nenhum registro foi encontrado.
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+            <!-- end row -->
+        </section>
+    </div>
+</div>

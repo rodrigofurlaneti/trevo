@@ -1,0 +1,10 @@
+﻿.file {
+    visibility: hidden;
+    position: absolute;
+}
+
+
+.form-control-custom {
+    display: inline;
+    width:150px;
+}

@@ -1,0 +1,36 @@
+﻿.margin-top-5 {
+    margin-top: 5px !important;
+}
+
+.text-align-center {
+    text-align: center !important;
+}
+
+.btn-arredondado {
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+}
+
+.avatar {
+    /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
+    background-image: url('../../Content/img/avatars/sunny-big.png');
+    /* make a square container */
+    width: 150px;
+    height: 150px;
+    /* fill the container, preserving aspect ratio, and cropping to fit */
+    background-size: cover;
+    /* center the image vertically and horizontally */
+    background-position: top center;
+    /* round the edges to a circle with border radius 1/2 container size */
+    border-radius: 50%;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+@media only screen and (max-width: 768px) {
+    #conteudo {
+        margin-left: 5% !important;
+        margin-right: 5% !important;
+    }
+}

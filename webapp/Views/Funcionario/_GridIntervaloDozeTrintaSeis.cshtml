@@ -1,0 +1,31 @@
+﻿@model List<FuncionarioIntervaloDozeTrintaSeisViewModel>
+
+<div class="col-xs-12">
+    <div class="col-xs-12">
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th>Data Inicial</th>
+                    <th>Data Final</th>
+                    <th style="width: 120px">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.DataInicial.ToShortDateString()</td>
+                            <td>@item.DataFinal.ToShortDateString()</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" style="margin-right: 2px;" onclick="EditarIntervaloModalDozeTrintaSeis('@item.DataInicial', '@item.DataFinal')"><i class="fa fa-edit"></i></button>
+                                <button type="button" class="btn btn-danger" style="margin-right: 3px;" onclick="RemoverIntervaloModalDozeTrintaSeis('@item.DataInicial', '@item.DataFinal')"><i class="fa fa-remove"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

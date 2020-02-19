@@ -1,0 +1,92 @@
+﻿@using Core.Extensions
+@model List<Aplicacao.ViewModels.RetiradaCofreViewModel>
+
+@{
+    Layout = null;
+}
+
+<div class="widget-body">
+
+    <table id="datatable_fixed_column" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Departamento" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Nome do Fornecedor/Tipo" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Data de Vencimento" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Status Lançamento" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Status Retirada" />
+                </th>
+                <th class="hasinput" style="width: 10%">
+
+                </th>
+            </tr>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    Departamento
+                </th>
+                <th>
+                    Nome do Fornecedor/Tipo
+                </th>
+                <th>
+                    Data de Vencimento
+                </th>
+                <th>
+                    Valor
+                </th>
+                <th>
+                    Status Lançamento
+                </th>
+                <th>
+                    Status Retirada
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var retiradaCofre in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="col-xs-12 nopadding input-group">
+                                <input data-retiradaCofreId="@retiradaCofre.Id" type="checkbox" autocomplete="off" class="form-control center-block no-float seleciona-retirada-cofre" onchange="AdicionarRetiradaSelecionada(this)">
+                            </div>
+                        </td>
+                        <td>@retiradaCofre.ContasAPagar.Departamento.Nome</td>
+                        <td>@retiradaCofre.ContasAPagar.FornecedorFormatado</td>
+                        <td>@retiradaCofre.ContasAPagar.DataVencimento.ToShortDateString()</td>
+                        <td>@retiradaCofre.ContasAPagar.ValorFormatado</td>
+                        <td>@retiradaCofre.ContasAPagar.StatusConta.ToDescription()</td>
+                        <td>@retiradaCofre.StatusRetiradaCofre.ToDescription()</td>
+                        <td class="text-center">
+                            <div class="pull-left">
+                                <button type="button" id="inf" class="btn btn-info btn-lg" data-toggle="modal" onclick="InformacoesRetirada(@retiradaCofre.Id)">Informações</button>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    @Html.Partial("_Botoes")
+</div>

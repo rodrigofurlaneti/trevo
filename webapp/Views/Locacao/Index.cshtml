@@ -1,0 +1,89 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+
+@model PedidoLocacaoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as LocacaoController;
+}
+
+@section pagespecific {
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/PedidoLocacao/pedido-locacao.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/Locacao/Locacao.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Locação
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <div class="widget-body">
+                                <div>
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Unidade: </label>
+                                                @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione uma Unidade...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione uma Unidade..." })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                <label>Tipo Locacao: </label>
+                                                @Html.DropDownListFor(x => x.TipoLocacao.Id, new SelectList(controller.ListaTipoLocacao, "Id", "Descricao"), "Selecione...", new { @id = "tipolocacao", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-12 margin-top-20 nopadding-right">
+                                        <div class="pull-right">
+                                            <button type="submit" id="pesquisar" class="btn btn-lg btn-primary" onclick="Pesquisar();">
+                                                <i class="fa fa-search"></i> Buscar
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                </div>
+                            </div>
+                            <br />
+                            <div id="lista-pedidos">
+                                @Html.Partial("../Locacao/_GridPedidosLote", (controller != null && controller.ListaPedidoLocacao != null && controller.ListaPedidoLocacao.Count > 0) ? controller.ListaPedidoLocacao : new List<PedidoLocacaoViewModel>())
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<div id="modalPagamento" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content col-xs-12">
+            <div id="modalBodyPagamento" class="modal-body col-xs-12">
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+﻿@using Portal.Controllers
+@model Aplicacao.ViewModels.ImportacaoPagamentoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ImportacaoPagamentoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/arquivoImportacao/importacao.css")
+    @Scripts.Render("~/Scripts/ImportacaoPagamento/ImportacaoPagamento.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i></span>
+                            <h2>
+                                Integração Arquivo de Pagamento
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @Html.HiddenFor(x => x.Id)
+                                <fieldset>
+                                    <section>
+                                        <div class="col-xs-12 col-md-12">
+                                            <div id="conteudo" class="row margin-bottom-5">
+                                                <div class="col-md-2">
+                                                    <label>Layout:</label>
+                                                    <br />
+                                                    @Html.DropDownList("ddlLayout", controller.ListaLayoutArquivo, "Selecione um layout...", new { @class = "chosen-select form-control" })
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label>Arquivo de Importação:</label>
+                                                    <br />
+                                                    <div id="uploadConfig">
+                                                        <input type="file" name="fileUploaderImportacao" id="file-upload-importacao" class="btn btn-default file" style="        width: 200px;" accept="json/*" />
+                                                        <div class="input-group col-xs-12">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-save-file"></i></span>
+                                                            <input id="file-upload-config-text" type="text" class="form-control input-lg" disabled placeholder="Arquivo Importação...">
+                                                            <span class="input-group-btn">
+                                                                <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Procurar</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3" style="margin-top: 23px;">
+                                                    <a class="btn btn-lg btn-success" onclick="ImportarArquivo()"><i class="fa fa-upload"></i>&nbsp;Importar</a>
+                                                    <a class="btn btn-lg btn-info" onclick="Imprimir()"><i class="fa fa-print"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <div class="form-actions">
+                                    <a class="btn btn-lg btn-primary" onclick="Baixar()"><i class="fa fa-download"></i></a>
+                                    <a class="btn btn-lg btn-danger" href="/ImportacaoPagamento/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Buscar Arquivo de Pagamento Importados
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="col-xs-12">
+                                <div class="col-md-8">
+                                    <label>Cedente:</label>
+                                    @Html.DropDownList("ddlListaCedentes", new SelectList(controller.ListaImpPagamento, "Cedente", "Cedente"), "Selecione um cedente...", new { @class = "chosen-select form-control" })
+                                </div>
+                                <div class="col-xs-2">
+                                    <br />
+                                    <div class="pull-right margin-right-10 margin-top-10">
+                                        <a class="btn btn-lg btn-primary" onclick="BuscarArquivos()"><i class="fa fa-search"></i>&nbsp;Buscar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div id="lista-arquivos-pagamento"></div>
+
+        </section>
+    </div>
+</div>
+
+

@@ -1,0 +1,72 @@
+﻿.circular-progress {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    vertical-align: top;
+}
+
+    .circular-progress.blue {
+        border-color: #049dff;
+    }
+
+    .circular-progress.yellow {
+        border-color: #fdba04;
+    }
+
+    .circular-progress.pink {
+        border-color: #ed687c;
+    }
+
+    .circular-progress.orange {
+        border-color: #fd6b04;
+    }
+
+    .circular-progress.purple {
+        border-color: #744cc3;
+    }
+
+    .circular-progress.green {
+        border-color: #1abc9c;
+    }
+
+    .circular-progress span {
+        position: absolute;
+        height: 100%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 40px;
+        font-size: 30px;
+    }
+
+        .circular-progress span:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+.circular-full.green {
+    border-radius: 100%;
+    background-color: #1abc9c;
+    color: white;
+    margin: auto;
+    margin-bottom: 3px;
+}
+
+    .circular-full.green span {
+        height: 100%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 40px;
+        font-size: 30px;
+    }
+
+        .circular-full.green span:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }

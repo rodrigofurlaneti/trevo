@@ -1,0 +1,62 @@
+﻿@using Entidade.Uteis
+@using Entidade
+@using Portal.Controllers;
+
+@{
+    var controller = ViewContext.Controller as UnidadeController;
+}
+
+<div class="row margin-bottom-5">
+    @if (controller.ListaUnidadeCheckListTipoAtividade != null && controller.ListaUnidadeCheckListTipoAtividade.Any())
+    {
+        <div class="col-xs-12">
+            <div class="col-xs-12">
+                <table id="checklisttab">
+                    <thead>
+                        <tr>
+                            <th data-hide="expand"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in controller.ListaUnidadeCheckListTipoAtividade)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.Selecionado)
+                                    {
+                                        <input name="ativotipoatividade" checked type="checkbox" id="@item.TipoAtividade.Id" value="@item.Selecionado" onchange="AlternarStatusTipoAtividade(@item.TipoAtividade.Id)" />
+                                    }
+                                    else
+                                    {
+                                        <input name="ativotipoatividade" type="checkbox" id="@item.TipoAtividade.Id" value="@item.Selecionado" onchange="AlternarStatusTipoAtividade(@item.TipoAtividade.Id)" />
+                                    }
+                                    <label for="@item.TipoAtividade.Id" class="">@item.TipoAtividade.Descricao</label>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="teste">
+                    <thead>
+                        <tr>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+

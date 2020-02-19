@@ -1,0 +1,151 @@
+﻿@using Core.Extensions
+@using Portal.Controllers
+@using Entidade.Uteis
+@model Entidade.CanaisComunicacao
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as CanaisComunicacaoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de CanaisComunicacao
+                            </h2>
+
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("Salvar", "CanaisComunicacao", FormMethod.Post))
+                                {
+                                    @Html.HiddenFor(x => x.Id)
+                                    <div id="conteudo" class="row margin-bottom-5">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                @Html.HiddenFor(x => x.Id)
+                                                <label>Tipo de Comunicacao: </label>
+                                                <br />
+                                                @Html.DropDownListFor(x => x.TipoComunicacao, new SelectList(controller.ListaTipoComunicacao, "Id", "Descricao"), "Selecione um Tipo...", new { @class = "chosen-select form-control", data_placeholder = "Selecione um Tipo..." }) <br />
+
+                                                @Html.ValidationMessageFor(x => x.TipoComunicacao, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="conteudo" class="row margin-bottom-5">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="col-xs-12 no-padding">
+                                                @Html.HiddenFor(x => x.Id)
+                                                <label>Canal de Comunicacao: </label>
+                                                <br />
+                                                @Html.DropDownListFor(x => x.CanalComunicacao, new SelectList(controller.ListaTipoCanais, "Id", "Descricao"), "Selecione um Canal...", new { @class = "chosen-select form-control", data_placeholder = "Selecione um Canal..." }) <br />
+                                                @Html.ValidationMessageFor(x => x.CanalComunicacao, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="pull-right margin-right-10">
+                                            <a class="btn btn-lg btn-danger" href="/canaisComunicacao/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Canais Comunicacao</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput" style="width:70%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Tipo" />
+                                            </th>
+                                            <th class="hasinput" style="width:70%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Canal" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-hide="phone">Tipo Canal: </th>
+                                            <th data-hide="phone">Canal: </th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaCanaisComunicacaos != null)
+                                        {
+                                            foreach (var m in controller.ListaCanaisComunicacaos)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@m.TipoComunicacao</td>
+                                                    <td>@m.CanalComunicacao.ToDescription()</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/canaisComunicacao/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/canaisComunicacao/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        MetodoUtil();
+    });
+</script>

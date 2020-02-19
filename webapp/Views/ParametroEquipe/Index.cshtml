@@ -1,0 +1,207 @@
+﻿@using Portal.Controllers
+@*@model Entidade.CheckListAtividade*@
+
+@*@model Entidade.EquipamentoUnidade*@
+@model Aplicacao.ViewModels.ParametroEquipeViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ParametroEquipeController;
+}
+
+@section pagespecific{
+
+    @Scripts.Render("~/Scripts/ParametroEquipe/ParametroEquipe.js")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+
+    @Styles.Render("~/Content/bootstrap/datepicker/bootstrap-datepicker.css")
+
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/bootstrap/datepicker/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/bootstrap/datepicker/bootstrap-datepicker.js")
+}
+
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Parametro de Equipe
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <div class="widget-body">
+	                            @Html.HiddenFor(x => x.Id, new { @id = "hdnParametroEquipe" })
+	                            @Html.HiddenFor(x => x.Equipe.Unidade.Id, new { @id = "UnidadeSelecionada" })
+	                            @Html.HiddenFor(x => x.Equipe.TipoEquipe.Id, new { @id = "TipoEquipeSelecionada" })
+	                            @Html.HiddenFor(x => x.Equipe.Id, new { @id = "EquipeSelecionada" })
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <label>Unidade: </label>
+                                        @Html.DropDownListFor(equipe => equipe.Equipe.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+
+                                    
+
+                                    <div class="col-xs-2">
+                                        <label>Tipo Equipe:</label><br />
+                                        @*@Html.DropDownListFor(equipe => equipe.Equipe.TipoEquipe.Id, new SelectList(controller.ListaTipoEquipe, "Id", "Descricao"), "Selecione...", new { @id = "tipoequipe", @class = "chosen-select form-control", data_placeholder = "Selecione..." })*@
+                                        @Html.DropDownListFor(equipe => equipe.Equipe.TipoEquipe.Id, new SelectList(controller.ListaTipoEquipe, "Id", "Descricao"), "Selecione...", new { @id = "tipoEquipe", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                    </div>
+
+                                    <div class="col-xs-2">
+                                        <label>Equipe:</label><br />
+                                        @Html.DropDownListFor(equipe => equipe.Equipe.Id, new SelectList(controller.ListaEquipe, "Id", "Nome"), "Selecione...", new { @id = "equipe", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                    </div>
+
+                                    <div id="gerarnotificacaofiltro" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <label>Ativo: </label>
+                                        <br />
+                                        @Html.CheckBoxFor(x => x.Ativo, new { @id = "ativo", @checked = "true" })
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-5">
+                                    <div class="col-xs-6">
+
+                                        <div class="row margin-bottom-5">
+                                            <div id="lista-funcionamentos-result" class="col-xs-12">
+                                                @Html.Partial("../ParametroEquipe/_GridHorarioParametroEquipe", Model != null && Model.HorarioParametroEquipe.ToList().Count > 0 ? Model.HorarioParametroEquipe.ToList() : new List<HorarioParametroEquipeViewModel>())
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div class="row margin-bottom-5">
+                                    <div class="pull-right margin-right-10">
+                                        @if (Model != null && Model.Status == Entidade.Uteis.StatusSolicitacao.Aguardando)
+                                        {
+                                            <a id="salvar-disabled" disabled class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Solicitar Aprovação</a>
+                                        }
+                                        else
+                                        {
+                                            <button id="salvar" type="submit" onclick="SalvarDados()" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Solicitar Aprovação</button>
+                                        }
+                                        <a class="btn btn-lg btn-danger" href="/parametroequipe/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista Parametro Equipe</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Equipe" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Usuário" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Status" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Ativo" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-hide="phone">Equipe: </th>
+                                            <th data-hide="phone">Unidade: </th>
+                                            <th data-hide="phone">Usuário: </th>
+                                            <th data-hide="phone">Status: </th>
+                                            <th data-hide="phone">Ativo: </th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaParametroEquipe != null)
+                                        {
+                                            foreach (var m in controller.ListaParametroEquipe)
+                                            {
+                                                <tr>
+                                                    @{
+                                                        var nomeunidade = m.Equipe.Unidade != null &&
+                                                                   !string.IsNullOrEmpty(m.Equipe.Unidade.Nome) ? m.Equipe.Unidade.Nome : "";
+
+                                                        var ativado = m.Ativo ? "Ativo" : "Desativado";
+                                                    }
+
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Equipe.Nome</td>
+                                                    <td>@nomeunidade</td>
+                                                    <td>@m.Usuario</td>
+                                                    <td>@m.Status</td>
+                                                    <td>@ativado</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/ParametroEquipe/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a name="botaoexcluir" class="btn btn-danger" href="/ParametroEquipe/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+            <!-- end row -->
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        MetodoUtil();
+    });
+</script>

@@ -1,0 +1,73 @@
+﻿@using Core.Extensions;
+
+@model List<ParametroBoletoBancarioViewModel>
+
+<div class="row">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Lista de Registros</h2>
+            </header>
+
+            <div>
+                <div class="widget-body no-padding">
+                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%" style="margin-top: 0px !important">
+                        <thead>
+                            <tr>
+                                <th class="hasinput" style="width:10%">
+                                    <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                </th>
+                                <th class="hasinput" style="width:10%">
+                                    <input type="text" class="form-control" placeholder="Filtrar Tipo de Serviço" />
+                                </th>
+                                <th class="hasinput" style="width:10%">
+                                    <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                </th>
+                                <th class="hasinput" style="width:10%">
+                                    <input type="text" class="form-control" placeholder="Filtrar Quantidade de dias antes do vencimento" />
+                                </th>
+                                <th class="hasinput" style="width:10%">
+                                    <input type="text" class="form-control" placeholder="Filtrar Valor Desconto" />
+                                </th>
+                                <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th data-hide="phone">Id</th>
+                                <th data-hide="phone">Tipo de Serviço</th>
+                                <th data-hide="phone">Unidade</th>
+                                <th data-hide="phone">Quantidade de dias antes do vencimento</th>
+                                <th data-hide="phone">Valor Desconto</th>
+                                <th data-class="expand">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.TipoServico.ToDescription()</td>
+                                    @if (item.Unidade != null)
+                                    {
+                                        <td>@item.Unidade.Nome</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Todas</td>
+                                    }
+                                    <td>@item.DiasAntesVencimento</td>
+                                    <td>@item.ValorDesconto</td>
+                                    <td>
+                                        <a class="btn btn-primary" href="@Url.Action("edit", new {item.Id})"><i class='fa fa-edit'></i></a>
+                                        <a class="btn btn-danger" href="@Url.Action("delete", new {item.Id})"><i class="fa fa-remove"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>

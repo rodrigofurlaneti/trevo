@@ -1,0 +1,59 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Detalhe do pedido</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="titulo">
+        <div class="itens">
+            Pedido #{{pedido.Id}}
+        </div>
+    </div>
+    <div style="margin-left: 3%;">
+        <p><b>Loja:</b> {{pedido.ListaCompra.Loja.Descricao}}</p>
+        <p><b>Data da compra:</b> {{pedido.DataInsercao |  date: 'dd/MM/yyyy'}} às {{pedido.DataInsercao |  date: 'HH:mm:ss'}}</p>
+        <p><b>Valor total:</b> R${{pedido.ListaCompra.Total.toFixed(2)}}</p>
+        <p><b>Forma de pagamento:</b> Cartão <span style="text-transform: capitalize;">{{detectCardType(pedido.Cartao.Numero)}}</span> <span style="vertical-align:super;">&hellip;</span> {{pedido.Cartao.Numero.substr(pedido.Cartao.Numero.length - 4)}}</p>
+        <p *ngIf="pedido.Status != 'Pedido retirado'"><b>Agendado para: </b> {{pedido.Agendamento.Data |  date: 'dd/MM/yyyy'}} às {{pedido.Agendamento.Data |  date: 'HH:mm:ss'}}</p>
+        <p><b>Status:</b> <span class="status-ok" [ngClass]="{ 'status-erro': pedido.Status == 'Erro' }">{{pedido.Status}}{{pedido.Motivo != null && pedido.Motivo != '' ? ' - ' + pedido.Motivo : ''}}</span></p>
+    </div>
+    <div style="margin-top:18px;" *ngIf="pedido.Status == 'Aguardando retirada'">
+        <div class="titulo">
+            <div class="itens" style="font-size:16px">
+                Exiba o QRCode para retirar seu pedido
+            </div>
+        </div>
+        <!--<h4>Exiba o QRCode para retirar seu pedido</h4>-->
+        <qr-code [value]="pedido.QrCode.Url" size="250"></qr-code>
+    </div>
+
+    <div class="titulo">
+        <div class="itens">
+            Itens
+        </div>
+    </div>
+
+    <div class="cart-preview">
+        <div class="pedido--mini" *ngFor="let item of pedido.ListaCompra.Itens">
+            <div class="pedido--info" style="display:inline-flex;">
+                <div class="pedido--info---cell">
+                    <span class="spn-title">{{item.Produto.Nome}}</span>
+                </div>
+                <div class="pedido--info---cell">
+                    <div>{{item.Quantidade}} x</div>
+                </div>
+                <div class="pedido--info---cell">
+                    <div>R${{item.Preco.Valor.toFixed(2)}}</div>
+                </div>
+                <div class="pedido--info---cell">
+                    <div>R${{item.Total.toFixed(2)}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ion-content>

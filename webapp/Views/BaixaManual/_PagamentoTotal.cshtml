@@ -1,0 +1,263 @@
+﻿@using Portal.Controllers
+
+@model IEnumerable<Aplicacao.ViewModels.BaixaManualViewModel>
+
+@{
+    var controller = ViewContext.Controller as BaixaManualController;
+}
+
+
+<h3 class="text-center">Deseja Realizar o Pagamento Total?<br />Se sim, informe:</h3>
+<br />
+@{
+    if (Model != null && Model.Count() > 0)
+    {
+        for (int i = 0; i < Model.Count(); i++)
+        {
+            var item = Model.ToList()[i];
+
+            <div class="col-xs-12 col-sm-12 col-md-12" style="border-bottom: 1px solid black; margin-bottom: 20px;">
+                <input id="dtVenc-@(item.Id)" type="hidden" class="form-control fieldDate heightfield novaData" value="@(item.DataVencimento.ToShortDateString())" />
+
+                <input type="hidden" id="multa-@(item.Id)" value="@(item.ValorMulta)" />
+                <input type="hidden" id="juros-@(item.Id)" value="@(item.ValorJuros)" />
+
+                <div class="col-xs-4 heightline no-padding">
+                    <label>Número do Contrato:</label>
+                </div>
+                <div class="col-xs-8 heightline" style="margin-bottom:10px;">
+                    <label>@(item.Id.ToString().PadLeft(6, '0'))</label>
+                </div>
+                <div class="col-xs-4 heightline no-padding">
+                    <label>Valor do Serviço:</label>
+                </div>
+                <div class="col-xs-8 heightline">
+                    R$ <label id="vlrServico-@(item.Id)" style="font-weight:bold;">@(item.ValorContrato.ToString("N2"))</label>
+                </div>
+                <div class="col-xs-4 heightline no-padding">
+                    <label>Número do Recibo:</label>
+                </div>
+                <div class="col-xs-8 heightline" style="margin-bottom:10px;">
+                    <input id="nroRecibo-@(item.Id)" class="form-control heightfield" value="" onblur="somenteNumeros(this)" onkeypress="validaNumeros(event);" maxlength="40" style="width:100%;" />
+                </div>
+                <div class="col-xs-4 heightline no-padding">
+                    <label>Competência:</label>
+                </div>
+                <div class="col-xs-8 heightline date" style="margin-bottom:10px;">
+                    <input id="dtCompetencia-@(item.Id)" name="dtCompetencia" type="text" class="form-control fieldDate heightfield" value="@(item.DataCompetencia.HasValue ? item.DataCompetencia.Value.ToString("MM/yyyy") : DateTime.Now.ToString("MM/yyyy"))" />
+                </div>
+                <div class="col-xs-4 heightline no-padding">
+                    <label>Data do Pagamento:</label>
+                </div>
+                <div class="col-xs-8 heightline date" style="margin-bottom:10px;">
+                    <input id="dtPag-@(item.Id)" name="dtPag" type="text" class="form-control fieldDate heightfield" value="@(item.DataVencimento.ToShortDateString())" />
+                </div>
+
+                <div class="col-xs-4 heightline no-padding">
+                    <label>Valor Pago:</label>
+                </div>
+                <div class="col-xs-8 heightline" style="margin-bottom:20px;">
+                    <input type="text" name="valor" id="vlrPago-@(item.Id)" class="form-control valmoney" value="" maxlength="21" />
+                    <label id="label-@(item.Id)" style="color: orangered; margin-top:0;">Vencimento ultrapassado. Valor + Multa + Juros</label>
+                    @*<input type="hidden" id="vlrHdnPago-@(item.Id)" class="form-control valmoney" value="@( (item.ValorContrato + item.ValorJuros + item.ValorMulta).ToString("N2") )" />*@
+                </div>
+                @*<div class="col-xs-4 heightline" style="margin-bottom:10px;">
+                        <label>Possúi Desconto:</label>
+                    </div>
+                    <div class="col-xs-8 heightline" style="margin-bottom:10px;">
+                        <input type="checkbox" name=@($"chkDesconto-{item.Id}") id=@($"chkDesconto-{item.Id}") class="form-control heightfield" onclick="PossuiDesconto(this);" />
+                    </div>
+                    <div class="valor-justificativa col-xs-4 heightline" style="display:none;">
+                        <label>Valor Desconto: </label>
+                    </div>
+                    <div class="valor-justificativa col-xs-8 heightline" style="display:none;">
+                        <input type="text" id="lblDesconto-@(item.Id)" class="form-control valmoney" value="0,00" />
+                    </div>*@
+                <div id="div-resultado-pago-@(item.Id)" class="col-xs-12 heightline" style="background-color: #ededed; border: solid 1px #ccc;">
+                    <label id="lblDescontoAcrescimo-@(item.Id)" class="heightline" style="width:100%; font-weight:bold;"></label>
+                    <input type="hidden" id="tipoDescontoAcrescimo-@(item.Id)" value="" />
+                </div>
+                <div class="justificativa col-xs-12 heightline no-padding">
+                    <label>Justificativa:</label>
+                </div>
+                <div class="justificativa col-xs-12 heightline no-padding" style="margin-bottom:10px;">
+                    @Html.TextBox($"txtJustificaDesconto-{item.Id}", item.Justificativa, new { @id = $"txtJustificaDesconto-{item.Id}", @class = "form-control heightfield" })
+                </div>
+                <div class="col-xs-12"></div>
+                <div class="col-xs-4 heightline no-padding">
+                    <label>Forma de Pagamento:</label>
+                </div>
+                <div class="col-xs-8 heightline" style="margin-bottom:10px;">
+                    @Html.DropDownList("formapagamento", new SelectList(controller.ListaFormaPagamento, "Id", "Descricao"), "Selecione uma Forma de Pagamento", new { @id = "formapagamento-" + item.Id, @class = "chosen-select", data_placeholder = "Selecione uma Forma de Pagamento..." })
+                </div>
+
+                <div class="col-xs-8 heightline no-padding" style="margin-bottom:30px;">
+                    <label>Conta Contábil: </label>
+                    @Html.DropDownList("contacontabil", new SelectList(controller.ListaContaContabil, "Id", "Descricao"), "Selecione uma Conta...", new { @id = "contacontabil-" + item.Id, @class = "form-control chosen-select", data_placeholder = "Selecione uma Conta Contábil..." })
+                </div>
+
+            </div>
+        }
+    }
+}
+<div class="col-xs-12 col-sm-12 padding-top-20">
+    <div class="pull-right margin-right-10">
+        <button type="submit" class="btn btn-lg btn-danger" onclick="Cancelar();">
+            <i class="fa fa-times"></i> Cancelar
+        </button>
+    </div>
+    <div class="pull-right margin-right-10">
+        <button type="submit" class="btn btn-lg btn-primary" onclick="EfetuarPagamentoTotal();">
+            <i class="fa fa-save"></i> Pagar
+        </button>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+
+        var date = new Date();
+
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+
+        var today = day + "/" + month + "/" + year;
+        $("input[name=dtpag]").attr("value", today);
+
+
+        CalculaValor();
+
+        $("[id*='dtCompetencia-']").each(function () {
+            var idCampo = $(this).attr("id");
+            FormatarCampoDataMesAno(idCampo);
+        });
+
+        $("[id*='dtPag-']").each(function () {
+            var idCampo = $(this).attr("id");
+            FormatarCampoData(idCampo);
+        });
+
+        $("[id*='formapagamento-']").each(function () {
+            var idCampo = $(this).attr("id");
+            MakeChosen(idCampo);
+        });
+        $("[id*='contacontabil-']").each(function () {
+            var idCampo = $(this).attr("id");
+            MakeChosen(idCampo);
+        });
+
+        $("[id*='vlrPago-']").each(function () {
+            $(this).maskMoney({
+                prefix: "R$",
+                allowNegative: false,
+                allowZero: true,
+                thousands: ".",
+                decimal: ",",
+                affixesStay: false
+            });
+
+            $(this).change(function () {
+                var idCampo = $(this).attr("id").split('-')[1];
+                
+                var valorPagoCampo = $("#vlrPago-" + idCampo).val() === "" ? "0" : $("#vlrPago-" + idCampo).val();
+                var valorServicoCampo = $("#vlrServico-" + idCampo).text();
+
+                var valorPago = parseFloat(valorPagoCampo.replace(".", "").replace(",", "."));
+                var valorServico = parseFloat(valorServicoCampo.replace(".", "").replace(",", "."));
+
+                var valorResultado = (valorServico - valorPago).toFixed(2).replace(".", ",");
+
+                var texto = "";
+                var idTipo = 0;
+                if (valorPago === valorServico) {
+                    texto = 'S/ Desc. ou Acrésc';
+                    idTipo = 0;
+                }
+                else if (valorPago > valorServico) {
+                    texto = 'Acréscimo';
+                    idTipo = 2;
+                }
+                else {
+                    texto = 'Desconto';
+                    idTipo = 1;
+                }
+
+                var valorFinal = Math.abs(valorResultado.replace(".", "").replace(",", ".")).toFixed(2).replace(".", ",");
+                $("#tipoDescontoAcrescimo-" + idCampo).val(idTipo);
+                $("#valorDescontoAcrescimo-" + idCampo).val(valorFinal);
+
+                $("#lblDescontoAcrescimo-" + idCampo).text(texto + ": " + valorFinal);
+            });
+        });
+    });
+
+
+    function CalculaValor() {
+        var today = new Date();
+
+        $("[id*='vlrPago-']").each(function () {
+            var id = $(this).attr("id").split('-')[1];
+
+            var dtVencimento = $("#dtVenc-" + id).val();
+            var dtPagamento = $("#dtPag-" + id).val();
+            var vlrPago = ConvertToFloat($(this).val());
+
+            let vencido = false;
+            if (Date.parse(dtPagamento) > Date.parse(dtVencimento)) {
+                vencido = true;
+            }
+
+            var date = dtVencimento.split('/');
+
+            var dateFormated = date[2] + '-' + date[1] + '-' + date[0] + ' 00:00:00';
+
+            var dtvencimento = new Date(dateFormated);
+
+            var multa = ConvertToFloat($("#multa-" + id).val());
+
+            var juros = ConvertToFloat($("#juros-" + id).val());
+
+            if (vencido) {
+
+                vlrPago = vlrPago + multa;
+
+                //var msPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds per day
+                //var daysLeft = (today.getTime() - dtvencimento) / msPerDay;
+                //var daysLeft = Math.round(daysLeft);
+
+                var diffDays = parseInt((today.getTime() - dtvencimento) / (1000 * 60 * 60 * 24));
+
+                var cobrar = diffDays * juros;
+
+                vlrPago = vlrPago + cobrar;
+
+                $("#label-" + id).show();
+
+            }
+
+            vlrPago = vlrPago.toFixed(2).replace('.', ',');
+
+            $(this).val(vlrPago);
+            //$(this).enable(false);
+        });
+
+    }
+
+    function DiasDataDiff(date1, date2) {
+
+        //var date1 = new Date("7/11/2010");
+        //var date2 = new Date("12/12/2010");
+
+        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        return diffDays;
+    }
+
+</script>

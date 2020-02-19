@@ -1,0 +1,21 @@
+﻿#search-icon {
+    position: relative;
+    z-index: 1;
+    left: calc(100% - 20px);
+    color: #7B7B7B;
+    cursor: pointer;
+    float: left;
+    top: 9px;
+    width: 0;
+}
+
+label {
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #zipcode {
+        display: inline;
+        max-width: calc(100% - 150px) !important
+    }
+}

@@ -1,0 +1,159 @@
+﻿@using Aplicacao.ViewModels
+@using Portal.Controllers
+@model EmpresaViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as EmpresaController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Scripts.Render("~/Scripts/Empresa/Empresa.js")
+}
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Cadastro de Empresa
+            </h2>
+        </header>
+        <div>
+            <div class="widget-body">
+                @using (Html.BeginForm("SalvarDados", "Empresa", FormMethod.Post, new { id = "empresa-form"}))
+                {
+                    <fieldset>
+                        <section>
+                            <div class="col-md-12 mobile-content">
+                                @Html.HiddenFor(x => x.Id)
+                                <label>Empresa:</label><br />
+                                @Html.TextBoxFor(x => x.Descricao, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Descricao, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12 mobile-content">
+                                <label>Razão Social:</label><br />
+                                @Html.TextBoxFor(x => x.RazaoSocial, new { @class = "form-control", @id = "razao_social" })
+                                @Html.ValidationMessageFor(x => x.RazaoSocial, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12 mobile-content">
+                                <label>CNPJ:</label><br />
+                                @Html.TextBoxFor(x => x.CNPJ, new { @class = "form-control", @id = "cnpj", @maxlength = "18" })
+                                @Html.ValidationMessageFor(x => x.CNPJ, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12 mobile-content">
+                                <label>Inscrição Estadual:</label><br />
+                                @Html.TextBoxFor(x => x.InscricaoEstadual, new { @class = "form-control", @id = "inscricao_social" })
+                                @Html.ValidationMessageFor(x => x.InscricaoEstadual, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12 mobile-content">
+                                <label>Inscrição Municipal:</label><br />
+                                @Html.TextBoxFor(x => x.InscricaoMunicipal, new { @class = "form-control", @id = "inscricao_municipal" })
+                                @Html.ValidationMessageFor(x => x.InscricaoMunicipal, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12 mobile-content">
+                                <label>Grupo:</label><br />
+                                @Html.DropDownListFor(x => x.CodigoGrupo, new SelectList(controller.ListaGrupos, "Id", "Nome"), "Selecione o Grupo...", new { @class = "form-control", @id = "grupo_loja" })
+                                @Html.ValidationMessageFor(x => x.CodigoGrupo, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                @Html.Partial("../Contact/_SearchAddressByCEP", Model != null && Model.Endereco != null ? Model.Endereco : new EnderecoViewModel())
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                @Html.Partial("../Contact/_Contacts", Model != null && Model.Contatos != null ? Model.Contatos : new List<ContatoViewModel>())
+                            </div>
+                        </section>
+                    </fieldset>
+
+                    <div class="form-actions">
+                        <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                        <a class="btn btn-lg btn-danger" href="/empresa/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Empresas </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:5%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput" style="width:28%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Empresa" />
+                                            </th>
+                                            <th class="hasinput" style="width:17%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Razão Social" />
+                                            </th>
+                                            <th class="hasinput" style="width:13%">
+                                                <input type="text" class="form-control" placeholder="Filtrar CNPJ" />
+                                            </th>
+                                            <th class="hasinput" style="width:13%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Inscrição Estadual" />
+                                            </th>
+                                            <th class="hasinput" style="width:13%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Grupo" />
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-class="expand">Empresa</th>
+                                            <th data-hide="phone">Razão Social</th>
+                                            <th data-hide="phone">CNPJ</th>
+                                            <th data-hide="phone">Inscrição Estadual</th>
+                                            <th data-hide="phone">Grupo</th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaEmpresas != null)
+                                        {
+                                            foreach (var m in controller.ListaEmpresas)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Descricao</td>
+                                                    <td>@m.RazaoSocial</td>
+                                                    <td>@m.CNPJ</td>
+                                                    <td>@m.InscricaoEstadual</td>
+                                                    <td>
+                                                        @if (m.Grupo != null){ @m.Grupo.Nome } else { <span>-</span> }
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/empresa/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/empresa/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $("#cnpj").on("keyup", function (e) {
+        $(this).val(
+            $(this).val()
+                .replace(/\D/g, '')
+                .replace(/^(\d{2})(\d{3})?(\d{3})?(\d{4})?(\d{2})?/, "$1.$2.$3/$4-$5"));
+    });
+</script>

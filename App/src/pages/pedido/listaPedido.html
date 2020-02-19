@@ -1,0 +1,37 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Meus pedidos</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <div class="pedido-content" *ngIf="listaPedidos && listaPedidos != null && listaPedidos.length > 0">
+        <div class="pedido--mini" *ngFor="let pedido of listaPedidos" (click)="detalhes(pedido)">
+            <div class="pedido--thumb">
+                <img src="assets/image/order.png" style="border-width: 0px;">
+            </div>
+            <div class="pedido--info">
+                <div class="pedido--info---cell">
+                    <span class="spn-title">#{{pedido.Id}} - {{pedido.DataInsercao |  date: 'dd/MM/yyyy'}}</span>
+                </div>
+                <div class="pedido--info---cell">
+                    <span class="pedido-valor">Total: R$ {{pedido.ListaCompra.Total.toFixed(2)}}</span>
+                </div>
+                <div class="pedido--info---cell" [ngClass]="{ 'status-erro': pedido.Status == 'Erro' }">
+                    {{pedido.Status}}{{pedido.Motivo != null && pedido.Motivo != '' ? ': ' + pedido.Motivo : ''}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!listaPedidos || listaPedidos == null || listaPedidos.length == 0">
+        <h3 class="msg">Ainda não há pedidos realizados</h3>
+        <div class="pre-table--action">
+            <button ion-button class="btn btn-oranger square store" (click)="continuarComprando()">Voltar às compras</button>
+        </div>
+    </div>
+</ion-content>

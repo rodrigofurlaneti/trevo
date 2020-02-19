@@ -1,0 +1,48 @@
+﻿@model List<CotacaoMaterialFornecedorViewModel>
+
+<div class="jarviswidget jarviswidget-color-blueDark no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+    <div style="border:none">
+        <div class="widget-body">
+            <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                <thead>
+                    <tr>
+                        <th>Fornecedor</th>
+                        <th>Material</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                        <th>Valor Total</th>
+                        <th style="width: 120px">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Fornecedor.Nome</td>
+                                <td>@item.Material.Nome</td>
+                                <td>@item.Quantidade</td>
+                                <td>@item.Valor</td>
+                                <td>@item.ValorTotal</td>
+                                <td>
+
+                                    @if (item.Cotacao != null && item.Cotacao.Status == Entidade.Uteis.StatusCotacao.AguardandoAprovacao)
+                                    {
+                                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" disabled><i class="fa fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger" style="margin-right: 3px;" disabled><i class="fa fa-remove"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" onclick="editarCotacaoMaterialFornecedor(@item.Id)"><i class="fa fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger" style="margin-right: 3px;" onclick="removerCotacaoMaterialFornecedor(@item.Id)"><i class="fa fa-remove"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

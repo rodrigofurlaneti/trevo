@@ -1,0 +1,95 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model List<ControlePontoFeriasDiaViewModel>
+
+<div class="widget-body no-padding">
+    <table id="datatable_dias" class="table table-striped table-bordered" width="100%" style="margin-top: 0px !important">
+        <thead>
+            <tr>
+                <th class="hasinput" style="width: 60px">
+                </th>
+                <th style="width: 80px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Data" />
+                </th>
+                <th style="width: 80px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Dia da Semana" />
+                </th>
+                <th style="width: 80px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Entrada" />
+                </th>
+                <th style="width: 80px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Saída Intervalo" />
+                </th>
+                <th style="width: 100px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Retorno Intervalo" />
+                </th>
+                <th style="width: 80px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Saída" />
+                </th>
+                <th style="width: 80px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Horas Dia" />
+                </th>
+                <th style="width: 50px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Falta" />
+                </th>
+                <th style="width: 50px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar ASN" />
+                </th>
+                <th class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Obs" />
+                </th>
+                <th style="width: 80px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Hrs Extra" />
+                </th>
+                <th style="width: 50px" class="hasinput">
+                    <input type="text" class="form-control" placeholder="Filtrar Atrasos" />
+                </th>
+            </tr>
+            <tr>
+                <th>Ação</th>
+                <th>Data</th>
+                <th>Dia da Semana</th>
+                <th>Entrada</th>
+                <th>Saída Intervalo</th>
+                <th>Retorno Intervalo</th>
+                <th>Saída</th>
+                <th>Horas Dia</th>
+                <th>Falta</th>
+                <th>ASN</th>
+                <th>Observação</th>
+                <th>Horas Extra</th>
+                <th>Atrasos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.EhFerias)
+                        {
+                            <a disabled class="btn btn-primary"><i class='fa fa-edit'></i></a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" href="#combo-controle-ponto-ferias-supervisor" onclick="EditarControlePontoFeriasDia('@(item.Data.ToShortDateString())')"><i class='fa fa-edit'></i></a>
+                        }
+                    </td>
+                    <td>@item.Data.ToShortDateString()</td>
+                    <td>@(item.Data.ToString("dddd").ToUpper() + (item.EhFeriado ? " / FERIADO" : ""))</td>
+                    <td>@(item.HorarioEntrada)</td>
+                    <td>@(item.HorarioSaidaAlmoco)</td>
+                    <td>@(item.HorarioRetornoAlmoco)</td>
+                    <td>@(item.HorarioSaida)</td>
+                    <td>@item.HorasDia</td>
+                    <td>@(item.Falta ? "Sim" : "Não")</td>
+                    <td>@(item.AdicionalNoturno)</td>
+                    <td>@item.Observacao</td>
+                    <td>@item.HoraExtra</td>
+                    <td>@(item.HoraAtraso)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

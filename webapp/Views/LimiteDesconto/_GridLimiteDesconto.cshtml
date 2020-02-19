@@ -1,0 +1,42 @@
+﻿@using Portal.Controllers;
+@using Entidade.Uteis;
+@model IEnumerable<Aplicacao.ViewModels.LimiteDescontoViewModel>
+@{
+    var controller = ViewContext.Controller as ParametroNegociacaoController;
+}
+@Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+@Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+@Scripts.Render("~/Scripts/ParametroNegociacao/ParametroNegociacao.js")
+@Scripts.Render("~/Scripts/jquery.moneymask.js")
+@Scripts.Render("~/Scripts/funcoes-uteis.js")
+<div>
+    <h2>Limite de Desconto</h2>
+
+    @foreach (var item in Model)
+    {
+    <div class="row margin-bottom-5">
+        @Html.HiddenFor(modelItem => item.Id, new { @id = (int)item.TipoServico + "_" + item.TipoServico.ToString() + "_Hidden" })
+        <div class="col-xs-1">
+            @Html.DisplayFor(modelItem => item.TipoServico)
+        </div>
+        <div class="col-xs-1">
+            @Html.TextBoxFor(modelItem =>
+                              item.Valor
+                            , new { @id = (int)item.TipoServico + "_" + item.TipoServico.ToString() + "_TextBox"
+                                    ,
+                                @class = "form-control heightfield valmoney",
+                                @autocomplete = "off",
+                                @maxlength = "21"
+                            })
+        </div>
+        <div class="col-xs-2">
+            @Html.EnumDropDownListFor(modelItem => item.TipoValor
+                                                   , "Selecione..."
+                                                   , new { @id = (int)item.TipoServico + "_" + item.TipoServico.ToString() + "_TipoServico"
+                                                           , @class = "chosen-select"
+                                                           , data_placeholder = "Selecione..." })
+        </div>
+    </div>
+    }
+
+</div>

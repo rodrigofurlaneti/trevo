@@ -1,0 +1,275 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model FuncionarioViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as FuncionarioController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/funcionario/funcionario.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/funcionario/funcionario.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/Funcionario/funcionario-autocomplete.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Funcionário
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "Funcionario", FormMethod.Post, new { id = "FuncionarioForm" }))
+                                {
+                                    @Html.HiddenFor(x => x.Id, new { @id = "hdnFuncionario" })
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-2 mobile-content text-align-center">
+                                            @Html.HiddenFor(x => x.Imagem, new { @id = "hdnImagemFuncionario" })
+
+                                            <image id="imgImagemFuncionario" class="avatar"
+                                                   src="../../content/img/avatars/sunny-big.png" />
+                                            <div class="form-group">
+                                                <br />
+                                                <label for="fupload" class="btn btn-sm btn-info btn-arredondado margin-top-5">
+                                                    Trocar a Foto<input type="file" id="fupload" name="fupload" class="fupload form-control" onchange="CarregaImagem()" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-md-4">
+                                                    <label>Nome:</label>
+                                                    @Html.HiddenFor(x => x.Pessoa.Id)
+                                                    @Html.TextBoxFor(x => x.Pessoa.Nome, new { @class = "form-control", @maxlength = "255" })
+                                                </div>
+
+                                                <div class="col-xs-12 col-md-2">
+                                                    <label>Data de Admissão:</label>
+                                                    @Html.TextBoxFor(x => x.DataAdmissao, new { @id = "data-admissao", Value = Model?.DataAdmissao?.ToString("dd/MM/yyyy"), @class = "form-control" })
+                                                </div>
+
+                                                <div class="col-xs-12 col-md-2">
+                                                    <label>Data de Demissão:</label>
+                                                    @Html.TextBoxFor(x => x.DataDemissao, new { @id = "data-demissao", Value = Model?.DataDemissao?.ToString("dd/MM/yyyy"), @class = "form-control" })
+                                                </div>
+
+                                                <div class="col-xs-12 col-md-2">
+                                                    <label>Situação SAGE:</label>
+                                                    @Html.EnumDropDownListFor(x => x.SituacaoSage, "Selecione...", new { @id = "situacao-sage", @class = "chosen-select", data_placeholder = "Selecione..." })
+                                                </div>
+
+                                                <div class="col-xs-12 col-md-2">
+                                                    <label>Status Interno:</label>
+                                                    @Html.EnumDropDownListFor(x => x.Status, "Selecione...", new { @id = "status", @class = "chosen-select", data_placeholder = "Selecione..." })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>CPF:</label>
+                                                    @Html.HiddenFor(x => x.Pessoa.IdDocumentoCpf)
+
+                                                    @if (Model != null && Model.Id > 0 && !string.IsNullOrEmpty(Model.Cpf))
+                                                    {
+                                                        @Html.HiddenFor(x => x.Cpf, new { @id = "cpf", @class = "form-control" })
+                                                        @Html.TextBox("cpfDisabled", Model.Cpf, new { @id = "cpf-disabled", @class = "form-control", @disabled = "disabled" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBoxFor(x => x.Cpf, new { @id = "cpf", @class = "form-control" })
+                                                    }
+                                                </div>
+                                                <div class="col-xs-12 col-md-4">
+                                                    <label>Telefone (Fixo/Recado): </label>
+                                                    @Html.TextBoxFor(x => x.Telefone, new { @id = "telefone-fixo", @class = "form-control" })
+                                                </div>
+
+                                                <div class="col-xs-12 col-md-4">
+                                                    <label>Celular: </label>
+                                                    @Html.TextBoxFor(x => x.Celular, new { @id = "celular", @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Cargo: </label>
+                                                    @Html.DropDownListFor(x => x.Cargo.Id, new SelectList(controller.ListaCargo, "Id", "Nome"), "Selecione...", new { @id = "cargo", @class = "chosen-select", data_placeholder = "Selecione..." })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Supervisor: </label>
+                                                    @Html.DropDownListFor(x => x.Supervisor.Id, new SelectList(controller.ListaSupervisor, "Id", "Pessoa.Nome"), "Selecione...", new { @id = "supervisor", @class = "chosen-select", data_placeholder = "Selecione..." })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Unidade: </label>
+                                                    @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select", data_placeholder = "Selecione..." })
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Endereço: </label>
+                                                    @Html.TextBox("EnderecoUnidade", "", new { @id = "endereco-unidade", @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Código: </label>
+                                                    @Html.TextBoxFor(x => x.Codigo, new { @id = "codigo", @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Nome da Empresa: </label>
+                                                    @Html.TextBox("Empresa", "", new { @id = "nome-empresa", @class = "form-control" })
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label>Numero da Empresa: </label>
+                                                    @Html.TextBox("NumeroEmpresa", "", new { @id = "numero-empresa", @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Estabelecimento Contábil CNPJ: </label>
+                                                    @Html.TextBox("Empresa", "", new { @id = "estabelecimento-contabil-cnpj", @class = "form-control" })
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label>Estabelecimento Contábil Código: </label>
+                                                    @Html.TextBox("NumeroEmpresa", "", new { @id = "estabelecimento-contabil-codigo", @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Carga Horária: </label>
+                                                    @Html.TextBox("CargaHoraria", "", new { @id = "codigo", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="#item">Item</a></li>
+                                                <li><a data-toggle="tab" href="#beneficio">Beneficio</a></li>
+                                                <li><a data-toggle="tab" href="#ocorrencia">Ocorrência</a></li>
+                                                <li><a data-toggle="tab" href="#ferias">Férias</a></li>
+                                                <li><a data-toggle="tab" href="#faltas">Faltas</a></li>
+                                                <li><a data-toggle="tab" href="#regras-calculo">Regras de Calculo</a></li>
+                                            </ul>
+
+                                            <div class="tab-content black" style="padding:10px;">
+                                                <div id="item" class="tab-pane fade in active">
+                                                    @Html.Partial("~/Views/ItemFuncionario/_Campos.cshtml", Model?.ItemFuncionario ?? new ItemFuncionarioViewModel())
+                                                </div>
+                                                <div id="beneficio" class="tab-pane fade">
+                                                    @Html.Partial("~/Views/BeneficioFuncionario/_Campos.cshtml", Model?.BeneficioFuncionario ?? new BeneficioFuncionarioViewModel())
+                                                </div>
+                                                <div id="ocorrencia" class="tab-pane fade">
+                                                    @Html.Partial("~/Views/OcorrenciaFuncionario/_Campos.cshtml", Model?.OcorrenciaFuncionario ?? new OcorrenciaFuncionarioViewModel())
+
+                                                    <div class="col-xs-12">
+                                                        <div class="row no-margin-top">
+                                                            <div class="col-xs-12 col-md-4">
+                                                                <label><span style="font-weight: bold">Total Ocorrências (%):</span> <span id="ocorrencia-funcionario-valor-total">@(Model?.OcorrenciaFuncionario?.ValorTotal ?? "0,00")</span></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="ferias" class="tab-pane fade">
+                                                    @Html.Partial("_GridControleFerias", Model?.ControlesFerias ?? new List<ControleFeriasViewModel>())
+                                                </div>
+                                                <div id="faltas" class="tab-pane fade">
+                                                    @Html.Partial("_GridFaltas", Model?.ControlePontoDiaFaltas ?? new List<ControlePontoDiaViewModel>())
+                                                </div>
+                                                <div id="regras-calculo" class="tab-pane fade">
+                                                    @Html.Partial("_RegrasCalculo", Model)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row margin-bottom-5">
+                                        <div class="pull-right margin-right-15">
+                                            <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Buscar Funcionário
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="col-xs-12">
+                                <div class="col-md-2">
+                                    <label>CPF:</label>
+                                    @Html.TextBox("cpfBusca", "", new { @id = "cpfBusca", @class = "form-control" })
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Nome:</label>
+                                    @Html.TextBox("NomeBusca", "", new { @id = "nomeBusca", @class = "form-control" })
+                                </div>
+                                <div class="col-xs-2">
+                                    <br />
+                                    <div class="pull-right margin-right-10 margin-top-10">
+                                        <a class="btn btn-primary" id="buscar" onclick="BuscarFuncionarios()"><i class="fa fa-search"></i>&nbsp;Buscar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div id="container-list-funcionarios" class="row" style="display: none">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista Funcionários</h2>
+                        </header>
+                        <div>
+                            <div id="lista-funcionarios">
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

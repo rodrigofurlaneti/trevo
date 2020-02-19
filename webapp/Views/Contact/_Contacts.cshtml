@@ -1,0 +1,47 @@
+﻿@model List<Aplicacao.ViewModels.ContatoViewModel>
+
+@Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+@Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+@Styles.Render("~/content/css/contact/contacts.css")
+
+<div id="conteudo">
+    <div>
+        <fieldset>
+            <section>
+                <div class="col-md-2">
+                    <label>Tipo:</label>
+                    <select id="tipoContato" class="form-control">
+                        <option value="0">Selecione o Tipo de Contato</option>
+                        <option value="1">Email</option>
+                        <option value="2">Residencial</option>
+                        <option value="3">Celular</option>
+                        <option value="4">Recado</option>
+                        <option value="5">Comercial</option>
+                        <option value="6">Fax</option>
+                        <option value="7">OutroEmail</option>
+                        <option value="8">Padrão</option>
+                    </select>
+                </div>
+                <div id="emailbloco" style="display:none" class="col-md-2">
+                    <label>E-mail:</label><br />
+                    <input type="email" id="email" class="form-control" />
+                </div>
+                <div id="telephonebloco" style="display:none"  class="col-md-2">
+                    <label>Telefone:</label>
+                    <input type="tel" id="telephone" value="" class="form-control" />
+                </div>
+                <div id="cellphonebloco" style="display:none"  class="col-md-2">
+                    <label>Celular:</label>
+                    <input type="tel" id="cellphone" value="" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary" id="add-contact" onclick="event.preventDefault(); adicionarContato()" style="margin-top:26px;"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar Contato</button>
+                    <span class="btn btn-danger" id="contato-cancelar-edicao" style="display:none;margin-top:2px;" onclick="cancelarEdicaoDeContato()"><i class="fa fa-minus-circle"></i>&nbsp;Cancelar Edicao &nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </section>
+        </fieldset>
+    </div>
+    @Html.Partial("~/Views/Contact/_GridContacts.cshtml", Model)
+</div>
+
+@Scripts.Render("~/scripts/contact/contacts.js")

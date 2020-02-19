@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Aplicacao.ViewModels.ParametroNegociacaoViewModel>
+@using Portal.Controllers;
+@using Core.Extensions;
+@{
+    Layout = null;
+    var controller = ViewContext.Controller as ParametroNegociacaoController;
+}
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Lista Parâmetro de Negociação</h2>
+                </header>
+                <div>
+                    <div class="widget-body">
+                        @if (Model != null && Model.Any())
+                        {
+                            <table id="gridParametroNegociacao" class="table table-striped table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;"></th>
+                                        <th>
+                                            Unidade
+                                        </th>
+                                        <th>
+                                            Perfil
+                                        </th>
+                                        <th>
+                                            Data de Cadastro
+                                        </th>
+                                        @*<th>
+                                                @Html.DisplayNameFor(model => model.Usuario)
+                                            </th>*@
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td style="display:none">
+                                                @item.Id
+                                            </td>
+                                            <td>
+                                                @item.Unidade.Nome
+                                            </td>
+                                            <td>
+                                                @item.Perfil.Nome
+                                            </td>
+                                            <td>
+                                                @item.DataInsercao
+                                            </td>
+                                            @*<td>
+                                                    @Html.DisplayFor(modelItem => item.Usuario.Pessoa.Nome)
+                                                </td>*@
+                                            <td>
+                                                <a class="btn btn-primary" href="/ParametroNegociacao/Edita/@item.Id"><i class='fa fa-edit'></i></a>
+                                                <a class="btn btn-danger" href="/ParametroNegociacao/delete/@item.Id"><i class="fa fa-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

@@ -1,0 +1,34 @@
+﻿@using Entidade.Uteis
+@model List<BeneficioFuncionarioDetalheViewModel>
+
+<div class="col-xs-12 margin-top-20" style="padding-right: 5px">
+    <table id="tableitem" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Tipo Benefício</th>
+                <th>Valor</th>
+                <th style="width: 160px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="linha-beneficio-funcionario-detalhe">
+                        <td>
+                            @item.TipoBeneficio.Descricao
+                        </td>
+                        <td>
+                            @(item.Valor)
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="EditarBeneficioFuncionario(@item.TipoBeneficio.Id)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="RemoverBeneficioFuncionario(@item.TipoBeneficio.Id)"><i class="fa fa-remove"></i></button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

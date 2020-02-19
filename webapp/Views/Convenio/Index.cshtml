@@ -1,0 +1,161 @@
+﻿@using Entidade.Uteis
+@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ConvenioViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ConvenioController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Scripts.Render("~/Scripts/Convenio/Convenio.js")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+
+    <style type="text/css">
+        #data_table_address tr.line-blacklist {
+            cursor: pointer;
+        }
+            #data_table_address tr.line-blacklist:hover {
+                background-color: #ddd;
+            }
+
+            #data_table_address tr.line-blacklist.selected {
+                background-color: #ddd;
+                color: black;
+            }
+    </style>
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Convênio
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "Convenio", FormMethod.Post, new { id = "ConvenioForm" }))
+                                {
+                                    @Html.HiddenFor(x => x.Id, new { @id = "hdnTipoSelo" })
+                                    <div class="row margin-bottom-5">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-3">
+                                                <label>Nome Convênio:</label><br />
+                                                @Html.TextBoxFor(x => x.Descricao, new { @class = "form-control", @maxlength = "25" })
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <label>Ativo</label><br />
+                                                @Html.EditorFor(model => model.Status)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div style="margin-top: 20px;">
+                                            <div>
+                                                <fieldset id="fieldset_unidades">
+                                                    <section>
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-2">
+                                                                <label>Unidade:</label>
+                                                                @Html.DropDownList("UnidadeID", controller.ListaUnidades, "Selecione...")
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Tipo Selo:</label><br />
+                                                                @Html.DropDownList("TipoSeloId", controller.ListaTipoSelos, "Selecione...")
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Valor:</label><br />
+                                                                <input id="convenioUnidadeValor" class="form-control heightfield valmoney" type="text" disabled>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <span class="btn btn-primary" id="add-Colaborador" onclick="AdicionarConvenioUnidade()" style="margin-top: 13%;"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</span>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+
+                                        <div id="lista-convenioUnidade-result" class="col-xs-12">
+                                            @Html.Partial("../Convenio/_GridConvenioUnidade", Model != null && Model.ConvenioUnidade.Count > 0 ? Model.ConvenioUnidade : new List<ConvenioUnidadeViewModel>())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div style="margin-top: 20px;">
+                                            <div>
+                                                <fieldset id="fieldset_clientes">
+                                                    <section>
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="col-xs-12 no-padding">
+                                                                    <label>Cliente: </label>
+                                                                    @Html.TextBox("clientes", "", new { @class = "form-control" })
+                                                                    @Html.Hidden("cliente", 0, new { })
+                                                                    @Html.Hidden("clienteText", "", new { })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <span class="btn btn-primary" id="add-Colaborador" onclick="AdicionarConvenioCliente()" style="margin-top: 13%;"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</span>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+
+                                        <div id="lista-convenioCliente-result" class="col-xs-12">
+                                            @Html.Partial("../Convenio/_GridConvenioClientes", Model != null && Model.ConvenioCliente != null && Model.ConvenioCliente.Any() ? Model.ConvenioCliente : new List<ClienteViewModel>())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="pull-right margin-right-10">
+                                            <a class="btn btn-lg btn-danger" href="/Convenio/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista de Convênios</h2>
+                        </header>
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+
+                            <div id="lista-tabela-convenio">
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+
+

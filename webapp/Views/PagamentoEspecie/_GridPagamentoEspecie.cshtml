@@ -1,0 +1,89 @@
+﻿@using Core.Extensions
+
+@model List<Aplicacao.ViewModels.ContasAPagarViewModel>
+@{
+    Layout = null;
+}
+<div id="content">
+    <div>
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Lista Pagamentos de Reembolso</h2>
+                    </header>
+                    <div>
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <div class="widget-body no-padding">
+
+                            <table id="datatable_fixed_column" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th class="hasinput">
+                                            <input type="text" class="form-control" placeholder="Filtrar Departamento" />
+                                        </th>
+                                        <th class="hasinput">
+                                            <input type="text" class="form-control" placeholder="Filtrar Nome do Fornecedor/Tipo" />
+                                        </th>
+                                        <th class="hasinput">
+                                            <input type="text" class="form-control" placeholder="Filtrar Data de Vencimento" />
+                                        </th>
+                                        <th class="hasinput">
+                                            <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                                        </th>
+                                        <th class="hasinput">
+                                            <input type="text" class="form-control" placeholder="Filtrar Status" />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Selecione</th>
+                                        <th>
+                                            Departamento
+                                        </th>
+                                        <th>
+                                            Nome do Fornecedor/Tipo
+                                        </th>
+                                        <th>
+                                            Data de Vencimento
+                                        </th>
+                                        <th>
+                                            Valor
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        foreach (var conta in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="col-xs-12 nopadding input-group">
+                                                        <input data-contaAPagarId="@conta.Id" data-departamentoId="@conta.Departamento.Id" data-pendente-pagamento="@(conta.StatusConta == Entidade.Uteis.StatusContasAPagar.PendentePagamento ? "true" : "false")" 
+                                                               type="checkbox" autocomplete="off" class="form-control center-block no-float seleciona-pagamento-especie" onchange="AdicionarContaSelecionada(this)">
+                                                    </div>
+                                                </td>
+                                                <td>@conta.Departamento.Nome</td>
+                                                <td>@conta.FornecedorFormatado</td>
+                                                <td>@conta.DataVencimento.ToShortDateString()</td>
+                                                <td>@conta.ValorFormatado</td>
+                                                <td>@(conta.StatusConta.ToDescription())</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            @Html.Partial("_Botoes")
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

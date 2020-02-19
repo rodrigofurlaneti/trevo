@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9DC80615-73E7-4D73-814E-90E469364530}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dominio</RootNamespace>
+    <AssemblyName>Dominio</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Development|AnyCPU'">
+    <OutputPath>bin\Development\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Boleto.Net">
+      <HintPath>..\DLLs\Boleto.Net\Boleto.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator.SimpleInjectorAdapter, Version=2.8.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.SimpleInjectorAdapter.2.8.0\lib\portable-net4+sl4+wp8+win8+wpa81\CommonServiceLocator.SimpleInjectorAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.CommonServiceLocator.1.2.2\lib\net35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pagamento.Net">
+      <HintPath>..\DLLs\Pagamento.Net\Pagamento.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Select.Pdf, Version=19.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>..\packages\Select.Pdf.19.1.0\lib\net40\Select.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=4.0.8.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.0.8\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FeriasClienteServico.cs" />
+    <Compile Include="IRepositorio\IFeriasClienteRepositorio.cs" />
+    <Compile Include="IRepositorio\IPedidoSeloEmailRepositorio.cs" />
+    <Compile Include="IRepositorio\IPedidoSeloHistoricoRepositorio.cs" />
+    <Compile Include="IRepositorio\ISeloClienteRepositorio.cs" />
+    <Compile Include="PedidoSeloEmailServico.cs" />
+    <Compile Include="PedidoSeloHistoricoServico.cs" />
+    <Compile Include="ContaCorrenteClienteServico.cs" />
+    <Compile Include="BloqueioReferenciaServico.cs" />
+    <Compile Include="ControleFeriasServico.cs" />
+    <Compile Include="CalendarioRHServico.cs" />
+    <Compile Include="ControlePontoServicoFerias.cs" />
+    <Compile Include="ControlePontoServico.cs" />
+    <Compile Include="Helpers\ArquivoRetorno.cs" />
+    <Compile Include="IRepositorio\IContaCorrenteClienteRepositorio.cs" />
+    <Compile Include="IRepositorio\IBloqueioReferenciaRepositorio.cs" />
+    <Compile Include="IRepositorio\IControleFeriasRepositorio.cs" />
+    <Compile Include="IRepositorio\ICalendarioRHRepositorio.cs" />
+    <Compile Include="IRepositorio\IControlePontoFeriasRepositorio.cs" />
+    <Compile Include="IRepositorio\IControlePontoRepositorio.cs" />
+    <Compile Include="IRepositorio\ILancamentoCobrancaContratoMensalistaRepositorio.cs" />
+    <Compile Include="IRepositorio\INotificacaoDesbloqueioReferenciaRepositorio.cs" />
+    <Compile Include="IRepositorio\IOcorrenciaRepositorio.cs" />
+    <Compile Include="LancamentoCobrancaContratoMensalistaServico.cs" />
+    <Compile Include="NotificacaoDesbloqueioReferenciaServico.cs" />
+    <Compile Include="OcorrenciaFuncionarioServico.cs" />
+    <Compile Include="IRepositorio\IOcorrenciaFuncionarioRepositorio.cs" />
+    <Compile Include="OcorrenciaServico.cs" />
+    <Compile Include="PedidoLocacaoLancamentoCobrancaServico.cs" />
+    <Compile Include="SeloClienteServico.cs" />
+    <Compile Include="TipoOcorrenciaServico.cs" />
+    <Compile Include="IRepositorio\ITipoOcorrenciaRepositorio.cs" />
+    <Compile Include="PlanoCarreiraServico.cs" />
+    <Compile Include="IRepositorio\IPlanoCarreiraRepositorio.cs" />
+    <Compile Include="IRepositorio\IBeneficioFuncionarioRepositorio.cs" />
+    <Compile Include="BeneficioFuncionarioServico.cs" />
+    <Compile Include="IRepositorio\IArquivoBaseRepositorio.cs" />
+    <Compile Include="ArquivoBaseServico.cs" />
+    <Compile Include="TipoBeneficioServico.cs" />
+    <Compile Include="IRepositorio\ITipoBeneficioRepositorio.cs" />
+    <Compile Include="IRepositorio\IItemFuncionarioRepositorio.cs" />
+    <Compile Include="ItemFuncionarioServico.cs" />
+    <Compile Include="ParametroBoletoBancarioServico.cs" />
+    <Compile Include="IRepositorio\IParametroBoletoBancarioRepositorio.cs" />
+    <Compile Include="IRepositorio\IOcorrenciaRetornoCNABRepositorio.cs" />
+    <Compile Include="PecaServicoServico.cs" />
+    <Compile Include="ControleCompraServico.cs" />
+    <Compile Include="ImagemServico.cs" />
+    <Compile Include="IGeradorPdfServico.cs" />
+    <Compile Include="IRepositorio\IControleRepositorio.cs" />
+    <Compile Include="IRepositorio\IPecaServicoRepositorio.cs" />
+    <Compile Include="OrcamentoSinistroServico.cs" />
+    <Compile Include="IRepositorio\IOrcamentoSinistroRepositorio.cs" />
+    <Compile Include="OficinaServico.cs" />
+    <Compile Include="IRepositorio\IOficinaRepositorio.cs" />
+    <Compile Include="IRepositorio\IOISRepositorio.cs" />
+    <Compile Include="OISServico.cs" />
+    <Compile Include="IRepositorio\IMovimentacaoSeloRepositorio.cs" />
+    <Compile Include="IRepositorio\PedidoCompra\PedidoCompraCotacaoMaterialFornecedorRepositorio.cs" />
+    <Compile Include="IRepositorio\PedidoCompra\IPedidoCompraNotificacaoRepositorio.cs" />
+    <Compile Include="PedidoCompraServico.cs" />
+    <Compile Include="IRepositorio\PedidoCompra\IPedidoCompraRepositorio.cs" />
+    <Compile Include="IRepositorio\ICotacaoNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\NecessidadeCompra\INecessidadeCompraNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\NecessidadeCompra\INecessidadeCompraMaterialFornecedorRepositorio.cs" />
+    <Compile Include="IRepositorio\ICotacaoRepositorio.cs" />
+    <Compile Include="NecessidadeCompraServico.cs" />
+    <Compile Include="EstoqueManualServico.cs" />
+    <Compile Include="IRepositorio\NecessidadeCompra\INecessidadeCompraRepositorio.cs" />
+    <Compile Include="IRepositorio\IMaterialNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IMaterialHistoricoRepositorio.cs" />
+    <Compile Include="IRepositorio\IEstoqueMaterialRepositorio.cs" />
+    <Compile Include="IRepositorio\IEstoqueManualRepositorio.cs" />
+    <Compile Include="IRepositorio\IEstoqueManualItemRepositorio.cs" />
+    <Compile Include="EstoqueManualItemServico.cs" />
+    <Compile Include="IRepositorio\IMaterialFornecedorRepositorio.cs" />
+    <Compile Include="MaterialServico.cs" />
+    <Compile Include="IRepositorio\IMaterialRepositorio.cs" />
+    <Compile Include="TipoMaterialServico.cs" />
+    <Compile Include="CalculoFechamentoServico.cs" />
+    <Compile Include="CheckListEstruturaUnidadeServico.cs" />
+    <Compile Include="ChequeEmitidoContaPagarServico.cs" />
+    <Compile Include="ChequeEmitidoServico .cs" />
+    <Compile Include="ChequeRecebidoServico.cs" />
+    <Compile Include="ClienteCondominoServico.cs" />
+    <Compile Include="CondominoVeiculoServico.cs" />
+    <Compile Include="ColaboradorServico.cs" />
+    <Compile Include="ConsolidaAjusteFaturamentoServico.cs" />
+    <Compile Include="ConsolidaAjusteFinalFaturamentoServico.cs" />
+    <Compile Include="ConsolidaFaturamentoServico.cs" />
+    <Compile Include="ContaContabilServico.cs" />
+    <Compile Include="ContratoMensalistaServico.cs" />
+    <Compile Include="ContratoMensalistaVeiculoServico.cs" />
+    <Compile Include="ContratoUnidadeContasAPagarServico.cs" />
+    <Compile Include="ContratoUnidadeServico.cs" />
+    <Compile Include="ConvenioUnidadeServico.cs" />
+    <Compile Include="EmissaoSeloServico.cs" />
+    <Compile Include="EquipeServico.cs" />
+    <Compile Include="FaturamentoServico.cs" />
+    <Compile Include="HorarioParametroEquipeServico.cs" />
+    <Compile Include="IRepositorio\ITipoMaterialRepositorio.cs" />
+    <Compile Include="IRepositorio\ICalculoFechamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IChequeEmitidoContaPagarRepositorio.cs" />
+    <Compile Include="IRepositorio\IChequeEmitidoRepositorio .cs" />
+    <Compile Include="IRepositorio\IChequeRecebidoRepositorio.cs" />
+    <Compile Include="IRepositorio\IClienteCondominoRepositorio.cs" />
+    <Compile Include="IRepositorio\IColaboradorRepositorio.cs" />
+    <Compile Include="IRepositorio\ICondominoVeiculoRepositorio.cs" />
+    <Compile Include="IRepositorio\IConsolidaAjusteFaturamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IConsolidaAjusteFinalFaturamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IConsolidaFaturamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IContaContabilRepositorio.cs" />
+    <Compile Include="IRepositorio\IContratoMensalistaRepositorio.cs" />
+    <Compile Include="IRepositorio\IContratoMensalistaVeiculoRepositorio.cs" />
+    <Compile Include="IRepositorio\IConvenioUnidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\IEmissaoSeloRepositorio.cs" />
+    <Compile Include="IRepositorio\IFaturamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\ILancamentoCobrancaPedidoSeloRepositorio.cs" />
+    <Compile Include="IRepositorio\IMovimentacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\INotificacaoAvisoPedidoSeloRepositorio.cs" />
+    <Compile Include="IRepositorio\IEstoqueRepositorio.cs" />
+    <Compile Include="IRepositorio\PedidoLocacao\IPedidoLocacaoLancamentoCobrancaRepositorio.cs" />
+    <Compile Include="IRepositorio\PedidoLocacao\IPedidoLocacaoNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\INotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IDescontoRepositorio.cs" />
+    <Compile Include="IRepositorio\IParametrizacaoLocacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\PedidoLocacao\IPedidoLocacaoLancamentoAdicionalRepositorio.cs" />
+    <Compile Include="IRepositorio\IPedidoSeloNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IParametroEquipeNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IHorarioUnidadeNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\INegociacaoSeloDescontoNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\PedidoLocacao\IPedidoLocacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IPrecoNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IPagamentoMensalidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\IParametroNotificacaoUsuarioRepositorio.cs" />
+    <Compile Include="IRepositorio\IParametroNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IParametroNumeroNotaFiscalRepositorio.cs" />
+    <Compile Include="IRepositorio\IPedidoSeloRepositorio.cs" />
+    <Compile Include="IRepositorio\IPrecoParametroSeloRepositorio.cs" />
+    <Compile Include="IRepositorio\IPropostaRepositorio.cs" />
+    <Compile Include="IRepositorio\IRemanejamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IDespesaContaAPagarRepositorio.cs" />
+    <Compile Include="IRepositorio\ISelecaoDespesaRepositorio.cs" />
+    <Compile Include="IRepositorio\ISeloRepositorio.cs" />
+    <Compile Include="IRepositorio\ITabelaPrecoAvulsaRepositorio.cs" />
+    <Compile Include="IRepositorio\ITabelaPrecoMensalistaNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\ITabelaPrecoAvulsoRepositorio.cs" />
+    <Compile Include="IRepositorio\ITabelaPrecoAvulsoNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IVagaCortesiaVigenciaRepositorio.cs" />
+    <Compile Include="IRepositorio\IVagaCortesiaRepositorio.cs" />
+    <Compile Include="IRepositorio\ITabelaPrecoMensalistaRepositorio.cs" />
+    <Compile Include="IRepositorio\ITabelaPrecoMensalistaUnidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\ITabelaPrecoMensalRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoLocacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoNotificacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoSeloRepositorio.cs" />
+    <Compile Include="IRepositorio\IUnidadeCondominoRepositorio.cs" />
+    <Compile Include="LancamentoCobrancaPedidoSeloServico.cs" />
+    <Compile Include="MovimentacaoServico.cs" />
+    <Compile Include="NotificacaoAvisoPedidoSeloServico.cs" />
+    <Compile Include="DescontoServico.cs" />
+    <Compile Include="NegociacaoDescontoNotificacaoServico.cs" />
+    <Compile Include="ParametrizacaoLocacaoServico.cs" />
+    <Compile Include="ParametroEquipeServico.cs" />
+    <Compile Include="PedidoSeloNotificacaoServico.cs" />
+    <Compile Include="NotificacaoServico.cs" />
+    <Compile Include="PedidoLocacaoServico.cs" />
+    <Compile Include="PrecoNotificacaoServico.cs" />
+    <Compile Include="HorarioUnidadeNotificacaoServico.cs" />
+    <Compile Include="ParametroEquipeNotificacaoServico.cs" />
+    <Compile Include="PagamentoMensalidadeServico.cs" />
+    <Compile Include="ParametroNotificacaoUsuarioServico.cs" />
+    <Compile Include="ParametroNotificacaoServico.cs" />
+    <Compile Include="ParametroNumeroNotaFiscalServico.cs" />
+    <Compile Include="PedidoSeloServico.cs" />
+    <Compile Include="PrecoParametroSeloServico.cs" />
+    <Compile Include="PropostaServico.cs" />
+    <Compile Include="RemanejamentoServico.cs" />
+    <Compile Include="IRepositorio\IHorarioParametroEquipeRepositorio.cs" />
+    <Compile Include="IRepositorio\ICheckListEstruturaUnidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\IContratoUnidadeContasAPagarRepositorio.cs" />
+    <Compile Include="IRepositorio\IContratoUnidadeRepositorio.cs" />
+    <Compile Include="EquipamentoServico.cs" />
+    <Compile Include="EquipamentoUnidadeEquipamentoServico.cs" />
+    <Compile Include="EquipamentoUnidadeServico.cs" />
+    <Compile Include="IRepositorio\IEquipamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IEquipamentoUnidadeEquipamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IEquipamentoUnidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\IEquipeRepositorio.cs" />
+    <Compile Include="IRepositorio\ILimiteDescontoRepositorio.cs" />
+    <Compile Include="IRepositorio\IParametroEquipeRepositorio.cs" />
+    <Compile Include="IRepositorio\IParametroNegociacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IPeriodoRepositorio.cs" />
+    <Compile Include="IRepositorio\IRemanejamentoTransferenciaRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoMensalistaRepositorio.cs" />
+    <Compile Include="LimiteDescontoServico.cs" />
+    <Compile Include="AluguelServico.cs" />
+    <Compile Include="ConvenioServico.cs" />
+    <Compile Include="FuncionamentoServico.cs" />
+    <Compile Include="HorarioPrecoServico.cs" />
+    <Compile Include="HorarioUnidadePeriodoHorarioServico.cs" />
+    <Compile Include="HorarioUnidadeServico.cs" />
+    <Compile Include="IRepositorio\IAluguelRepositorio.cs" />
+    <Compile Include="IRepositorio\IConvenioRepositorio.cs" />
+    <Compile Include="IRepositorio\IFuncionamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IHorarioPrecoRepositorio.cs" />
+    <Compile Include="IRepositorio\IHorarioUnidadePeriodoHorarioRepositorio.cs" />
+    <Compile Include="IRepositorio\IHorarioUnidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\IMensalistaRepositorio.cs" />
+    <Compile Include="IRepositorio\IPeriodoHorarioRepositorio.cs" />
+    <Compile Include="IRepositorio\IPrecoRepositorio.cs" />
+    <Compile Include="IRepositorio\IPrecoStatusRepositorio.cs" />
+    <Compile Include="MensalistaServico.cs" />
+    <Compile Include="PagamentoServico.cs" />
+    <Compile Include="IRepositorio\IPagamentoRepositorio.cs" />
+    <Compile Include="CheckListAtividadeServico.cs" />
+    <Compile Include="CheckListAtividadeTipoAtividadeServico.cs" />
+    <Compile Include="EstruturaGaragemServico.cs" />
+    <Compile Include="EstruturaUnidadeServico.cs" />
+    <Compile Include="IRepositorio\ICheckListAtividadeRepositorio.cs" />
+    <Compile Include="IRepositorio\ICheckListAtividadeTipoAtividadeRepositorio.cs" />
+    <Compile Include="IRepositorio\IEstruturaGaragemRepositorio.cs" />
+    <Compile Include="IRepositorio\IEstruturaUnidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\ILeituraCNABRepositorio.cs" />
+    <Compile Include="IRepositorio\IMaquinaCartaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IRecebimentoRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoAtividadeRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoEquipeRepositorio.cs" />
+    <Compile Include="IRepositorio\IUnidadeCheckListAtividadeRepositorio.cs" />
+    <Compile Include="MaquinaCartaoServico.cs" />
+    <Compile Include="ParametroNegociacaoServico.cs" />
+    <Compile Include="PeriodoServico.cs" />
+    <Compile Include="RemanejamentoTransferenciaServico.cs" />
+    <Compile Include="DespesaContasAPagarServico.cs" />
+    <Compile Include="SelecaoDespesaServico.cs" />
+    <Compile Include="SeloServico.cs" />
+    <Compile Include="TabelaPrecoAvulsaServico.cs" />
+    <Compile Include="TabelaPrecoAvulsoNotificacaoServico.cs" />
+    <Compile Include="EstoqueServico.cs" />
+    <Compile Include="VagaCortesiaVigenciaServico.cs" />
+    <Compile Include="TabelaPrecoMensalistaNotificacaoServico.cs" />
+    <Compile Include="TabelaPrecoAvulsoServico.cs" />
+    <Compile Include="VagaCortesiaServico.cs" />
+    <Compile Include="TabelaPrecoMensalistaServico.cs" />
+    <Compile Include="TabelaPrecoMensalistaUnidadeServico.cs" />
+    <Compile Include="TabelaPrecoMensalServico.cs" />
+    <Compile Include="TipoAtividadeServico.cs" />
+    <Compile Include="LeituraCNABServico.cs" />
+    <Compile Include="ClienteServico.cs" />
+    <Compile Include="CanaisComunicacaoServico.cs" />
+    <Compile Include="ChequeServico.cs" />
+    <Compile Include="ClienteVeiculoServico.cs" />
+    <Compile Include="ContaFinanceiraServico.cs" />
+    <Compile Include="ContaPagarServico.cs" />
+    <Compile Include="PeriodoHorarioServico.cs" />
+    <Compile Include="PrecoServico.cs" />
+    <Compile Include="PrecoStatusServico.cs" />
+    <Compile Include="RecebimentoServico.cs" />
+    <Compile Include="RetiradaCofreServico.cs" />
+    <Compile Include="FuncionarioServico.cs" />
+    <Compile Include="IRepositorio\ICanaisComunicacaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IChequeRepositorio.cs" />
+    <Compile Include="IRepositorio\IClienteVeiculoRepositorio.cs" />
+    <Compile Include="IRepositorio\IContaFinanceiraRepositorio.cs" />
+    <Compile Include="IRepositorio\IContaPagarRepositorio.cs" />
+    <Compile Include="IRepositorio\IRetiradaCofreRepositorio.cs" />
+    <Compile Include="IRepositorio\IDepartamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\ILancamentoCobrancaRepositorio.cs" />
+    <Compile Include="IRepositorio\ICargoRepositorio.cs" />
+    <Compile Include="IRepositorio\IModeloRepositorio.cs" />
+    <Compile Include="DepartamentoServico.cs" />
+    <Compile Include="IRepositorio\ITabelaPrecoRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoPagamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoUnidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\IUnidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\IUnidadeTipoPagamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IVeiculoRepositorio.cs" />
+    <Compile Include="IRepositorio\IPagamentoReembolsoRepositorio.cs" />
+    <Compile Include="LancamentoCobrancaServico.cs" />
+    <Compile Include="CargoServico.cs" />
+    <Compile Include="MarcaServico.cs" />
+    <Compile Include="ImportacaoPagamentoServico.cs" />
+    <Compile Include="BancoServico.cs" />
+    <Compile Include="IRepositorio\IClienteRepositorio.cs" />
+    <Compile Include="IRepositorio\IFuncionarioRepositorio.cs" />
+    <Compile Include="IRepositorio\IMarcaRepositorio.cs" />
+    <Compile Include="IRepositorio\IImportacaoPagamentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IBancoRepositorio.cs" />
+    <Compile Include="PagamentoReembolsoServico.cs" />
+    <Compile Include="ParametroFaturamentoServico.cs" />
+    <Compile Include="ArquivoServico.cs" />
+    <Compile Include="IRepositorio\IParametroFaturamentoRepositorio.cs" />
+    <Compile Include="ModeloServico.cs" />
+    <Compile Include="TipoLocacaoServico.cs" />
+    <Compile Include="TipoMensalistaServico.cs" />
+    <Compile Include="TipoEquipeServico.cs" />
+    <Compile Include="TabelaPrecoServico.cs" />
+    <Compile Include="TipoNotificacaoServico.cs" />
+    <Compile Include="TipoPagamentoServico.cs" />
+    <Compile Include="TipoSeloServico.cs" />
+    <Compile Include="TipoUnidadeServico.cs" />
+    <Compile Include="UnidadeCheckListAtividadeServico.cs" />
+    <Compile Include="UnidadeCondominoServico.cs" />
+    <Compile Include="UnidadeServico.cs" />
+    <Compile Include="UnidadeTipoPagamentoServico.cs" />
+    <Compile Include="FilialServico.cs" />
+    <Compile Include="IRepositorio\IArquivoRepositorio.cs" />
+    <Compile Include="IRepositorio\IFilialRepositorio.cs" />
+    <Compile Include="IRepositorio\IRegionalEstadoRepositorio.cs" />
+    <Compile Include="IRepositorio\IRegionalRepositorio.cs" />
+    <Compile Include="IRepositorio\IFornecedorRepositorio.cs" />
+    <Compile Include="IRepositorio\ITipoFilialRepositorio.cs" />
+    <Compile Include="RegionalEstadoServico.cs" />
+    <Compile Include="RegionalServico.cs" />
+    <Compile Include="IRepositorio\IEmpresaRepositorio.cs" />
+    <Compile Include="EmpresaServico.cs" />
+    <Compile Include="IRepositorio\IMenuRepositorio.cs" />
+    <Compile Include="MenuServico.cs" />
+    <Compile Include="GrupoServico.cs" />
+    <Compile Include="Base\BaseServico.cs" />
+    <Compile Include="Base\IBaseServico.cs" />
+    <Compile Include="DocumentoServico.cs" />
+    <Compile Include="EnderecoServico.cs" />
+    <Compile Include="ContatoServico.cs" />
+    <Compile Include="IRepositorio\IGrupoRepositorio.cs" />
+    <Compile Include="IRepositorio\IDocumentoRepositorio.cs" />
+    <Compile Include="IRepositorio\IEnderecoRepositorio.cs" />
+    <Compile Include="IRepositorio\IContatoRepositorio.cs" />
+    <Compile Include="IRepositorio\IPaisRepositorio.cs" />
+    <Compile Include="PaisServico.cs" />
+    <Compile Include="EstadoServico.cs" />
+    <Compile Include="CidadeServico.cs" />
+    <Compile Include="IRepositorio\IEstadoRepositorio.cs" />
+    <Compile Include="IRepositorio\ICidadeRepositorio.cs" />
+    <Compile Include="IRepositorio\Base\IRepository.cs" />
+    <Compile Include="IRepositorio\IPermissaoRepositorio.cs" />
+    <Compile Include="IRepositorio\IPerfilRepositorio.cs" />
+    <Compile Include="IRepositorio\ITokenRepositorio.cs" />
+    <Compile Include="IRepositorio\IUsuarioRepositorio.cs" />
+    <Compile Include="IRepositorio\IPessoaRepositorio.cs" />
+    <Compile Include="PermissaoServico.cs" />
+    <Compile Include="PerfilServico.cs" />
+    <Compile Include="PessoaServico.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FornecedorServico.cs" />
+    <Compile Include="TipoFilialServico.cs" />
+    <Compile Include="TokenServico.cs" />
+    <Compile Include="UsuarioServico.cs" />
+    <Compile Include="IRepositorio\IAuditRepositorio.cs" />
+    <Compile Include="AuditServico.cs" />
+    <Compile Include="TrabalhoServico.cs" />
+    <Compile Include="IRepositorio\ITrabalhoRepositorio.cs" />
+    <Compile Include="VeiculoServico.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entidade\Entidade.csproj">
+      <Project>{3C0337DF-E437-4905-9848-0845B9F46610}</Project>
+      <Name>Entidade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\Core.csproj">
+      <Project>{d910ecad-ddf8-409c-b7d6-abc6ca831b53}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

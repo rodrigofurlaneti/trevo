@@ -1,0 +1,263 @@
+﻿
+@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@using Entidade.Uteis;
+
+@model EstoqueManualViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as EstoqueManualController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/EstoqueManual/EstoqueManual.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Estoque Manual
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("SalvarDados", "EstoqueManual", FormMethod.Post, new { id = "estoque-manual-form" }))
+                                {
+                                    @Html.HiddenFor(x => x.Id, new { @id = "ID" })
+
+                                    <div id="conteudo" class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-6">
+                                                        <div class="margin-top-10">
+                                                            <label class="pull-left">Ação: </label>
+                                                            <div class="pull-left padding-left-15">
+                                                                <label>
+                                                                    @Html.RadioButtonFor(x => x.Acao, AcaoEstoqueManual.Entrada, new { @id = "acaoentrada" }) Entrada
+                                                                </label>
+                                                            </div>
+                                                            <div class="pull-left padding-left-15">
+                                                                <label>
+                                                                    @Html.RadioButtonFor(x => x.Acao, AcaoEstoqueManual.Saida, new { @id = "acaosaida" }) Saída
+                                                                </label>
+                                                            </div>
+                                                            <div class="pull-left padding-left-15">
+                                                                <label>
+                                                                    @Html.RadioButtonFor(x => x.Acao, AcaoEstoqueManual.Inventario, new { @id = "acaoinventario" }) Inventário
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-2">
+                                                        <label>Estoque: </label>
+                                                        @Html.DropDownListFor(x => x.Estoque.Id, new SelectList(controller.ListaEstoque, "Id", "Nome"), "Selecione...", new { @id = "estoque", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-md-2">
+                                                        <label>Material: </label>
+
+                                                        <div id="lista-materiais">
+                                                            @Html.DropDownListFor(x => x.Material.Id, new SelectList(controller.ListaMaterial, "Id", "Nome"), "Selecione...", new { @id = "material", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="container-unidade" class="col-xs-12 col-md-2">
+                                                        <label>Unidade: </label>
+                                                        @Html.DropDownListFor(x => x.Unidade.Id, new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione...", @disabled = "disabled" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-md-4">
+                                                                <label>Numero Nota Fiscal / Pedido</label>
+                                                                @Html.TextBoxFor(x => x.NumeroNFPedido, new { @id = "numero", @class = "form-control single-line somente-numeros", @readonly = "readonly" })
+                                                            </div>
+
+                                                            <div class="col-xs-12 col-md-4">
+                                                                <label>Pedido Compra</label>
+
+                                                                @if (Model == null || Model.PedidoCompra == null)
+                                                                {
+                                                                    @Html.DropDownListFor(x => x.PedidoCompra.Id, new SelectList(controller.ListaPedidoCompra, "Id", "Id"), "Selecione...", new { @id = "pedido-compra", @class = "chosen-select form-control", data_placeholder = "Selecione...", @disabled = "disabled" })
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.TextBoxFor(x => x.PedidoCompra.Id, new { @id = "pedido-compra", @class = "form-control single-line", @readonly = "readonly" })
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-md-4">
+                                                                <label>Quantidade:</label><br />
+                                                                @Html.TextBoxFor(x => x.Quantidade, new { @class = "form-control numero-inteiro", @id = "quantidade", @readonly = "readonly" })
+                                                            </div>
+                                                            <div class="col-xs-12 col-md-4">
+                                                                <label>Preço:</label>
+                                                                @Html.TextBoxFor(x => x.Preco, new { @class = "form-control field valmoney", @id = "preco", @readonly = "readonly" })
+                                                            </div>
+
+                                                            <div class="col-xs-12 col-md-4">
+                                                                <label>Valor Total:</label>
+                                                                @Html.TextBoxFor(x => x.ValorTotal, new { @class = "form-control field", @id = "valortotal", @readonly = "readonly" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 margin-bottom-5 no-padding">
+                                                        <div id="container-motivo" class="col-xs-12">
+                                                            <label>Motivo:</label><br />
+                                                            @Html.TextAreaFor(x => x.Motivo, new { @class = "form-control no-resize", @id = "motivo", @rows = "5", @disabled = "disabled" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*Grid Items*@
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="row no-margin-left no-margin-right">
+                                                <div class="col-xs-12 col-md-6">
+                                                    <div style="border: solid thin;  overflow: scroll ; max-height: 300px;">
+                                                        <div>
+                                                            <div class="row margin-bottom-5">
+                                                                <div id="lista-item-result" class="col-xs-12">
+                                                                    @Html.Partial("_GridItem", (Model != null && Model.ListEstoqueManualItem != null && Model.ListEstoqueManualItem.ToList().Count > 0) ? Model.ListEstoqueManualItem.ToList() : new List<EstoqueManualItemViewModel>())
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if (Model == null || Model.Id == 0)
+                                            {
+                                                <div class="row no-margin-left no-margin-right">
+                                                    <div class="col-xs-12 col-md-6">
+                                                        <a id="gerar" class="btn btn-lg btn-success pull-right" name="Gerar" onclick="GerarItens()" disabled>Gerar</a>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        @if (Model == null || Model.Id == 0)
+                                        {
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        }
+
+                                        <a class="btn btn-lg btn-danger" href="/EstoqueManual/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista Estoque Manual</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width:10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Numero Nota/Pedido" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Cod. Material" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Material" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Ação" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Estoque" />
+                                            </th>
+                                            <th class="hasinput">
+                                                <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                            </th>
+                                            <th class="hasinput" style="max-width: 60px; min-width: 60px; width: 1%;" rowspan="1" colspan="1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Numero Nota/Pedido</th>
+                                            <th data-hide="phone">Nº Material</th>
+                                            <th data-hide="phone">Material</th>
+                                            <th data-hide="phone">Ação</th>
+                                            <th data-hide="phone">Estoque</th>
+                                            <th data-hide="phone">Unidade</th>
+                                            <th data-class="expand">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller != null && controller.ListaEstoqueManual != null)
+                                        {
+                                            foreach (var m in controller.ListaEstoqueManual)
+                                            {
+                                                <tr>
+                                                    <td>@m.NumeroNFPedido</td>
+                                                    <td>@m.Material.Id.ToString()</td>
+                                                    <td>@m.Material.Nome</td>
+                                                    <td>@m.Acao</td>
+                                                    <td>@m.Estoque.Nome</td>
+                                                    <td>@(m.Unidade != null ? m.Unidade.Nome : "")</td>
+
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/EstoqueManual/view/@m.Id"><i class='fa fa-eye'></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+            <!-- end row -->
+            <!-- end row -->
+        </section>
+    </div>
+</div>

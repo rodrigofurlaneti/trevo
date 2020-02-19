@@ -1,0 +1,37 @@
+﻿@using Portal.Controllers;
+@using Core.Extensions;
+@using Aplicacao.ViewModels;
+@model ControlePontoViewModel
+
+@{
+                /**/
+
+                ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+                var controller = ViewContext.Controller as ControlePontoRHController;
+}
+
+@section pagespecific {
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/ControlePonto/controle-ponto.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/Unidade/unidade-autocomplete.js")
+    @Scripts.Render("~/Scripts/Funcionario/funcionario-autocomplete.js")
+    @Scripts.Render("~/Scripts/Funcionario/supervisor-autocomplete.js")
+    @Scripts.Render("~/Scripts/ControlePonto/controle-ponto.js")
+    @Scripts.Render("~/Scripts/ControlePonto/controle-ponto-rh.js")
+
+    @if (!Request.Browser.IsMobileDevice)
+    {
+        @Scripts.Render("~/Scripts/Shared/scroll.js")
+    }
+}
+
+<div id="content" class="content-principal">
+    <section id="widget-grid" class="col-xs-12">
+        @Html.Partial("_GridBusca")
+    </section>
+</div>

@@ -1,0 +1,51 @@
+﻿@using Portal.Controllers
+@model Aplicacao.ViewModels.EnderecoViewModel
+
+@{
+    var controller = ViewContext.Controller as OficinaController;
+}
+
+<div class="col-xs-12">
+    <div class="row margin-bottom-5">
+        <div class="col-xs-2">
+            <label>CEP:</label><br />
+            @Html.TextBoxFor(endereco => endereco.Cep, new { @class = "form-control", @id = "cep" })
+        </div>
+
+        <div class="col-xs-2">
+            <label>Cidade:</label><br />
+            @Html.TextBoxFor(endereco => endereco.CidadeDescricao, new { @class = "form-control", @id = "cidade-descricao" })
+        </div>
+
+        <div class="col-xs-2">
+            <label>Estado:</label><br />
+            @Html.TextBoxFor(endereco => endereco.Estado, new { @class = "form-control", @id = "estado" })
+        </div>
+
+        <div class="col-xs-2">
+            <label>Bairro:</label><br />
+            @Html.TextBoxFor(endereco => endereco.Bairro, new { @class = "form-control", @id = "bairro" })
+        </div>
+    </div>
+    <div class="row margin-bottom-5">
+        <div class="col-xs-2">
+            <label>Endereço:</label><br />
+            @Html.TextBoxFor(endereco => endereco.Logradouro, new { @class = "form-control", @id = "logradouro" })
+        </div>
+
+        <div class="col-xs-2">
+            <label>N°:</label><br />
+            @Html.TextBoxFor(endereco => endereco.Numero, new { @class = "form-control", @id = "numeroEndereco" })
+        </div>
+
+        <div class="col-xs-2">
+            <label>Complemento:</label><br />
+            @Html.TextBoxFor(endereco => endereco.Complemento, new { @class = "form-control", @id = "complemento" })
+        </div>
+
+        <div class="col-xs-2">
+            <label>Tipo:</label><br />
+            @Html.DropDownListFor(endereco => endereco.Tipo, new SelectList(controller.ListaTipoEndereco, "Id", "Descricao"), "Selecione um Tipo de Endereco...", new { @id = "tipo-endereco", @class = "form-control chosen-select", data_placeholder = "Selecione um Tipo de Endereco..." })
+        </div>
+    </div>
+</div>

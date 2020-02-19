@@ -1,0 +1,200 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ContaFinanceiraViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ContaFinanceiraController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/ContaFinanceira/ContaFinanceira.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Conta Financeira
+                            </h2>
+
+                        </header>
+                        <div class="widget-body">
+                            @using (Html.BeginForm("SalvarDados", "ContaFinanceira", FormMethod.Post, new { id = "ContaFinanceiraForm" }))
+                            {
+                                @Html.HiddenFor(x => x.Id)
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-6">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.Descricao, "Descrição: ", new { @class = "espacoControle" })
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 no-padding">
+                                            @Html.EditorFor(x => x.Descricao)
+                                            @Html.ValidationMessageFor(x => x.Descricao, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-xs-2 col-md-6 no-padding">
+                                            @Html.LabelFor(x => x.ContaPadrao, "Conta Padrão: ", new { @class = "espacoControle" })
+                                            @Html.CheckBoxFor(x => x.ContaPadrao)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.HiddenFor(x => x.Id)
+                                            <label>Nome do Banco: </label>
+                                            <br />
+                                            @Html.DropDownListFor(x => x.Banco.Id, new SelectList(controller.ListaBanco, "Id", "Descricao"), "Selecione um banco...", new { @id = "banco", @class = "chosen-select", data_placeholder = "Selecione um Banco..." })
+                                            @Html.ValidationMessageFor(x => x.Banco, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Empresa: </label>
+                                            @Html.DropDownListFor(x => x.Empresa.Id, new SelectList(controller.ListaEmpresa, "Id", "RazaoSocial"), "Selecione uma Empresa...", new { @id = "empresa", @class = "chosen-select", data_placeholder = "Selecione uma Empresa..." })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.Agencia, "Agência: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 no-padding">
+                                            @Html.TextBoxFor(x => x.Agencia, new { @id = "Agencia", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Agencia, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.DigitoAgencia, "Dígito Agência: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 no-padding">
+                                            @Html.TextBoxFor(x => x.DigitoAgencia, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.Conta, "Conta: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 no-padding">
+                                            @Html.TextBoxFor(x => x.Conta, new { @id = "Conta", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Conta, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.DigitoConta, "Dígito Conta: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 no-padding">
+                                            @Html.TextBoxFor(x => x.DigitoConta, new { @id = "DigitoConta", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.DigitoConta, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>CPF:</label>
+                                            <br />
+                                            @Html.TextBoxFor(x => x.Cpf, new { @id = "cpf", @class = "form-control", onchange = "validaCPF(this);" })
+                                            @Html.ValidationMessageFor(x => x.Cpf, "Informe um CPF válido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>CNPJ:</label>
+                                            <br />
+                                            @Html.TextBoxFor(x => x.Cnpj, new { @id = "cnpj", @class = "form-control", onchange = "validaCNPJ(this);" })
+                                            @Html.ValidationMessageFor(x => x.Cnpj, "Informe um CNPJ válido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.Carteira, "Carteira: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-12 no-padding">
+                                            @Html.TextBoxFor(x => x.Carteira, new { @id = "Carteira", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Carteira, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="conteudo" class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.Convenio, "Convênio Recebimento: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-12 no-padding">
+                                            @Html.TextBoxFor(x => x.Convenio, new { @id = "Convenio", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Convenio, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.Convenio, "Convênio Pagamento: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-12 no-padding">
+                                            @Html.TextBoxFor(x => x.ConvenioPagamento, new { @id = "ConvenioPagamento", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.ConvenioPagamento, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            @Html.LabelFor(x => x.CodigoTransmissao, "Dígito Código Transmissão: ")
+                                        </div>
+                                        <div class="col-xs-12 col-md-12 no-padding">
+                                            @Html.TextBoxFor(x => x.CodigoTransmissao, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom-5">
+                                    <div class="pull-right margin-right-10">
+                                        <a class="btn btn-lg btn-danger" href="/contafinanceira/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                    </div>
+                                    <div class="pull-right margin-right-10">
+                                        <button type="submit" class="btn btn-lg btn-primary">
+                                            <i class="fa fa-save"></i> Salvar
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Lista de Conta Financeiras</h2>
+                        </header>
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+
+                            <div id="lista-contaFinanceiras">
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

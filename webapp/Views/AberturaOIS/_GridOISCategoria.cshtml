@@ -1,0 +1,32 @@
+﻿@using Entidade.Uteis
+@using Core.Extensions
+@model List<OISCategoriaViewModel>
+
+<div class="row">
+    <div class="col-xs-12">
+        <table id="tablevigencia" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th style="width: 60px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Descricao
+                            </td>
+                            <td style="width: 60px">
+                                <button type="button" name="botaoedicao" class="btn btn-danger" style="margin-right: 3px;" onclick="removerOisCategoria('@item.Descricao')"><i class="fa fa-remove"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

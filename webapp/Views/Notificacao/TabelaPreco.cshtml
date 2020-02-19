@@ -1,0 +1,45 @@
+﻿
+@using Core.Extensions
+@using Entidade.Uteis
+@using Portal.Controllers
+@model List<PrecoNotificacaoViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as NotificacaoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+}
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2 style="font-weight:100;">
+                Notificações de Tabela Preco<br />
+            </h2>
+        </header>
+    </div>
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Listagem de Notificações Pendentes</h2>
+                        </header>
+                        <div class="row margin-bottom-5">
+                            <div class="col-xs-12">
+                                @Html.Partial("../Notificacao/_GridNotificacaoTabelaPreco", Model)
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

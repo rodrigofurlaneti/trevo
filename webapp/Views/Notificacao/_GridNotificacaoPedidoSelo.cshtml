@@ -1,0 +1,60 @@
+﻿@model List<PedidoSeloNotificacaoViewModel>
+<div class="widget-body">
+    @if (Model != null && Model.Any())
+    {
+    <table id="datatable_fixed_column" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="hasinput" style="width: 5%">
+                    <input type="text" class="form-control" placeholder="Filtrar Id" />
+                </th>
+                <th class="hasinput" style="width: 10%">
+                    <input type="text" class="form-control" placeholder="Filtrar Data" />
+                </th>
+                <th class="hasinput" style="width: 20%">
+                    <input type="text" class="form-control" placeholder="Filtrar Descrição" />
+                </th>
+                <th class="hasinput" style="width: 30%">
+                    <input type="text" class="form-control" placeholder="Filtrar Usuário" />
+                </th>
+                <th class="hasinput" style="width: 15%">
+                    <input type="text" class="form-control" placeholder="Filtrar PedidoSelo" />
+                </th>
+                <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 20%;" rowspan="1" colspan="1">
+                </th>
+            </tr>
+            <tr>
+                <th data-hide="expand">Id</th>
+                <th data-hide="expand">Data </th>
+                <th data-hide="expand">Descrição</th>
+                <th data-hide="expand">Usuário</th>
+                <th data-hide="expand">Id PedidoSelo</th>
+                <th data-hide="expand">Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody>
+            @foreach (var m in Model)
+            {
+                <tr>
+                    <td>@m.Notificacao.Id</td>
+                    <td>@(m.Notificacao.DataInsercao.ToShortDateString())</td>
+                    <td>@m.Notificacao.Descricao</td>
+                    <td>@(m.Notificacao.Usuario.Funcionario.Pessoa.Nome)</td>
+                    <td>@(m.PedidoSelo.Id)</td>
+                    <td>
+                        @*<a class="btn btn-primary" href="#" onclick="Aprovar('@Model', 0);"><i class='fa fa-thumbs-o-up'></i> Aprovar</a>
+                        <a class="btn btn-danger" href="#" onclick="Reprovar('@Model', 1);"><i class="fa fa-thumbs-o-down"></i> Reprovar</a>
+                        <a class="btn btn-info" href="/PedidoSelo/edit/@m.PedidoSelo.Id"><i class="fa fa-info-circle"></i> Informações</a>*@
+
+                        <a class="btn btn-primary" href="#" onclick="Atualizar('@m.PedidoSelo.Id','PedidoSelo','aprovar');"><i class='fa fa-thumbs-o-up'></i> Aprovar</a>
+                        <a class="btn btn-danger" href="#" onclick="Atualizar('@m.PedidoSelo.Id','PedidoSelo','reprovar');"><i class="fa fa-thumbs-o-down"></i> Reprovar</a>
+                        <a class="btn btn-info" href="/TabelaPreco/edit/@m.PedidoSelo.Id"><i class="fa fa-info-circle"></i> Informações</a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+ </div>

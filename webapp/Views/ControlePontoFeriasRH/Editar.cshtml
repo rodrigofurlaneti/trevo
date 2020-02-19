@@ -1,0 +1,285 @@
+﻿@using Portal.Controllers;
+@using Core.Extensions;
+@using Aplicacao.ViewModels;
+@model ControlePontoFeriasViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as ControlePontoFeriasRHController;
+}
+
+@section pagespecific {
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/ControlePontoFerias/controle-ponto-ferias.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/Unidade/unidade-autocomplete.js")
+    @Scripts.Render("~/Scripts/Funcionario/funcionario-autocomplete.js")
+    @Scripts.Render("~/Scripts/Funcionario/supervisor-autocomplete.js")
+    @Scripts.Render("~/Scripts/ControlePontoFerias/controle-ponto-ferias.js")
+    @Scripts.Render("~/Scripts/ControlePontoFerias/rh.js")
+
+    @if (!Request.Browser.IsMobileDevice)
+    {
+        @Scripts.Render("~/Scripts/Shared/scroll.js")
+    }
+}
+
+<div id="content" class="content-principal">
+    <section id="widget-grid" class="col-xs-12">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget" id="combo-controle-ponto-ferias-rh" data-widget-ajax="false" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                        <h2>
+                            Ponto Férias Funcionário - RH
+                        </h2>
+                    </header>
+                    <div class="widget-body">
+                        @Html.HiddenFor(x => x.Id)
+
+                        <div id="conteudo">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-3">
+                                        <label>Funcionário:</label><br />
+                                        @Html.TextBoxFor(x => x.Funcionario.Pessoa.Nome, new { id = "campo-funcionarios", @class = "form-control", @readonly = "readonly" })
+                                        @Html.HiddenFor(x => x.Funcionario.Id, new { id = "campo-funcionario" })
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>De: </label>
+                                            @Html.TextBox("BuscaDe", "", new { id = "busca-de", @class = "form-control campo-data" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Ate: </label>
+                                            @Html.TextBox("BuscaAte", "", new { id = "busca-ate", @class = "form-control campo-data" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-3 col-lg-1">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Intervalo: </label>
+                                            @Html.TextBoxFor(x => x.IntervalosPendentes, new { id = "total-intervalo-pendente", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-3 col-lg-1">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>H.E. 65%: </label>
+                                            @Html.TextBoxFor(x => x.TotalHoraExtraSessentaCinco, new { id = "total-he-sessenta-cinco", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-3 col-lg-1">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>H.E. 100%: </label>
+                                            @Html.TextBoxFor(x => x.TotalHoraExtraCem, new { id = "total-he-cem", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-3 col-lg-1">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Feriado: </label>
+                                            @Html.TextBoxFor(x => x.TotalFeriadosTrabalhados, new { id = "total-feriado", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-3 col-lg-1">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>ASN: </label>
+                                            @Html.TextBoxFor(x => x.TotalAdicionalNoturno, new { id = "total-asn", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-3 col-lg-1">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Falta: </label>
+                                            @Html.TextBoxFor(x => x.TotalFalta, new { id = "total-falta", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-3 col-lg-1">
+                                        <div class="col-xs-12 no-padding">
+                                            <label>Atrasos: </label>
+                                            @Html.TextBoxFor(x => x.TotalAtraso, new { id = "total-atrasos", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Dia:</label><br />
+                                        @Html.TextBox("Dia", "", new { id = "dia", @class = "form-control", @readonly = "readonly" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-4 margin-top-10">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-4">
+                                                <label>
+                                                    @Html.CheckBox("Falta", false, new { @id = "falta" })
+                                                    Falta
+                                                </label>
+                                            </div>
+
+                                            <div class="col-xs-6 col-sm-4">
+                                                <label>
+                                                    @Html.CheckBox("FaltaJustificada", false, new { @id = "falta-justificada", @disabled = "disabled" })
+                                                    Justificada
+                                                </label>
+                                            </div>
+
+                                            <div class="col-xs-6 col-sm-4">
+                                                <label>
+                                                    @Html.CheckBox("Atestado", false, new { @id = "atestado", @disabled = "disabled" })
+                                                    Atestado
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-4">
+                                                <label>
+                                                    @Html.CheckBox("Atraso", false, new { @id = "atraso" })
+                                                    Atraso
+                                                </label>
+                                            </div>
+
+                                            <div class="col-xs-6 col-sm-4">
+                                                <label>
+                                                    @Html.CheckBox("Justificado", false, new { @id = "atraso-justificado", @disabled = "disabled" })
+                                                    Justificado
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <label>
+                                                    @Html.CheckBox("Suspensao", false, new { @id = "suspensao" })
+                                                    Suspensão
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-4">
+                                        <label>Observação:</label><br />
+                                        @Html.TextBox("Observacao", "", new { id = "observacao", @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Entrada:</label><br />
+                                        @Html.TextBox("Entrada", "", new { id = "entrada", @class = "form-control hora" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Saída Intervalo:</label><br />
+                                        @Html.TextBox("SaidaAlmoco", "", new { id = "saida-almoco", @class = "form-control hora" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Retorno Intervalo:</label><br />
+                                        @Html.TextBox("RetornoAlmoco", "", new { id = "retorno-almoco", @class = "form-control hora" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Saída:</label><br />
+                                        @Html.TextBox("Saida", "", new { id = "saida", @class = "form-control hora" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Unidade Apoio:</label>
+                                        @Html.TextBox("ControlePontoFeriasUnidadeApoio", "", new { id = "unidades-apoio", @class = "form-control" })
+                                        @Html.Hidden("ControlePontoFeriasUnidadeApoioId", "", new { id = "unidade-apoio" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Entrada Apoio:</label><br />
+                                        @Html.TextBox("EntradaApoio", "", new { id = "entrada-apoio", @class = "form-control hora" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Saida Apoio:</label><br />
+                                        @Html.TextBox("SaidaApoio", "", new { id = "saida-apoio", @class = "form-control hora" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-2">
+                                        <div style="margin-top: 25px">
+                                            <label>@Html.RadioButton("HE", 65, true, new { @id = "unidade-apoio-he-sessenta-cinto" }) 65% (HE) </label>
+                                            <label>@Html.RadioButton("HE", 100, false, new { @id = "unidade-apoio-he-cem" }) 100% (HE) </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-2" style="margin-top: 23px"><a class="btn btn-primary" onclick="SalvarControlePontoFeriasUnidadeApoio();">Adicionar</a></div>
+                                </div>
+
+                                <div class="row">
+                                    <div id="lista-unidade-apoio-principal">
+                                        @Html.Partial("_GridUnidadeApoioPrincipal", new List<ControlePontoFeriasUnidadeApoioViewModel>())
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="row margin-bottom-5">
+                                    <div class="pull-right margin-right-15">
+                                        <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                    </div>
+                                    <div class="pull-right margin-right-10">
+                                        <a class="btn btn-lg btn-primary" onclick="SalvarControlePontoFeriasDia()"><i class="fa fa-save"></i> Salvar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-collapsed" id="grid-dias" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    </header>
+
+                    <div id="lista-dias" style="display: none">
+                        @Html.Partial("_GridDias", new List<ControlePontoFeriasDiaViewModel>())
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-collapsed" id="grid-unidade-apoio-bom" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    </header>
+
+                    <div id="lista-unidade-apoio-combo" style="display: none">
+                        @Html.Partial("_GridUnidadeApoioCombo", new List<ControlePontoFeriasUnidadeApoioViewModel>())
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        @Html.Partial("_GridBusca")
+    </section>
+</div>

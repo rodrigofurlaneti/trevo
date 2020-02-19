@@ -1,0 +1,157 @@
+﻿@using Entidade.Uteis
+@model Aplicacao.ViewModels.ItemFuncionarioImpressaoViewModel
+
+@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+
+<html>
+<head>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .row {
+            width: 100%;
+            margin: 0 !important
+        }
+
+        table{
+            width: 80%;
+            margin: 20px auto;
+        }
+
+            table tr th, table tr td {
+                text-align: center;
+            }
+
+        .pagina {
+            padding-top: 1.75cm;
+            padding-left: 1.5cm;
+            width: 18.15cm;
+            height: 18cm;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px
+        }
+
+        span {
+            font-weight: bold
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        @@page {
+            size: A4;
+            margin: 0mm;
+        }
+
+        @@media print {
+            .pagina {
+                page-break-inside: avoid;
+            }
+
+            pre, blockquote {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body onload="window.print(); window.close()">
+    <div class="pagina">
+        <h1 class="text-center">ENTREGA DE UNIFORMES E EQUIPAMENTOS</h1>
+
+        Eu, <span>@Model.Funcionario.Pessoa.Nome</span> portador (a) do CPF <span>@Model.Funcionario.DocumentoCpf</span> declaro ter recebido o
+        material abaixo discriminado, destinado exclusivamente para uso em serviço.
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 33.33%">Quantidade</th>
+                    <th style="width: 33.33%">Descrição</th>
+                    <th style="width: 33.33%">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ItensSelecionados)
+                {
+                    <tr>
+
+                        <td>@item.Quantidade</td>
+                        <td>@item.Material.Nome</td>
+                        <td>@item.Valor</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <p>
+            Obrigo-me a manter sempre em perfeita ordem o material acima recebido.
+            Caso haja rescisão do meu contrato de trabalho, comprometo-me a devolver o
+            material acima recebido e concordo desde já, a pagar em moeda corrente (vale)
+            do País, a quantia equivalente ao material não devolvido por mim.
+        </p>
+
+        <p>Sem mais, assino o presente.</p>
+
+        <p>Data:<span>@(Model.DataEntrega?.ToShortDateString())</span></p>
+
+        _____________________________________
+        <br />
+        <span>NOME DO FUNCIONÁRIO</span>
+
+        <div style="clear: both"></div>
+    </div>
+
+    <div class="pagina">
+        <h1 class="text-center">DEVOLUÇÃO DE UNIFORME E EQUIPAMENTOS</h1>
+
+        <span>@Model.Funcionario.Pessoa.Nome</span> portador (a) do CPF <span>@Model.Funcionario.DocumentoCpf</span>, vem através deste
+        formalizar a devolução dos materiais abaixo identificados à empresa.
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 33.33%">Quantidade</th>
+                    <th style="width: 33.33%">Descrição</th>
+                    <th style="width: 33.33%">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ItensSelecionados)
+                {
+                    <tr>
+                        <td>@item.Quantidade</td>
+                        <td>@item.Material.Nome</td>
+                        <td>_______________</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <p>Sem mais, assino o presente.</p>
+
+        <p>Data:<span>@(Model.DataDevolucao?.ToShortDateString())</span></p>
+
+        _____________________________________
+        <br />
+        <span>NOME DO FUNCIONÁRIO</span>
+
+        <br />
+        <br />
+        _________________________________
+        <br />
+        <span>EMPRESA</span>
+
+        <div style="clear: both"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿@using Entidade.Uteis
+@using Core.Extensions
+@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller as OrcamentoSinistroController;
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <table id="tablevigencia" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th style="width: 60px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (controller.ListaOrcamentoSinistroFornecedor != null)
+                {
+                    foreach (var item in controller.ListaOrcamentoSinistroFornecedor)
+                    {
+                        <tr>
+                            <td>
+                                @item.Fornecedor.Nome
+                            </td>
+                            <td style="width: 60px">
+                                <button type="button" name="botaoedicao" class="btn btn-danger" style="margin-right: 3px;" onclick="removerFornecedor('@item.Fornecedor.Id')"><i class="fa fa-remove"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

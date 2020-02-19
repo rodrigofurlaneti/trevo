@@ -1,0 +1,30 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Login</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="login" padding>
+    <ion-list>
+        <ion-item class="nopadding-left">
+            <ion-label floating>Usuário</ion-label>
+            <ion-input [(ngModel)]="usercreds.name" type="text"></ion-input>
+        </ion-item>
+        <ion-item class="nopadding-left">
+            <ion-label floating>Senha</ion-label>
+            <ion-input [(ngModel)]="usercreds.password" type="password"></ion-input>
+        </ion-item>
+        <button ion-button clear (click)="rememberPassword()" class="nopadding-left">Esqueci minha senha</button>
+    </ion-list>
+    <div>
+        <button ion-button color="primary" block (click)="login(usercreds)">Login</button>
+    </div>
+    <div padding-top>
+        <ion-label>Ainda não possui cadastro?</ion-label>
+        <button ion-button color="secondary" block (click)="dadosPessoais()">Cadastre-se</button>
+    </div>
+
+</ion-content>

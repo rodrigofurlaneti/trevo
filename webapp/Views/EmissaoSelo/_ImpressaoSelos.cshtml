@@ -1,0 +1,94 @@
+﻿@using Entidade.Uteis
+@model List<Aplicacao.ViewModels.SeloViewModel>
+
+@{
+    ViewBag.Title = "";
+    Layout = null;
+    int registrosPorPagina = 50;
+    int paginas = Model.Count / registrosPorPagina;
+    paginas = Model.Count % registrosPorPagina > 0 ? paginas + 1 : paginas; 
+}
+
+<html>
+<head>
+    <style>
+
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .row {
+            width: 100%;
+            margin: 0 !important
+        }
+
+        .pagina {
+            padding-top: 1.8cm;
+            padding-left: 1.5cm;
+            width: 18.15cm;
+            height: 18cm;
+        }
+
+        .selo {
+            height: 1.51cm;
+            max-height: 1.51cm;
+            width: 2.22cm;
+            margin-bottom: 0.295cm;
+            margin-right: 0.94cm;
+            float: left;
+            font-size: 7px;
+        }
+
+        @@page {
+            size: A4;
+            margin: 0mm;
+        }
+
+        @@media print {
+            .pagina {
+                page-break-inside: avoid;
+            }
+
+            pre, blockquote {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body onload="window.print(); window.close()">
+    @for (int pagina = 0; pagina < paginas; pagina++)
+    {
+        <div class="pagina">
+            @{
+                var numeroSelo = 0;
+                var inicial = pagina * registrosPorPagina;
+                var final = inicial + registrosPorPagina;
+                final = final > Model.Count ? Model.Count : final;
+                for (int i = inicial; i < final; i++)
+                {
+                    numeroSelo++;
+                    <div class="selo" style="color: @(Model[i].TipoSelo.ParametroSelo == ParametroSelo.HoraAdicional ? "blue" : "black");">
+                        <div class="row" style="word-break: break-word">
+                            @Model[i].EmissaoSelo.NomeImpressaoSelo
+                        </div>
+                        @*<div class="row">
+                            @Html.DisplayFor(modelItem => Model[i].EmissaoSelo.PedidoSelo.TipoSelo.Nome)
+                        </div>*@
+                        <div class="row" style="display: flex; justify-content: space-between">
+                            <span>@Model[i].NumeroLote.PadLeft(5, '0')-@numeroSelo.ToString().PadLeft(2, '0')</span>
+                            <span>@Model[i].Unidade.Nome.ToString().PadLeft(2, '0')</span>
+                        </div>
+                        <div class="row" style="min-width: 100%">
+                            <img src="@Model[i].UrlImagem" style="display: block; width: 100% !important" />
+                        </div>
+                    </div>
+                }
+            }
+
+            <div style="clear: both"></div>
+        </div>
+    }
+</body>
+</html>

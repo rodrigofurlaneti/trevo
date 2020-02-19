@@ -1,0 +1,54 @@
+﻿@using Portal.Controllers
+@using Entidade.Uteis
+@{
+    var controller = ViewContext.Controller as ConvenioController;
+}
+@model List<ConvenioUnidadeViewModel>
+@if (Model != null && Model.Any())
+{
+    <div style="margin-top:25px;">
+        <div id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false" class="col-xs-6 jarviswidget jarviswidget-color-blueDark margin-bottom-0">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Lista de Unidades x Tipo Selo</h2>
+            </header>
+            <table id="data_table_address" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 1%; display:none;"></th>
+                        <th style="width: 42%;">Unidade</th>
+                        <th style="width: 22%;">Tipo Selo</th>
+                        <th style="width: 22%;">Valor</th>
+                        <th style="width: 12%;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (var x = 0; x < Model.Count; x++)
+                    {
+                        <tr class="line-blacklist">
+                            <td style="display:none;">
+                                @Html.Hidden("hdnConvenioUnidadeId", Model[x].Id, new { })
+                                @Html.Hidden("hdnUnidadeId", Model[x].Unidade.Id, new { })
+                                @Html.Hidden("hdnIdxUnidadeId", Model[x].IdTeste, new { })
+                            </td>
+                            <td>
+                                @Model[x].Unidade.Nome
+                            </td>
+                            <td>
+                                @Model[x].TipoSelo.ParametroSelo.ToString() - @Model[x].TipoSelo.Nome
+                            </td>
+                            <td>
+                                @Model[x].Valor.ToString("C2")
+                            </td>
+                            <td>
+                                <span class="btn btn-danger" style="margin-right: 3px;" onclick="RemoverConvenioUnidade(@Model[x].IdTeste)"><i class="fa fa-remove"></i></span>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

@@ -1,0 +1,226 @@
+﻿@using Portal.Controllers;
+@using Aplicacao.ViewModels;
+@model UnidadeViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as UnidadeController;
+}
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/Unidade/Unidade.js")
+    @Styles.Render("~/content/css/contact/search-address-by-cep.css")
+    @Scripts.Render("~/Scripts/contact/contacts.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+}
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro de Unidade
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                @using (Html.BeginForm("Salva", "Unidade", FormMethod.Post, new { id = "UnidadeForm" }))
+                                {
+                                    @Html.HiddenFor(unidade => unidade.Id, new { @id = "hdnUnidade" })
+
+                                    <div id="conteudo" class="row margin-bottom-5">
+                                        <div class="col-xs-2">
+                                            <label>Nome da unidade:</label><br />
+                                            @Html.TextBoxFor(unidade => unidade.Nome, new { @id = "nomeUnidade", @class = "form-control" })
+                                            @Html.ValidationMessageFor(unidade => unidade.Nome, "Informe o Nome!", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <label>Tipo Unidade:</label><br />
+                                            @Html.DropDownListFor(unidade =>
+                                                unidade.TiposUnidades,
+                                                new SelectList(controller.selectTipoUnidade, "Id", "Descricao"),
+                                                "Selecione...",
+                                                new
+                                                {
+                                                    @id = "tipoUnidade",
+                                                    @class = "chosen-select",
+                                                    data_placeholder = "Selecione..."
+                                                }
+                                            )
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <label>Supervisor:</label><br />
+                                            @Html.DropDownListFor(unidade =>
+                                                unidade.IdResponsavel,
+                                                new SelectList(controller.ListaSupervisor, "Id", "Pessoa.Nome"),
+                                                "Selecione...",
+                                                new
+                                                {
+                                                    @id = "supervisorUnidade",
+                                                    @class = "chosen-select",
+                                                    data_placeholder = "Selecione..."
+                                                }
+                                            )
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>CNPJ:</label>
+                                            <br />
+                                            @Html.TextBoxFor(x => x.CNPJ, new { @id = "cpf", @class = "form-control", onchange = "CnpjValido(this);" })
+                                            @Html.ValidationMessageFor(x => x.CNPJ, "Informe um CPF válido!", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>CCM:</label>
+                                            <br />
+                                            @Html.TextBoxFor(x => x.CCM, new { @id = "ccm", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.CCM, "Informe um CCM válido!", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div id="conteudo" class="row margin-bottom-5">
+                                        <div class="col-xs-2">
+                                            <label>Dia de Vencimento:</label>
+                                            @Html.TextBoxFor(x => x.DiaVencimento, new { @id = "diaVencimento", @type = "number", @min = "1", @value = "1", @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <label>Horário Inicial:</label>
+                                            @Html.TextBoxFor(x => x.HorarioInicial, new { @id = "horarioInicial", @class = "form-control time" })
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>Horário Final:</label>
+                                            @Html.TextBoxFor(x => x.HorarioFinal, new { @id = "horarioFinal", @class = "form-control time" })
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        @Html.Partial("../Endereco/_CadastroEndereco", Model != null && Model.Endereco != null ? Model.Endereco : new EnderecoViewModel())
+                                    </div>
+                                    <div id="conteudo" class="row margin-bottom-5">
+                                        <div class="col-xs-2">
+                                            <label>Número de Vagas:</label><br />
+                                            @Html.TextBoxFor(x =>
+                                                x.NumeroVaga,
+                                                new
+                                                {
+                                                    @id = "numeroVaga",
+                                                    @class = "form-control heightfield",
+                                                    @autocomplete = "off",
+                                                    @maxlength = "21",
+                                                    @min = "1",
+                                                    @type = "number",
+                                                    @value = "1"
+                                                }
+                                            )
+                                            @Html.ValidationMessageFor(unidade => unidade.NumeroVaga, "Informe o Número de Vagas!", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <label>Tipos de Pagamento:</label><br />
+                                            @Html.ListBoxFor(x => x.IdsTipoPagamento, new SelectList(controller.selectTipoPagamentos, "Value", "Text"), new { @id = "tipoPagamentoUnidade", @class = "chosen-select", data_placeholder = "Selecione o Tipo de Pagamento...", multiple = "" })
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <label>Empresa:</label><br />
+                                            @Html.DropDownListFor(unidade => unidade.Empresa.Id,
+                                                new SelectList(controller.ListaEmpresa, "Id", "RazaoSocial"),
+                                                "Selecione...",
+                                                new
+                                                {
+                                                    @id = "empresaUnidade",
+                                                    @class = "form-control chosen-select",
+                                                    data_placeholder = "Selecione a Empresa..."
+                                                }
+                                            )
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-2">
+                                            <label>Código:</label>
+                                            @Html.TextBoxFor(x => x.Codigo, new { @id = "codigo", @class = "form-control", @maxlength = "10" })
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div id="lista-equipamentos-result">
+                                            @Html.Partial("../EstruturaUnidade/_GridEstruturaUnidade", Model != null && Model.CheckListEstruturaUnidade.Count > 0 ? Model.CheckListEstruturaUnidade : new List<Entidade.CheckListEstruturaUnidade>())
+                                        </div>
+                                    </div>
+                                    <div class="row margin-bottom-5">
+                                        <div class="container" style="border:0px;border-style:solid;margin:0px;">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="#checklist">Execução de Check List</a></li>
+                                                <li><a data-toggle="tab" href="#maquinaCartao">Máquina de Cartão</a></li>
+                                            </ul>
+
+                                            <div class="tab-content black " style="padding:10px;">
+                                                <div id="checklist" class="tab-pane fade in active">
+                                                    <div class="row">
+                                                        <div class="col-xs-4">
+                                                            @Html.DropDownListFor(unidade => unidade.CheckListAtividade.Id, new SelectList(controller.ListaCheckList, "Id", "Descricao"), "Selecione...", new { @id = "check-list-atividade", @class = "form-control chosen-select", data_placeholder = "Selecione um CheckListAtividade..." })
+                                                        </div>
+                                                    </div>
+                                                    <div id="lista-checklist-result">
+                                                        @Html.Partial("_GridUnidadeCheckListAtividade")
+                                                    </div>
+                                                </div>
+                                                <div id="maquinaCartao" class="tab-pane fade">
+                                                    @Html.Partial("_MaquinaCartao", Model)
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="conteudo" class="row margin-bottom-5">
+                                        <div class="pull-right margin-right-10">
+                                            <a class="btn btn-lg btn-danger" href="/unidade/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                        <div class="pull-right margin-right-10">
+                                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Buscar Unidade
+                            </h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="row margin-bottom-5">
+                                <div class="col-xs-2">
+                                    <label>Nome:</label>
+                                    <br />
+                                    <input type="text" id="nomeUnidadeBusca" class="form-control" />
+                                </div>
+                                <div class="col-xs-1" style="border:0px;border-style:solid; min-width:70px;">
+                                    <br />
+                                    <div class="pull-right margin-right-10 margin-top-10">
+                                        <a class="btn btn-primary" id="buscar" onclick="BuscarUnidade()"><i class="fa fa-search"></i>&nbsp;Buscar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div id="divUnidade">
+
+            </div>
+        </section>
+    </div>
+</div>

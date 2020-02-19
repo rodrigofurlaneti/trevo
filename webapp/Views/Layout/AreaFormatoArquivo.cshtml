@@ -1,0 +1,53 @@
+﻿@using Entidade.Uteis
+@using Portal.Controllers
+@model LayoutFormatoViewModel
+@{
+    var controller = ViewContext.Controller as LayoutController;
+}
+
+<div class="col-xs-12 col-md-12 no-padding">
+    <div class="col-xs-9 col-md-6 no-padding">
+        <div class="col-xs-12 col-md-10 no-padding">
+            <label>Descrição do Formato:</label><br />
+            @Html.TextBoxFor(x => x.Descricao, new { @id = "descricao-formato", @class = "form-control" })
+            @Html.HiddenFor(x => x.Id, new { @id = "hdnIdFormato" })
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-6 no-padding">
+        <div class="col-xs-12 col-md-12">
+            <label style="font-size: 18px;">Formatos:</label>
+        </div>
+        @foreach (var item in controller.ListaFormatos)
+            {
+            <div class="col-xs-12 col-md-3">
+                <label class="float-left margin-right-10">
+                    @Html.RadioButton("formatoArquivo", item.Id, false, new { @id = item.Descricao, @value = @item.Id, @class = "formato" })
+                    @item.Descricao
+                </label>
+                @if (item.Id == (int)FormatoExportacao.Delimitador)
+                {
+                    <input id="txtDelimitador" type="text" class="form-control" style="display: none; width: 50px; font-weight: bold;" maxlength="1" />
+                }
+            </div>
+        }
+    </div>
+    <div class="col-xs-12 col-md-12 no-padding">
+        <div class="col-xs-8 col-md-6" style="margin-top: 25px;">
+            <div class="col-xs-4">
+                <label>Codigo da Linha:</label>
+                @Html.TextBox("txtCodLinha")
+            </div>
+            <div class="col-xs-3">
+                <label>Linha:</label>
+                @Html.TextBox("txtLinha")
+            </div>
+            <div class="col-xs-4 text-align-right" style="margin-top: 25px;">
+                <a id="btnAddLine" class="btn btn-primary" onclick="AdicionarLinha()"><i class='fa fa-plus'></i></a>
+                <a id="btnRemoveLine" class="btn btn-danger" onclick="DeletarSelecionados()" style="display: none;"><i class="fa fa-remove"></i></a>
+            </div>
+        </div>
+        <div id="div-linhas-exportacao" class="col-xs-12 col-md-12 no-padding margin-top-10">
+            @Html.Partial("GridLinhasArquivo", Model.Linhas ?? controller.LinhasClientSession)
+        </div>
+    </div>
+</div>

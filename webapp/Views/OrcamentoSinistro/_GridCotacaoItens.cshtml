@@ -1,0 +1,60 @@
+﻿@using Core.Extensions;
+
+@model List<OrcamentoSinistroCotacaoItemViewModel>
+
+<div class="jarviswidget jarviswidget-color-blueDark no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+    <div style="border:none">
+        <div class="widget-body">
+            <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                <thead>
+                    <tr>
+                        <th>Oficina</th>
+                        <th>Fornecedor</th>
+                        <th>Forma Pagamento</th>
+                        <th>Peça a ser Comprada/Serviço</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                        <th>Valor Total</th>
+                        <th>Oficina Apresentada pelo Cliente</th>
+                        <th>Dia Reembolso</th>
+                        <th>Dia limite para serviço/compra</th>
+                        <th style="width: 120px">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.Oficina?.Nome)</td>
+                                <td>@(item.Fornecedor?.Nome)</td>
+                                <td>@(item.FormaPagamento.ToDescription())</td>
+                                <td>@(item.PecaServico.Nome)</td>
+                                <td>@item.Quantidade</td>
+                                <td>@item.ValorUnitario</td>
+                                <td>@item.ValorTotal</td>
+                                <td>@(item.Oficina != null ? item.Oficina?.IndicadaPeloCliente ?? false ? "Sim" : "Não" : "")</td>
+                                <td>@(item?.DataReembolso)</td>
+                                <td>@(item?.DataServico)</td>
+                                <td>
+
+                                    @if (item.OrcamentoSinistroCotacao != null && item.OrcamentoSinistroCotacao.Status == Entidade.Uteis.StatusOrcamentoSinistroCotacao.AguardandoAprovacao)
+                                    {
+                                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" disabled><i class="fa fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger" style="margin-right: 3px;" disabled><i class="fa fa-remove"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" onclick="editarCotacaoItem(@item.PecaServico.Id)"><i class="fa fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger" style="margin-right: 3px;" onclick="removerCotacaoItem(@item.PecaServico.Id)"><i class="fa fa-remove"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

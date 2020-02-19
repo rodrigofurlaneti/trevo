@@ -1,0 +1,53 @@
+﻿@using Entidade.Uteis
+@model List<PedidoLocacaoLancamentoAdicionalViewModel>
+
+<div style="margin-top:50px;">
+    <div class="col-xs-10">
+        <table id="tablevigencia" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="display:none;"></th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Ativo</th>
+                    <th style="width: 250px">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    for (var x = 0; x < Model.Count; x++)
+                    {
+                        <tr>
+                            @{
+                                var valor = "";
+
+                                if (!string.IsNullOrEmpty(Model[x].Valor))
+                                {
+                                    valor = Convert.ToDecimal(Model[x].Valor).ToString("C");
+                                }
+                            }
+                            <td style="display:none;">@Model[x].Id</td>
+                            <td>
+                                @(Model[x].Descricao)
+                            </td>
+                            <td>
+                                @valor
+                            </td>
+                            <td>
+                                @(Model[x].Ativo ? "Sim" : "Não")
+                            </td>
+                            <td>
+                                @*<button type="button" name="botaoedicao" class="btn btn-primary" style="margin-right: 2px;" onclick="editarItem(@Model[x].Id)"><i class="fa fa-edit"></i></button>*@
+                                <button type="button" name="botaoedicao" class="btn btn-danger" style="margin-right: 3px;" onclick="removerItem(@Model[x].Id)"><i class="fa fa-remove"></i></button>
+                                <a name="botaoedicao" class="btn btn-primary" style="margin-right: 3px;" @(Model[x].Ativo ? "disabled" : "") onclick="ativar(@Model[x].Id)">Ativar</a>
+                                <a name="botaoedicao" class="btn btn-warning" style="margin-right: 3px;" @(!Model[x].Ativo ? "disabled" : "") onclick="inativar(@Model[x].Id)">Inativar</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

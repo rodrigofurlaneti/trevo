@@ -1,0 +1,30 @@
+﻿<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Cartão</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="cartao" padding>
+    <div>
+        <div class="cartao-form">
+            <label>Número</label>
+            <input class="input-edit" [textMask]="{mask: numeroMask, guide: false}" [(ngModel)]="cartao.Numero" type="text" placeholder="Número do cartão" />
+        </div>
+        <div class="cartao-form">
+            <label>Validade</label>
+            <input class="input-edit" [textMask]="{mask: validadeMask, guide: false}" [(ngModel)]="tempValidade" type="text" placeholder="MM/AA" />
+        </div>
+        <div class="cartao-form">
+            <label>CVV</label>
+            <input class="input-edit" [textMask]="{mask: cvvMask, guide: false}" [(ngModel)]="cartao.Cvv" type="text" placeholder="CVV" />
+        </div>
+    </div>
+    <div>
+        <button class="cartao-form" ion-button color="primary" block (click)="salvar(cartao)">
+            Salvar
+        </button>
+    </div>
+</ion-content>

@@ -1,0 +1,64 @@
+﻿@using Core.Extensions
+@using Entidade.Uteis
+@using Aplicacao.ViewModels
+
+<div style="margin-top: 20px;">
+    <div>
+        @Html.Hidden("id")
+        @Html.Hidden("blacklist")
+        @Html.Hidden("tipoMotivo")
+        @Html.Hidden("descricaoMotivo")
+        <fieldset>
+            <section>
+                <div class="col-md-4 no-padding">
+                    <div class="col-md-6">
+                        <label>Tipo:</label><br />
+                        <select id="type" class="form-control">
+                            <option value="0">Selecione um...</option>
+                            <option value="1">Residencial</option>
+                            <option value="2">Comercial</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Cep:</label><br />
+                        @Html.TextBox("zipcode", "", new { @class = "form-control", @style = "display:inline; max-width: 98% !important;", @maxlength = "9" })
+                        <span class="icon"><i id="search-icon" class="fa fa-search"></i></span>
+                        <span id="invalid_zipcode" style="color: #b94a48; display: none;">Cep Inválido!</span>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="col-md-5">
+                        <label>Cidade:</label>
+                        @Html.TextBox("city", "", new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-5">
+                        <label>Estado:</label>
+                        @Html.TextBox("state", "", new { @class = "form-control" })
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="col-sm-4">
+                    <label>Endereço:</label>
+                    @Html.TextBox("address", "", new { @class = "form-control" })
+                </div>
+                <div class="col-md-1">
+                    <label>Nº:</label>
+                    @Html.TextBox("number", "", new { @class = "form-control" })
+                </div>
+                <div class="col-md-2">
+                    <label>Bairro:</label>
+                    @Html.TextBox("district", "", new { @class = "form-control" })
+                </div>
+                <div class="col-md-2 no-padding">
+                    <label>Complemento:</label>
+                    @Html.TextBox("complement", "", new { @class = "form-control" })
+                </div>
+                <div class="col-md-3" style="height: 65px;top: 32px;">
+                    <button class="btn btn-primary" id="add-address" onclick="event.preventDefault();adicionarEndereco()" style="margin-top:2px;" tabindex="0"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar Endereço</button>
+                    <span class="btn btn-danger" id="cancel" style="display:none;margin-top:2px;" onclick="cancelarEdicaoDeEndereco()"><i class="fa fa-minus-circle"></i>&nbsp;Cancelar Edição &nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </section>
+        </fieldset>
+    </div>
+</div>

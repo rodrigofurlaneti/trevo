@@ -1,0 +1,30 @@
+﻿@using Entidade.Uteis
+@model List<CalendarioRHUnidadeViewModel>
+
+<div class="col-xs-12 margin-top-20" style="padding-right: 5px">
+    <table id="tableitem" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Unidade</th>
+                <th style="width: 160px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="item-calendarioRH-unidade">
+                        <td>
+                            @item.Unidade.Nome
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="EditarCalendarioRHUnidade(@item.Unidade.Id)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="RemoverCalendarioRHUnidade(@item.Unidade.Id)"><i class="fa fa-remove"></i></button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

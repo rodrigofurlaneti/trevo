@@ -1,0 +1,56 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model ContaCorrenteClienteViewModel
+
+<script src="~/Scripts/ContaCorrenteCliente/shared-conta-corrente-cliente.js"></script>
+
+@Html.HiddenFor(contaCorrenteCliente => contaCorrenteCliente.ContaCorrenteClienteId, new { @id = "conta-corrente-cliente-id" })
+
+<div class="col-xs-12">
+    <label>CONTA CORRENTE: </label>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            @*<label>Cliente:</label><br />*@
+            @Html.HiddenFor(contaCorrenteCliente => contaCorrenteCliente.Cliente.Pessoa.Nome, new { id = "conta-corrente-cliente-clientes", @class = "form-control", @readonly = "readonly" })
+            @Html.HiddenFor(contaCorrenteCliente => contaCorrenteCliente.Cliente.Id, new { id = "conta-corrente-cliente-cliente" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <div class="col-xs-12 no-padding">
+                <label>Tipo Operação: </label>
+                @Html.DropDownList("ListaTipoOperacaoContaCorrente", new SelectList(ViewBag.ListaTipoOperacaoContaCorrente, "Id", "Descricao"), "Selecione um...", new { @id = "conta-corrente-cliente-tipo-operacao", @class = "chosen-select", data_placeholder = "Selecione um..." })
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="col-xs-12 no-padding">
+                <label>Data de Competência: </label>
+                @Html.TextBox("conta-corrente-cliente-dtCompetencia", DateTime.Now.ToString("MM/yyyy"), new { @id = "conta-corrente-cliente-dtCompetencia", Value = DateTime.Now.ToString("MM/yyyy"), @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="col-xs-12 no-padding">
+                <label>Contrato:</label><br />
+                @Html.DropDownList("ListaContratosContaCorrente", new SelectList(ViewBag.ListaContratos, "Id", "Descricao"), "Selecione um...", new { @id = "conta-corrente-contratos", @class = "chosen-select  form-control", data_placeholder = "Selecione um contrato" })
+
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 col-md-4 no-padding">
+                <label>Valor: </label>
+                @Html.TextBox("Valor", "0,00", new { id = "conta-corrente-cliente-valor", @class = "form-control valmoney" })
+            </div>
+            <div>
+                <button style="position: absolute; bottom: 0; top: initial; left: initial" class="btn btn-default" onclick="event.preventDefault(); AdicionarContaCorrenteCliente()"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="lista-conta-corrente-cliente-detalhe">
+            @Html.Partial("../ContaCorrenteCliente/_GridContaCorrenteClienteDetalhes", Model?.ContaCorrenteClienteDetalhes ?? new List<ContaCorrenteClienteDetalheViewModel>())
+        </div>
+    </div>
+</div>

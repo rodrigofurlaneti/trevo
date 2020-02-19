@@ -1,0 +1,36 @@
+﻿@using Core.Extensions;
+
+@model List<OISImagemViewModel>
+
+<style>
+    .container-imagem {
+        height: 150px;
+        position: relative;
+    }
+
+        .container-imagem img {
+            width: 100%;
+            height: 100%;
+        }
+</style>
+
+<div class="row no-margin">
+    @for (int i = 0; i < 4; i++)
+    {
+        <div class="col-xs-6 no-padding-left no-padding-right" style="margin-top: 25px">
+            <div class="container-imagem">
+                @Html.HiddenFor(imagens => Model[i].ImagemUpload, new { @id = ("hdnImagem" + i), @name = ("hdnImagem" + i) })
+                
+                <image id="imagem@(i)" class="col-xs-12 no-padding avatar" src="@(string.IsNullOrEmpty(Model[i].ImagemUpload) ? "../../content/img/avatars/sunny-big.png" : Model[i].ImagemUpload)" />
+                <div class="form-group" style="position: absolute; top: 0; right: 5px">
+                    <label for="fupload@(i)" class="btn btn-sm btn-info btn-arredondado margin-top-5">
+                        <i class="fa fa-plus"></i><input type="file" id="fupload@(i)" name="fupload@(i)" class="default-fupload fupload form-control" onchange="CarregarImagem(@i)" />
+                    </label>
+                    <label for="removeImagem@(i)" class="btn btn-sm btn-danger btn-arredondado margin-top-5" onclick="RemoverImagem(@i)">
+                        <i class="fa fa-close"></i>
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+</div>

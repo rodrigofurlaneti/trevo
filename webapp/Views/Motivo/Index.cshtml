@@ -1,0 +1,136 @@
+﻿@using Core.Extensions
+@using Entidade.Uteis
+@using Portal.Controllers
+@model Aplicacao.ViewModels.MotivoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as MotivoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/pessoa/pessoa.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/Pessoa/Pessoa.js")
+}
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Cadastro de Motivo Blacklist
+            </h2>
+        </header>
+        <div>
+            <div class="widget-body">
+                @using (Html.BeginForm("SalvarDados", "Motivo", FormMethod.Post))
+                {
+                    @Html.HiddenFor(x => x.Id, new { @id = "hdnMotivo" })
+                    <div id="conteudo" class="row margin-bottom-5">
+                        <div class="col-xs-12 col-md-8">
+                            <div class="col-xs-12 col-md-2">
+                                <label>Nome:</label>
+                            </div>
+                            <div class="col-xs-12 col-md-10 no-padding">
+                                @Html.TextBoxFor(x => x.Nome, new {@class = "form-control max-width-95"})
+                                <br/>
+                                @Html.ValidationMessageFor(x => x.Nome, "Informe o Nome!", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-8">
+                            <div class="col-xs-12 col-md-2">
+                                <label>Tipo:</label>
+                            </div>
+                            <div class="col-xs-6 col-md-2">
+                                @Html.RadioButtonFor(x => x.TipoMotivo, TipoMotivo.Inclusao)<label> Inclusão</label>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                @Html.RadioButtonFor(x => x.TipoMotivo, TipoMotivo.Exclusao)<label> Exclusão</label>
+                                <br/>
+                                @Html.ValidationMessageFor(x => x.TipoMotivo, "Informe o Tipo!", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-5">
+                        <div class="pull-right margin-right-10">
+                            <a class="btn btn-lg btn-danger" href="/pessoa/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                        </div>
+                        <div class="pull-right margin-right-10">
+                            <button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>Motivo para Inclusão ou Exclusão na Blacklist </h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput" style="width: 10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Id" />
+                                            </th>
+                                            <th class="hasinput" style="width: 50%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Nome" />
+                                            </th>
+                                            <th class="hasinput" style="width: 20%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Tipo" />
+                                            </th>
+                                            <th class="hasinput" style="width: 10%">
+                                                <input type="text" class="form-control" placeholder="Filtrar Dt Inserção" />
+                                            </th>
+                                            <th class="hasinput" style="width: 10%">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone">Id</th>
+                                            <th data-hide="expand">Nome: </th>
+                                            <th data-hide="phone">Tipo: </th>
+                                            <th data-hide="phone">Dt Inserção: </th>
+                                            <th data-hide="phone">Ação: </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (controller.ListaMotivos != null)
+                                        {
+                                            foreach (var m in controller.ListaMotivos)
+                                            {
+                                                <tr>
+                                                    <td>@m.Id</td>
+                                                    <td>@m.Nome</td>
+                                                    <td>@m.TipoMotivo.ToDescription()</td>
+                                                    <td>@(m.DataInsercao.ToString("dd/MM/yyyy"))</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="/Motivo/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                                                        <a class="btn btn-danger" href="/Motivo/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+
+
+
+</div>

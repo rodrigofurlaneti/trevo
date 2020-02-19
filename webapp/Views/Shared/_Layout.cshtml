@@ -1,0 +1,150 @@
+﻿@using Core.Extensions
+@using Portal.App_Helpers
+@using Portal.Controllers
+<!DOCTYPE html>
+<html lang="en-us" id="@ViewBag.PageId" class="@Settings.CurrentTheme">
+<head>
+    <meta charset=" utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title> ERP - 4WORLD Consultoria </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Basic Styles -->
+    @Styles.Render("~/content/smartadmin")
+    @Styles.Render("~/content/css/loading.css")
+    @Styles.Render("~/content/css/shared.css")
+    <link href="~/Content/css/shared/layout.css" rel="stylesheet" />
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+    <!-- Specifying a Webpage Icon for Web Clip
+    Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+    <link rel="apple-touch-icon" href="~/content/img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/content/img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/content/img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/content/img/splash/touch-icon-ipad-retina.png">
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Startup image for web apps -->
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+    @{
+        Html.RenderPartial("_Scripts", RenderSection("pagespecific", false));
+        @Scripts.Render("~/Scripts/Shared/FuncoesGerais.js")
+        @Scripts.Render("~/Scripts/Shared/ProjetoUtils.js")
+        @Scripts.Render("~/Scripts/Shared/Utils.js")
+        @Scripts.Render("~/Scripts/Shared/crud.js")
+        @Scripts.Render("~/Scripts/Shared/toastrShared.js")
+        @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    }
+    <!-- Dropzone -->
+    <link href="~/Content/plugins/dropzone/basic.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/dropzone/dropzone.min.css" rel="stylesheet" />
+    <script src="~/Content/plugins/dropzone/dropzone-amd-module.min.js"></script>
+    <script src="~/Content/plugins/dropzone/dropzone.min.js"></script>
+</head>
+<body class="@ViewBag.PageClass @Settings.CurrentTheme menu-on-top">
+    @if (Request.IsAuthenticated)
+    {
+        Html.RenderPartial("_Aside");
+    }
+    <div id="main-content" role="main">
+        @RenderBody()
+    </div>
+    <div id="PopUpLoading" style="display: none;
+        width: 880px;
+        height: 400px;"></div>
+    <div id="background-loading"></div>
+    <div class="LoadPosition hide">
+        <div class="fundo">
+            <img src="@Url.Content("~/Content/Img/loading_spinner.gif")" />
+        </div>
+    </div>
+    <input type="hidden" id="success" value="@(TempData["success"])" />
+    <input type="hidden" id="info" value="@(TempData["info"])" />
+    <input type="hidden" id="warning" value="@(TempData["warning"])" />
+    <input type="hidden" id="error" value="@(TempData["error"])" />
+    @if (Request.IsAuthenticated && !Request.Path.Contains("/Lead/Index"))
+    {
+        Html.RenderPartial("_Footer");
+        Html.RenderPartialIf("_Tiles", Settings.EnableTiles);
+
+        <div id="modal-principal">
+            @Html.Partial("_ModalPrincipal")
+        </div>
+
+        <!-- Modal Default -->
+        <div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content panel-{type}" id="modalContent">
+                    <div class="modal-header panel-heading">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">{title}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5 style="white-space:pre-line">{message}</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="btn btn-{type} hide-button" onclick="executeAction({actionConfirm}, {id})">{titleConfirm}</span>
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="{textoBotaoNegar}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Logs -->
+        <div class="modal fade" id="modal-log" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+            <div class="modal-dialog" style="width: 700px" role="document">
+                <div class="modal-content panel-info">
+                    <div class="modal-header panel-heading">
+                        <h5 class="modal-title">Logs</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {logs}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div id="modal-do-layout">
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#banner a[href*="#"], #section_five a[href*="#"]')
+                .not('[href="#"]')
+                .not('[href="#0"]')
+                .click(function (event) {
+                    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                        var target = $(this.hash);
+                        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                        if (target.length) {
+                            event.preventDefault();
+                            $('html, body').animate({
+                                scrollTop: target.offset().top
+                            }, 1000);
+                        }
+                    }
+                });
+
+            $(':input').map(function () {
+                $(this).attr('autocomplete', 'off');
+            });
+        });
+    </script>
+</body>
+</html>

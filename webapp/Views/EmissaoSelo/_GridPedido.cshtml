@@ -1,0 +1,79 @@
+﻿@using Portal.Controllers
+@model IList<PedidoSeloViewModel>
+
+@{
+    var controller = ViewContext.Controller as EmissaoSeloController;
+}
+
+<div id="container-tables" style=" width: auto">
+    @if (Model != null && Model.Any())
+    {
+        <h3></h3>
+        <div class="table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div>
+                <table id="tabela-pedido" class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th data-hide="expand">ID</th>
+                            <th data-hide="expand">Pedido Selo</th>
+                            <th data-hide="expand">Quantidade</th>
+                            <th data-hide="expand">Validade</th>
+                            <th data-hide="expand">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pedido in Model)
+                        {
+                            //var valor = selo.Validade.ToString().Trim().Equals("01/01/000100:00:00") ? "" : selo.Validade.Value.ToShortDateString();
+
+                            {
+                                var nomeCliente = "";
+
+                                if (pedido.Cliente != null && pedido.Cliente.NomeFantasia != null)
+                                {
+                                    nomeCliente = pedido.Cliente.NomeFantasia;
+                                }
+
+                                if (pedido.Cliente != null && pedido.Cliente.Pessoa != null && pedido.Cliente.Pessoa.Nome != null && string.IsNullOrEmpty(nomeCliente))
+                                {
+                                    nomeCliente = pedido.Cliente.Pessoa.Nome;
+                                }
+
+                                <tr>
+
+                                    <td>@pedido.Id</td>
+                                    <td>@nomeCliente</td>
+                                    <td>@pedido.Quantidade</td>
+                                    <td>@pedido.ValidadePedido.ToShortDateString()</td>
+                                    <td>
+                                        <div class="col-xs-12 nopadding input-group">
+                                            <input name="checado" data-pedidoid="@pedido.Id" data-selo-com-validade="@pedido.SeloComValidade" type="checkbox" autocomplete="off" class="form-control center-block no-float seleciona-retirada-cofre" onchange="SelecionaPedido(this)">
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3></h3>
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="tabela-selo" class="table table-hover">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        Nenhum Pedido encontrado!
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

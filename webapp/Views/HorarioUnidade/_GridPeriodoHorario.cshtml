@@ -1,0 +1,62 @@
+﻿@using Portal.Controllers
+
+@{
+    Layout = null;
+    var controller = ViewContext.Controller as HorarioUnidadeController;
+}
+
+<input type="hidden" id="hdnIdHorarioUnidade" value="0" />
+
+<div class="col-md-12 margin-top-30 no-padding">
+
+    <div class="row margin-bottom-5">
+        <div class="col-xs-12">
+            <div class="col-xs-12">
+                <h3><b><u>Turnos de Segunda à Sexta:</u></b></h3>
+                <table id="gridHorarioUnidades1" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="display:none">Id</th>
+                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">Período</th>
+                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">Início</th>
+                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">Fim</th>
+                            <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 margin-top-30 no-padding">
+    <div class="row">
+        <div class="col-xs-4">
+            <label>Período: </label>
+            <br />
+            @Html.DropDownList("EnumDropDown", new SelectList(controller.ListaPeriodoDia, "Value", "Text"), new { @id = "periodonovoadd1", @class= "chosen-select form-control", data_placeholder = "Selecione os Menus...",  })
+        </div>
+
+        <div class="col-xs-4">
+            <label>Inicial: </label>
+            <br />
+            <input id="datainicioadd1" type="text" class="form-control input-small hora"/>
+
+        </div>
+
+        <div class="col-xs-4">
+            <label>Final: </label>
+            <br />
+            <div class="row">
+                <div class="col-xs-9">
+                    <input id="datafimadd1" type="text" class="form-control input-small hora"/>
+                </div>
+                <div class="col-xs-3">
+                    <span class="btn btn-warning btn-circle" id="adiciona-veiculo" onclick="AdicionaHorarioUnidade(1)"><i class="fa fa-plus" style="color: white"></i>&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,115 @@
+﻿@using Core.Extensions
+@using Portal.Controllers
+@using Entidade.Uteis
+
+@model Aplicacao.ViewModels.IntegracaoViewModel
+
+@{
+    ViewBag.Title = "Importações";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as IntegracaoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/Integracao/integracao.css")
+
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/Integracao/integracao.js")
+}
+
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Integrações
+            </h2>
+        </header>
+        <div>
+            <div class="widget-body">
+                @using (Html.BeginForm("Importar", "Integracao", FormMethod.Post, new { id = "IntegracaoForm" }))
+                {
+                    @Html.Hidden("GerarExel", controller.PermiteGeracaoExcel)
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-md-4">
+                                <label>Leiaute:</label><br />
+                                @Html.EnumDropDownListFor(x => x.Leiaute, new { @id = "Leiaute", @class = "form-control", data_placeholder = "Selecione um Leiaute..." })<br>
+                            </div>
+                            <div class="col-md-7">
+                                <label>Arquivo:</label><br />
+                                <input type="file" name="fileUploader" id="file-upload" class="btn btn-default file" style="width: 200px;" />
+                                <div class="input-group col-xs-12">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-save-file"></i></span>
+                                    <input id="file-upload-text" type="text" class="form-control input-sm" disabled placeholder="Arquivo...">
+                                    <span class="input-group-btn">
+                                        <button class="browse btn btn-primary input-sm" type="button"><i class="glyphicon glyphicon-search"></i> Procurar</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="text-align:right">
+                                <button class="btn btn-primary input-sm" type="button" style="margin-top:24px; background-color:green" onclick="upload();"><i class="glyphicon glyphicon-import"></i>  Importar</button>
+                            </div>
+                            <div>
+                                <div class="col-md-12" style="text-align:right">
+                                    <button class="btn btn-primary input-sm" type="button" style="margin-top:24px; margin-right:20px; background-color:gray" data-toggle="modal" data-target="#myModalRelatorio"><i class="glyphicon glyphicon-print"></i>  Relatório</button>
+                                    <button class="btn btn-primary input-sm" type="button" style="margin-top:24px; background-color:gray" onclick="exportar();"><i class="glyphicon glyphicon-export"></i>  Exportar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="iteracoes-grid"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalRelatorio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 700px; margin-left: -50px;" id="modalContent">
+            <div class="modal-header panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Relatório</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="widget-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-md-8">
+                                    <label>Periodo:</label>
+                                    <br />
+                                    @Html.TextBox("PeriodoInicio", null, new { @class = "form-control form-control-custom" }) à  @Html.TextBox("PeriodoFim", null, new { @class = "form-control form-control-custom" })<br /><br />
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Leiaute:</label><br />
+                                    @Html.EnumDropDownListFor(x => x.Leiaute, new { @id = "LeiauteRelatorio", @class = "form-control", data_placeholder = "Selecione um Leiaute..." })<br />
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Assessoria:</label><br />
+                                    @Html.DropDownList("ddlAssessoria", new SelectList(string.Empty, "Value", "Text"), new { @class = "chosen-select form-control", data_placeholder = "Selecione uma Assessoria..." })<br />
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Lote:</label><br />
+                                    @Html.DropDownList("ddlLote", new SelectList(string.Empty, "Value", "Text"), new { @class = "chosen-select form-control", data_placeholder = "Selecione um Lote..." })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary input-sm" type="button" onclick="Relatorio();"><i class="glyphicon glyphicon-export"></i>  Gerar</button>
+                        <input type="button" class="btn" data-dismiss="modal" value="Fechar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

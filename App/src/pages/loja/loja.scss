@@ -1,0 +1,112 @@
+page-loja {
+    agm-map {
+        height: 200px;
+    }
+
+    .loja-scroll {
+        height: 45vh;
+        border: 1px solid lightgray;
+        border-radius: 6px;
+        //padding: 10px;
+    }
+    /*#loja-scroll .scroll-content {
+        padding: 0px !important;
+    }*/
+    .loja-pin {
+        color: darkgreen;
+        font-size: 30px;
+    }
+
+    .loja-distancia {
+        color: #7d625f;
+        font-size: 12px;
+        margin-top: 9px;
+    }
+
+    .loja-cidade {
+        font-weight: 500;
+    }
+
+    .loja--mini {
+        display: inline-flex;
+        width: 100%;
+        //padding-top: 20px;
+        //padding-bottom: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #dbdbdb;
+        margin-top: 2px;
+    }
+
+    .loja--mini:last-child {
+        border: none;
+    }
+
+    .loja--mini .loja--thumb {
+        display: table-cell;
+        vertical-align: top;
+        width: 50px;
+        text-align: center;
+    }
+
+    .loja--mini .loja--info {
+        //   position: relative;
+        // display: table-cell;
+        //vertical-align: middle;
+        display: inline-grid;
+        margin-left: 10px;
+    }
+
+    .loja--info---cell {
+        display: inline;
+        vertical-align: middle;
+        min-height: 15px;
+        margin-bottom: 4px;
+        margin-left: 10px;
+    }
+
+    .loja--info---cell:first-child {
+        width: 200px;
+        font-weight: 600;
+        color: #7d625f;
+        //color: #f15223;
+        font-size: 14px;
+        font-size: 1.4rem;
+        white-space: initial;
+        //margin-left: 10px;
+    }
+
+
+    .loja--info---cell:nth-child(2) {
+        width: 88%;
+        //font-weight: 600;
+        color: #7d625f;
+        font-size: 14px;
+        font-size: 1.4rem;
+        white-space: initial;
+        margin-right: 5px;
+        //margin-left: 10px;
+    }
+
+    .loja--info---cell:nth-child(3) {
+        color: #acd162;
+    }
+
+    .status-erro {
+        color: red !important;
+        font-weight: bolder !important;
+    }
+
+    .spn-title {
+        //margin-left: 15px;
+        font-size: 15px;
+    }
+
+    .loja-content {
+        //width: 95%;
+        //margin: 0 auto;
+        /*padding-top: 10px;
+        padding-left: 10px;*/
+        margin-top: -12px;
+    }
+}

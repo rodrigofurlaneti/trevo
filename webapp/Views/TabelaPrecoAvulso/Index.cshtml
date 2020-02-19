@@ -1,0 +1,186 @@
+﻿@using Portal.Controllers
+
+@model Aplicacao.ViewModels.TabelaPrecoAvulsoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as TabelaPrecoAvulsoController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/Shared/Utils.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/TabelaPrecoAvulso/tabelaprecoavulso.js")
+}
+
+<style>
+    input[type=checkbox] {
+        vertical-align: middle;
+        position: relative;
+        bottom: 0;
+    }
+</style>
+
+<div id="content">
+    <div>
+        <section id="widget-grid">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                            <h2>
+                                Cadastro Tabela de Preço - Avulso
+                            </h2>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                            </div>
+                            <div class="widget-body">
+                                @Html.HiddenFor(x => x.Id)
+                                @Html.HiddenFor(x => x.Status)
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <label>Nome da Tabela: </label>
+                                            @Html.TextBoxFor(x => x.NomeTabela, new { @id = "nomeTabela", @class = "form-control", @maxlength = 200 })
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <label>Tempo Tolerância Pagamento(em minutos): </label>
+                                            @Html.TextBoxFor(x => x.TempoToleranciaPagamento, new { @id = "tempoToleranciaPagamento", @class = "form-control", @maxlength = 2 })
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <label>Tempo Tolerância Desistência(em minutos): </label>
+                                            @Html.TextBoxFor(x => x.TempoToleranciaDesistencia, new { @id = "tempoToleranciaDesistencia", @class = "form-control", @maxlength = 2 })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <label>Número da Tabela: </label>
+                                            @Html.TextBoxFor(x => x.Numero, new { @id = "numero", @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <label>Horário de Início Vigência da Tabela:</label>
+                                            @Html.TextBoxFor(x => x.HoraInicioVigencia, new { @id = "horaInicioVigencia", @class = "form-control time" })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <label>Horário Fim Vigência da Tabela:</label>
+                                            @Html.TextBoxFor(x => x.HoraFimVigencia, new { @id = "horaFimVigencia", @class = "form-control time" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <h5>Avulso - Período</h5>
+                                            <div id="opcoesPeriodo"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <h5>Parâmetros Diária</h5>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <label>Horário Início:</label>
+                                            @Html.TextBox("HoraInicio", "", new { @id = "horaInicio", @class = "form-control time" })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <label>Horário Fim:</label>
+                                            @Html.TextBox("HoraFim", "", new { @id = "horaFim", @class = "form-control time" })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <label>Valor Diária:</label>
+                                            @Html.TextBox("ValorDiaria", "", new { @id = "valorDiaria", @class = "form-control valmoney", @maxlength = 9 })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 margin-left-13-less">
+                                            <label>Nome da Lista</label>
+                                            @Html.TextBoxFor(x => x.DescricaoHoraValor, new { @id = "campoParaAdicionarNomeLista", @class = "form-control", @placeholder = "Campo para adicionar Nome da Lista", @maxlength = 200 })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 margin-left-13-less">
+                                            <label>Hora:</label>
+                                            @Html.TextBox("HoraValorHora", "", new { @id = "horaValorHora", @class = "form-control time" })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 margin-left-13-less">
+                                            <label>Valor:</label>
+                                            @Html.TextBox("ValorValorHora", "", new { @id = "valorValorHora", @class = "form-control valmoney", @maxlength = 9 })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-offset-1 col-lg-offset-1 col-md-2 col-lg-2">
+                                            <span id="botaoAdicionarLinha" class="btn btn-primary pull-right" style="margin-top: 23px;" tabindex="0"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar Linha</span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-5">
+                                            <div id="divHoraValor"></div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                            <label>Hora Adicional:</label>
+                                            @Html.CheckBoxFor(x => x.HoraAdicional, new { @id = "horaAdicional", @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                            <label>Qtd Hora(s):</label>
+                                            @Html.TextBoxFor(x => x.QuantidadeHoraAdicional, new { @id = "quantidadeHora", @class = "form-control", @readonly = "readonly", @maxlength = 2 })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                            <label>Valor por Qtd:</label>
+                                            @Html.TextBoxFor(x => x.ValorHoraAdicionalString, new { @id = "valorPorQuantidade", @class = "form-control valmoney", @readonly = "readonly", @maxlength = 6 })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <label>Unidade: </label>
+                                            @Html.DropDownList("Unidade", new SelectList(controller.ListaUnidade, "Id", "Descricao"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-offset-1 col-lg-offset-1 col-md-2 col-lg-2">
+                                            <span id="botaoAdicionarUnidade" class="btn btn-primary pull-right" style="margin-top: 23px;" tabindex="0"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-5">
+                                            <div id="divUnidade"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <label>Tabela Padrão?</label>
+                                            @Html.CheckBoxFor(x => x.Padrao, new { @id = "padrao", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row margin-bottom-5">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="pull-right margin-right-15">
+                                            @if (Model != null && Model.Status == Entidade.Uteis.StatusSolicitacao.Aguardando)
+                                            {
+                                                <a id="salvar" class="btn btn-lg btn-primary" disabled><i class="fa fa-save"></i> Solicitar Aprovação</a>
+                                            }
+                                            else
+                                            {
+                                                <a id="salvar" onclick="salvar()" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Solicitar Aprovação</a>
+                                            }
+                                            <a class="btn btn-lg btn-danger" href="@Url.Action("Index")"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div id="grid"></div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>

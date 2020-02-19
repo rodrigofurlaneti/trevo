@@ -1,0 +1,29 @@
+﻿@model GeracaoCNABLancamentoCobrancaViewModel
+
+<p class="text-center">Boletos Bancários</p>
+<br />
+<div class="col-xs-12 col-sm-12 margin-top-20">
+    <div class="pull-right margin-right-10">
+        <button type="submit" class="btn btn-lg btn-danger" onclick="Cancelar();">
+            <i class="fa fa-remove"></i> Cancelar
+        </button>
+    </div>
+    <div class="pull-right margin-right-10">
+        <button type="submit" class="btn btn-lg btn-warning" onclick="GerarPDF();">
+            <i class="fa fa-print"></i> Gerar PDF
+        </button>
+    </div>
+    <div class="pull-right margin-right-10" style="display:none;">
+        <button type="submit" class="btn btn-lg btn-warning" onclick="Imprimir();">
+            <i class="fa fa-print"></i> Imprimir Comprovante(s)
+        </button>
+    </div>
+    <div class="pull-right margin-right-10">
+        @using (Html.BeginForm("GerarArquivoRemessa", "GeracaoCNABLancamentoCobranca", FormMethod.Post, new { id = "GeracaoCNABForm" }))
+        {
+            <button type="submit" class="btn btn-lg btn-primary">
+                <i class="fa fa-save"></i> Gerar Arquivo de Remessa
+            </button>
+        }
+    </div>
+</div>

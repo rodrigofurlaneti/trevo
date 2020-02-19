@@ -1,0 +1,69 @@
+﻿@model List<EquipeViewModel>
+<div class="widget-body">
+    @if (Model != null && Model.Any())
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Nome" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar TipoEquipe" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Encarregado" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Supervisor" />
+                    </th>
+                    <th class="hasinput" style="width: 9%">
+                        <input type="text" class="form-control" placeholder="Filtrar Status" />
+                    </th>
+                    <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                    </th>
+                </tr>
+                <tr>
+                    <th data-class="expand">Equipe</th>
+                    <th data-class="expand">Unidade</th>
+                    <th data-class="expand">Tipo de Equipe</th>
+                    <th data-class="expand">Encarregado</th>
+                    <th data-class="expand">Supervisor</th>
+                    <th data-class="expand">Ativo</th>
+                    <th data-class="expand">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                <tr>
+                    <td>@m.Nome</td>
+                    <td>@m.Unidade.Nome</td>
+                    <td>@m.TipoEquipe.Descricao</td>
+                    <td>@m.Encarregado.Pessoa.Nome</td>
+                    <td>@(m.Supervisor == null ? "N/I" : m.Supervisor.Pessoa.Nome)</td>
+                    <td>@(m.Ativo == true ? "Ativo" : "Desativado") </td>
+                    <td>
+                        <a class="btn btn-primary" href="/equipe/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                        <a class="btn btn-danger" href="/equipe/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <tr>
+                <td>
+                    Nenhuma Tabela de Preço foi encontrada.
+                </td>
+            </tr>
+        </table>
+
+    }
+</div>

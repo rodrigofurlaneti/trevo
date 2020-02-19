@@ -1,0 +1,23 @@
+﻿#data_table_contacts tbody tr td:last-child span:first-child{
+    margin-right:2px;
+}
+
+#data_table_contacts tbody tr td:last-child span {
+    width: 39px;
+}
+
+
+label {
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #add-contact, #cancel {
+        width: 100%;
+        margin-bottom:2px;
+    }
+}
+
+.max-width-95 {
+    max-width: 95% !important;
+}

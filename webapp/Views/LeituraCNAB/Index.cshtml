@@ -1,0 +1,67 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model LeituraCNABViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as LeituraCNABController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+    @Styles.Render("~/content/css/LeituraCNAB/LeituraCNAB.css")
+    @Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/LeituraCNAB/LeituraCNAB.js")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+}
+
+<div id="content">
+    <div>
+        <section id="widget-grid" class="">
+            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+                        <h2>
+                            Leitura de CNAB
+                        </h2>
+                    </header>
+                    <div>
+                        <div id="filtros-cnab" class="margin-bottom-10">
+                            @Html.Partial("_FiltrosCNAB")
+                        </div>
+
+                        <div id="lista-cnab">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="detalhes-cnab">
+
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div id="modalRelatorio" class="modal fade col-xs-12" role="dialog">
+    <div class="modal-dialog col-xs-12" style="width: 100% !important;">
+        <div class="modal-content col-xs-12">
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal" onclick="Cancelar()" style="width: 23px; text-align: center; border: 1px solid black; background-color: #9bd4f5; text-shadow: 0 0 0 #000; border-radius: 50px; opacity: 0.4;">&times;</a>
+                <div class="row col-xs-12 col-md-12 col-lg-12 text-align-center margin-0 margin-bottom-0">
+                    <a id="imprimirRelatorio" onclick="Imprimir()" class="btn btn-lg btn-warning" style="margin-right:40px;"><i class="fa fa-print"></i> Imprimir</a>
+
+                    <a id="fecharRelatorio" onclick="Cancelar()" class="btn btn-lg btn-danger"><i class="fa fa-remove"></i> Cancelar</a>
+                </div>
+            </div>
+            <div id="modalBodyRelatorio" class="modal-body col-xs-12">
+
+            </div>
+        </div>
+    </div>
+</div>

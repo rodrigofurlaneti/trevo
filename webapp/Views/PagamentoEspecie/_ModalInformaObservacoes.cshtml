@@ -1,0 +1,31 @@
+﻿@model List<ContasAPagarViewModel>
+
+@{
+    Layout = null;
+}
+
+<div id="modalObservacoes" class="modal fade" role="dialog" style="width:auto; ">
+    <div class="modal-dialog" style="width:600px">
+        <div class="modal-content col-xs-12" style="width:600px">
+            <div id="modalBodyObservacoes" class="modal-body col-xs-12" style="max-height:320px; overflow: auto;">
+                <p><label>Observações:</label></p>
+
+                <textarea id="#observacoes" type="text" style="width:400px; height:200px; resize: none; "  />
+            </div>
+            <div class="modal-footer">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="pull-right margin-right-10">
+                        <button class="btn btn-lg btn-danger" data-dismiss="modal" aria-label="Close">
+                            Cancelar
+                        </button>
+                    </div>
+                    <div class="pull-right margin-right-10">
+                        <button type="submit" class="btn btn-lg btn-primary" data-dismiss="modal"  onclick="SolicitarRetirada();">
+                            Realizar Solicitação
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+﻿@using Portal.Controllers
+@model FuncionarioViewModel
+
+<script src="~/Scripts/funcionario/RegraCalculo/DozeTrintaSeis/doze-trinta-seis.js"></script>
+<script src="~/Scripts/funcionario/RegraCalculo/Compensacao/compensacao.js"></script>
+<script src="~/Scripts/funcionario/RegraCalculo/Noturno/noturno.js"></script>
+
+<div class="col-xs-12">
+    <div class="row no-margin-bottom">
+        <h2 class="col-xs-12">Escala de Trabalho</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-xs-12 col-md-1" style="width:130px; margin-top: 33px">
+                @Html.RadioButton("TipoEscala", "Nenhum", new { @id = "eh-nenhum" }) Nenhum
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-xs-12 col-md-1" style="width:130px; margin-top: 33px">
+                @Html.RadioButton("TipoEscala", "DozeTrintaSeis", new { @id = "eh-doze-trintaseis" }) 12/36
+            </div>
+
+            <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3">
+                <div class="col-xs-12 col-md-6">
+                    <label>Data Inicial</label>
+                    @Html.TextBox("DozeTrintaSeisDataInicial", "", new { @id = "doze-trintaseis-data-inicial", @class = "form-control data" })
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                    <label>Data Final</label>
+                    @Html.TextBox("DozeTrintaSeisDataFinal", "", new { @id = "doze-trintaseis-data-final", @class = "form-control data" })
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-4" style="margin-top: 33px">
+                <a class="btn btn-primary" onclick="AdicionarIntervaloDozeTrintaSeis()">Adicionar</a>
+                <a class="btn btn-primary" onclick="AbrirModalHistoricoDozeTrintaSeis()">Histórico</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-xs-12 col-md-1" style="width:130px; margin-top: 33px">
+                @Html.RadioButton("TipoEscala", "Compensacao", new { @id = "eh-compensacao" }) Compensação
+            </div>
+
+            <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3">
+                <div class="col-xs-12 col-md-6">
+                    <label>Data Inicial</label>
+                    @Html.TextBox("CompensacaoDataInicial", "", new { @id = "compensacao-data-inicial", @class = "form-control data" })
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                    <label>Data Final</label>
+                    @Html.TextBox("CompensacaoDataFinal", "", new { @id = "compensacao-data-final", @class = "form-control data" })
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-4" style="margin-top: 33px">
+                <a class="btn btn-primary" onclick="AdicionarIntervaloCompensacao()">Adicionar</a>
+                <a class="btn btn-primary" onclick="AbrirModalHistoricoCompensacao()">Histórico</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-xs-12 col-md-1" style="width:130px; margin-top: 33px">
+                @Html.RadioButton("TipoEscala", "Noturno", new { @id = "eh-noturno" }) Noturno
+            </div>
+
+            <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3">
+                <div class="col-xs-12 col-md-6">
+                    <label>Data Inicial</label>
+                    @Html.TextBox("NoturnoDataInicial", "", new { @id = "noturno-data-inicial", @class = "form-control data" })
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                    <label>Data Final</label>
+                    @Html.TextBox("NoturnoDataFinal", "", new { @id = "noturno-data-final", @class = "form-control data" })
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-4" style="margin-top: 33px">
+                <a class="btn btn-primary" onclick="AdicionarIntervaloNoturno()">Adicionar</a>
+                <a class="btn btn-primary" onclick="AbrirModalHistoricoNoturno()">Histórico</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_ModalDozeTrintaSeis")
+
+@Html.Partial("_ModalCompensacao")
+
+@Html.Partial("_ModalNoturno")

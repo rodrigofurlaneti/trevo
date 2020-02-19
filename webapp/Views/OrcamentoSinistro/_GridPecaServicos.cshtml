@@ -1,0 +1,36 @@
+﻿@using Entidade.Uteis
+@using Core.Extensions
+@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller as OrcamentoSinistroController;
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <table id="tablevigencia" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th style="width: 60px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (controller.ListaOrcamentoSinistroPecaServico != null)
+                {
+                    foreach (var item in controller.ListaOrcamentoSinistroPecaServico)
+                    {
+                        <tr>
+                            <td class="peca-servico-nome">
+                                @item.PecaServico.Nome
+                            </td>
+                            <td style="width: 60px">
+                                <button type="button" name="botaoedicao" class="btn btn-danger" style="margin-right: 3px;" onclick="removerPecaServico('@item.PecaServico.Nome')"><i class="fa fa-remove"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

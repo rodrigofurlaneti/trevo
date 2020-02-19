@@ -1,0 +1,77 @@
+﻿@using Core.Extensions;
+
+<script src="~/Scripts/NecessidadeCompra/modal-cotacao.js"></script>
+
+<div>
+    <div class="modal fade" id="modal-cotacao" role="dialog" style="display:none">
+        <div class="modal-dialog" style="width: 80%">
+            <div class="modal-content" id="modalContent">
+                <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Cotação</h4>
+                </div>
+
+                <div id="modalBodyInformacoes" class="modal-body no-padding">
+                    <div class="row no-margin-bottom">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="col-xs-12 margin-top-20">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-4">
+                                        <label>Fornecedor: </label>
+                                        @Html.TextBox("fornecedor", "", new { @id = "cotacao-fornecedor", @class = "form-control", @disabled = "disabled" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-4">
+                                        <label>Material: </label>
+                                        @Html.TextBox("material", "", new { @id = "cotacao-material", @class = "form-control", @disabled = "disabled" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-4">
+                                        <label>Quantidade: </label>
+                                        @Html.TextBox("quantidade", "", new { @id = "cotacao-quantidade", @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-4">
+                                        <label>Valor Unitário: </label>
+                                        @Html.TextBox("valor", "", new { @id = "cotacao-valor", @class = "form-control" })
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-4">
+                                        <label>Valor Total: </label>
+                                        @Html.TextBox("material", "", new { @id = "cotacao-valor-total", @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row no-margin-bottom">
+                                <div class="col-xs-12">
+                                    <div class="col-xs-12">
+                                        <button type="button" class="btn btn-danger pull-right" id="cancelar-edicao-cotacao-material-forcedor" style="display:none; margin-left:15px;" onclick="cancelarEdicaoDeCotacaoMaterialFornecedor()"><i class="fa fa-minus-circle"></i>&nbsp;Cancelar Edição</button>
+                                        <button type="button" class="btn btn-primary pull-right" id="adicionar-cotacao-material-forcedor" style="display:none;" onclick="adicionarCotacaoMaterialFornecedor()"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="lista-cotacao-material-fornecedores">
+                                @Html.Partial("_GridCotacaoMaterialFornecedores", new List<CotacaoMaterialFornecedorViewModel>())
+                            </div>
+
+                        </article>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="btn-solicitar-cotacao-disabled" type="button" class="btn btn-primary btn-lg" style="display: none" disabled>Solicitar Aprovação</button>
+                    <button id="btn-solicitar-cotacao" type="button" class="btn btn-primary btn-lg" onclick="SalvarCotacao()" style="display: none">Solicitar Aprovação</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

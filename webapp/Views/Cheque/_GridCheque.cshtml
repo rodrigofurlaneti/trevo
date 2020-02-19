@@ -1,0 +1,88 @@
+﻿
+@model List<Aplicacao.ViewModels.ChequeViewModel>
+
+
+<div class="widget-body">
+    @if (Model != null && Model.Any())
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <thead>
+                <tr>
+                    <th class="hasinput" style="width: 10%">
+                        <input type="text" class="form-control" placeholder="Filtrar Numero" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Descrição" />
+                    </th>
+                    <th class="hasinput" style="width: 18%">
+                        <input type="text" class="form-control" placeholder="Filtrar Conta Financeira" />
+                    </th>
+                    <th class="hasinput" style="width: 10%">
+                        <input type="text" class="form-control" placeholder="Filtrar Banco" />
+                    </th>
+                    <th class="hasinput" style="width: 10%">
+                        <input type="text" class="form-control" placeholder="Filtrar Agência" />
+                    </th>
+                    <th class="hasinput" style="width: 10%">
+                        <input type="text" class="form-control" placeholder="Filtrar Conta" />
+                    </th>
+                    <th class="hasinput" style="width: 15%">
+                        <input type="text" class="form-control" placeholder="Filtrar CPF/CNPJ" />
+                    </th>
+                    <th class="hasinput" style="width: 10%">
+                        <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                    </th>
+                    <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                    </th>
+                </tr>
+                <tr>
+                    <th data-hide="expand">Número</th>
+                    <th data-hide="expand">Emitente</th>
+                    <th data-hide="expand">Conta Financeira</th>
+                    <th data-hide="expand">Banco</th>
+                    <th data-hide="expand">Agência</th>
+                    <th data-hide="expand">Conta</th>
+                    <th data-hide="expand">CPF/CNPJ</th>
+                    <th data-hide="expand">Valor</th>
+                    <th data-class="expand">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                <tr>
+                    @*convertendo valores para apresentação monetário*@
+                    @{
+                        var valor = string.IsNullOrEmpty(m.Valor) ? "" : Convert.ToDecimal(m.Valor).ToString("#,##0.00");
+                    }
+                    <td>@m.Numero</td>
+                    <td>@m.Emitente</td>
+                    <td>@m.ContaFinanceira.Descricao</td>
+                    <td>@m.Banco.Descricao</td>
+                    <td>@m.Agencia - @m.DigitoAgencia</td>
+                    <td>@m.Conta - @m.DigitoConta</td>
+                    <td>@m.Cpf</td>
+                    <td>R$ @valor</td>
+                    <td>
+                        <a class="btn btn-primary" href="/cheque/edit/@m.Id"><i class='fa fa-edit'></i></a>
+                        <a class="btn btn-danger" href="/cheque/delete/@m.Id"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+            <tr>
+                <td>
+                    Nenhum Cheque foi encontrado.
+                </td>
+            </tr>
+        </table>
+
+    }
+</div>
+
+

@@ -1,0 +1,176 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model PrecoParametroSeloViewModel
+
+@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var controller = ViewContext.Controller as PrecoParametroSeloController;
+}
+
+@section pagespecific{
+	@Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+	@Styles.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.css")
+	@Scripts.Render("~/Scripts/plugin/chosen_v1.8.2/chosen.jquery.js")
+	@Scripts.Render("~/Scripts/PrecoParametroSelo/PrecoParametroSelo.js")
+	@Scripts.Render("~/Scripts/jquery.moneymask.js")
+}
+
+<div id="content">
+	<div>
+		<section id="widget-grid" class="">
+			<div class="row">
+				<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="jarviswidget no-margin-bottom" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+						<header>
+							<span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+							<h2>
+								Cadastro Preço e Parâmetro de Selo
+							</h2>
+						</header>
+						<div>
+							<div class="widget-body">
+								@using (Html.BeginForm("SalvarDados", "PrecoParametroSelo", FormMethod.Post, new { id = "PrecoParametroSeloForm" }))
+								{
+									@Html.HiddenFor(x => x.Id, new { @id = "hdnPrecoParametroSelo" })
+
+									<h3>Preços</h3>
+									<div class="row margin-bottom-5">
+										<div class="col-xs-10">
+											<div class="col-xs-5">
+												<label>Unidade:</label><br />
+												@Html.DropDownListFor(p => p.Unidade.Id
+														 , new SelectList(ViewBag.ListaUnidade, "Id", "Nome")
+														 , "Selecione uma unidade"
+														 , new
+														 {
+															 @id = "Unidade",
+															 name = "Unidade",
+															 @class = "form-control chosen-select"
+															 ,
+															 data_placeholder = "Selecione uma unidade..."
+														 })
+
+											</div>
+											<div class="col-xs-5">
+												@if (Model == null || Model.Id == 0)
+
+												{
+													@Html.LabelFor(x => x.TodasUnidades, "Todas as unidades:")<br />
+													@Html.CheckBoxFor(x => x.TodasUnidades) 
+												}
+											</div>
+										</div>
+									</div>
+
+									<div class="row margin-bottom-5">
+                                        <div class="col-xs-10">
+                                            <div class="col-xs-5">
+                                                <label>Tipo de Selo:</label><br />
+                                                @Html.DropDownListFor(x => x.TipoPreco.Id, new SelectList(controller.ListaTipoSelo, "Id", "Nome"), "Selecione...", new { @id = "TipoPreco", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+
+                                                @Html.ValidationMessageFor(x => x.TipoPreco.Id, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="col-xs-5">
+                                                <label>Desconto aplicado no valor da tabela:</label><br />
+                                                @Html.TextBoxFor(x => x.DescontoTabelaPreco, new
+                                                {
+                                                    @class = "form-control heightfield valmoney",
+                                                    @autocomplete = "off",
+                                                    @maxlength = "21"
+
+                                                })
+                                                @Html.ValidationMessageFor(x => x.DescontoTabelaPreco, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="col-xs-5">
+                                                <label>Desconto % aplicado no valor de custo do selo pela tabela:</label><br />
+                                                @Html.TextBoxFor(x => x.DescontoCustoTabelaPreco, new
+                                                {
+                                                    @class = "form-control heightfield valmoney",
+                                                    @autocomplete = "off",
+                                                    @maxlength = "2"
+
+                                                })
+                                                @Html.ValidationMessageFor(x => x.DescontoCustoTabelaPreco, "Campo deve ser preenchido!", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+									</div>
+
+									<h3>Parâmetros Negociação</h3>
+									<div class="row margin-bottom-5">
+										<div class="col-xs-12">
+											<div class="col-xs-8">
+												<label>Desconto máximo no valor final:</label><br />
+												@Html.TextBoxFor(x => x.DescontoMaximoValor, new
+												{
+													@class = "form-control heightfield valmoney",
+													@autocomplete = "off",
+													@maxlength = "21"
+
+												})
+												@Html.ValidationMessageFor(x => x.DescontoMaximoValor, "Campo deve ser preenchido!", new { @class = "text-danger" })
+											</div>
+											<div class="col-xs-4">
+												<label>Perfil:</label><br />
+												@Html.DropDownListFor(p => p.Perfil.Id
+																	 , new SelectList(ViewBag.ListaPerfil, "Id", "Nome")
+																	 , "Selecione um perfil"
+																	 , new
+																	 {
+																		 @id = "Perfil",
+																		 name = "Perfil",
+																		 @class = "form-control chosen-select"
+																	 ,
+																		 data_placeholder = "Selecione um perfil..."
+																	 })
+											</div>
+
+										</div>
+									</div>
+
+
+
+									<div class="row margin-bottom-5">
+										<div class="pull-right margin-right-10">
+											<a class="btn btn-lg btn-danger" href="/PrecoParametroSelo/index"><i class="fa fa-times"></i>&nbsp;Cancelar</a>
+										</div>
+										<div class="pull-right margin-right-10">
+											<button id="salvar" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i>&nbsp;Salvar</button>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+					</div>
+				</article>
+			</div>
+
+			<div class="row">
+				<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+						<header>
+							<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+							<h2>Lista de Preço e Parâmetro Selo</h2>
+						</header>
+						<div>
+							<!-- widget edit box -->
+							<div class="jarviswidget-editbox">
+								<!-- This area used as dropdown edit box -->
+							</div>
+							<!-- end widget edit box -->
+
+							<div id="lista-preco-parametro-selo">
+
+							</div>
+						</div>
+					</div>
+				</article>
+			</div>
+		</section>
+	</div>
+</div>
+
+
+

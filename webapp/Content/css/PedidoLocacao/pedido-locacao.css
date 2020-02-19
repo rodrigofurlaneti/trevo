@@ -1,0 +1,11 @@
+﻿.grid-lancamentos-adicionais > div {
+    border-top-color: #ccc !important;
+    border-width: 1px 1px 2px !important;
+    border-style: solid !important;
+}
+
+.text-area-garantia {
+    width: 100% !important;
+    height: 110px !important;
+    resize: none !important;
+}

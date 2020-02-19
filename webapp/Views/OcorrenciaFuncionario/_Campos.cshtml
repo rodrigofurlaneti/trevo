@@ -1,0 +1,70 @@
+﻿@using Portal.Controllers
+@using Aplicacao.ViewModels;
+@model OcorrenciaFuncionarioViewModel
+
+@{
+    var ehFuncionarioController = ViewContext.Controller.GetType() == typeof(FuncionarioController);
+}
+
+<script src="~/Scripts/OcorrenciaFuncionario/shared-ocorrencia-funcionario.js"></script>
+<script src="~/Scripts/Unidade/unidade-autocomplete.js"></script>
+
+@Html.HiddenFor(ocorrenciaFuncionario => ocorrenciaFuncionario.OcorrenciaFuncionarioId, new { @id = "ocorrencia-funcionario-id", Value = Model?.OcorrenciaFuncionarioId })
+
+<div class="col-xs-12">
+    @Html.Hidden("IdEmEdicacao", "", new { @id = "ocorrencia-funcionario-id-em-edicao" })
+
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <label>Funcionário:</label><br />
+            @Html.TextBoxFor(ocorrenciaFuncionario => ocorrenciaFuncionario.Funcionario.Pessoa.Nome, new { id = "ocorrencia-funcionario-funcionarios", @class = "form-control", @readonly = "readonly", @required = "required" })
+            @Html.HiddenFor(ocorrenciaFuncionario => ocorrenciaFuncionario.Funcionario.Id, new { id = "ocorrencia-funcionario-funcionario" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <label>Tipo Ocorrência: </label>
+            @Html.DropDownList("TipoOcorrencia", new SelectList(ViewBag.ListaTipoOcorrencia, "Id", "Descricao"), "Selecione um...", new { @id = "ocorrencia-funcionario-tipo-ocorrencia", @class = "chosen-select", data_placeholder = "Selecione um..." })
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <label>Local:</label><br />
+            @Html.TextBoxFor(ocorrenciaFuncionario => ocorrenciaFuncionario.Unidade.Nome, new { id = "ocorrencia-funcionario-unidades", @class = "form-control" })
+            @Html.HiddenFor(ocorrenciaFuncionario => ocorrenciaFuncionario.Unidade.Id, new { id = "ocorrencia-funcionario-unidade" })
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <label>Data da Ocorrência: </label>
+            @Html.TextBox("Data", "", new { id = "ocorrencia-funcionario-data", @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="row">
+        @if (ehFuncionarioController)
+        {
+            <div class="col-xs-12 col-md-4">
+                <label>Valor (%): </label>
+                @Html.TextBox("Valor", "0,00", new { id = "ocorrencia-funcionario-valor", @class = "form-control valmoney", @disabled = "disabled" })
+            </div>
+        }
+        <div class="col-xs-12 col-md-4">
+            <label>Usuário Responsável: </label>
+            @Html.TextBox("UsuarioResponsavel", "", new { id = "ocorrencia-funcionario-usuario", @class = "form-control", @disabled = "disabled" })
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <label>Justificativa: </label>
+            @Html.TextArea("Justificativa", "", new { id = "ocorrencia-funcionario-justificativa", @class = "form-control no-resize", @maxlength = "200", @rows = "4" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-primary pull-right" onclick="event.preventDefault(); AdicionarOcorrenciaFuncionarioDetalhe();">Adicionar</button>
+        </div>
+    </div>
+
+    <div class="row no-margin-bottom">
+        <div id="lista-ocorrencia-funcionario-detalhe">
+            @Html.Partial("../OcorrenciaFuncionario/_GridOcorrenciaFuncionarioDetalhes", Model?.OcorrenciaFuncionarioDetalhes ?? new List<OcorrenciaFuncionarioDetalheViewModel>())
+        </div>
+    </div>
+</div>

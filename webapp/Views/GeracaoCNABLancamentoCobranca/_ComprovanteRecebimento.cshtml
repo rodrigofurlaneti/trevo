@@ -1,0 +1,38 @@
+﻿@using Entidade;
+@model IEnumerable<IGrouping<Unidade, LancamentoCobranca>>
+
+<div class="col-xs-12 col-sm-12 col-md-12">
+
+    <h1 style="font-size: 20px; text-align: center;">Comprovante de Recebimento de Boleto</h1>
+
+    @foreach (var grupo in Model)
+    {
+        <div style="margin-bottom: 0px;">
+            <h3 style="margin-bottom: 0; padding:0;">@(grupo.Key.Nome + (string.IsNullOrEmpty(grupo.Key?.Endereco?.Logradouro) ? "" : $" - {grupo.Key?.Endereco?.Logradouro}"))</h3> 
+            <table style="width: 95%; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 1px solid black;">
+                        <th style="width: 10%; padding: 0;">Cód</th>
+                        <th style="width: 50%; padding: 0;">Cliente</th>
+                        <th style="width: 20%; padding: 0;">N. Número</th>
+                        <th style="width: 20%; padding: 0;">Placa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var lancamento in grupo)
+                    {
+                        <tr style="border-bottom: 1px solid black;">
+                            <td style="padding: 0;">@lancamento.Id</td>
+                            <td style="padding: 0;">@(!string.IsNullOrEmpty(lancamento.Cliente.Pessoa.Nome) ? lancamento.Cliente.Pessoa.Nome : lancamento.Cliente.NomeFantasia)</td>
+                            <td style="padding: 0;">@lancamento.NossoNumero</td>
+                            <td style="padding: 0;"></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <div style='page-break-after: always;'>
+    </div>
+</div>

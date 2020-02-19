@@ -1,0 +1,57 @@
+﻿@model ChequeViewModel
+
+@{
+    Layout = null;
+}
+
+<div id="modalInformacoes" class="modal fade" role="dialog" style="width:auto; ">
+    <div class="modal-dialog" style="width:700px">
+        <div class="modal-content col-xs-12" style="width:700px;  background-color: lightgray">
+            <div id="modalBodyInformacoes" class="modal-body col-xs-12" style=" background-color: lightgray">
+                <p class="text-center">Alteração de Status de Cheque</p>
+                <br />
+                @{
+                    if (Model != null)
+                    {
+                        
+                        
+
+                        <input id="hiddenidcheque" type="hidden" value="@Model.Id" />
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <label>Numero do Cheque: </label><br />
+                                <label>@(@Model.Numero.ToString().PadLeft(6, '0'))</label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Status: </label>
+
+                                @Html.EnumDropDownListFor(x => x.StatusCheque, "Select um status", new { @id = "statusalterarcheque", @class = "form-control" })
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>Motivo Devolução: </label><br />
+                            @Html.TextAreaFor(x => x.MotivoDevolucao, new { @id = "motivodevolucao", @class = "form-control" }) @*, onchange = "validaCPF(this);" })*@
+                        </div>
+                    }
+                }
+
+            </div>
+            <div class="modal-footer">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="pull-right margin-right-10">
+                        <button class="btn btn-lg btn-danger" data-dismiss="modal" aria-label="Close">
+                            Cancelar
+                        </button>
+                    </div>
+                    <div class="pull-right margin-right-10">
+                        <button type="submit" class="btn btn-lg btn-primary" data-dismiss="modal" onclick="AlterarStatusCheque();">
+                            Alterar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

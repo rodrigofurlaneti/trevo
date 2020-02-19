@@ -1,0 +1,276 @@
+﻿@font-face {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'dax-light';
+    src: url("/areas/landing/content/fonts/dax/dax-light.ttf");
+}
+
+#header {
+    display: none;
+}
+
+#content {
+    height: calc(100vh - 72px);
+    background: transparent;
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+#main-content {
+    background-image: url(../../img/banner.jpg) !important;
+    background-size: 100% 100% !important;
+    padding-bottom: 72px !important;
+    margin-top: 0px !important;
+}
+
+#login-form div {
+    margin-left: 14px;
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#first-login-form div {
+    margin-left: 14px;
+    color: red;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+#login-form fieldset, #first-login-form fieldset {
+    margin-top: 100px;
+}
+
+    #login-form fieldset section div{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+        #login-form fieldset section div label, .with-margin-bottom {
+            font-size: 25px;
+            border-bottom: 1px solid white;
+        }
+
+button {
+    cursor: pointer;
+    height: 45px;
+    font-weight: normal;
+    margin-top: 10px;
+    border: 0px solid #ff0000;
+    width: 100%;
+    font-size: 18px !important;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    font-family: "dax-light",arial, helvetica, sans-serif;
+    padding: 10px 10px 10px 10px;
+    display: inline-block;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+    color: #FFFFFF;
+    background-color: #0000b3;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#0000b3), to(#557483));
+    background-image: -webkit-linear-gradient(left, #0000b3, #557483);
+    background-image: -moz-linear-gradient(left, #0000b3, #557483);
+    background-image: -ms-linear-gradient(left, #0000b3, #557483);
+    background-image: -o-linear-gradient(left, #0000b3, #557483);
+    background-image: linear-gradient(to right, #0000b3, #557483);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#0000b3, endColorstr=#557483);
+}
+
+    button:hover {
+        border: 0px solid #ff7800;
+        background-color: #ff0000;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#ff0000), to(#4F5585));
+        background-image: -webkit-linear-gradient(left, #ff0000, #4F5585);
+        background-image: -moz-linear-gradient(left, #ff0000, #4F5585);
+        background-image: -ms-linear-gradient(left, #ff0000, #4F5585);
+        background-image: -o-linear-gradient(left, #ff0000, #4F5585);
+        background-image: linear-gradient(to bottom, #ff0000, #4F5585);
+        filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#ff0000, endColorstr=#4F5585);
+    }
+
+input {
+    background: transparent;
+    border: none;
+    width: 80%;
+    font-size: 25px;
+    padding-left: 15px;
+    font-family: "dax-light",arial, helvetica, sans-serif;
+}
+
+label {
+    color: white;
+    font-family: "dax-light",arial, helvetica, sans-serif;
+}
+
+a {
+    font-family: "dax-light",arial, helvetica, sans-serif;
+}
+
+.algin-left {
+    text-align: left;
+}
+
+.well {
+    min-width: 305px;
+    margin: auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.login-area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+    .login-area div {
+        min-width: 305px;
+        margin: auto
+    }
+
+.logo-cacau {
+    text-align: center;
+}
+
+    .logo-cacau img {
+        width: 90%;
+        max-width: 300px;
+    }
+
+.img-profile {
+    text-align: center;
+}
+
+    .img-profile img {
+        width: 130px;
+        background: white;
+        border-radius: 100px;
+    }
+
+.login-area-second-step {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    margin-bottom: 0px;
+}
+
+    .login-area-second-step div {
+        min-width: 305px;
+        margin: auto;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+    }
+
+.logo-cacau-second-step {
+    text-align: center;
+}
+
+    .logo-cacau-second-step img {
+        width: 90%;
+        max-width: 300px;
+    }
+
+.login-area-first-login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    margin-bottom: 0px;
+}
+
+    .login-area-first-login div {
+        min-width: 305px;
+        margin: auto;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+    }
+
+.logo-cacau-first-login {
+    margin-top: -45px;
+}
+
+    .logo-cacau-first-login img {
+        max-width: 88px;
+        margin-left: 20px;
+    }
+
+.note a {
+    color: white;
+    font-size: 15px;
+}
+
+.welcome {
+    font-size: 30px !important;
+    border-bottom: none !important;
+}
+
+.section-password {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+    .section-password label {
+        width: 100%;
+        border-bottom: 1px solid white;
+    }
+
+        .section-password label i {
+            margin-left: 10px;
+            font-size: 20px
+        }
+
+.home-button {
+    font-size: 30px;
+    color: white;
+    width: 100%;
+    text-align: right;
+    margin-top: -20px;
+    padding: 20px 20px 0px 0px;
+    /* ReSharper disable once HexColorValueWithAlpha */
+    background: -webkit-linear-gradient(top, #2f2727, #00000047, transparent);
+    position:absolute;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 750px) {
+    #main-content {
+        background-size: 1280px 100% !important;
+    }
+
+    .login-area {
+        top: 70%
+    }
+
+    .login-area-second-step {
+        top: 60%
+    }
+
+    .logo-cacau-second-step img {
+        width: 55%;
+        max-width: 300px;
+    }
+
+    .login-area-first-login {
+        top: 50%
+    }
+
+    .logo-cacau-first-login {
+        margin-top: -4%;
+        margin-left: 1%;
+    }
+}

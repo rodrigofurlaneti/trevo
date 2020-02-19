@@ -1,0 +1,103 @@
+﻿@using Core.Extensions
+@using Portal.Controllers
+@using Entidade.Uteis
+@model Aplicacao.ViewModels.RemessaCartorioViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewContext.Controller as RemessaCartorioController;
+}
+
+@section pagespecific{
+    @Styles.Render("~/content/css/shared/menu-administrativo-config.css")
+    @Styles.Render("~/content/css/RemessaCartorio/remessacartorio.css")
+    @Scripts.Render("~/Scripts/jquery.moneymask.js")
+    @Scripts.Render("~/Scripts/funcoes-uteis.js")
+    @Scripts.Render("~/Scripts/RemessaCartorio/remessaCartorio.js")
+}
+
+
+<div id="content">
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
+            <h2>
+                Pesquisa
+            </h2>
+        </header>
+        <div>
+            <div class="widget-body">
+                @using (Html.BeginForm("Pesquisa", "RemessaCartorio", FormMethod.Post, new { id = "RemessaCartorioForm" }))
+                {
+                    @Html.HiddenFor(x => x.IdCredor, new { @id = "CodigoCredorSelecionado" })
+                    @Html.HiddenFor(x => x.IdProduto, new { @id = "CodigoProdutoSelecionado" })
+                    @Html.HiddenFor(x => x.IdCarteira, new { @id = "CodigoCarteiraSelecionado" })
+                    @Html.Hidden("GerarExel", controller.PermiteGeracaoExcel)
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-md-1" style="padding-left:0px; padding-right:0px; width:12%">
+                                <label>Período Atraso:</label>
+                                <br />
+                                @Html.TextBoxFor(x => x.PeriodoInicio, new { @maxlength = "5", @class = "form-control form-control-custom", @style = "width: 65px;" })
+                                a
+                                @Html.TextBoxFor(x => x.PeriodoFim, new { @maxlength = "5", @class = "form-control form-control-custom", @style = "width: 65px;" })
+                            </div>
+                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                @Html.Partial("../Shared/_ConsultaHierarquiaCarteira")
+                            </div>
+                            <div class="col-md-1" style="width:12%">
+                                <label>CPF:</label>
+                                <br />
+                                @Html.TextBoxFor(x => x.Cpf, new { @class = "form-control" })
+                                @*@Html.ValidationMessageFor(x => x.Cpf, "Informe a data de início!", new { @class = "text-danger" })*@
+                            </div>
+                            <div class="col-md-1" style="width:10%">
+                                <label>Contrato por CPF:</label>
+                                <br />
+                                @Html.RadioButtonFor(x => x.OpcoesPesquisaCartorio, (int)OpcoesPesquisaCartorio.MaiorParcela, new { @class = "radio-inline", id = "MaiorParcela", @checked = true })
+                                <label>@OpcoesPesquisaCartorio.MaiorParcela.ToDescription()</label>
+                                <br />
+                                @Html.RadioButtonFor(x => x.OpcoesPesquisaCartorio, (int)OpcoesPesquisaCartorio.MenorParcela, new { @class = "radio-inline", id = "MenorParcela", @checked = true })
+                                <label>@OpcoesPesquisaCartorio.MenorParcela.ToDescription()</label>
+                                <br />
+                                @Html.RadioButtonFor(x => x.OpcoesPesquisaCartorio, (int)OpcoesPesquisaCartorio.Todos, new { @class = "radio-inline", id = "Todos", @checked = true })
+                                <label>@OpcoesPesquisaCartorio.Todos.ToDescription()</label>
+                            </div>
+                            <div class="col-md-1" style="width:14%">
+                                <label>Valor de Parcela:</label>
+                                <br />
+                                De : R$ @Html.TextBoxFor(x => x.ValorParcelaInicio, new { @class = "form-control form-control-custom" })
+                                @*@Html.ValidationMessageFor(x => x.ValorParcelaInicio, "Informe a data de início!", new { @class = "text-danger" })*@
+                                <br />
+                                Até: R$ @Html.TextBoxFor(x => x.ValorParcelaFim, new { @class = "form-control form-control-custom form-control-custom-space" })
+                                @*@Html.ValidationMessageFor(x => x.ValorParcelaFim, "Informe a data de início!", new { @class = "text-danger" })*@
+                            </div>
+                            <br />
+                            <div class="col-md-12" style="text-align: right; margin-top:20px;">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-search"></i>&nbsp;Pesquisar&nbsp;
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("../Spc/_gridContratos", controller.ContratoViewModels != null ? controller.ContratoViewModels : new List<ContratoViewModel>())
+
+    <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+        <div class="col-xs-12">
+            <div class="col-md-10" style="text-align:center; margin-top:5px;">
+                <label>Lote para Envio: @Html.DisplayFor(x => x.NomeArquivo)</label>
+            </div>
+            <div class="col-md-2" style="text-align: right;">
+                <span onclick="exportar()" class="btn btn-primary" style="margin-bottom: 15px;">
+                    Gerar Arquivo&nbsp;&nbsp;<i class="fa fa-download" aria-hidden="true"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

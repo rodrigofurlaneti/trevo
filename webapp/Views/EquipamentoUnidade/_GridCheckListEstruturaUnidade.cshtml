@@ -1,0 +1,74 @@
+﻿@using Portal.Controllers
+@using Entidade.Uteis
+
+@model List<Entidade.CheckListEstruturaUnidade>
+
+
+<div id="container-tables" style="margin-top:50px;">
+    @if (Model != null && Model.Any())
+    {
+        <h3>Equipamentos</h3>
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="teste">
+
+                    <thead>
+                        <tr>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var horarioPreco in Model)
+                        {
+
+                            <tr>
+                                @*<td><input name="equipamento" type="text" id="@horarioPreco.Id" class="horario" value="@horarioPreco.EstruturaGaragem" placeholder="equipamento" /></td>
+                                    <td><input name="quantidade" type="number" min="1" id="@horarioPreco.Id" class="horario quant" value="@horarioPreco.Quantidade" placeholder="quantidade" /></td>
+
+                                    <td><span class="btn btn-danger btn-circle" data-idequipamento="@horarioPreco.Id" name="deleta-equipamento" onclick="DeletaEquipamento($(this).data('idequipamento'))"><i class="fa" style="color: white">X</i>&nbsp;</span></td>*@
+
+                                <td><input name="equipamento" type="text" id="@horarioPreco.Id" class="horario" value="@horarioPreco.EstruturaGaragem" placeholder="equipamento" /></td>
+                                <td><input name="quantidade" type="number" min="1" id="@horarioPreco.Id" class="horario quant" value="@horarioPreco.Quantidade" placeholder="quantidade" /></td>
+                                @*<td><input name="ativo" type="checkbox" id="@horarioPreco.Id" class="horario" checked="@horarioPreco.Ativo" /></td>*@
+                                <td><span class="btn btn-danger btn-circle" onclick="DeletaEquipamento(this)" data-idequipamento="@horarioPreco.Id" name="deleta-equipamento"><i class="fa" style="color: white">X</i>&nbsp;</span></td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+                @*<td>
+                        <button id="addlinha" type="button" class="btn btn-success btn-add-new-row">Hora Adicional</button>
+                    </td>*@
+                <span class="btn btn-warning btn-circle" id="adiciona-equipamento" onclick="AdicionaEquipamento(1)"><i class="fa fa-plus" style="color: white"></i>&nbsp;</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3>Equipamentos</h3>
+        <div class="col-lg-3 table-mensalista">
+            <h3 class="nomeFuncionamento"></h3>
+            <div class="col-xs-3">
+                <table id="teste">
+
+                    <thead>
+                        <tr>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                            <th data-hide="expand"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                @*<td>
+                        <button id="addlinha" type="button" class="btn btn-success btn-add-new-row">Hora Adicional</button>
+                    </td>*@
+                <span class="btn btn-warning btn-circle" id="adiciona-equipamento" onclick="AdicionaEquipamento(1)"><i class="fa fa-plus" style="color: white"></i>&nbsp;</span>
+            </div>
+        </div>
+    }
+</div>
+

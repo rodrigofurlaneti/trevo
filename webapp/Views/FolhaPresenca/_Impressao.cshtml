@@ -1,0 +1,193 @@
+﻿@using Entidade.Uteis
+@model Aplicacao.ViewModels.FolhaPresencaViewModel
+
+@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+
+<html>
+<head>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .row {
+            width: 100%;
+            margin: 0 !important
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 12px;
+            border-collapse: separate;
+            border-spacing: 2px 0px
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 2px 4px;
+        }
+
+            td > div {
+                border-bottom: 1px solid #dddddd;
+                text-align: left;
+                padding: 4px;
+                height: 13px
+            }
+
+        th {
+            text-align: center;
+        }
+
+        .pagina {
+            padding-top: 1.75cm;
+            padding-left: 1cm;
+            width: 18.15cm;
+            height: 18cm;
+            height: 24cm;
+            margin: 0 auto;
+        }
+
+        .totais {
+            width: 30%;
+            float: right;
+            margin-right: 1px
+        }
+
+        .label-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        label {
+            font-size: 16px
+        }
+
+        h1 {
+            font-size: 18px;
+            margin-bottom: 5px
+        }
+
+        .subtitulo {
+            font-size: 16px;
+            width: 100%;
+            display: block;
+            font-weight: normal !important;
+            margin-bottom: 10px;
+        }
+
+        span {
+            font-weight: bold
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .no-padding {
+            padding: 0 !important
+        }
+
+        @@page {
+            size: A4;
+            margin: 0mm;
+        }
+
+        @@media print {
+            .pagina {
+                page-break-inside: avoid;
+            }
+
+            pre, blockquote {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body onload="window.print(); window.close()">
+
+    @foreach (var item in Model.FolhaPresencaFuncionarios)
+    {
+        <div class="pagina">
+            <h1 class="text-center">FOLHA DE PRESENÇA</h1>
+            <span class="subtitulo text-center">@(item.FolhaPresencaDias.FirstOrDefault().Data.ToString("MMMM") + " - " + item.FolhaPresencaDias.LastOrDefault().Data.ToString("MMMM") + " de " + item.FolhaPresencaDias.LastOrDefault().Data.Year)</span>
+
+            <label>Funcionário: <span>@item.Funcionario.Pessoa.Nome</span></label><br />
+            <label style="display: block; margin-bottom: 15px">Unidade: <span>@(item.Funcionario?.Unidade?.Nome)</span></label>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25px">DT</th>
+                        <th style="width: 75px">ENTRADA</th>
+                        <th style="width: 1px" colspan="2">INTERVALO</th>
+                        <th style="width: 75px">SAÍDA</th>
+                        <th>ASSINATURA</th>
+                    </tr>
+                    <tr>
+                        <th style="border:none"></th>
+                        <th style="border:none"></th>
+                        <th style="width: 75px">ENTRADA</th>
+                        <th style="width: 75px">SAÍDA</th>
+                        <th style="border:none"></th>
+                        <th style="border:none"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var folhaPresencaDia in item.FolhaPresencaDias)
+                    {
+                        <tr>
+                            <td>@folhaPresencaDia.Data.Day</td>
+                            <td>@(folhaPresencaDia.EhFerias ? "FÉRIAS" : "")</td>
+                            <td>@(folhaPresencaDia.EhFerias ? "FÉRIAS" : "")</td>
+                            <td>@(folhaPresencaDia.EhFerias ? "FÉRIAS" : "")</td>
+                            <td>@(folhaPresencaDia.EhFerias ? "FÉRIAS" : "")</td>
+                            <td>@(folhaPresencaDia.Assinatura)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <table style="margin-top: 15px">
+                <thead>
+                    <tr>
+                        <th style="text-align: center" colspan="8">TOTAIS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>INTERVALO</td>
+                        <td>H.E 65%</td>
+                        <td>H.E 100%</td>
+                        <td>FERIADOS</td>
+                        <td>ASN</td>
+                        <td>FALTAS</td>
+                        <td>DSR</td>
+                        <td>ATRASOS</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 20px"></td>
+                        <td style="height: 20px"></td>
+                        <td style="height: 20px"></td>
+                        <td style="height: 20px"></td>
+                        <td style="height: 20px"></td>
+                        <td style="height: 20px"></td>
+                        <td style="height: 20px"></td>
+                        <td style="height: 20px"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p style="margin-left: 5px">@Model.Observacao</p>
+        </div>
+    }
+</body>
+</html>

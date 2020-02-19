@@ -1,0 +1,36 @@
+﻿@using Entidade.Uteis
+@model List<VeiculoViewModel> 
+
+@if (Model != null && Model.Any())
+{
+    <div style="margin-top:40px;">
+        <div class="col-xs-5">
+            <table id="data_table_address" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 1%; display:none;"></th>
+                        <th style="width: 79%;">Veículo</th>
+                        <th style="width: 20%; text-align:center;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (var x = 0; x < Model.Count; x++)
+                    {
+                        <tr class="item-veiculo">
+                            <td style="display:none;">@Model[x].Id</td>
+                            <td>
+                                @(Model[x].VeiculoFull == null ? "N/I" : Model[x].VeiculoFull)
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="btn btn-danger" style="margin-right: 3px;" onclick="removerVeiculo(@Model[x].Id)"><i class="fa fa-remove"></i></span>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}

@@ -1,0 +1,12 @@
+﻿@model Entidade.Pessoa
+
+<div class="row">
+    <div style="margin-left: 40px; margin-top: 20px;">
+        @Html.HiddenFor(x => x.Id, new { @id = "hdnPersonSelectedId" } )
+        <label>Nome da Pessoa:</label>
+        @Html.TextBoxFor(x=>x.Nome, new { @id= "person-autocomplete", @class = "form-control", @style = "max-width: 300px;", data_placeholder = "Digite o nome..." })
+        <label id="lblMessageResult" style="max-width: 300px; color: #b94a48;"></label>
+    </div>
+</div>
+
+@Scripts.Render("~/scripts/contact/search-person-by-name.js")

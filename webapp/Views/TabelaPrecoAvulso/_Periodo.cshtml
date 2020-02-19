@@ -1,0 +1,38 @@
+﻿@using Core.Extensions
+@model Aplicacao.ViewModels.TabelaPrecoAvulsoPeriodoViewModel
+
+<style>
+    .checkbox + .checkbox {
+        margin-left: 5px;
+    }
+
+    .checkbox {
+        display: inline;
+    }
+
+    /*input[type=checkbox] {
+        vertical-align: middle;
+        position: relative;
+        bottom: 0;
+    }*/
+</style>
+
+@{
+    var possuiAlgumPeriodoSelecionado = Model.ListaPeriodoSelecionado.Any();
+}
+
+<div>
+    @foreach (var periodo in Model.ListaPeriodo)
+    {
+        var selecionado = false;
+        if (possuiAlgumPeriodoSelecionado && Model.ListaPeriodoSelecionado.Contains(periodo))
+        {
+            selecionado = true;
+        }
+        <div class="checkbox">
+            <label>
+                @Html.CheckBox(periodo.ToString(), selecionado, new { @class = "periodo", @value = (int)periodo, @onClick = "controlaPeriodo();" }) @periodo.ToDescription()
+            </label>
+        </div>
+    }
+</div>

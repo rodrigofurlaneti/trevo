@@ -1,0 +1,17 @@
+﻿@model Aplicacao.ViewModels.AccountLoginModel
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+}
+
+<link href="~/Content/css/account/login.css" rel="stylesheet" />
+<div id="content" class="container">
+    <div class="logo-cacau">
+        <img src="../content/img/logo.png">
+    </div>
+    <div class="row no-lateral-margins login-area">
+        <div class="well no-padding">
+            @Html.Partial("LoginFirstStep", Model)
+        </div>
+    </div>
+</div>

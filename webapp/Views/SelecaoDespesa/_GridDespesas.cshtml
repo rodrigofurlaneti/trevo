@@ -1,0 +1,130 @@
+﻿@using Entidade.Uteis
+
+
+@model List<ContasAPagarViewModel>
+
+
+<div class="widget-body">
+    @if (Model != null && Model.Any())
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="hasinput" style="width: 1%">
+                    </th>
+                    <th class="hasinput" style="width: 12.2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                    </th>
+                    <th class="hasinput" style="width: 12.2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Conta Contábil" />
+                    </th>
+                    <th class="hasinput" style="width: 12.2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Fornecedor" />
+                    </th>
+                    <th class="hasinput" style="width: 12.2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Data Pagamento" />
+                    </th>
+                    <th class="hasinput" style="width: 12.2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Valor" />
+                    </th>
+                    <th class="hasinput" style="width: 12.2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Despesa Fixa" />
+                    </th>
+                    <th class="hasinput" style="width: 12.2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Tipo Documento" />
+                    </th>
+                    <th class="hasinput" style="width: 12.2%">
+                        <input type="text" class="form-control" placeholder="Filtrar Número Documento" />
+                    </th>
+                    <th class="hasinput" style="max-width: 120px; min-width: 120px; width: 1%;" rowspan="1" colspan="1">
+                    </th>
+                </tr>
+                <tr>
+                    <th data-hide="expand" style="width: 1%;"></th>
+                    <th data-hide="expand" style="width: 12.2%;">Unidade</th>
+                    <th data-hide="expand" style="width: 12.2%;">Conta Contábil</th>
+                    <th data-hide="expand" style="width: 12.2%;">Fornecedor</th>
+                    <th data-hide="expand" style="width: 12.2%;">Data Pagamento</th>
+                    <th data-hide="expand" style="width: 12.2%;">Valor</th>
+                    <th data-hide="expand" style="width: 12.2%;">Despesa Fixa</th>
+                    <th data-hide="expand" style="width: 12.2%;">Tipo Documento</th>
+                    <th data-hide="expand" style="width: 12.2%;">Número Documento</th>
+                    <th data-class="expand">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contaAPagar in Model)
+                {
+                <tr class="line-blacklist">
+                    <td><input type="checkbox" name="DespesaChk" id="chkIdDespesa" value="@contaAPagar.Id" onclick="CheckDespesa(this, '@(contaAPagar.Id)');" /></td>
+                    <td>
+                        @if (contaAPagar.Unidade != null && String.IsNullOrEmpty(contaAPagar.Unidade.Nome) == false)
+                        {
+                            @contaAPagar.Unidade.Nome
+                        }
+                    </td>
+                    <td>
+                        @if (contaAPagar.ContaContabil != null && String.IsNullOrEmpty(contaAPagar.ContaContabil.Descricao) == false)
+                        {
+                            @contaAPagar.ContaContabil.Descricao
+                        }
+                    </td>
+                    <td>
+                        @if (contaAPagar.Fornecedor != null && String.IsNullOrEmpty(contaAPagar.Fornecedor.Nome) == false)
+                        {
+                            @contaAPagar.Fornecedor.Nome
+                        }
+                    </td>
+                    <td>
+                        @contaAPagar.DataPagamento
+                    </td>
+                    <td>
+                        @(String.IsNullOrEmpty(contaAPagar.ValorFormatado) ? "" : contaAPagar.ValorFormatado)
+                    </td>
+                    <td>
+                        @if (contaAPagar.ContaContabil != null)
+                        {
+                            @contaAPagar.ContaContabil.Fixa
+                        }
+                    </td>
+                    <td>
+                        @contaAPagar.TipoDocumentoConta
+                    </td>
+                    <td>
+                        @(String.IsNullOrEmpty(contaAPagar.NumeroDocumento) ? "" : contaAPagar.NumeroDocumento)
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" title="Abre as observações dessa despesa" onclick="Informacoes('@(contaAPagar.Observacoes)');"><i class='fa fa-info-circle'></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <div class="modal fade" id="myModalInfo">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Informações</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><input type="text" disabled class="input-sm" id="txtInfo" /></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    }
+    else
+    {
+        <table id="datatable_fixed_column" class="table table-striped table-bordered">
+            <tr>
+                <td>
+                    Listagem de despesas não encontradas com o filtro atual.
+                </td>
+            </tr>
+        </table>
+    }
+</div>

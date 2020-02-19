@@ -1,0 +1,368 @@
+page-pedido {
+
+    .msg {
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+        padding: 15px;
+        font-weight: 600;
+        display: table;
+        //width: 100%;
+        color: #7d625f;
+        //background-color: #f0f0f0;
+        font-family: "roboto","Proxima Nova","Arial","Helvetica",sans-serif;
+        font-size: 2rem;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .btn {
+        padding: 8px 30px 6px;
+        font-weight: 600;
+        line-height: 1.5;
+        text-transform: uppercase;
+        //border-radius: 999em;
+        white-space: normal;
+        margin-bottom: 10px;
+    }
+
+    .store {
+        background-color: limegreen !important;
+    }
+
+    .btn-oranger {
+        color: #fff;
+        background-color: #f15223;
+        border-color: transparent;
+        //border-radius: 20px;
+        width: 100%;
+        max-width: 91%;
+        padding-top: 8px;
+        padding-bottom: 6px;
+        font-size: 17px;
+        font-size: 1.7rem;
+        margin: 0 auto;
+    }
+
+    .pre-table--action {
+        display: grid;
+        margin-top: 10px;
+        text-align: justify;
+        font-size: 1.5rem;
+    }
+
+    body {
+        cursor: url('http://ionicframework.com/img/finger.png'), auto;
+    }
+
+    .header .col {
+        background-color: lightgrey;
+        font-weight: bold;
+    }
+
+    .col {
+        border: solid 1px grey;
+        border-bottom-style: none;
+        border-right-style: none;
+        width: 200px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .col:last-child {
+        border-right: solid 1px grey;
+    }
+
+    .row {
+        border-bottom: solid 1px grey;
+    }
+
+
+    .pedido--mini {
+        display: inline-flex;
+        width: 100%;
+        //padding-top: 20px;
+        //padding-bottom: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #dbdbdb;
+    }
+
+    .pedido--mini .pedido--thumb {
+        display: table-cell;
+        vertical-align: top;
+        width: 50px;
+        line-height: 1;
+    }
+
+    .pedido--mini .pedido--info {
+        //   position: relative;
+        // display: table-cell;
+        //vertical-align: middle;
+        display: inline-grid;
+        margin-left: 20px;
+    }
+
+    .pedido--info---cell {
+        display: inline;
+        vertical-align: middle;
+        min-height: 15px;
+        margin-bottom: 4px;
+    }
+
+    .pedido--info---cell:first-child {
+        width: 200px;
+        font-weight: 600;
+        color: #7d625f;
+        //color: #f15223;
+        font-size: 14px;
+        font-size: 1.4rem;
+        white-space: initial;
+        //margin-left: 10px;
+    }
+
+
+    .pedido--info---cell:nth-child(2) {
+        width: 185px;
+        //font-weight: 600;
+        color: #7d625f;
+        font-size: 14px;
+        font-size: 1.4rem;
+        white-space: initial;
+        margin-right: 5px;
+        //margin-left: 10px;
+    }
+
+    .pedido--info---cell:nth-child(3) {
+        color: #acd162;
+    }
+
+    .status-erro {
+        color: red !important;
+        font-weight: bolder !important;
+    }
+
+    .pedido-valor {
+        font-weight: bold;
+        color: #f15223;
+    }
+
+    .spn-title {
+        //margin-left: 15px;
+    }
+
+    .pedido-content {
+        width: 95%;
+        margin: 0 auto;
+        /*padding-top: 10px;
+        padding-left: 10px;*/
+    }
+
+    .item-inner {
+        border: 0 !important;
+    }
+
+    .titulo {
+        display: inline-flex;
+        width: 100%;
+        color: #7d625f;
+        background-color: #f0f0f0;
+        font-weight: bold;
+        font-size: 20px;
+        padding: 12px;
+        margin-bottom: 5px;
+    }
+
+    .confirmar {
+        margin-bottom: 12px;
+        width: 100%;
+        //max-width: 92%;
+        padding-top: 8px;
+        padding-bottom: 6px;
+        font-size: 20px;
+        font-size: 1.7rem;
+        margin: 0 auto;
+        background-color: #f15223;
+        color: #fff;
+        background-color: #f15223;
+        border-color: transparent;
+        padding: 8px 30px 6px;
+        font-weight: 600;
+        line-height: 1.5;
+        text-transform: uppercase;
+        border-radius: 5px;
+        white-space: normal;
+        margin-bottom: 10px;
+    }
+
+    .novo-cartao {
+        //margin-left: 10px;
+        margin-left: 410%;
+    }
+}
+
+
+///////////////////////////////////////////////
+
+
+page-pedido-lista {
+    body {
+        cursor: url('http://ionicframework.com/img/finger.png'), auto;
+    }
+
+    .header .col {
+        background-color: lightgrey;
+        font-weight: bold;
+    }
+
+    .col {
+        border: solid 1px grey;
+        border-bottom-style: none;
+        border-right-style: none;
+        width: 200px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .col:last-child {
+        border-right: solid 1px grey;
+    }
+
+    .row {
+        border-bottom: solid 1px grey;
+    }
+
+
+    .pedido--mini {
+        display: inline-flex;
+        width: 100%;
+        //padding-top: 20px;
+        //padding-bottom: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #dbdbdb;
+    }
+
+    .pedido--mini .pedido--thumb {
+        display: table-cell;
+        vertical-align: top;
+        width: 50px;
+        line-height: 1;
+    }
+
+    .pedido--mini .pedido--info {
+        //   position: relative;
+        // display: table-cell;
+        //vertical-align: middle;
+        display: inline-grid;
+        //margin-left: 20px;
+        margin: 0 auto;
+    }
+
+    .pedido--info---cell {
+        display: inline;
+        vertical-align: middle;
+        min-height: 15px;
+        margin-bottom: 4px;
+    }
+
+    .pedido--info---cell:first-child {
+        width: 127px;
+        font-weight: 600;
+        color: #7d625f;
+        //color: #f15223;
+        font-size: 14px;
+        font-size: 1.4rem;
+        white-space: initial;
+        //margin-left: 10px;
+    }
+
+
+    .pedido--info---cell:nth-child(2) {
+        width: 30px;
+        //font-weight: 600;
+        color: #7d625f;
+        font-size: 14px;
+        font-size: 1.4rem;
+        white-space: initial;
+        margin-right: 5px;
+        //margin-left: 10px;
+    }
+
+    .pedido--info---cell:nth-child(3) {
+        //color: #acd162;
+        width: 60px;
+    }
+
+    .pedido--info---cell:nth-child(4) {
+        color: #acd162;
+        margin-left: 10px;
+    }
+
+    .status-erro {
+        color: red !important;
+        font-weight: bolder !important;
+    }
+
+    .pedido-valor {
+        font-weight: bold;
+        color: #f15223;
+    }
+
+    .spn-title {
+        //margin-left: 15px;
+    }
+
+    .pedido-content {
+        width: 95%;
+        margin: 0 auto;
+        /*padding-top: 10px;
+        padding-left: 10px;*/
+    }
+
+    .item-inner {
+        border: 0 !important;
+    }
+
+    .titulo {
+        display: table;
+        width: 100%;
+        color: #7d625f;
+        background-color: #f0f0f0;
+        font-weight: bold;
+        font-size: 20px;
+        padding: 12px;
+        margin-bottom: 5px;
+    }
+
+    .confirmar {
+        margin-bottom: 12px;
+        width: 100%;
+        max-width: 92%;
+        padding-top: 8px;
+        padding-bottom: 6px;
+        font-size: 20px;
+        font-size: 1.7rem;
+        margin: 0 auto;
+        background-color: #f15223;
+        color: #fff;
+        background-color: #f15223;
+        border-color: transparent;
+        padding: 8px 30px 6px;
+        font-weight: 600;
+        line-height: 1.5;
+        text-transform: uppercase;
+        border-radius: 5px;
+        white-space: normal;
+        margin-bottom: 10px;
+    }
+
+    .status-ok {
+        color: #acd162;
+        font-weight: bold;
+    }
+
+    .status-erro {
+        color: red !important;
+    }
+}

@@ -1,0 +1,44 @@
+﻿@using Aplicacao.ViewModels
+@using Portal.Controllers
+@{
+    var usuario = (CustomPrincipal)User;
+}
+<div class="login-info">
+    <span>
+        <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+            <img id="imgAvatarCurrentUser" src="../../content/img/avatars/sunny.png" alt="me" class="online avatarCurrentUser" />
+            <span id="nomeProfile">@usuario.Nome.Split(' ')[0]</span>
+            <i class="fa fa-angle-down"></i>
+        </a>
+    </span>
+</div>
+<script type="text/javascript">
+    $.ajax({
+        url: '/usuario/GetAvatarUser',
+        type: 'POST',
+        data: { id: @(usuario.UsuarioId) },
+        success: function (response) {
+            $('#imgAvatarCurrentUser').attr("src", response);
+        }
+    });
+</script>
+<style>
+    .avatarCurrentUser {
+        /* Removendo linha lateral do avatar*/
+        border-left: 0 !important;
+
+        /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
+        background-image: url('../../Content/img/avatars/sunny-big.png');
+        /* make a square container */
+        width: 150px;
+        height: 150px;
+        /* fill the container, preserving aspect ratio, and cropping to fit */
+        background-size: cover;
+        /* center the image vertically and horizontally */
+        background-position: top center;
+        /* round the edges to a circle with border radius 1/2 container size */
+        border-radius: 50%;
+        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    }
+</style>

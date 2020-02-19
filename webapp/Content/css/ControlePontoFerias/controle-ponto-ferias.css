@@ -1,0 +1,23 @@
+﻿.content-principal {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 30px !important;
+}
+
+    .content-principal:after {
+        content: ' ';
+        clear: both;
+        display: block
+    }
+
+.body-grid-unidade-apoio-principal, .widget-body {
+    overflow-x: auto;
+}
+
+.jarviswidget-loader {
+    display: none !important;
+}
+
+td {
+    white-space: nowrap
+}

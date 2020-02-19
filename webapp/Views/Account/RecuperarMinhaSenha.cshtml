@@ -1,0 +1,117 @@
+﻿@model Aplicacao.ViewModels.AccountLoginModel
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+}
+
+<style>
+    body {
+        height: 100vh;
+        margin-top: -20px;
+    }
+
+    #main-content {
+        width: 100%;
+        height: 100%;
+    }
+
+    #content {
+        text-align: center;
+        width: 260px;
+        padding-top: 20vh;
+    }
+    
+    p{
+        text-align: left;
+    }
+</style>
+
+<div id="sectionTitle">
+    <div class="inner">
+        <h2 class="title">@ViewBag.Title</h2>
+    </div>
+</div>
+<div id="content" class="container">
+    <form method="post" id="formLinkRecuperarSenha" action="@Url.Action("RecuperarMinhaSenha", "Account")">
+        
+        @if (!string.IsNullOrEmpty(ViewBag.Sucesso))
+        {
+            <div style="color: green;font-weight: bold;margin-top: 20px;margin-bottom: 20px;">@ViewBag.Sucesso</div>
+
+            <a href="/Account/Login" style="font-size: 16px;">Voltar para o Login</a>
+        }
+        else
+        {
+            <div style="color: red;font-weight: bold;margin-top: 20px;">@Html.ValidationMessage("ErroRecuperarSenha")</div><br />
+    
+            <p>Nova Senha: </p>
+            <input type="password" class="form-control" id="senha" name="password" value="" /><br />
+    
+            <p>Confirme a Nova Senha: </p>
+            <input type="password" class="form-control" id="conf_senha" name="passwordConfirm" value="" /><br />
+    
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar</button><br />
+    
+            <label id="retorno" style="color: red"></label>
+            <input id="usuario" name="cpf" type="hidden" value="@(Model != null ? Model.CPF : string.Empty)" />
+        }
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#formLinkRecuperarSenha').validate({
+            rules: {
+                senha: {
+                    required: true
+                },
+                conf_senha: {
+                    required: true,
+                    equalTo: "#senha"
+                }
+            },
+            messages: {
+                senha: {
+                    required: "O campo 'senha' é obrigatorio."
+                },
+                conf_senha: {
+                    required: "O campo 'confirmação de senha' é obrigatorio.",
+                    equalTo: "O campo 'confirmação de senha' deve ser idêntico ao campo senha."
+                }
+            }
+
+        });
+    });
+
+    var redirectLogin = false;
+
+    $('#btnSalvar').click(function () {
+        var senha = $('#senha').val().trim();
+        var confirmacaoSenha = $('#conf_senha').val().trim();
+        var usuarioId = $('#usuario').val();
+        $('#retorno').text("");
+
+        if (senha == "") {
+            $('#retorno').text("O campo 'senha' é obrigatorio.");
+            return;
+        }
+
+        if (confirmacaoSenha == "") {
+            $('#retorno').text("O campo 'confirmação de senha' é obrigatorio.");
+            return;
+        }
+
+        if (senha != confirmacaoSenha) {
+            $('#retorno').text("O campo 'confirmação de senha' deve ser idêntico ao campo senha.");
+            return;
+        }
+
+        $.ajax({
+            url: "TrocarSenha",
+            type: "POST",
+            data: { senha: senha, usuarioId: usuarioId },
+            success: function (data) {
+                window.location.href = "/Login";
+            }
+        });
+    });
+</script>

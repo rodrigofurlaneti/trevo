@@ -1,0 +1,611 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2D0D41BE-DE53-477E-AD04-721FF84E8703}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Aplicacao</RootNamespace>
+    <AssemblyName>Aplicacao</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Development|AnyCPU'">
+    <OutputPath>bin\Development\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Boleto.Net, Version=2.0.0.0, Culture=neutral, PublicKeyToken=53630c3583b7ed5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLLs\Boleto.Net\Boleto.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator.SimpleInjectorAdapter, Version=2.8.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.SimpleInjectorAdapter.2.8.0\lib\portable-net4+sl4+wp8+win8+wpa81\CommonServiceLocator.SimpleInjectorAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FileHelpers, Version=3.2.7.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
+      <HintPath>..\packages\FileHelpers.3.2.7\lib\net45\FileHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.CommonServiceLocator.1.2.2\lib\net35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Pagamento.Net">
+      <HintPath>..\DLLs\Pagamento.Net\Pagamento.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.6.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.7\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Select.HtmlToPdf, Version=19.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>..\packages\Select.HtmlToPdf.19.1.0\lib\net40\Select.HtmlToPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=4.0.8.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.0.8\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="Microsoft.Office.Interop.Excel">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.4.5.2.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FeriasClienteAplicacao.cs" />
+    <Compile Include="PedidoSeloEmailAplicacao.cs" />
+    <Compile Include="PedidoSeloHistoricoAplicacao.cs" />
+    <Compile Include="ContaCorrenteClienteAplicacao.cs" />
+    <Compile Include="BloqueioReferenciaAplicacao.cs" />
+    <Compile Include="ControleFeriasAplicacao.cs" />
+    <Compile Include="CalendarioRHAplicacao.cs" />
+    <Compile Include="ControlePontoFeriasAplicacao.cs" />
+    <Compile Include="ControlePontoAplicacao.cs" />
+    <Compile Include="LancamentoCobrancaContratoMensalistaAplicacao.cs" />
+    <Compile Include="NotificacaoDesbloqueioReferenciaAplicacao.cs" />
+    <Compile Include="OcorrenciaAplicacao.cs" />
+    <Compile Include="OcorrenciaFuncionarioAplicacao.cs" />
+    <Compile Include="PedidoLocacaoLancamentoCobrancaAplicacao.cs" />
+    <Compile Include="SeloClienteAplicacao.cs" />
+    <Compile Include="TipoOcorrenciaAplicacao.cs" />
+    <Compile Include="PlanoCarreiraAplicacao.cs" />
+    <Compile Include="ArquivoBaseAplicacao.cs" />
+    <Compile Include="BeneficioFuncionarioAplicacao.cs" />
+    <Compile Include="TipoBeneficioAplicacao.cs" />
+    <Compile Include="ItemFuncionarioAplicacao.cs" />
+    <Compile Include="ParametroBoletoBancarioAplicacao.cs" />
+    <Compile Include="ControleCompraAplicacao.cs" />
+    <Compile Include="OrcamentoSinistroAplicacao.cs" />
+    <Compile Include="OficinaAplicacao.cs" />
+    <Compile Include="OISAplicacao.cs" />
+    <Compile Include="PedidoCompraAplicacao.cs" />
+    <Compile Include="NecessidadeCompraAplicacao.cs" />
+    <Compile Include="EstoqueManualAplicacao.cs" />
+    <Compile Include="EstoqueManualItemAplicacao.cs" />
+    <Compile Include="MaterialAplicacao.cs" />
+    <Compile Include="Softpark\Base\IBaseSoftparkAplicacao.cs" />
+    <Compile Include="Softpark\CondutorSoftparkAplicacao.cs" />
+    <Compile Include="Softpark\OperadorSeloSoftparkAplicacao.cs" />
+    <Compile Include="Softpark\SeloSoftparkAplicacao.cs" />
+    <Compile Include="Softpark\EstacionamentoSoftparkAplicacao.cs" />
+    <Compile Include="Softpark\TabelaPrecoMensalSoftparkAplicacao.cs" />
+    <Compile Include="Softpark\TabelaPrecoSoftparkAplicacao.cs" />
+    <Compile Include="Softpark\Base\BaseSoftparkAplicacao.cs" />
+    <Compile Include="Softpark\ViewModels\BaseSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\CarroSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\ContratoMensalistaCarroSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\ContratoCondominoSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\ContratoCondominoCarroSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\ContratoSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\CondutorSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\CondutorEstacionamentoSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\PedidoSeloSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\MovimentacaoSeloSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\EmissaoSeloSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\SeloSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\TabelaPrecoMensalEstacionamentoSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\TabelaPrecoEstacionamentoSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\EstacionamentoSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\TokenSoftparkViewModel.cs" />
+    <Compile Include="TipoMaterialAplicacao.cs" />
+    <Compile Include="CalculoFechamentoAplicacao.cs" />
+    <Compile Include="CheckListEstruturaUnidadeAplicacao.cs" />
+    <Compile Include="ChequeEmitidoContaPagarAplicacao.cs" />
+    <Compile Include="ChequeEmitidoAplicacao.cs" />
+    <Compile Include="ChequeRecebidoAplicacao.cs" />
+    <Compile Include="ClienteCondominoAplicacao.cs" />
+    <Compile Include="CondominoVeiculoAplicacao.cs" />
+    <Compile Include="ColaboradorAplicacao.cs" />
+    <Compile Include="ConsolidaAjusteFaturamentoAplicacao.cs" />
+    <Compile Include="ConsolidaAjusteFinalFaturamentoAplicacao.cs" />
+    <Compile Include="ConsolidaFaturamentoAplicacao.cs" />
+    <Compile Include="ContaContabilAplicacao.cs" />
+    <Compile Include="ContratoMensalistaAplicacao.cs" />
+    <Compile Include="ContratoMensalistaVeiculoAplicacao.cs" />
+    <Compile Include="ContratoUnidadeAplicacao.cs" />
+    <Compile Include="ContratoUnidadeContasAPagarAplicacao.cs" />
+    <Compile Include="ConvenioUnidadeAplicacao.cs" />
+    <Compile Include="EmissaoSeloAplicacao.cs" />
+    <Compile Include="EquipamentoAplicacao.cs" />
+    <Compile Include="EquipamentoUnidadeAplicacao.cs" />
+    <Compile Include="EquipamentoUnidadeEquipamentoAplicacao.cs" />
+    <Compile Include="EquipeAplicacao.cs" />
+    <Compile Include="FaturamentoAplicacao.cs" />
+    <Compile Include="HorarioParametroEquipeAplicacao.cs" />
+    <Compile Include="LancamentoCobrancaPedidoSeloAplicacao.cs" />
+    <Compile Include="LimiteDescontoAplicacao.cs" />
+    <Compile Include="AluguelAplicacao.cs" />
+    <Compile Include="ConvenioAplicacao.cs" />
+    <Compile Include="FuncionamentoAplicacao.cs" />
+    <Compile Include="HorarioPrecoAplicacao.cs" />
+    <Compile Include="HorarioUnidadeAplicacao.cs" />
+    <Compile Include="MensalistaAplicacao.cs" />
+    <Compile Include="MovimentacaoAplicacao.cs" />
+    <Compile Include="MovimentacaoSeloViewModel.cs" />
+    <Compile Include="DescontoAplicacao.cs" />
+    <Compile Include="HorarioUnidadeNotificacaoAplicacao.cs" />
+    <Compile Include="NotificacaoAvisoPedidoSeloAplicacao.cs" />
+    <Compile Include="ParametrizacaoLocacaoAplicacao.cs" />
+    <Compile Include="PedidoLocacaoAplicacao.cs" />
+    <Compile Include="PedidoSeloNotificacaoAplicacao.cs" />
+    <Compile Include="NotificacaoNegociacaoDescontoAplicacao.cs" />
+    <Compile Include="NotificacaoAplicacao.cs" />
+    <Compile Include="PrecoNotificacaoAplicacao.cs" />
+    <Compile Include="PagamentoAplicacao.cs" />
+    <Compile Include="CheckListAtividadeAplicacao.cs" />
+    <Compile Include="CheckListAtividadeTipoAtividadeAplicacao.cs" />
+    <Compile Include="EstruturaGaragemAplicacao.cs" />
+    <Compile Include="EstruturaUnidadeAplicacao.cs" />
+    <Compile Include="LeituraCNABAplicacao.cs" />
+    <Compile Include="ClienteAplicacao.cs" />
+    <Compile Include="CanaisComunicacaoAplicacao.cs" />
+    <Compile Include="ChequeAplicacao.cs" />
+    <Compile Include="ClienteVeiculoAplicacao.cs" />
+    <Compile Include="ContaFinanceiraAplicacao.cs" />
+    <Compile Include="ContaPagarAplicacao.cs" />
+    <Compile Include="PagamentoMensalidadeAplicacao.cs" />
+    <Compile Include="ParametroEquipeAplicacao.cs" />
+    <Compile Include="ParametroEquipeNotificacaoAplicacao.cs" />
+    <Compile Include="ParametroNotificacaoUsuarioAplicacao.cs" />
+    <Compile Include="ParametroNotificacaoAplicacao.cs" />
+    <Compile Include="ParametroNumeroNotaFiscalAplicacao.cs" />
+    <Compile Include="PedidoSeloAplicacao.cs" />
+    <Compile Include="PeriodoHorarioAplicacao.cs" />
+    <Compile Include="MaquinaCartaoAplicacao.cs" />
+    <Compile Include="ParametroNegociacaoAplicacao.cs" />
+    <Compile Include="PeriodoAplicacao.cs" />
+    <Compile Include="PrecoAplicacao.cs" />
+    <Compile Include="PrecoParametroSeloAplicacao.cs" />
+    <Compile Include="PrecoStatusAplicacao.cs" />
+    <Compile Include="GeradorPdfAplicacao.cs" />
+    <Compile Include="PropostaAplicacao.cs" />
+    <Compile Include="RecebimentoAplicacao.cs" />
+    <Compile Include="RemanejamentoAplicacao.cs" />
+    <Compile Include="RemanejamentoTransferenciaAplicacao.cs" />
+    <Compile Include="RetiradaCofreAplicacao.cs" />
+    <Compile Include="FuncionarioAplicacao.cs" />
+    <Compile Include="DepartamentoAplicacao.cs" />
+    <Compile Include="LancamentoCobrancaAplicacao.cs" />
+    <Compile Include="CargoAplicacao.cs" />
+    <Compile Include="MarcaAplicacao.cs" />
+    <Compile Include="ImportacaoPagamentoAplicacao.cs" />
+    <Compile Include="BancoAplicacao.cs" />
+    <Compile Include="PagamentoReembolsoAplicacao.cs" />
+    <Compile Include="ParametroFaturamentoAplicacao.cs" />
+    <Compile Include="ArquivoAplicacao.cs" />
+    <Compile Include="ModeloAplicacao.cs" />
+    <Compile Include="DespesaContasAPagarAplicacao.cs" />
+    <Compile Include="SelecaoDespesaAplicacao.cs" />
+    <Compile Include="SeloAplicacao.cs" />
+    <Compile Include="TabelaPrecoAvulsaAplicacao.cs" />
+    <Compile Include="TabelaPrecoMensalAplicacao.cs" />
+    <Compile Include="TabelaPrecoAvulsoAplicacao.cs" />
+    <Compile Include="EstoqueAplicacao.cs" />
+    <Compile Include="VagaCortesiaVigenciaAplicacao.cs" />
+    <Compile Include="VagaCortesiaAplicacao.cs" />
+    <Compile Include="TabelaPrecoMensalistaAplicacao.cs" />
+    <Compile Include="TabelaPrecoAvulsoNotificacaoAplicacao.cs" />
+    <Compile Include="TabelaPrecoMensalistaNotificacaoAplicacao.cs" />
+    <Compile Include="TabelaPrecoMensalistaUnidadeAplicacao.cs" />
+    <Compile Include="TipoAtividadeAplicacao.cs" />
+    <Compile Include="TipoLocacaoAplicacao.cs" />
+    <Compile Include="TipoMensalistaAplicacao.cs" />
+    <Compile Include="TipoEquipeAplicacao.cs" />
+    <Compile Include="TabelaPrecoAplicacao.cs" />
+    <Compile Include="TipoNotificacaoAplicacao.cs" />
+    <Compile Include="TipoPagamentoAplicacao.cs" />
+    <Compile Include="TipoSeloAplicacao.cs" />
+    <Compile Include="TipoUnidadeAplicacao.cs" />
+    <Compile Include="UnidadeAplicacao.cs" />
+    <Compile Include="UnidadeCheckListAtividadeAplicacao.cs" />
+    <Compile Include="UnidadeCondominoAplicacao.cs" />
+    <Compile Include="UnidadeTipoPagamentoAplicacao.cs" />
+    <Compile Include="FilialAplicacao.cs" />
+    <Compile Include="RegionalEstadoAplicacao.cs" />
+    <Compile Include="RegionalAplicacao.cs" />
+    <Compile Include="DocumentoAplicacao.cs" />
+    <Compile Include="ContatoAplicacao.cs" />
+    <Compile Include="EmpresaAplicacao.cs" />
+    <Compile Include="Mappers\AutoMapperConfig.cs" />
+    <Compile Include="Mappers\DomainToViewModelMappingProfile.cs" />
+    <Compile Include="Mappers\ViewModelToDomainMappingProfile.cs" />
+    <Compile Include="MenuAplicacao.cs" />
+    <Compile Include="GrupoAplicacao.cs" />
+    <Compile Include="EstadoAplicacao.cs" />
+    <Compile Include="PaisAplicacao.cs" />
+    <Compile Include="EnderecoAplicacao.cs" />
+    <Compile Include="Base\BaseAplicacao.cs" />
+    <Compile Include="CidadeAplicacao.cs" />
+    <Compile Include="PessoaAplicacao.cs" />
+    <Compile Include="FornecedorAplicacao.cs" />
+    <Compile Include="TipoFilialAplicacao.cs" />
+    <Compile Include="TokenAplicacao.cs" />
+    <Compile Include="Base\IBaseAplicacao.cs" />
+    <Compile Include="PermissaoAplicacao.cs" />
+    <Compile Include="PerfilAplicacao.cs" />
+    <Compile Include="UsuarioAplicacao.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VeiculoAplicacao.cs" />
+    <Compile Include="ViewModels\FeriasClienteDetalheViewModel.cs" />
+    <Compile Include="ViewModels\FeriasClienteViewModel.cs" />
+    <Compile Include="ViewModels\ClienteCadastroViewModel.cs" />
+    <Compile Include="ViewModels\ContaCorrenteClienteDetalheViewModel.cs" />
+    <Compile Include="ViewModels\ContaCorrenteClienteViewModel.cs" />
+    <Compile Include="ViewModels\BloqueioReferenciaViewModel.cs" />
+    <Compile Include="ViewModels\ControleFerias\ControleFeriasPeriodoPermitidoViewModel.cs" />
+    <Compile Include="ViewModels\FuncionarioIntervaloNoturnoViewModel.cs" />
+    <Compile Include="ViewModels\FuncionarioIntervaloCompensacaoViewModel.cs" />
+    <Compile Include="ViewModels\FuncionarioIntervaloDozeTrintaSeisViewModel.cs" />
+    <Compile Include="ViewModels\ControlePontoFerias\BuscarGridControlePontoFeriasFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\ControlePonto\BuscarGridControlePontoFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\BuscarGridControleFeriasViewModel.cs" />
+    <Compile Include="ViewModels\ControleFerias\ControleFeriasViewModel.cs" />
+    <Compile Include="ViewModels\ControlePontoFerias\ControlePontoFeriasDiaViewModel.cs" />
+    <Compile Include="ViewModels\ControlePontoFerias\ControlePontoFeriasViewModel.cs" />
+    <Compile Include="ViewModels\DadosValidacaoNotificacaoDesbloqueioReferenciaModal.cs" />
+    <Compile Include="ViewModels\FolhaPresencaDiaViewModel.cs" />
+    <Compile Include="ViewModels\FolhaPresencaFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\FolhaPresencaViewModel.cs" />
+    <Compile Include="ViewModels\CalendarioRHUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\CalendarioRHViewModel.cs" />
+    <Compile Include="ViewModels\ControlePonto\ControlePontoDiaViewModel.cs" />
+    <Compile Include="ViewModels\ControlePonto\ControlePontoViewModel.cs" />
+    <Compile Include="ViewModels\LeituraCNABViewModel.cs" />
+    <Compile Include="ViewModels\OcorrenciaFuncionarioDetalheViewModel.cs" />
+    <Compile Include="ViewModels\OcorrenciaFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\LancamentoCobrancaContratoMensalistaViewModel.cs" />
+    <Compile Include="ViewModels\OcorrenciaClienteViewModel.cs" />
+    <Compile Include="ViewModels\FeriasClienteContaCorrenteViewModel.cs" />
+    <Compile Include="ViewModels\SeloClienteViewModel.cs" />
+    <Compile Include="ViewModels\TipoOcorrenciaViewModel.cs" />
+    <Compile Include="ViewModels\PlanoCarreiraViewModel.cs" />
+    <Compile Include="ViewModels\BeneficioFuncionarioDetalheViewModel.cs" />
+    <Compile Include="ViewModels\BeneficioFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\ArquivoBaseViewModel.cs" />
+    <Compile Include="ViewModels\TipoBeneficioViewModel.cs" />
+    <Compile Include="ViewModels\ContasAPagarItemViewModel.cs" />
+    <Compile Include="ViewModels\ItemFuncionarioImpressaoViewModel.cs" />
+    <Compile Include="ViewModels\ItemFuncionarioDetalheViewModel.cs" />
+    <Compile Include="ViewModels\ItemFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\ParametroBoletoBancarioDescritivoViewModel.cs" />
+    <Compile Include="ViewModels\ParametroBoletoBancarioViewModel.cs" />
+    <Compile Include="ViewModels\CondominoViewModel.cs" />
+    <Compile Include="ViewModels\ControleCompraViewModel.cs" />
+    <Compile Include="ViewModels\Departamento\DepartamentoFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\GeracaoCNABContaPagarViewModel.cs" />
+    <Compile Include="ViewModels\OrcamentoSinistro\OrcamentoSinistroCotacaoHistoricoDataItemViewModel.cs" />
+    <Compile Include="ViewModels\PecaServicoViewModel.cs" />
+    <Compile Include="ViewModels\OrcamentoSinistro\OrcamentoSinistroCotacaoViewModel.cs" />
+    <Compile Include="ViewModels\OrcamentoSinistro\OrcamentoSinistroCotacaoItemViewModel.cs" />
+    <Compile Include="ViewModels\OrcamentoSinistro\OrcamentoSinistroFornecedorViewModel.cs" />
+    <Compile Include="ViewModels\OrcamentoSinistro\OrcamentoSinistroOficinaClienteViewModel.cs" />
+    <Compile Include="ViewModels\OrcamentoSinistro\OrcamentoSinistroOficinaViewModel.cs" />
+    <Compile Include="ViewModels\OrcamentoSinistro\OrcamentoSinistroPecaServicoViewModel.cs" />
+    <Compile Include="ViewModels\OrcamentoSinistro\OrcamentoSinistroViewModel.cs" />
+    <Compile Include="ViewModels\OficinaViewModel.cs" />
+    <Compile Include="ViewModels\OIS\OISCategoriaViewModel.cs" />
+    <Compile Include="ViewModels\OIS\OISContatoViewModel.cs" />
+    <Compile Include="ViewModels\OIS\OISFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\OIS\OISImagemViewModel.cs" />
+    <Compile Include="ViewModels\OIS\OISNotificacaoViewModel.cs" />
+    <Compile Include="ViewModels\OIS\OISViewModel.cs" />
+    <Compile Include="ViewModels\ControlePontoFerias\ControlePontoFeriasUnidadeApoioViewModel.cs" />
+    <Compile Include="ViewModels\UnidadeCheckListAtividadeTipoAtividadeViewModel.cs" />
+    <Compile Include="ViewModels\PedidoCompraCotacaoMaterialFornecedorViewModel.cs" />
+    <Compile Include="ViewModels\PedidoCompraViewModel.cs" />
+    <Compile Include="ViewModels\GridClienteViewModel.cs" />
+    <Compile Include="ViewModels\MaterialFornecedorViewModel.cs" />
+    <Compile Include="ViewModels\NecessidadeCompraViewModel.cs" />
+    <Compile Include="ViewModels\CotacaoMaterialFornecedorViewModel.cs" />
+    <Compile Include="ViewModels\CotacaoViewModel.cs" />
+    <Compile Include="ViewModels\NecessidadeCompraMaterialFornecedorViewModel.cs" />
+    <Compile Include="ViewModels\PaginacaoGenericaViewModel.cs" />
+    <Compile Include="ViewModels\ChequeEmitidoContaPagarViewModel.cs" />
+    <Compile Include="ViewModels\ChequeEmitidoViewModel.cs" />
+    <Compile Include="ViewModels\EstoqueManualViewlModel.cs" />
+    <Compile Include="ViewModels\EstoqueMaterialViewModel.cs" />
+    <Compile Include="ViewModels\LoteSeloViewModel.cs" />
+    <Compile Include="ViewModels\DescontoTipoViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\CalculoFechamentoViewModel.cs" />
+    <Compile Include="ViewModels\CheckListAtividadeTipoAtividadeViewModel.cs" />
+    <Compile Include="ViewModels\CheckListAtividadeViewModel.cs" />
+    <Compile Include="ViewModels\AluguelViewModel.cs" />
+    <Compile Include="ViewModels\CargoViewModel.cs" />
+    <Compile Include="ViewModels\CheckListEstruturaUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\ChequeRecebidoViewModel.cs" />
+    <Compile Include="ViewModels\ClienteCondominoViewModel.cs" />
+    <Compile Include="ViewModels\ClienteUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\CondominoVeiculoViewModel.cs" />
+    <Compile Include="ViewModels\ClienteVeiculoViewModel.cs" />
+    <Compile Include="ViewModels\ColaboradorViewModel.cs" />
+    <Compile Include="ViewModels\ConsolidaAjusteFaturamentoViewModel.cs" />
+    <Compile Include="ViewModels\ConsolidaAjusteFinalFaturamentoViewModel.cs" />
+    <Compile Include="ViewModels\ConsolidaDespesaViewModel.cs" />
+    <Compile Include="ViewModels\ConsolidaFaturamentoViewModel.cs" />
+    <Compile Include="ViewModels\ContaContabilViewModel.cs" />
+    <Compile Include="ViewModels\ContasAPagarViewModel.cs" />
+    <Compile Include="ViewModels\ContratoMensalistaVeiculoViewModel.cs" />
+    <Compile Include="ViewModels\ContratoMensalistaViewModel.cs" />
+    <Compile Include="ViewModels\ConvenioUnidadesViewModel.cs" />
+    <Compile Include="ViewModels\ConvenioUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\DespesaContasAPagarViewModel.cs" />
+    <Compile Include="ViewModels\EmissaoNotaFiscalViewModel.cs" />
+    <Compile Include="ViewModels\EmissaoSeloViewModel.cs" />
+    <Compile Include="ViewModels\EquipeColaboradorViewModel.cs" />
+    <Compile Include="ViewModels\FaturamentoViewModel.cs" />
+    <Compile Include="ViewModels\JsonResultViewModel.cs" />
+    <Compile Include="ViewModels\JsonViewModel.cs" />
+    <Compile Include="ViewModels\MaterialHistoricoViewModel.cs" />
+    <Compile Include="ViewModels\MaterialViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\MovimentacaoSoftparkViewModel.cs" />
+    <Compile Include="ViewModels\NegociacaoSeloDescontoViewModel.cs" />
+    <Compile Include="ViewModels\HorarioUnidadeNotificacaoViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\OperadorSoftparkViewModel.cs" />
+    <Compile Include="ViewModels\PagamentoPedidoSeloViewModel.cs" />
+    <Compile Include="ViewModels\ParametrizacaoLocacaoViewModel.cs" />
+    <Compile Include="ViewModels\PedidoLocacaoLancamentoAdicionalViewModel.cs" />
+    <Compile Include="ViewModels\PedidoSeloNotificacaoViewModel.cs" />
+    <Compile Include="ViewModels\ParametroEquipeNotificacaoViewModel.cs" />
+    <Compile Include="ViewModels\NegociacaoSeloDescontoNotificacaoViewModel.cs" />
+    <Compile Include="ViewModels\ConsultaPagamentoPedidoViewModel.cs" />
+    <Compile Include="ViewModels\PedidoLocacaoViewModel.cs" />
+    <Compile Include="ViewModels\PrecoNotificacaoViewModel.cs" />
+    <Compile Include="ViewModels\NotificacaoViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\PagamentoMensalidadeSoftparkViewModel.cs" />
+    <Compile Include="ViewModels\ParametroNotificacaoUsuarioViewModel.cs" />
+    <Compile Include="ViewModels\ParametroNotificacaoViewModel.cs" />
+    <Compile Include="ViewModels\ParametroNumeroNotaFiscalViewModel.cs" />
+    <Compile Include="ViewModels\PedidoSeloViewModel.cs" />
+    <Compile Include="ViewModels\PrecoParametroSeloViewModel.cs" />
+    <Compile Include="ViewModels\PropostaGridViewModel.cs" />
+    <Compile Include="ViewModels\PropostaPdfViewModel.cs" />
+    <Compile Include="ViewModels\PropostaViewModel.cs" />
+    <Compile Include="ViewModels\RecebimentoViewModel.cs" />
+    <Compile Include="ViewModels\RemanejamentoTransferenciaViewModel.cs" />
+    <Compile Include="ViewModels\RemanejamentoViewModel.cs" />
+    <Compile Include="ViewModels\SelecaoDespesaViewModel.cs" />
+    <Compile Include="ViewModels\EstoqueManualItemViewModel.cs" />
+    <Compile Include="ViewModels\SeloViewModel.cs" />
+    <Compile Include="ViewModels\TipoMaterialViewModel.cs" />
+    <Compile Include="ViewModels\TabelaPrecoAvulsaViewModel.cs" />
+    <Compile Include="ViewModels\TabelaPrecoAvulsoUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\TabelaPrecoAvulsoHoraValorViewModel.cs" />
+    <Compile Include="ViewModels\TabelaPrecoAvulsoPeriodoViewModel.cs" />
+    <Compile Include="ViewModels\TabelaPrecoAvulsoGridViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\TabelaPrecoConfiguracaoDiariaSoftparkViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\TabelaPrecoItemSoftparkViewModel.cs" />
+    <Compile Include="ViewModels\EstoqueViewModel.cs" />
+    <Compile Include="ViewModels\ControlePonto\ControlePontoUnidadeApoioViewModel.cs" />
+    <Compile Include="ViewModels\VagaCortesiaVigenciaViewModel.cs" />
+    <Compile Include="ViewModels\TabelaPrecoMensalistaNotificacaoViewModel.cs" />
+    <Compile Include="ViewModels\TabelaPrecoMensalistaUnidade.cs" />
+    <Compile Include="ViewModels\TabelaPrecoAvulsoViewModel.cs" />
+    <Compile Include="ViewModels\VagaCortesiaViewModel.cs" />
+    <Compile Include="ViewModels\TabelaPrecoMensalistaViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\TabelaPrecoMensalSoftparkViewModel.cs" />
+    <Compile Include="ViewModels\TipoLocacaoViewModel.cs" />
+    <Compile Include="ViewModels\TipoMensalistaViewModel.cs" />
+    <Compile Include="ViewModels\ConvenioViewModel.cs" />
+    <Compile Include="ViewModels\EquipeViewModel.cs" />
+    <Compile Include="ViewModels\FuncionamentoViewModel.cs" />
+    <Compile Include="ViewModels\HorarioParametroEquipeViewModel.cs" />
+    <Compile Include="ViewModels\HorarioPrecoViewModel.cs" />
+    <Compile Include="ViewModels\HorarioUnidadePeriodoHorarioViewModel.cs" />
+    <Compile Include="ViewModels\HorarioUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\ContratoUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\EquipamentoUnidadeEquipamentoViewModel.cs" />
+    <Compile Include="ViewModels\EquipamentoUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\EquipamentoViewModel.cs" />
+    <Compile Include="ViewModels\EstruturaGaragemViewModel.cs" />
+    <Compile Include="ViewModels\EstruturaUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\LeituraCNABDetalhesViewModel.cs" />
+    <Compile Include="ViewModels\LeituraCNABFiltroViewModel.cs" />
+    <Compile Include="ViewModels\LimiteDescontoViewModel.cs" />
+    <Compile Include="ViewModels\MaquinaCartaoViewModel.cs" />
+    <Compile Include="ViewModels\MensalistaViewModel.cs" />
+    <Compile Include="ViewModels\PagamentoReembolsoViewModel.cs" />
+    <Compile Include="ViewModels\ParametroEquipeViewModel.cs" />
+    <Compile Include="ViewModels\PeriodoHorarioViewModel.cs" />
+    <Compile Include="ViewModels\PrecoStatusViewModel.cs" />
+    <Compile Include="ViewModels\PrecoViewModel.cs" />
+    <Compile Include="ViewModels\ParametroNegociacaoViewModel.cs" />
+    <Compile Include="ViewModels\PeriodoViewModel.cs" />
+    <Compile Include="ViewModels\SolicitacaoPagamentoReembolsoViewModel.cs" />
+    <Compile Include="ViewModels\RetiradaCofreViewModel.cs" />
+    <Compile Include="ViewModels\PagamentoEspecieViewModel.cs" />
+    <Compile Include="ViewModels\LeituraCNABPreviaViewModel.cs" />
+    <Compile Include="ViewModels\GeracaoCNABLancamentoCobrancaViewModel.cs" />
+    <Compile Include="ViewModels\BaixaManualViewModel.cs" />
+    <Compile Include="ViewModels\LancamentoCobrancaViewModel.cs" />
+    <Compile Include="ViewModels\ChequeViewModel.cs" />
+    <Compile Include="ViewModels\ContaFinanceiraViewModel.cs" />
+    <Compile Include="ViewModels\ClienteViewModel.cs" />
+    <Compile Include="ViewModels\Departamento\DepartamentoViewModel.cs" />
+    <Compile Include="ViewModels\FuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\MarcaViewModel.cs" />
+    <Compile Include="ViewModels\PagamentoViewModel.cs" />
+    <Compile Include="ViewModels\ImportacaoPagamentoViewModel.cs" />
+    <Compile Include="ViewModels\DetalhesContratoViewModel.cs" />
+    <Compile Include="ViewModels\DownloadArquivoViewModel.cs" />
+    <Compile Include="ViewModels\BancoViewModel.cs" />
+    <Compile Include="ViewModels\FiltroContabilViewModel.cs" />
+    <Compile Include="ViewModels\ParametroFaturamentoViewModel.cs" />
+    <Compile Include="ViewModels\BoletagemAcaoViewModel.cs" />
+    <Compile Include="ViewModels\ConsultaBoletagemParcelasViewModel.cs" />
+    <Compile Include="ViewModels\ModeloViewModel.cs" />
+    <Compile Include="ViewModels\ArquivoViewModel.cs" />
+    <Compile Include="ViewModels\ProjecaoParametroViewModel.cs" />
+    <Compile Include="ViewModels\FiltroNegativacaoViewModel.cs" />
+    <Compile Include="ViewModels\ChaveValorCategoriaViewModel.cs" />
+    <Compile Include="ViewModels\CidadeViewModel.cs" />
+    <Compile Include="ViewModels\TipoAtividadeViewModel.cs" />
+    <Compile Include="Softpark\ViewModels\TabelaPrecoSoftparkViewModel.cs" />
+    <Compile Include="ViewModels\TipoEquipeViewModel.cs" />
+    <Compile Include="ViewModels\TipoNotificacaoViewModel.cs" />
+    <Compile Include="ViewModels\TipoPagamentoViewModel.cs" />
+    <Compile Include="ViewModels\TipoSeloViewModel.cs" />
+    <Compile Include="ViewModels\TipoUnidadeViewModel.cs" />
+    <Compile Include="ViewModels\UnidadeCheckListAtividadeViewModel.cs" />
+    <Compile Include="ViewModels\UnidadeCondominoViewModel.cs" />
+    <Compile Include="ViewModels\UnidadeFuncionarioViewModel.cs" />
+    <Compile Include="ViewModels\UnidadeTipoPagamentoViewModel.cs" />
+    <Compile Include="ViewModels\UnidadeViewModel.cs" />
+    <Compile Include="ViewModels\EstadoViewModel.cs" />
+    <Compile Include="ViewModels\FilialViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\PaisViewModel.cs" />
+    <Compile Include="ViewModels\PerfilViewModel.cs" />
+    <Compile Include="ViewModels\PerfilMenuViewModel.cs" />
+    <Compile Include="ViewModels\PermissaoViewModel.cs" />
+    <Compile Include="ViewModels\PessoaContatoViewModel.cs" />
+    <Compile Include="ViewModels\LojaContatoViewModel.cs" />
+    <Compile Include="ViewModels\GrupoViewModel.cs" />
+    <Compile Include="ViewModels\ContatoViewModel.cs" />
+    <Compile Include="ViewModels\DadosModal.cs" />
+    <Compile Include="ViewModels\EnderecoViewModel.cs" />
+    <Compile Include="ViewModels\DocumentoViewModel.cs" />
+    <Compile Include="ViewModels\EmpresaViewModel.cs" />
+    <Compile Include="ViewModels\ChaveValorViewModel.cs" />
+    <Compile Include="ViewModels\PessoaLojaViewModel.cs" />
+    <Compile Include="ViewModels\PessoaViewModel.cs" />
+    <Compile Include="ViewModels\RegionalViewModel.cs" />
+    <Compile Include="ViewModels\RegionalEstadoViewModel.cs" />
+    <Compile Include="ViewModels\FornecedorViewModel.cs" />
+    <Compile Include="ViewModels\TipoFilialViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioPerfilViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioViewModel.cs" />
+    <Compile Include="ViewModels\AuditViewModel.cs" />
+    <Compile Include="UtilsAplicacao.cs" />
+    <Compile Include="ViewModels\PessoaDocumentoViewModel.cs" />
+    <Compile Include="ViewModels\PessoaEnderecoViewModel.cs" />
+    <Compile Include="ViewModels\TrabalhoViewModel.cs" />
+    <Compile Include="ViewModels\VeiculoViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Repositorio\Repositorio.csproj">
+      <Project>{7e0240b2-b47e-40cc-af42-aeb2744e4cd8}</Project>
+      <Name>Repositorio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Servico\Dominio.csproj">
+      <Project>{9dc80615-73e7-4d73-814e-90e469364530}</Project>
+      <Name>Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\Core.csproj">
+      <Project>{d910ecad-ddf8-409c-b7d6-abc6ca831b53}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entidade\Entidade.csproj">
+      <Project>{3C0337DF-E437-4905-9848-0845B9F46610}</Project>
+      <Name>Entidade</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

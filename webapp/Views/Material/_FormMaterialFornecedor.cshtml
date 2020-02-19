@@ -1,0 +1,43 @@
+﻿@using Core.Extensions
+@using Entidade.Uteis
+@using Aplicacao.ViewModels
+@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller as MaterialController;
+}
+
+<div>
+    <fieldset>
+        <section>
+            <div class="col-md-12 no-padding">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>
+                            Fornecedor:
+                            @Html.DropDownList("fornecedor", new SelectList(controller.ListaFornecedores, "Id", "Nome"), "Selecione...", new { @id = "fornecedor", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                        </label>
+                    </div>
+                    <div id="container-eh-personalizado" class="pull-left padding-left-15 padding-right-15">
+                        <label class="margin-top-20">
+                            @Html.CheckBox("eh-personalizado", new { @id = "eh-personalizado" })
+                            Personalizado
+                        </label>
+                    </div>
+                    <div id="container-quantidade-para-pedido-automatico" class="col-md-4" style="display: none">
+                        <label>
+                            Quantidade Para Pedido Automático
+                            @Html.TextBox("quantidade-para-pedido-automatico", "", new { @id = "quantidade-para-pedido-automatico", @class = "form-control" })
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-danger pull-right" id="cancelar-edicao-material-forcedor" style="display:none; margin-left:15px;" onclick="cancelarEdicaoDeMaterialFornecedor()"><i class="fa fa-minus-circle"></i>&nbsp;Cancelar Edição</button>
+                        <button type="button" class="btn btn-primary pull-right" id="adicionar-material-forcedor" onclick="adicionarMaterialFornecedor()"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </fieldset>
+</div>

@@ -1,0 +1,41 @@
+﻿@using Entidade.Uteis
+@model List<ParametroBoletoBancarioDescritivoViewModel>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-xs-12">
+            <table id="tablediscritivo" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Descritivo</th>
+                        <th>Usuário</th>
+                        <th>Data</th>
+                        <th style="width: 80px;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr class="item-descritivo">
+                                <td>
+                                    @item.Descritivo
+                                </td>
+                                <td>
+                                    @(item.Usuario?.Funcionario?.Pessoa?.Nome)
+                                </td>
+                                <td>
+                                    @(item.DataInsercao.ToShortDateString())
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="RemoverDescritivo('@item.Descritivo')"><i class="fa fa-remove"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

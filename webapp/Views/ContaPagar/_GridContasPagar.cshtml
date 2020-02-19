@@ -1,0 +1,119 @@
+﻿@using Core.Extensions;
+
+@model List<Aplicacao.ViewModels.ContasAPagarViewModel>
+
+<!-- row -->
+<div class="row">
+    <!-- NEW WIDGET START -->
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <!-- Widget ID (each widget will need unique ID)-->
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                <h2>Contas à Pagar</h2>
+            </header>
+            <!-- widget div-->
+            <div>
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body no-padding">
+                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                        <thead>
+
+                            <tr>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Id Conta" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Nr Parcela" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Conta Financeira" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Tipo de Pagamento" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Data Vencimento" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Departamento" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Unidade" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Filtrar Status" />
+                                </th>
+                                <th class="hasinput">
+                                    <input type="text" class="form-control" placeholder="Valor Total" />
+                                </th>
+                                <th class="hasinput" width="160px">
+
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Id Conta</th>
+                                <th>Nr Parcela</th>
+                                <th>Conta Financeira</th>
+                                <th>Tipo de Pagamento</th>
+                                <th>Data Vencimento</th>
+                                <th>Departamento</th>
+                                <th>Unidade</th>
+                                <th>Status</th>
+                                <th>Valor</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var m in Model)
+                                {
+
+                                    <tr>
+                                        <td>@m.Id</td>
+                                        <td>@(m.NumeroParcela)</td>
+                                        <td>@(m.ContaFinanceira?.Conta) </td>
+                                        <td>@((int)m.TipoPagamento > 0 ? m.TipoPagamento.ToDescription() : "")</td>
+                                        <td>@(m.DataVencimento.ToShortDateString()) </td>
+                                        <td>@(m.Departamento?.Nome) </td>
+                                        <td>@(m.Unidade?.Nome) </td>
+                                        <td>@(m.StatusConta.ToDescription())</td>
+                                        <td>@m.ValorFormatado</td>
+
+                                        @{
+                                            string Disabled = "";
+                                            if (m.StatusConta == Entidade.Uteis.StatusContasAPagar.Paga || m.StatusConta == Entidade.Uteis.StatusContasAPagar.Negada)
+                                            {
+                                                Disabled = "disabled";
+                                            }
+                                        }
+
+                                        <td class="text-center">
+                                            <div class="pull-left">
+                                                <button type="button" id="pagar" @Disabled class="btn btn-info btn-lg" onclick="ExecutarPagamentoModal(@(m.Id))">pagar</button>
+                                                <button type="button" id="pagar" @Disabled class="btn btn-danger btn-lg" onclick="AbrirModalNegar(@(m.Id))">Negar</button>
+                                                @*<a class="btn btn-info btn-lg" @Disabled href="/contapagar/executarpagamento/@m.Id">Pagar<i class="fa fa-save"></i></a>*@
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+        <!-- end widget -->
+    </article>
+    <!-- WIDGET END -->
+</div>

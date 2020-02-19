@@ -1,0 +1,18 @@
+﻿@using Core.Extensions
+@using Portal.App_Helpers
+@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller;
+    if (controller != null && controller is BaseController && ((BaseController)controller).DadosModal != null)
+    {
+        var dadosModal = ((BaseController)controller).DadosModal;
+
+        @Html.Partial("_Modal", dadosModal)
+    }
+
+    if (controller != null && controller is BaseController && ((BaseController)controller).DadosValidacaoDesbloqueioReferenciaModal != null)
+    {
+        @Html.Partial("_ModalLiberacaoBloqueioReferencia", ((BaseController)controller).DadosValidacaoDesbloqueioReferenciaModal)
+    }
+}

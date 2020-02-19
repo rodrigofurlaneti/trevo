@@ -1,0 +1,51 @@
+﻿@using Portal.Controllers
+
+@{
+    var controller = ViewContext.Controller as TabelaPrecoMensalistaController;
+}
+
+<div style="margin-top: 20px;">
+    <div>
+        @Html.Hidden("id")
+        @Html.Hidden("blacklist")
+        @Html.Hidden("tipoMotivo")
+        @Html.Hidden("descricaoMotivo")
+        <fieldset>
+            <section>
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-2">
+                        <label>Unidade:</label><br />
+                        @Html.DropDownList("unidade", new SelectList(controller.ListaUnidade, "Id", "Nome"), "Selecione...", new { @id = "unidade", @class = "chosen-select form-control", data_placeholder = "Selecione..." })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Horário inicio:</label><br />
+                        @Html.TextBox("horarioinicio", "", new { @class = "form-control hora", @type = "text", @style = "display:inline; max-width: 95% !important;", @maxlength = "5" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Horário fim:</label><br />
+                        @Html.TextBox("horariofim", "", new { @class = "form-control hora", @type = "text", @style = "display:inline; max-width: 95% !important;", @maxlength = "5" })
+                    </div>
+                    <div class="col-md-1">
+                        <label>Dias para Corte: </label><br />
+                        @Html.TextBox("diasparacorte", "", new { @class = "form-control", @min = "1", @type = "number" })
+                    </div>
+                    <div class="col-md-1">
+                        <label>Hora Adicional:</label>
+                        @Html.TextBox("horaadicional", "", new { @onclick = "HabilitaDesabilitaCampo(this)", @checked = true, @class = "form-control", @type = "checkbox" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Qtd Hora(s) Adicionais:</label>
+                        @Html.TextBox("quantidadehoras", "", new { @class = "form-control", @type = "number" })
+                    </div>
+                    <div class="col-md-1">
+                        <label>Valor por Qtd:</label>
+                        @Html.TextBox("valorquantidade", "", new { @class = "form-control heightfield valmoney", @type = "text" })
+                    </div>
+                    <div class="col-md-2" style="height: 65px;top: 32px;">
+                        <button type="button" name="botaoedicao" class="btn btn-primary" id="add-address" onclick="adicionarItem()" style="margin-top:2px;"><i class="fa fa-plus-circle"></i>&nbsp; Adicionar</button>
+                    </div>
+                </div>
+            </section>
+        </fieldset>
+    </div>
+</div>

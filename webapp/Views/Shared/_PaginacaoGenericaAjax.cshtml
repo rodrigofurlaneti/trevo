@@ -1,0 +1,75 @@
+﻿@{
+    var paginacao = ViewBag.Paginacao != null ? (PaginacaoGenericaViewModel)ViewBag.Paginacao : new PaginacaoGenericaViewModel();
+}
+@if (paginacao.TotalRegistros > 0)
+{
+    <div class="dt-toolbar-footer">
+        <div class="col-sm-6 col-xs-12 hidden-xs">
+            <div class="dataTables_info" id="datatable_fixed_column_info" role="status" aria-live="polite">
+                Mostrando <span class="txt-color-darken">@(paginacao.RegistroInicial + 1)</span> até <span class="txt-color-darken">@(paginacao.RegistroFinal)</span> de <span class="text-primary">@paginacao.TotalRegistros</span> registros
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="dataTables_paginate paging_simple_numbers" id="datatable_fixed_column_paginate">
+                <ul class="pagination pagination-sm">
+                    <li class="paginate_button previous @(paginacao.PaginaAtual == 1 ? "disabled" : "")" aria-controls="datatable_fixed_column" tabindex="0" id="datatable_fixed_column_previous">
+                        <a onclick="mudarPagina(event, @(paginacao.PaginaAtual - 1), @(paginacao.PaginaAtual == 1 ? "true" : "false"))">Anterior</a>
+                    </li>
+                    @if (paginacao.QuantidadeDePaginas <= 5)
+                    {
+                        for (int i = 1; i <= paginacao.QuantidadeDePaginas; i++)
+                        {
+                            <li class="paginate_button @(paginacao.PaginaAtual == i ? "active" : "")" aria-controls="datatable_fixed_column" tabindex="0"><a onclick="mudarPagina(event, @i)">@i</a></li>
+                        }
+                    }
+                    else
+                    {
+                        if (paginacao.PaginaAtual - 3 > 1)
+                        {
+                            <li class="paginate_button" aria-controls="datatable_fixed_column" tabindex="0"><a onclick="mudarPagina(event, 1)">1</a></li>
+
+                            <li class="paginate_button disabled" aria-controls="datatable_fixed_column" tabindex="0" id="datatable_fixed_column_ellipsis">
+                                <a>…</a>
+                            </li>
+                        }
+                        else
+                        {
+                            for (int i = 1; i <= 5; i++)
+                            {
+                                <li class="paginate_button @(paginacao.PaginaAtual == i ? "active" : "")" aria-controls="datatable_fixed_column" tabindex="0"><a onclick="mudarPagina(event, @i)">@i</a></li>
+                            }
+                        }
+
+                        if (paginacao.PaginaAtual >= 5 && paginacao.PaginaAtual <= paginacao.QuantidadeDePaginas - 4)
+                        {
+                            <li class="paginate_button" aria-controls="datatable_fixed_column" tabindex="0"><a onclick="mudarPagina(event, @(paginacao.PaginaAtual - 1))">@(paginacao.PaginaAtual - 1)</a></li>
+                            <li class="paginate_button active" aria-controls="datatable_fixed_column" tabindex="0"><a onclick="mudarPagina(event, @(paginacao.PaginaAtual))">@paginacao.PaginaAtual</a></li>
+                            <li class="paginate_button" aria-controls="datatable_fixed_column" tabindex="0"><a onclick="mudarPagina(event, @(paginacao.PaginaAtual + 1))">@(paginacao.PaginaAtual + 1)</a></li>
+                        }
+
+                        if (paginacao.PaginaAtual + 3 < paginacao.QuantidadeDePaginas)
+                        {
+                            <li class="paginate_button disabled" aria-controls="datatable_fixed_column" tabindex="0" id="datatable_fixed_column_ellipsis">
+                                <a>…</a>
+                            </li>
+
+                            <li class="paginate_button" aria-controls="datatable_fixed_column" tabindex="0"><a onclick="mudarPagina(event, @(paginacao.QuantidadeDePaginas))">@paginacao.QuantidadeDePaginas</a></li>
+                        }
+                        else
+                        {
+                            for (int i = paginacao.QuantidadeDePaginas - 4; i <= paginacao.QuantidadeDePaginas; i++)
+                            {
+                                <li class="paginate_button @(paginacao.PaginaAtual == i ? "active" : "")" aria-controls="datatable_fixed_column" tabindex="0"><a onclick="mudarPagina(event, @i)">@i</a></li>
+                            }
+                        }
+                    }
+
+
+                    <li class="paginate_button next @(paginacao.PaginaAtual == paginacao.QuantidadeDePaginas ? "disabled" : "")" aria-controls="datatable_fixed_column" tabindex="0" id="datatable_fixed_column_next">
+                        <a onclick="mudarPagina(event, @(paginacao.PaginaAtual + 1), @(paginacao.PaginaAtual == paginacao.QuantidadeDePaginas ? "true" : "false"))">Próximo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}

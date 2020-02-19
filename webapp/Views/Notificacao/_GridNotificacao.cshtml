@@ -1,0 +1,61 @@
+﻿@using Core.Extensions;
+
+@model List<NotificacaoViewModel>
+<div class="widget-body">
+    <div class="jarviswidget jarviswidget-color-blueDark margin-bottom-0" id="wid-id-999" data-widget-editbutton="false" data-widget-deletebutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+            <h2>Notificações</h2>
+        </header>
+        @if (Model != null && Model.Any())
+        {
+            <table id="datatable_fixed_column_99" class="table table-striped table-bordered table-condensed margin-bottom-0">
+                <thead>
+                    <tr>
+                        <th data-hide="expand">Notificação</th>
+                        <th data-hide="expand">Data</th>
+                        <th data-hide="expand">Descrição</th>
+                        <th data-hide="expand">Usuário</th>
+                        <th data-hide="expand">Vencto. Notificação</th>
+                        <th data-class="expand">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                <i class="fa @(m.AcaoNotificacao == Entidade.Uteis.TipoAcaoNotificacao.Aviso ? "fa-exclamation-circle fa-exclamation-circle-notificacao" : "fa-bell fa-bell-notificacao")"></i>
+                                @(m.TipoNotificacao.Entidade.ToDescription())
+                            </td>
+                            <td>@(m.DataInsercao.ToShortDateString())</td>
+                            <td>@(Html.Raw(m.Descricao))</td>
+                            <td>@(m.Usuario.Funcionario.Pessoa.Nome)</td>
+                            <td>@(m.DataVencimentoNotificacao.HasValue ? m.DataVencimentoNotificacao.Value.ToString("dd/MM/yyyy HH:mm:ss") : string.Empty)</td>
+                            <td>
+                                @if (m.AcaoNotificacao == Entidade.Uteis.TipoAcaoNotificacao.AprovarReprovar)
+                                {
+                                    <button type="button" class="btn btn-primary" @(m.Status == Entidade.Uteis.StatusNotificacao.Aprovado ? "disabled" : "") onclick="RespostaNotificacao('@m.Id', @((int)m.TipoNotificacao.Entidade), 1);"><i class="fa fa-thumbs-o-up"></i></button>
+                                    <a class="btn btn-danger" href="#" onclick="RespostaNotificacao('@m.Id', @((int)m.TipoNotificacao.Entidade), 2);"><i class="fa fa-thumbs-o-down"></i></a>
+                                }
+                                <a class="btn btn-info" href="#" onclick="Informacoes('@m.Id', @((int)m.TipoNotificacao.Entidade), 3);"><i class="fa fa-info-circle"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div>
+                <p>Eba, não temos mais nenhuma pendência para você! :-)</p>
+            </div>
+        }
+
+    </div>
+</div>
+<div class="pull-right margin-top-20">
+    <a href="#" class="btn btn-lg btn-danger" style="border-radius: 5px;" onclick="ModalNotifyClose()">
+        <i class="fa fa-close"></i> Sair
+    </a>
+</div>

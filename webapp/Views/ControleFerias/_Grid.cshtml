@@ -1,0 +1,35 @@
+﻿@using Core.Extensions;
+
+@model List<ControleFeriasViewModel>
+
+
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>@(item.Funcionario?.Pessoa?.Nome)</td>
+            <td>@(item.Funcionario?.Unidade?.Nome)</td>
+            <td>@(item.DataInicial.ToString("MMMM"))</td>
+            <td>@(item.DataInicial.Year)</td>
+            <td>@(item.DataInicial.ToShortDateString())</td>
+            <td>@(item.DataFinal.ToShortDateString())</td>
+            <td>@(item.AutorizadoTrabalhar ? "Sim" : "Não")</td>
+            <td>
+                @if (item.AutorizadoTrabalhar)
+                {
+                    <a class="btn btn-danger" onclick="AutorizarTrabalhar(@item.Id, false)">Não</a>
+                    <a class="btn btn-primary" onclick="AbrirModalPeriodoPermitido(@item.Id)">Período</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary" onclick="AutorizarTrabalhar(@item.Id)">Sim</a>
+                }
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd"><td valign="top" colspan="10" class="dataTables_empty">Nenhum registro encontrado</td></tr>
+}
